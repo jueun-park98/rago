@@ -1,0 +1,31 @@
+aspect Print {
+    syn String ASTNode.print();
+    eq ASTNode.print() = "";
+    eq OpenAPIObject.print() {
+      String result =
+        "{ \"openapi\": \"" + OpenAPI + " \", " +
+        Info.print() + ", ";
+
+      if( OpenAPIObject.hasServers() ){
+        result += Servers.print() + ", ";
+      }
+      result += PathsObject.print() + ", ";
+      if( OpenAPIObject.hasPaths() ){
+        result += Paths.print() + ", ";
+      }
+      if( OpenAPIObject.hasComponents() ){
+        result += Components.print() + ", ";
+      }
+      if( OpenAPIObject.hasSecurity() ){
+        result += Security.print() + ", ";
+      }
+      if( OpenAPIObject.hasTag() ){
+        result += Tag.print() + ", ";
+      }
+      if( OpenAPIObject.hasExternalDocs() ){
+        result += ExternalDocs.print();
+      }
+      result += "}";
+      return result;
+    }
+}

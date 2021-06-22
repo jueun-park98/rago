@@ -1,0 +1,29 @@
+aspect Mapping {
+    syn ServerVariableObject ServerObject.lookupVariable(String name){
+      for (ServerVariablesTuple t : getServerVariablesTuples()) {
+        if (t.getName().equals(name)) return t.getServerVariableObject();
+      }
+      return null;
+    }
+
+    syn SchemaObject ComponentsObject.lookupVariable(String name){
+      for (SchemasTuple t : getSchemasTuples()) {
+        if (t.getName().equals(name)) return t.getSchemaObject();
+      }
+      return null;
+    }
+
+    syn ResponseObject ComponentsObject.lookupVariable(String name){
+      for (ResponsesTuple t : getResponsesTuple()) {
+        if (t.getName().equals(name)) return t.getResponseObject();
+      }
+      return null;
+    }
+
+    syn ParameterObject ComponentsObject.lookupVariable(String name){
+      for (ParametersTuple t : getParametersTuple()) {
+        if (t.getName().equals(name)) return t.getParameterObject();
+      }
+      return null;
+    }
+}

@@ -1,0 +1,169 @@
+//OpenAPI Object
+OpenAPIObject ::= <OpenAPI> Info Server* Paths [Components] Security* TagObject* [ExternalDocs];
+InfoObject:Info;
+PathsObject:Paths;
+ServerObject:Server;
+ComponentsObject:Components;
+SecurityRequirementObject:Security;
+ExternalDocumentationObject:ExternalDocs;
+
+//Info Object
+InfoObject ::= <Title> <Description:Object> <TermsOfService:Object> [Contact] [License] Version;
+ContactObject:Contact;
+LicenseObject:License;
+Version ::= <Version:String>;
+
+//Contact Object
+ContactObject ::= <Name:Object> <Url:Object> <Email:Object>;
+
+//License Object
+LicenseObject ::= <Name> <Url:Object>;
+
+//Server Obeject
+ServerObject ::= <Url> <Description:Object> ServerVariablesTuple*;
+abstract ServerVariablesTuple;
+ServerVariableObjectTuple:ServerVariablesTuple ::= <Name> ServerVariableObject;
+ServerVariableReferenceTuple:ServerVariablesTuple ::= <Name> <Ref>;
+
+//Server Variable Object
+ServerVariableObject ::= Enum* <Default:Object> <Description:Object>;
+Enum ::= <Enum:String>;
+
+//Components Object
+ComponentsObject ::= SchemasTuple* ResponsesTuple* ParameterTuple* ExamplesTuple* RequestBodiesTuple* HeadersTuple* SecuritySchemesTuple* LinksTuple* CallbacksTuple*;
+abstract SchemasTuple;
+SchemaObjectTuple:SchemasTuple ::= <Name> SchemaObject;
+SchemaReferenceTuple:SchemasTuple ::= <Name> <Ref>;
+abstract ResponsesTuple;
+ResponseObjectTuple:ResponsesTuple ::= <Name> ResponseObject;
+ResponseReferenceTuple:ResponsesTuple ::= <Name> <Ref>;
+abstract ParameterTuple;
+ParameterObjectTuple:ParameterTuple ::= <Name> ParameterObject;
+ParameterReferenceTuple:ParameterTuple ::= <Name> <Ref>;
+abstract ExamplesTuple;
+ExampleObjectTuple:ExamplesTuple ::= <Name> ExampleObject;
+ExampleReferenceTuple:ExamplesTuple ::= <Name> <Ref>;
+abstract RequestBodiesTuple;
+RequestBodyObjectTuple:RequestBodiesTuple ::= <Name> RequestBodyObject;
+RequestBodyReferenceTuple:RequestBodiesTuple ::= <Name> <Ref>;
+abstract HeadersTuple;
+HeaderObjectTuple:HeadersTuple ::= <Name> HeaderObject;
+HeaderReferenceTuple:HeadersTuple ::= <Name> <Ref>;
+abstract SecuritySchemesTuple;
+SecuritySchemeObjectTuple:SecuritySchemesTuple ::= <Name> SecuritySchemeObject;
+SecuritySchemeReferenceTuple:SecuritySchemesTuple ::= <Name> <Ref>;
+abstract LinksTuple;
+LinkObjectTuple:LinksTuple ::= <Name> LinkObject;
+LinkReferenceTuple:LinksTuple ::= <Name> <Ref>;
+abstract CallbacksTuple;
+CallbackObjectTuple:CallbacksTuple ::= <Name> CallbackObject;
+CallbackReferenceTuple:CallbacksTuple ::= <Name> <Ref>;
+
+//Paths Object
+PathsObject ::= Path;
+PathItemObject:Path;
+
+//Path Item Object
+PathItemObject ::= <Ref> <Summary> <Description> [Get] [Put] [Post] [Delete] [Options] [Head] [Patch] [Trace] Server* Parameter*;
+Get ::= OperationObject;
+Put ::= OperationObject;
+Post ::= OperationObject;
+Delete ::= OperationObject;
+Options ::= OperationObject;
+Head ::= OperationObject;
+Patch ::= OperationObject;
+Trace ::= OperationObject;
+abstract Parameter;
+ParameterReference:Parameter ::= <Ref>;
+ParameterObject:Parameter ::= ;
+
+//Operation Object
+OperationObject ::= Tag* <Summary:Object> <Description:Object> [ExternalDocs] <OperationID:Object> Parameter* [RequestBody] Responses CallbacksTuple* [Deprecated] Security* Server*;
+Tag ::= <Tag:String>;
+abstract RequestBody;
+RequestBodyObject:RequestBody;
+RequestBodyReference:RequestBody ::= <Ref>;
+ResponsesObject:Responses;
+Deprecated ::= <Deprecated:boolean>;
+
+//External Documentation Object
+ExternalDocumentationObject ::= <Description:Object> Url;
+
+//Parameter Object
+ParameterObject ::= Name In <Description:Object> <Required> [Deprecated] <AllowEmptyValue:Object> <Style:Object> <Explode:Object> <AllowReserved:Object> [Schema] <Example:Object> ExamplesTuple* ContentTuple*;
+abstract Schema;
+SchemaReference:Schema ::= <Ref>;
+SchemaObject:Schema;
+abstract ContentTuple;
+ContentObjectTuple:ContentTuple ::= <Name> MediaTypeObject;
+ContentReferenceTuple:ContentTuple ::= ReferenceTuple;
+
+//Request Body Object
+RequestBodyObject ::= <Description:Object> ContentTuple* <Required:Object>;
+
+//Media Type Object
+MediaTypeObject ::= Schema <Example:Object> ExamplesTuple* EncodingTuple*;
+abstract EncodingTuple;
+EncodingObjectTuple:EncodingTuple ::= <Name> EncodingObject;
+EncodingReferenceTuple:EncodingTuple ::= ReferenceTuple;
+
+//Encoding Object
+EncodingObject ::= <ContentType> HeadersTuple* <Style> <Explode:boolean> <AllowReserved:boolean>;
+
+//Responses Object
+ResponsesObject ::= HTTPStatusCode*;
+abstract HTTPStatusCode;
+ResponseObject:HTTPStatusCode;
+HTTPStatusCodeReference:HTTPStatusCode ::= <Ref>;
+
+//Response Object
+ResponseObject ::= <Description> HeadersTuple* ContentTuple* LinksTuple*;
+
+//Callback Object
+CallbackObject ::= Expression;
+Expression ::= PathItemObject;
+
+//Example Object
+ExampleObject ::= <Summary:Object> <Description:Object> <Value:Object> <ExternalValue:Object>;
+
+//Link Object
+LinkObject ::= <OperationRef:Object> <OperationID:Object> LinkParameterTuple <LinkRequestBody:Object> <Description:Object> Server;
+OperationRef ::= <OperationRef:String>;
+OperationID ::= <OperationID:String>;
+LinkParameterTuple ::= <LinkParameterKey> <LinkParameterValue:Object>;
+
+//Header Object
+HeaderObject ::= <Name:Object> <In:Object> <Description:Object> <Required:boolean> <Deprecated:Object> <AllowEmptyValue:Object> <Style:Object> <Explode:Object> <AllowReserved:Object> [Schema] <Example:Object> ExamplesTuple* ContentTuple*;
+
+//Tag Object
+TagObject ::= <Name> <Description:Object> [ExternalDocs];
+
+//Schema Object from JSON-Schema
+SchemaObject ::=;
+
+//Discriminator Object
+DiscriminatorObject ::= PropertyName MappingTuple*;
+PropertyName ::= <PropertyName:String>;
+MappingTuple ::= <MappingKey> <MappingValue>;
+
+//XML Object
+XMLObject ::= <Name:Object> <Namespace:Object> <Prefix:Object> <Attribute:Object> <Wrapped:Object>;
+
+//Security Scheme Object
+SecuritySchemeObject ::= <SecurityType> <Description:Object> <SecurityName> <SecurityIn> <SecurityScheme> <BearerFormat:Object> Flows <OpenIdConnectUrl:String>;
+Flows ::= OAuthFlowsObject;
+
+//OAuth Flows Object
+OAuthFlowsObject ::= [Implicit] [Password] [ClientCredentials] [AuthorizationCode];
+Implicit ::= OAuthFlowObject;
+Password ::= OAuthFlowObject;
+ClientCredentials ::= OAuthFlowObject;
+AuthorizationCode ::= OAuthFlowObject;
+
+//OAuth Flow Object
+OAuthFlowObject ::= <AuthorizationUrl> <TokenUrl> <RefreshUrl:Object> ScopesTuple*;
+ScopesTuple ::= <ScopesKey> <ScopesValue>;
+
+//Security Requirement Object
+SecurityRequirementObject ::= Name*;
+Name ::= <Name:String>;
