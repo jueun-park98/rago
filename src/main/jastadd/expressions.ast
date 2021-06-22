@@ -19,7 +19,7 @@ ContactObject ::= <Name:Object> <Url:Object> <Email:Object>;
 //License Object
 LicenseObject ::= <Name> <Url:Object>;
 
-//Server Obeject
+//Server Object
 ServerObject ::= <Url> <Description:Object> ServerVariablesTuple*;
 abstract ServerVariablesTuple;
 ServerVariableObjectTuple:ServerVariablesTuple ::= <Name> ServerVariableObject;
