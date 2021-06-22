@@ -1,0 +1,113 @@
+group 'de.tudresden.inf.st'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'jastadd'
+apply plugin: 'application'
+apply plugin: 'idea'
+
+mainClassName = 'de.tudresden.inf.st.most.ExerciseMain'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.8.8.1'
+    implementation group: 'net.sf.beaver', name: 'beaver-rt', version: '0.9.11'
+
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.7.0'
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.7.0'
+}
+
+buildscript {
+    repositories.mavenCentral()
+    dependencies {
+        classpath 'org.jastadd:jastaddgradle:1.13.3'
+    }
+}
+
+
+jar {
+  manifest {
+    attributes(
+      'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+      'Main-Class': 'de.tudresden.inf.st.most.ExerciseMain'
+    )
+  }
+}
+
+test {
+    useJUnitPlatform()
+
+    maxHeapSize = '1G'
+}
+
+File genSrc = file("src/gen/java")
+sourceSets.main.java.srcDir genSrc
+idea.module.generatedSourceDirs += genSrc
+
+jastadd {
+
+    configureModuleBuild()
+    modules {
+
+        //noinspection GroovyAssignabilityCheck
+        module("expressions") {
+
+            java {
+                basedir "src/main/java/"
+                include "**/*.java"
+            }
+
+            jastadd {
+                basedir "src/main/jastadd/"
+                include "**/*.ast"
+                include "**/*.jadd"
+                include "**/*.jrag"
+            }
+
+            scanner {
+                include "src/main/jastadd/expressions.flex"
+            }
+
+            parser {
+                include "src/main/jastadd/expressions.parser"
+            }
+
+        }
+    }
+
+    module = "expressions"
+
+    astPackage = 'de.tudresden.inf.st.most.jastadd.ast'
+    genDir = 'src/gen/java'
+
+    buildInfoDir = 'src/gen-res'
+    parser.name = 'ExpressionParser'
+
+    scanner.genDir = "src/gen/java/de/tudresden/inf/st/most/jastadd/scanner"
+    parser.genDir = "src/gen/java/de/tudresden/inf/st/most/jastadd/parser"
+
+    jastaddOptions = [
+            "--lineColumnNumbers",
+            "--List=JastAddList",
+            "--safeLazy",
+            "--rewrite=cnta",
+//        "--debug",
+//        "--cache=all",
+//        "--concurrent",
+//        "--cache=none",
+//        "--flush=api",
+//        "--incremental=param,debug",
+//        "--tracing",
+//        "--visitCheck=true",
+    ]
+
+    cleanGen.doFirst {
+        delete "src/gen"
+        delete "src/gen-res"
+    }
+}
