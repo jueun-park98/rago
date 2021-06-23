@@ -19,12 +19,10 @@ LicenseObject ::= <Name> <Url:Object>;
 
 //Server Object
 //ServerObject ::= <Url> <Description:Object> ServerVariablesTuple*;
-abstract ServerVariablesTuple;
-ServerVariableObjectTuple:ServerVariablesTuple ::= <Name> ServerVariableObject;
-ServerVariableReferenceTuple:ServerVariablesTuple ::= <Name> <Ref>;
+ServerVariablesTuple ::= <Name> ServerVariableObject;
 
 //Server Variable Object
-ServerVariableObject ::= Enum* <Default:Object> <Description:Object>;
+ServerVariableObject ::= Enum* <Default> <Description:Object>;
 Enum ::= <Enum:String>;
 
 //Components Object
@@ -84,7 +82,7 @@ RequestBodyReference:RequestBody ::= <Ref>;
 Deprecated ::= <Deprecated:boolean>;
 
 //External Documentation Object
-//ExternalDocumentationObject ::= <Description:Object> <Url:String>;
+//ExternalDocumentationObject ::= <Description:Object> <Url>;
 
 //Parameter Object
 //ParameterObject ::= Name In <Description:Object> <Required> [Deprecated] <AllowEmptyValue:Object> <Style:Object> <Explode:Object> <AllowReserved:Object> [Schema] <Example:Object> ExamplesTuple* ContentTuple*;
@@ -125,8 +123,6 @@ ExampleObject ::= <Summary:Object> <Description:Object> <Value:Object> <External
 
 //Link Object
 LinkObject ::= <OperationRef:Object> <OperationID:Object> LinkParameterTuple* <LinkRequestBody:Object> <Description:Object> ServerObject;
-OperationRef ::= <OperationRef:String>;
-OperationID ::= <OperationID:String>;
 LinkParameterTuple ::= <LinkParameterKey> <LinkParameterValue:Object>;
 
 //Header Object
@@ -139,15 +135,14 @@ TagObject ::= <Name> <Description:Object> [ExternalDocumentationObject];
 //SchemaObject ::=;
 
 //Discriminator Object
-DiscriminatorObject ::= PropertyName MappingTuple*;
-PropertyName ::= <PropertyName:String>;
+DiscriminatorObject ::= <PropertyName> MappingTuple*;
 MappingTuple ::= <MappingKey> <MappingValue>;
 
 //XML Object
 XMLObject ::= <Name:Object> <Namespace:Object> <Prefix:Object> <Attribute:Object> <Wrapped:Object>;
 
 //Security Scheme Object
-SecuritySchemeObject ::= <SecurityType> <Description:Object> <SecurityName> <SecurityIn> <SecurityScheme> <BearerFormat:Object> Flows <OpenIdConnectUrl:String>;
+SecuritySchemeObject ::= <SecurityType> <Description:Object> <SecurityName> <SecurityIn> <SecurityScheme> <BearerFormat:Object> Flows <OpenIdConnectUrl>;
 Flows ::= OAuthFlowsObject;
 
 //OAuth Flows Object

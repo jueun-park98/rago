@@ -82,7 +82,7 @@ aspect Mapping {
 
     //EncodingTuple in MediaTypeObject
     syn EncodingObject MediaTypeObject.lookupVariable(String name){
-      for (EncodingTuple t : getEncodingTuple()) {
+      for (EncodingTuple t : getEncodingTuples()) {
         if (t.getName().equals(name)) return t.getEncodingObject();
       }
       return null;

@@ -3,29 +3,176 @@ aspect Print {
     eq ASTNode.print() = "";
     eq OpenAPIObject.print() {
       String result =
-        "{ \"openapi\": \"" + OpenAPI + " \", " +
-        Info.print() + ", ";
+        "{ \"openapi\": \"" + OpenAPI + "\", " +
+        "\"info\": " + InfoObject.print() + ", ";
 
-      if( OpenAPIObject.hasServers() ){
-        result += Servers.print() + ", ";
+      if( OpenAPIObject.hasServerObjects() ){
+        result += "\"servers\": [ ";
+        for( ServerObject s : getServerObjects() ){
+          result += s.print() + ", ";
+        }
+        result = result.substring(0, result.length() - 2) + " ], ";
       }
-      result += PathsObject.print() + ", ";
-      if( OpenAPIObject.hasPaths() ){
-        result += Paths.print() + ", ";
+      result += "\"paths\": \"" + PathsObject.print() + ", ";
+      if( OpenAPIObject.hasComponentsObject() ){
+        result += "\"components\": \"" + ComponentsObject.print() + ", ";
       }
-      if( OpenAPIObject.hasComponents() ){
-        result += Components.print() + ", ";
+      if( OpenAPIObject.hasSecurityRequirementObjects() ){
+        result += "\"security\": \"" + SecurityRequirementObjects.print() + ", ";
       }
-      if( OpenAPIObject.hasSecurity() ){
-        result += Security.print() + ", ";
+      if( OpenAPIObject.hasTagObject() ){
+        result += "\"tags\": \"" + TagObject.print() + ", ";
       }
-      if( OpenAPIObject.hasTag() ){
-        result += Tag.print() + ", ";
+      if( OpenAPIObject.hasExternalDocumentationObject() ){
+        result += "\"externalDocs\": \"" + ExternalDocumentationObject.print() + ", ";
       }
-      if( OpenAPIObject.hasExternalDocs() ){
-        result += ExternalDocs.print();
-      }
-      result += "}";
+      result = result.substring(0, result.length() - 2) + " }";
       return result;
     }
+    eq InfoObject.print() {
+      String result =
+        "{ \"title\": \"" + Title + "\", ";
+
+      if( InfoObject.hasDescription() ){
+        result += "{ \"description\": \"" + Description + "\", ";
+      }
+      if( InfoObject.hasTermsOfService() ){
+        result += "{ \"termsOfService\": \"" + TermsOfService + "\", ";
+      }
+      if( InfoObject.hasContactObject() ){
+        result += "{ \"contact\": \"" + ContactObject.print() + ", ";
+      }
+      if( InfoObject.hasLicenseObject() ){
+        result += "{ \"license\": \"" + LicenseObject.print() + ", ";
+      }
+
+      result += "\"version\": \"" + Version + "\" }";
+      return result;
+    }
+    eq ContactObject.print() {
+      String result =
+        "{ ";
+
+      if( ContactObject.hasName() ){
+        result += "\"name\": \"" + Name + "\", ";
+      }
+      if( ContactObject.hasUrl() ){
+        result += "\"url\": \"" + Url + "\", ";
+      }
+      if( ContactObject.hasEmail() ){
+        result += "\"email\": \"" + Email + "\", ";
+      }
+      result = result.substring(0, result.length() - 2) + " }";
+      return result;
+    }
+    eq LicenseObject.print() {
+      String result =
+        "{ \"name\": \"" + Name + "\"";
+
+      if( ContactObject.hasUrl() ){
+        result +=", \"url\": \"" + Url + "\"";
+      }
+      result += " }";
+      return result;
+    }
+    eq ServerObject.print() {
+      String result =
+        "{ \"url\": \"" + Url + "\", ";
+
+      if( ContactObject.hasDescription() ){
+        result += ", \"description\": \"" + Description + "\", ";
+      }
+      if( ContactObject.hasServerVariablesTuples() ){
+        result += ServerVariablesTuples.print() + ", ";
+      }
+      result = result.substring(0, result.length() - 2) + " }";
+      return result;
+    }
+    eq ServerVariableObject.print() {
+      String result = "{ ";
+
+      if( ServerVariableObject.hasEnums() ){
+        result += "\"enum\": [ ";
+        for( Enum e : getEnums() ){
+          result += "\"" + e + "\"" + ", ";
+        }
+        result = result.substring(0, result.length() - 2) + " ], ";
+      }
+      result += "\"default\": \"" + Default + "\", ";
+      if( ServerVariableObject.hasDescription() ){
+        result += "\"description\": \"" + Description + "\", ";
+      }
+      result = result.substring(0, result.length() - 2) + " }";
+      return result;
+    }
+    eq ComponentsObject.print(){
+      String result = "{ ";
+
+      if( ComponentsObject.hasSchemasTuples() ){
+        result += "\"schemas\": { ";
+        for( SchemasTuple t : getSchemasTuples() ){
+          result += t.print() + ", ";
+        }
+        result = result.substring(0, result.length() - 2) + " }, ";
+      }
+      if( ComponentsObject.hasResponsesTuples() ){
+        result += "\"responses\": { ";
+        for( ResponsesTuple t : getResponsesTuples() ){
+          result += t.print() + ", ";
+        }
+        result = result.substring(0, result.length() - 2) + " }, ";
+      }
+      if( ComponentsObject.hasParameterTuples() ){
+        result += "\"parameters\": { ";
+        for( ParameterTuple t : getParameterTuples() ){
+          result += t.print() + ", ";
+        }
+        result = result.substring(0, result.length() - 2) + " }, ";
+      }
+      if( ComponentsObject.hasExamplesTuples() ){
+        result += "\"examples\": { ";
+        for( ExamplesTuple t : getExamplesTuples() ){
+          result += t.print() + ", ";
+        }
+        result = result.substring(0, result.length() - 2) + " }, ";
+      }
+      if( ComponentsObject.hasRequestBodiesTuples() ){
+        result += "\"requestBodies\": { ";
+        for( RequestBodiesTuple t : getRequestBodiesTuples() ){
+          result += t.print() + ", ";
+        }
+        result = result.substring(0, result.length() - 2) + " }, ";
+      }
+      if( ComponentsObject.hasHeadersTuples() ){
+        result += "\"headers\": { ";
+        for( HeadersTuple t : getHeadersTuples() ){
+          result += t.print() + ", ";
+        }
+        result = result.substring(0, result.length() - 2) + " }, ";
+      }
+      if( ComponentsObject.hasSecuritySchemesTuples() ){
+        result += "\"securitySchemes\": { ";
+        for( SecuritySchemesTuple t : getSecuritySchemesTuples() ){
+          result += t.print() + ", ";
+        }
+        result = result.substring(0, result.length() - 2) + " }", ;
+      }
+      if( ComponentsObject.hasLinksTuples() ){
+        result += "\"links\": { ";
+        for( LinksTuple t : LinksTuples() ){
+          result += t.print() + ", ";
+        }
+        result = result.substring(0, result.length() - 2) + " }, ";
+      }
+      if( ComponentsObject.hasCallbacksTuples() ){
+        result += "\"callbacks\": { ";
+        for( CallbacksTuple t : getCallbacksTuples() ){
+          result += t.print() + ", ";
+        }
+        result = result.substring(0, result.length() - 2) + " }, ";
+      }
+      result = result.substring(0, result.length() - 2) + " }";
+      return result;
+    }
+
 }
