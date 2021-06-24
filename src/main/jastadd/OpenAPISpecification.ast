@@ -1,6 +1,6 @@
 //OpenAPI Object
 OpenAPIObject ::= <OpenAPI:String> InfoObject ServerObject* PathsObject [ComponentsObject] SecurityRequirementObject* TagObject* [ExternalDocumentationObject];
-PathsObject ::= PathItemObject;
+PathsObject ::= <Ref> PathItemObject;
 ServerObject ::= <Url> <Description:Object> ServerVariablesTuple*;
 ComponentsObject ::= SchemasTuple* ResponsesTuple* ParameterTuple* ExamplesTuple* RequestBodiesTuple* HeadersTuple* SecuritySchemesTuple* LinksTuple* CallbacksTuple*;
 SecurityRequirementObject ::= Name*;
@@ -56,11 +56,11 @@ CallbackObjectTuple:CallbacksTuple ::= <Name> CallbackObject;
 CallbackReferenceTuple:CallbacksTuple ::= <Name> <Ref>;
 
 //Paths Object
-//PathsObject ::= Path;
-PathItemObject ::= <Ref> <Summary> <Description> [Get] [Put] [Post] [Delete] [Options] [Head] [Patch] [Trace] ServerObject* Parameter*;
+//PathsObject ::= <Ref> PathItemObject;
+PathItemObject ::= <Summary> <Description> [Get] [Put] [Post] [Delete] [Options] [Head] [Patch] [Trace] ServerObject* Parameter*;
 
 //Path Item Object
-//PathItemObject ::= <Ref> <Summary> <Description> [Get] [Put] [Post] [Delete] [Options] [Head] [Patch] [Trace] Server* Parameter*;
+//PathItemObject ::= <Summary> <Description> [Get] [Put] [Post] [Delete] [Options] [Head] [Patch] [Trace] Server* Parameter*;
 Get ::= OperationObject;
 Put ::= OperationObject;
 Post ::= OperationObject;
@@ -71,7 +71,7 @@ Patch ::= OperationObject;
 Trace ::= OperationObject;
 abstract Parameter;
 ParameterReference:Parameter ::= <Ref>;
-ParameterObject:Parameter ::= Name <In> <Description:Object> <Required> [Deprecated] <AllowEmptyValue:Object> <Style:Object> <Explode:Object> <AllowReserved:Object> [Schema] <Example:Object> ExamplesTuple* ContentTuple*;
+ParameterObject:Parameter ::= <Name> <In> <Description:Object> <Required> [Deprecated] <AllowEmptyValue:Object> <Style:Object> <Explode:Object> <AllowReserved:Object> [Schema] <Example:Object> ExamplesTuple* ContentTuple*;
 
 //Operation Object
 OperationObject ::= Tag* <Summary:Object> <Description:Object> [ExternalDocumentationObject] <OperationID:Object> Parameter* [RequestBody] ResponsesObject CallbacksTuple* [Deprecated] SecurityRequirementObject* ServerObject*;

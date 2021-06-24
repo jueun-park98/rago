@@ -18,7 +18,11 @@ aspect Print {
         result += "\"components\": \"" + ComponentsObject.print() + ", ";
       }
       if( OpenAPIObject.hasSecurityRequirementObjects() ){
-        result += "\"security\": \"" + SecurityRequirementObjects.print() + ", ";
+        result += "\"security\": [ ";
+        for( SecurityRequirementObject s : getSecurityRequirementObjects() ){
+          result += s.print() + ", ";
+        }
+        result = result.substring(0, result.length() - 2) + " ], ";
       }
       if( OpenAPIObject.hasTagObject() ){
         result += "\"tags\": \"" + TagObject.print() + ", ";
@@ -69,7 +73,7 @@ aspect Print {
       String result =
         "{ \"name\": \"" + Name + "\"";
 
-      if( ContactObject.hasUrl() ){
+      if( LicenseObject.hasUrl() ){
         result +=", \"url\": \"" + Url + "\"";
       }
       result += " }";
@@ -79,11 +83,11 @@ aspect Print {
       String result =
         "{ \"url\": \"" + Url + "\", ";
 
-      if( ContactObject.hasDescription() ){
+      if( ServerObject.hasDescription() ){
         result += ", \"description\": \"" + Description + "\", ";
       }
-      if( ContactObject.hasServerVariablesTuples() ){
-        result += ServerVariablesTuples.print() + ", ";
+      if( ServerObject.hasServerVariablesTuples() ){
+        result += ", \"variables\": " + ServerVariablesTuples.print() + ", ";
       }
       result = result.substring(0, result.length() - 2) + " }";
       return result;
@@ -174,5 +178,114 @@ aspect Print {
       result = result.substring(0, result.length() - 2) + " }";
       return result;
     }
+    eq PathsObject.print() {
+      String result = "{ \"" + Ref + "\": ";
+
+      if( PathsObject.hasPathItemObject() ){
+        result += PathItemObject.print();
+      }
+      result += " }";
+      return result;
+    }
+    eq PathItemObject.print() {
+      String result = "{ ";
+
+      if( PathItemObject.hasSummary() ){
+        result += "\"summary\": \"" + Summary + "\", ";
+      }
+      if( PathItemObject.hasDescription() ){
+        result += "\"description\": \"" + Description + "\", ";
+      }
+      if( PathItemObject.hasGet() ){
+        result += "\"get\": \"" + Get + "\", ";
+      }
+      if( PathItemObject.hasPut() ){
+        result += "\"put\": \"" + Put + "\", ";
+      }
+      if( PathItemObject.hasPost() ){
+        result += "\"post\": \"" + Post + "\", ";
+      }
+      if( PathItemObject.hasDelete() ){
+        result += "\"delete\": \"" + Delete + "\", ";
+      }
+      if( PathItemObject.hasOptions() ){
+        result += "\"options\": \"" + Options + "\", ";
+      }
+      if( PathItemObject.hasHead() ){
+        result += "\"head\": \"" + Head + "\", ";
+      }
+      if( PathItemObject.hasPatch() ){
+        result += "\"patch\": \"" + Patch + "\", ";
+      }
+      if( PathItemObject.hasTrace() ){
+        result += "\"trace\": \"" + Trace + "\", ";
+      }
+      if( PathItemObject.hasParameters() ){
+        result += "\"parameters\": \"" + Parameters + "\", ";
+      }
+      result = result.substring(0, result.length() - 2) + " }";
+      return result;
+    }
+    eq OperationObject.print() {
+      String result = "{ ";
+
+      if( OperationObject.hasTags() ){
+        result += "\"tags\": [ ";
+        for( Tag t : getTags() ){
+          result += "\"" + t + "\"" + ", ";
+        }
+        result = result.substring(0, result.length() - 2) + " ], ";
+      }
+      if( OperationObject.hasSummary() ){
+        result += "\"summary\": \"" + Summary + "\", ";
+      }
+      if( OperationObject.hasExternalDocumentationObject() ){
+        result += "\"externalDocs\": \"" + ExternalDocumentationObject + "\", ";
+      }
+      if( OperationObject.hasOperationID() ){
+        result += "\"operationId\": \"" + OperationID + "\", ";
+      }
+      if( OperationObject.hasParameters() ){
+        result += "\"parameters\": [ ";
+        for( Parameter p : getParameters() ){
+          result += t + ", ";
+        }
+        result = result.substring(0, result.length() - 2) + " ], ";
+      }
+      if( OperationObject.hasRequestBody() ){
+        result += "\"requestBody\": \"" + RequestBody + "\", ";
+      }
+      if( OperationObject.hasResponsesObject() ){
+        result += "\"responses\": " + ResponsesObject + ", ";
+      }
+      if( OperationObject.hasCallbacksTuples() ){
+        result += "\"callbacks\": { ";
+        for( CallbacksTuple t : getCallbacksTuples() ){
+          result += t.print() + ", ";
+        }
+        result = result.substring(0, result.length() - 2) + " }, ";
+      }
+      if( OperationObject.hasDeprecated() ){
+        result += "\"deprecated\": \"" + Deprecated + "\", ";
+      }
+      if( OperationObject.hasSecurityRequirementObjects() ){
+        result += "\"security\": [ ";
+        for( SecurityRequirementObject s : getSecurityRequirementObjects() ){
+          result += s.print() + ", ";
+        }
+        result = result.substring(0, result.length() - 2) + " ], ";
+      }
+      if( OperationObject.hasServerObjects() ){
+        result += "\"servers\": [ ";
+        for( ServerObject s : getServerObjects() ){
+          result += s.print() + ", ";
+        }
+        result = result.substring(0, result.length() - 2) + " ], ";
+      }
+      result = result.substring(0, result.length() - 2) + " }";
+      return result;
+    }
+
+
 
 }
