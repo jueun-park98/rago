@@ -3,7 +3,7 @@ OpenAPIObject ::= <OpenAPI:String> InfoObject ServerObject* PathsObject [Compone
 PathsObject ::= <Ref> PathItemObject;
 ServerObject ::= <Url> <Description:Object> ServerVariablesTuple*;
 ComponentsObject ::= SchemasTuple* ResponsesTuple* ParameterTuple* ExamplesTuple* RequestBodiesTuple* HeadersTuple* SecuritySchemesTuple* LinksTuple* CallbacksTuple*;
-SecurityRequirementObject ::= Name*;
+SecurityRequirementObject ::= <Name> SecurityRequirementValue*;
 ExternalDocumentationObject ::= <Description:Object> <Url>;
 
 //Info Object
@@ -71,7 +71,7 @@ Patch ::= OperationObject;
 Trace ::= OperationObject;
 abstract Parameter;
 ParameterReference:Parameter ::= <Ref>;
-ParameterObject:Parameter ::= <Name> <In> <Description:Object> <Required> [Deprecated] <AllowEmptyValue:Object> <Style:Object> <Explode:Object> <AllowReserved:Object> [Schema] <Example:Object> ExamplesTuple* ContentTuple*;
+ParameterObject:Parameter ::= <Name> <In> <Description:Object> <Required:boolean> <Deprecated:Object> <AllowEmptyValue:Object> <Style:Object> <Explode:Object> <AllowReserved:Object> [Schema] <Example:Object> ExamplesTuple* ContentTuple*;
 
 //Operation Object
 OperationObject ::= Tag* <Summary:Object> <Description:Object> [ExternalDocumentationObject] <OperationID:Object> Parameter* [RequestBody] ResponsesObject CallbacksTuple* [Deprecated] SecurityRequirementObject* ServerObject*;
@@ -97,22 +97,22 @@ ContentReferenceTuple:ContentTuple ::= <Name> <Ref>;
 //RequestBodyObject ::= <Description:Object> ContentTuple* <Required:Object>;
 
 //Media Type Object
-MediaTypeObject ::= Schema <Example:Object> ExamplesTuple* EncodingTuple*;
+MediaTypeObject ::= [Schema] <Example:Object> ExamplesTuple* EncodingTuple*;
 abstract EncodingTuple;
 EncodingObjectTuple:EncodingTuple ::= <Name> EncodingObject;
 EncodingReferenceTuple:EncodingTuple ::= <Name> <Ref>;
 
 //Encoding Object
-EncodingObject ::= <ContentType> HeadersTuple* <Style> <Explode:boolean> <AllowReserved:boolean>;
+EncodingObject ::= <ContentType:Object> HeadersTuple* <Style:Object> <Explode:Object> <AllowReserved:Object>;
 
 //Responses Object
 ResponsesObject ::= HTTPStatusCode*;
 abstract HTTPStatusCode;
-ResponseObject:HTTPStatusCode ::= <Description> HeadersTuple* ContentTuple* LinksTuple*;
-HTTPStatusCodeReference:HTTPStatusCode ::= <Ref>;
+ResponseObject:HTTPStatusCode ::= <Name> <Description> HeadersTuple* ContentTuple* LinksTuple*;
+HTTPStatusCodeReference:HTTPStatusCode ::= <Name> <Ref>;
 
 //Response Object
-//ResponseObject ::= <Description> HeadersTuple* ContentTuple* LinksTuple*;
+//ResponseObject ::= <Name> <Description> HeadersTuple* ContentTuple* LinksTuple*;
 
 //Callback Object
 CallbackObject ::= Expression*;
@@ -135,11 +135,11 @@ TagObject ::= <Name> <Description:Object> [ExternalDocumentationObject];
 //SchemaObject ::=;
 
 //Discriminator Object
-DiscriminatorObject ::= <PropertyName> MappingTuple*;
-MappingTuple ::= <MappingKey> <MappingValue>;
+//DiscriminatorObject ::= <PropertyName> MappingTuple*;
+//MappingTuple ::= <MappingKey> <MappingValue>;
 
 //XML Object
-XMLObject ::= <Name:Object> <Namespace:Object> <Prefix:Object> <Attribute:Object> <Wrapped:Object>;
+//XMLObject ::= <Name:Object> <Namespace:Object> <Prefix:Object> <Attribute:Object> <Wrapped:Object>;
 
 //Security Scheme Object
 SecuritySchemeObject ::= <SecurityType> <Description:Object> <SecurityName> <SecurityIn> <SecurityScheme> <BearerFormat:Object> Flows <OpenIdConnectUrl>;
@@ -157,5 +157,5 @@ OAuthFlowObject ::= <AuthorizationUrl> <TokenUrl> <RefreshUrl:Object> ScopesTupl
 ScopesTuple ::= <ScopesKey> <ScopesValue>;
 
 //Security Requirement Object
-//SecurityRequirementObject ::= Name*;
-Name ::= <Name:String>;
+//SecurityRequirementObject ::= <Name> SecurityRequirementValue*;
+SecurityRequirementValue ::= <Value>;
