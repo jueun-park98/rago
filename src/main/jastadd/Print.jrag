@@ -1,6 +1,8 @@
 aspect Print {
     syn String ASTNode.print();
     eq ASTNode.print() = "";
+
+    //Objects
     eq OpenAPIObject.print() {
       String result =
         "{ \"openapi\": \"" + OpenAPI + "\", " +
@@ -620,6 +622,129 @@ aspect Print {
           result += "\"" + s.print + "\", ";
         }
         result = result.substring(0, result.length - 2) + " ] }";
+      }
+      return result;
+    }
+
+    //Tuples
+    eq ServerVariablesTuple.print() {
+      String result = "\"" + Name + "\": " + ServerVariableObject;
+      return result;
+    }
+    eq SchemasTuple.print() {
+      String result = "\"" + Name + "\": ";
+      if( SchemasTuple.hasSchemaObject() ){
+        result += SchemaObject;
+      } else {
+        result += "{ \"$ref\" : \"" + Ref "\" }";
+      }
+      return result;
+    }
+    eq ResponsesTuple.print() {
+      String result = "\"" + Name + "\": ";
+      if( ResponsesTuple.hasResponseObject() ){
+        result += ResponseObject;
+      } else {
+        result += "{ \"$ref\" : \"" + Ref "\" }";
+      }
+      return result;
+    }
+    eq ParameterTuple.print() {
+      String result = "\"" + Name + "\": ";
+      if( ParameterTuple.hasParameterObject() ){
+        result += ParameterObject;
+      } else {
+        result += "{ \"$ref\" : \"" + Ref "\" }";
+      }
+      return result;
+    }
+    eq ExamplesTuple.print() {
+      String result = "\"" + Name + "\": ";
+      if( ExamplesTuple.hasExampleObject() ){
+        result += ExampleObject;
+      } else {
+        result += "{ \"$ref\" : \"" + Ref "\" }";
+      }
+      return result;
+    }
+    eq RequestBodiesTuple.print() {
+      String result = "\"" + Name + "\": ";
+      if( RequestBodiesTuple.hasRequestBodyObject() ){
+        result += RequestBodyObject;
+      } else {
+        result += "{ \"$ref\" : \"" + Ref "\" }";
+      }
+      return result;
+    }
+    eq HeadersTuple.print() {
+      String result = "\"" + Name + "\": ";
+      if( HeadersTuple.HeaderObject() ){
+        result += HeaderObject;
+      } else {
+        result += "{ \"$ref\" : \"" + Ref "\" }";
+      }
+      return result;
+    }
+    eq SecuritySchemesTuple.print() {
+      String result = "\"" + Name + "\": ";
+      if( SecuritySchemesTuple.hasSecuritySchemeObject() ){
+        result += SecuritySchemeObject;
+      } else {
+        result += "{ \"$ref\" : \"" + Ref "\" }";
+      }
+      return result;
+    }
+    eq LinksTuple.print() {
+      String result = "\"" + Name + "\": ";
+      if( LinksTuple.hasLinkObject() ){
+        result += LinkObject;
+      } else {
+        result += "{ \"$ref\" : \"" + Ref "\" }";
+      }
+      return result;
+    }
+    eq CallbacksTuple.print() {
+      String result = "\"" + Name + "\": ";
+      if( CallbacksTuple.hasCallbackObject() ){
+        result += CallbackObject;
+      } else {
+        result += "{ \"$ref\" : \"" + Ref "\" }";
+      }
+      return result;
+    }
+    eq ContentTuple.print() {
+      String result = "\"" + Name + "\": ";
+      if( ContentTuple.hasMediaTypeObject() ){
+        result += MediaTypeObject;
+      } else {
+        result += "{ \"$ref\" : \"" + Ref "\" }";
+      }
+      return result;
+    }
+    eq EncodingTuple.print() {
+      String result = "\"" + Name + "\": ";
+      if( EncodingTuple.hasEncodingObject() ){
+        result += EncodingObject;
+      } else {
+        result += "{ \"$ref\" : \"" + Ref "\" }";
+      }
+      return result;
+    }
+    eq LinkParameterTuple.print() {
+      String result = "\"" + LinkParameterKey + "\": ";
+      if( LinkParameterValue instanceof String ){
+        result += "\"" + LinkParameterValue + "\"";
+      } else {
+        result += LinkParameterValue;
+      }
+      return result;
+    }
+    eq ScopesTuple.print() {
+      String result = "\"" + ScopesKey + "\": ";
+      if( ScopesValue instanceof String ){
+        result += "\"" + ScopesValue + "\"";
+      } else {
+        result += ScopesValue;
       }
       return result;
     }

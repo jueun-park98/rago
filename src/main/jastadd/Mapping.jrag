@@ -15,56 +15,48 @@ aspect Mapping {
       }
       return null;
     }
-
     syn ResponseObject ComponentsObject.lookupVariable(String name){
       for (ResponsesTuple t : getResponsesTuples()) {
         if (t.getName().equals(name)) return t.getResponseObject();
       }
       return null;
     }
-
     syn ParameterObject ComponentsObject.lookupVariable(String name){
       for (ParametersTuple t : getParametersTuples()) {
         if (t.getName().equals(name)) return t.getParameterObject();
       }
       return null;
     }
-
     syn ExampleObject ComponentsObject.lookupVariable(String name){
       for (ExamplesTuple t : getExamplesTuples()) {
         if (t.getName().equals(name)) return t.getExampleObject();
       }
       return null;
     }
-
     syn RequestBodyObject ComponentsObject.lookupVariable(String name){
       for (RequestBodiesTuple t : getRequestBodiesTuples()) {
         if (t.getName().equals(name)) return t.getRequestBodyObject();
       }
       return null;
     }
-
     syn HeaderObject ComponentsObject.lookupVariable(String name){
       for (HeadersTuple t : getHeadersTuples()) {
         if (t.getName().equals(name)) return t.getHeaderObject();
       }
       return null;
     }
-
     syn SecuritySchemeObject ComponentsObject.lookupVariable(String name){
       for (SecuritySchemesTuple t : getSecuritySchemesTuples()) {
         if (t.getName().equals(name)) return t.SecuritySchemeObject();
       }
       return null;
     }
-
     syn LinkObject ComponentsObject.lookupVariable(String name){
       for (LinksTuple t : getLinksTuples()) {
         if (t.getName().equals(name)) return t.getLinkObject();
       }
       return null;
     }
-
     syn CallbackObject ComponentsObject.lookupVariable(String name){
       for (CallbacksTuple t : getCallbacksTuples()) {
         if (t.getName().equals(name)) return t.getCallbackObject();
@@ -72,18 +64,81 @@ aspect Mapping {
       return null;
     }
 
-    //ContentTuple in ParameterObject
+    //Tuples in ParameterObject
     syn MediaTypeObject ParameterObject.lookupVariable(String name){
       for (ContentTuple t : getContentTuples()) {
         if (t.getName().equals(name)) return t.getMediaTypeObject();
       }
       return null;
     }
+    syn ExampleObject ParameterObject.lookupVariable(String name){
+      for (ExamplesTuple t : getExamplesTuples()) {
+        if (t.getName().equals(name)) return t.getExampleObject();
+      }
+      return null;
+    }
+
+    //ContentTuple in RequestBodyObject
+    syn MediaTypeObject RequestBodyObject.lookupVariable(String name){
+      for (ContentTuple t : getContentTuples()) {
+        if (t.getName().equals(name)) return t.getMediaTypeObject();
+      }
+      return null;
+    }
+
 
     //EncodingTuple in MediaTypeObject
     syn EncodingObject MediaTypeObject.lookupVariable(String name){
       for (EncodingTuple t : getEncodingTuples()) {
         if (t.getName().equals(name)) return t.getEncodingObject();
+      }
+      return null;
+    }
+    syn ExampleObject MediaTypeObject.lookupVariable(String name){
+      for (ExamplesTuple t : getExamplesTuples()) {
+        if (t.getName().equals(name)) return t.getExampleObject();
+      }
+      return null;
+    }
+
+    //HeadersTuple in EncodingObject
+    syn HeaderObject EncodingObject.lookupVariable(String name){
+      for (HeadersTuple t : getHeadersTuples()) {
+        if (t.getName().equals(name)) return t.getHeaderObject();
+      }
+      return null;
+    }
+
+    //Tuples in ResponsesObject
+    syn HeaderObject ResponsesObject.lookupVariable(String name){
+      for (HeadersTuple t : getHeadersTuples()) {
+        if (t.getName().equals(name)) return t.getHeaderObject();
+      }
+      return null;
+    }
+    syn MediaTypeObject ResponsesObject.lookupVariable(String name){
+      for (ContentTuple t : getContentTuples()) {
+        if (t.getName().equals(name)) return t.getMediaTypeObject();
+      }
+      return null;
+    }
+    syn LinkObject ResponsesObject.lookupVariable(String name){
+      for (LinksTuple t : getLinksTuples()) {
+        if (t.getName().equals(name)) return t.getLinkObject();
+      }
+      return null;
+    }
+
+    //Tuples in HeaderObject
+    syn ExampleObject HeaderObject.lookupVariable(String name){
+      for (ExamplesTuple t : getExamplesTuples()) {
+        if (t.getName().equals(name)) return t.getExampleObject();
+      }
+      return null;
+    }
+    syn MediaTypeObject HeaderObject.lookupVariable(String name){
+      for (ContentTuple t : getContentTuples()) {
+        if (t.getName().equals(name)) return t.getMediaTypeObject();
       }
       return null;
     }
