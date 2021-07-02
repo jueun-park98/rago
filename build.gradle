@@ -70,11 +70,11 @@ jastadd {
             }
 
             scanner {
-                include "src/main/jastadd/expressions.flex"
+                include "src/main/jastadd/OpenAPISpecification.flex"
             }
 
             parser {
-                include "src/main/jastadd/expressions.parser"
+                include "src/main/jastadd/OpenAPISpecification.parser"
             }
 
         }
@@ -86,7 +86,7 @@ jastadd {
     genDir = 'src/gen/java'
 
     buildInfoDir = 'src/gen-res'
-    parser.name = 'ExpressionParser'
+    parser.name = 'OpenAPIParser'
 
     scanner.genDir = "src/gen/java/de/tudresden/inf/st/most/jastadd/scanner"
     parser.genDir = "src/gen/java/de/tudresden/inf/st/most/jastadd/parser"

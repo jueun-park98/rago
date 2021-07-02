@@ -1,15 +1,15 @@
 //OpenAPI Object
-OpenAPIObject ::= <OpenAPI:String> InfoObject ServerObject* PathsObject [ComponentsObject] SecurityRequirementObject* TagObject* [ExternalDocumentationObject];
+OpenAPIObject ::= <OpenAPI> InfoObject ServerObject* PathsObject [ComponentsObject] SecurityRequirementObject* TagObject* [ExternalDocumentationObject];
 PathsObject ::= <Ref> PathItemObject;
-ServerObject ::= <Url> <Description:Object> ServerVariablesTuple*;
+ServerObject ::= <Url> <Description> ServerVariablesTuple*;
 ComponentsObject ::= SchemasTuple* ResponsesTuple* ParameterTuple* ExamplesTuple* RequestBodiesTuple* HeadersTuple* SecuritySchemesTuple* LinksTuple* CallbacksTuple*;
 SecurityRequirementObject ::= <Name> SecurityRequirementValue*;
-ExternalDocumentationObject ::= <Description:Object> <Url>;
+ExternalDocumentationObject ::= <Description> <Url>;
 
 //Info Object
-InfoObject ::= <Title> <Description:Object> <TermsOfService:Object> [ContactObject] [LicenseObject] <Version:String>;
-ContactObject ::= <Name:Object> <Url:Object> <Email:Object>;
-LicenseObject ::= <Name> <Url:Object>;
+InfoObject ::= <Title> <Description> <TermsOfService> [ContactObject] [LicenseObject] <Version>;
+ContactObject ::= <Name> <Url> <Email>;
+LicenseObject ::= <Name> <Url>;
 
 //Contact Object
 //ContactObject ::= <Name:Object> <Url:Object> <Email:Object>;
@@ -22,8 +22,8 @@ LicenseObject ::= <Name> <Url:Object>;
 ServerVariablesTuple ::= <Name> ServerVariableObject;
 
 //Server Variable Object
-ServerVariableObject ::= Enum* <Default> <Description:Object>;
-Enum ::= <Enum:String>;
+ServerVariableObject ::= Enum* <Default> <Description>;
+Enum ::= <EnumValue>;
 
 //Components Object
 //ComponentsObject ::= SchemasTuple* ResponsesTuple* ParameterTuple* ExamplesTuple* RequestBodiesTuple* HeadersTuple* SecuritySchemesTuple* LinksTuple* CallbacksTuple*;
@@ -57,7 +57,7 @@ CallbackReferenceTuple:CallbacksTuple ::= <Name> <Ref>;
 
 //Paths Object
 //PathsObject ::= <Ref> PathItemObject;
-PathItemObject ::= <Summary> <Description> [Get] [Put] [Post] [Delete] [Options] [Head] [Patch] [Trace] ServerObject* Parameter*;
+PathItemObject ::= <Ref> <Summary> <Description> [Get] [Put] [Post] [Delete] [Options] [Head] [Patch] [Trace] ServerObject* Parameter*;
 
 //Path Item Object
 //PathItemObject ::= <Summary> <Description> [Get] [Put] [Post] [Delete] [Options] [Head] [Patch] [Trace] Server* Parameter*;
@@ -71,15 +71,15 @@ Patch ::= OperationObject;
 Trace ::= OperationObject;
 abstract Parameter;
 ParameterReference:Parameter ::= <Ref>;
-ParameterObject:Parameter ::= <Name> <In> <Description:Object> <Required:boolean> <Deprecated:Object> <AllowEmptyValue:Object> <Style:Object> <Explode:Object> <AllowReserved:Object> [Schema] <Example:Object> ExamplesTuple* ContentTuple*;
+ParameterObject:Parameter ::= <Name> <In> <Description> <Required:boolean> <DeprecatedBoolean:Object> <AllowEmptyValue:Object> <Style> <Explode:Object> <AllowReserved:Object> [Schema] <Example:Object> ExamplesTuple* ContentTuple*;
 
 //Operation Object
-OperationObject ::= Tag* <Summary:Object> <Description:Object> [ExternalDocumentationObject] <OperationID:Object> Parameter* [RequestBody] ResponsesObject CallbacksTuple* [Deprecated] SecurityRequirementObject* ServerObject*;
+OperationObject ::= Tag* <Summary> <Description> [ExternalDocumentationObject] <OperationID> Parameter* [RequestBody] ResponsesObject CallbacksTuple* [DeprecatedBoolean] SecurityRequirementObject* ServerObject*;
 Tag ::= <Tag:String>;
 abstract RequestBody;
-RequestBodyObject:RequestBody ::= <Description:Object> ContentTuple* <Required:Object>;
+RequestBodyObject:RequestBody ::= <Description> ContentTuple* <Required:Object>;
 RequestBodyReference:RequestBody ::= <Ref>;
-Deprecated ::= <Deprecated:boolean>;
+DeprecatedBoolean ::= <DeprecatedBoolean:Object>;
 
 //External Documentation Object
 //ExternalDocumentationObject ::= <Description:Object> <Url>;
@@ -103,7 +103,7 @@ EncodingObjectTuple:EncodingTuple ::= <Name> EncodingObject;
 EncodingReferenceTuple:EncodingTuple ::= <Name> <Ref>;
 
 //Encoding Object
-EncodingObject ::= <ContentType:Object> HeadersTuple* <Style:Object> <Explode:Object> <AllowReserved:Object>;
+EncodingObject ::= <ContentType> HeadersTuple* <Style> <Explode:Object> <AllowReserved:Object>;
 
 //Responses Object
 ResponsesObject ::= HTTPStatusCode*;
@@ -119,17 +119,17 @@ CallbackObject ::= Expression*;
 Expression ::= PathItemObject;
 
 //Example Object
-ExampleObject ::= <Summary:Object> <Description:Object> <Value:Object> <ExternalValue:Object>;
+ExampleObject ::= <Summary> <Description> <Value:Object> <ExternalValue>;
 
 //Link Object
-LinkObject ::= <OperationRef:Object> <OperationID:Object> LinkParameterTuple* <LinkRequestBody:Object> <Description:Object> ServerObject;
+LinkObject ::= <OperationRef> <OperationID> LinkParameterTuple* <LinkRequestBody:Object> <Description> [ServerObject];
 LinkParameterTuple ::= <LinkParameterKey> <LinkParameterValue:Object>;
 
 //Header Object
-HeaderObject ::= <Name:Object> <In:Object> <Description:Object> <Required:boolean> <Deprecated:Object> <AllowEmptyValue:Object> <Style:Object> <Explode:Object> <AllowReserved:Object> [Schema] <Example:Object> ExamplesTuple* ContentTuple*;
+HeaderObject ::= <Name> <In> <Description> <Required:boolean> <DeprecatedBoolean:Object> <AllowEmptyValue:Object> <Style> <Explode:Object> <AllowReserved:Object> [Schema] <Example:Object> ExamplesTuple* ContentTuple*;
 
 //Tag Object
-TagObject ::= <Name> <Description:Object> [ExternalDocumentationObject];
+TagObject ::= <Name> <Description> [ExternalDocumentationObject];
 
 //Schema Object from JSON-Schema
 //SchemaObject ::=;
@@ -142,7 +142,7 @@ TagObject ::= <Name> <Description:Object> [ExternalDocumentationObject];
 //XMLObject ::= <Name:Object> <Namespace:Object> <Prefix:Object> <Attribute:Object> <Wrapped:Object>;
 
 //Security Scheme Object
-SecuritySchemeObject ::= <SecurityType> <Description:Object> <SecurityName> <SecurityIn> <SecurityScheme> <BearerFormat:Object> Flows <OpenIdConnectUrl>;
+SecuritySchemeObject ::= <SecurityType> <Description> <SecurityName> <SecurityIn> <SecurityScheme> <BearerFormat> Flows <OpenIdConnectUrl>;
 Flows ::= OAuthFlowsObject;
 
 //OAuth Flows Object
@@ -153,7 +153,7 @@ ClientCredentials ::= OAuthFlowObject;
 AuthorizationCode ::= OAuthFlowObject;
 
 //OAuth Flow Object
-OAuthFlowObject ::= <AuthorizationUrl> <TokenUrl> <RefreshUrl:Object> ScopesTuple*;
+OAuthFlowObject ::= <AuthorizationUrl> <TokenUrl> <RefreshUrl> ScopesTuple*;
 ScopesTuple ::= <ScopesKey> <ScopesValue>;
 
 //Security Requirement Object

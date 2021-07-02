@@ -5,747 +5,748 @@ aspect Print {
     //Objects
     eq OpenAPIObject.print() {
       String result =
-        "{ \"openapi\": \"" + OpenAPI + "\", " +
-        "\"info\": " + InfoObject.print() + ", ";
+        "{ \"openapi\": \"" + getOpenAPI() + "\", " +
+        "\"info\": " + getInfoObject().print() + ", ";
 
-      if( OpenAPIObject.hasServerObjects() ){
+      if( getNumServerObject() != 0 ){
         result += "\"servers\": [ ";
         for( ServerObject s : getServerObjects() ){
           result += s.print() + ", ";
         }
         result = result.substring(0, result.length() - 2) + " ], ";
       }
-      result += "\"paths\": \"" + PathsObject.print() + ", ";
-      if( OpenAPIObject.hasComponentsObject() ){
-        result += "\"components\": \"" + ComponentsObject.print() + ", ";
+      result += "\"paths\": \"" + getPathsObject().print() + ", ";
+      if( hasComponentsObject() ){
+        result += "\"components\": \"" + getComponentsObject().print() + ", ";
       }
-      if( OpenAPIObject.hasSecurityRequirementObjects() ){
+      if( getNumSecurityRequirementObject() != 0 ){
         result += "\"security\": [ ";
         for( SecurityRequirementObject s : getSecurityRequirementObjects() ){
           result += s.print() + ", ";
         }
         result = result.substring(0, result.length() - 2) + " ], ";
       }
-      if( OpenAPIObject.hasTagObject() ){
-        result += "\"tags\": \"" + TagObject.print() + ", ";
-      }
-      if( OpenAPIObject.hasExternalDocumentationObject() ){
-        result += "\"externalDocs\": \"" + ExternalDocumentationObject.print() + ", ";
+      if( getNumTagObject() != 0 ){
+        result += "\"tags\": [ ";
+        for( TagObject t : getTagObjects() ){
+        result += t.print() + ", ";
+        }
+        result = result.substring(0, result.length() - 2) + " ], ";
+        }
+      if( hasExternalDocumentationObject() ){
+        result += "\"externalDocs\": \"" + getExternalDocumentationObject().print() + ", ";
       }
       result = result.substring(0, result.length() - 2) + " }";
       return result;
     }
     eq InfoObject.print() {
-      String result =
-        "{ \"title\": \"" + Title + "\", ";
+        String result =
+        "{ \"title\": \"" + getTitle() + "\", ";
 
-      if( InfoObject.hasDescription() ){
-        result += "{ \"description\": \"" + Description + "\", ";
-      }
-      if( InfoObject.hasTermsOfService() ){
-        result += "{ \"termsOfService\": \"" + TermsOfService + "\", ";
-      }
-      if( InfoObject.hasContactObject() ){
-        result += "{ \"contact\": \"" + ContactObject.print() + ", ";
-      }
-      if( InfoObject.hasLicenseObject() ){
-        result += "{ \"license\": \"" + LicenseObject.print() + ", ";
-      }
+        if( !getDescription().isEmpty() ){
+        result += "{ \"description\": \"" + getDescription() + "\", ";
+        }
+        if( !getTermsOfService().isEmpty() ){
+        result += "{ \"termsOfService\": \"" + getTermsOfService() + "\", ";
+        }
+        if( hasContactObject() ){
+        result += "{ \"contact\": \"" + getContactObject().print() + ", ";
+        }
+        if( hasLicenseObject() ){
+        result += "{ \"license\": \"" + getLicenseObject().print() + ", ";
+        }
 
-      result += "\"version\": \"" + Version + "\" }";
-      return result;
-    }
+        result += "\"version\": \"" + getVersion() + "\" }";
+        return result;
+        }
     eq ContactObject.print() {
-      String result =
+        String result =
         "{ ";
 
-      if( ContactObject.hasName() ){
-        result += "\"name\": \"" + Name + "\", ";
-      }
-      if( ContactObject.hasUrl() ){
-        result += "\"url\": \"" + Url + "\", ";
-      }
-      if( ContactObject.hasEmail() ){
-        result += "\"email\": \"" + Email + "\", ";
-      }
-      result = result.substring(0, result.length() - 2) + " }";
-      return result;
-    }
+        if( !getName().isEmpty() ){
+        result += "\"name\": \"" + getName() + "\", ";
+        }
+        if( !getUrl().isEmpty() ){
+        result += "\"url\": \"" + getUrl() + "\", ";
+        }
+        if( !getEmail().isEmpty() ){
+        result += "\"email\": \"" + getEmail() + "\", ";
+        }
+        result = result.substring(0, result.length() - 2) + " }";
+        return result;
+        }
     eq LicenseObject.print() {
-      String result =
-        "{ \"name\": \"" + Name + "\"";
+        String result =
+        "{ \"name\": \"" + getName() + "\"";
 
-      if( LicenseObject.hasUrl() ){
-        result +=", \"url\": \"" + Url + "\"";
-      }
-      result += " }";
-      return result;
-    }
+        if( !getUrl().isEmpty() ){
+        result +=", \"url\": \"" + getUrl() + "\"";
+        }
+        result += " }";
+        return result;
+        }
     eq ServerObject.print() {
-      String result =
-        "{ \"url\": \"" + Url + "\", ";
+        String result =
+        "{ \"url\": \"" + getUrl() + "\", ";
 
-      if( ServerObject.hasDescription() ){
-        result += ", \"description\": \"" + Description + "\", ";
-      }
-      if( ServerObject.hasServerVariablesTuples() ){
+        if( !getDescription().isEmpty() ){
+        result += ", \"description\": \"" + getDescription() + "\", ";
+        }
+        if( getNumServerVariablesTuple() != 0 ){
         result += "\"variables\": { ";
         for( ServerVariablesTuple s : getServerVariablesTuples() ){
-          result += s.print() + ", ";
+        result += s.print() + ", ";
         }
         result = result.substring(0, result.length() - 2) + " }, ";
-      }
-      result = result.substring(0, result.length() - 2) + " }";
-      return result;
-    }
+        }
+        result = result.substring(0, result.length() - 2) + " }";
+        return result;
+        }
     eq ServerVariableObject.print() {
-      String result = "{ ";
+        String result = "{ ";
 
-      if( ServerVariableObject.hasEnums() ){
+        if( getNumEnum() != 0 ){
         result += "\"enum\": [ ";
         for( Enum e : getEnums() ){
-          result += "\"" + e + "\"" + ", ";
+        result += "\"" + e + "\"" + ", ";
         }
         result = result.substring(0, result.length() - 2) + " ], ";
-      }
-      result += "\"default\": \"" + Default + "\", ";
-      if( ServerVariableObject.hasDescription() ){
-        result += "\"description\": \"" + Description + "\", ";
-      }
-      result = result.substring(0, result.length() - 2) + " }";
-      return result;
-    }
-    eq ComponentsObject.print(){
-      String result = "{ ";
+        }
+        result += "\"default\": \"" + getDefault() + "\", ";
+        if( !getDescription().isEmpty() ){
+        result += "\"description\": \"" + getDescription() + "\", ";
+        }
+        result = result.substring(0, result.length() - 2) + " }";
+        return result;
+        }
+    eq ComponentsObject.print() {
+        String result = "{ ";
 
-      if( ComponentsObject.hasSchemasTuples() ){
+        if( getNumSchemasTuple() != 0 ){
         result += "\"schemas\": { ";
         for( SchemasTuple t : getSchemasTuples() ){
-          result += t.print() + ", ";
+        result += t.print() + ", ";
         }
         result = result.substring(0, result.length() - 2) + " }, ";
-      }
-      if( ComponentsObject.hasResponsesTuples() ){
+        }
+        if( getNumResponsesTuple() != 0 ){
         result += "\"responses\": { ";
         for( ResponsesTuple t : getResponsesTuples() ){
-          result += t.print() + ", ";
+        result += t.print() + ", ";
         }
         result = result.substring(0, result.length() - 2) + " }, ";
-      }
-      if( ComponentsObject.hasParameterTuples() ){
+        }
+        if( getNumParameterTuple() != 0 ){
         result += "\"parameters\": { ";
         for( ParameterTuple t : getParameterTuples() ){
-          result += t.print() + ", ";
+        result += t.print() + ", ";
         }
         result = result.substring(0, result.length() - 2) + " }, ";
-      }
-      if( ComponentsObject.hasExamplesTuples() ){
+        }
+        if( getNumExamplesTuple() != 0 ){
         result += "\"examples\": { ";
         for( ExamplesTuple t : getExamplesTuples() ){
-          result += t.print() + ", ";
+        result += t.print() + ", ";
         }
         result = result.substring(0, result.length() - 2) + " }, ";
-      }
-      if( ComponentsObject.hasRequestBodiesTuples() ){
+        }
+        if( getNumRequestBodiesTuple() != 0 ){
         result += "\"requestBodies\": { ";
         for( RequestBodiesTuple t : getRequestBodiesTuples() ){
-          result += t.print() + ", ";
+        result += t.print() + ", ";
         }
         result = result.substring(0, result.length() - 2) + " }, ";
-      }
-      if( ComponentsObject.hasHeadersTuples() ){
+        }
+        if( getNumHeadersTuple() != 0 ){
         result += "\"headers\": { ";
         for( HeadersTuple t : getHeadersTuples() ){
-          result += t.print() + ", ";
+        result += t.print() + ", ";
         }
         result = result.substring(0, result.length() - 2) + " }, ";
-      }
-      if( ComponentsObject.hasSecuritySchemesTuples() ){
+        }
+        if( getNumSecuritySchemesTuple() != 0 ){
         result += "\"securitySchemes\": { ";
         for( SecuritySchemesTuple t : getSecuritySchemesTuples() ){
-          result += t.print() + ", ";
+        result += t.print() + ", ";
         }
         result = result.substring(0, result.length() - 2) + " }, " ;
-      }
-      if( ComponentsObject.hasLinksTuples() ){
+        }
+        if( getNumLinksTuple() != 0 ){
         result += "\"links\": { ";
-        for( LinksTuple t : LinksTuples() ){
-          result += t.print() + ", ";
+        for( LinksTuple t : getLinksTuples() ){
+        result += t.print() + ", ";
         }
         result = result.substring(0, result.length() - 2) + " }, ";
-      }
-      if( ComponentsObject.hasCallbacksTuples() ){
+        }
+        if( getNumCallbacksTuple() != 0 ){
         result += "\"callbacks\": { ";
         for( CallbacksTuple t : getCallbacksTuples() ){
-          result += t.print() + ", ";
+        result += t.print() + ", ";
         }
         result = result.substring(0, result.length() - 2) + " }, ";
-      }
-      result = result.substring(0, result.length() - 2) + " }";
-      return result;
-    }
-    eq PathsObject.print() {
-      String result = "{ \"" + Ref + "\": ";
-
-      if( PathsObject.hasPathItemObject() ){
-        result += PathItemObject.print();
-      }
-      result += " }";
-      return result;
-    }
-    eq PathItemObject.print() {
-      String result = "{ ";
-
-      if( PathItemObject.hasSummary() ){
-        result += "\"summary\": \"" + Summary + "\", ";
-      }
-      if( PathItemObject.hasDescription() ){
-        result += "\"description\": \"" + Description + "\", ";
-      }
-      if( PathItemObject.hasGet() ){
-        result += "\"get\": \"" + Get + "\", ";
-      }
-      if( PathItemObject.hasPut() ){
-        result += "\"put\": \"" + Put + "\", ";
-      }
-      if( PathItemObject.hasPost() ){
-        result += "\"post\": \"" + Post + "\", ";
-      }
-      if( PathItemObject.hasDelete() ){
-        result += "\"delete\": \"" + Delete + "\", ";
-      }
-      if( PathItemObject.hasOptions() ){
-        result += "\"options\": \"" + Options + "\", ";
-      }
-      if( PathItemObject.hasHead() ){
-        result += "\"head\": \"" + Head + "\", ";
-      }
-      if( PathItemObject.hasPatch() ){
-        result += "\"patch\": \"" + Patch + "\", ";
-      }
-      if( PathItemObject.hasTrace() ){
-        result += "\"trace\": \"" + Trace + "\", ";
-      }
-      if( PathItemObject.hasParameters() ){
-        result += "\"parameters\": \"" + Parameters + "\", ";
-      }
-      result = result.substring(0, result.length() - 2) + " }";
-      return result;
-    }
-    eq OperationObject.print() {
-      String result = "{ ";
-
-      if( OperationObject.hasTags() ){
-        result += "\"tags\": [ ";
-        for( Tag t : getTags() ){
-          result += "\"" + t + "\"" + ", ";
         }
-        result = result.substring(0, result.length() - 2) + " ], ";
-      }
-      if( OperationObject.hasSummary() ){
-        result += "\"summary\": \"" + Summary + "\", ";
-      }
-      if( OperationObject.hasExternalDocumentationObject() ){
-        result += "\"externalDocs\": \"" + ExternalDocumentationObject + "\", ";
-      }
-      if( OperationObject.hasOperationID() ){
-        result += "\"operationId\": \"" + OperationID + "\", ";
-      }
-      if( OperationObject.hasParameters() ){
+        result = result.substring(0, result.length() - 2) + " }";
+        return result;
+        }
+    eq PathsObject.print() {
+        String result = "{ \"/" + getRef() + "\": " + getPathItemObject() + " }";
+        return result;
+        }
+    eq PathItemObject.print() {
+        String result = "{ ";
+
+        if( !getRef().isEmpty() ){
+        result += "\"$ref\": \"" + getRef() + "\", ";
+        }
+        if( !getSummary().isEmpty() ){
+        result += "\"summary\": \"" + getSummary() + "\", ";
+        }
+        if( !getDescription().isEmpty() ){
+        result += "\"description\": \"" + getDescription() + "\", ";
+        }
+        if( hasGet() ){
+        result += "\"get\": \"" + getGet() + "\", ";
+        }
+        if( hasPut() ){
+        result += "\"put\": \"" + getPut() + "\", ";
+        }
+        if( hasPost() ){
+        result += "\"post\": \"" + getPost() + "\", ";
+        }
+        if( hasDelete() ){
+        result += "\"delete\": \"" + getDelete() + "\", ";
+        }
+        if( hasOptions() ){
+        result += "\"options\": \"" + getOptions() + "\", ";
+        }
+        if( hasHead() ){
+        result += "\"head\": \"" + getHead() + "\", ";
+        }
+        if( hasPatch() ){
+        result += "\"patch\": \"" + getPatch() + "\", ";
+        }
+        if( hasTrace() ){
+        result += "\"trace\": \"" + getTrace() + "\", ";
+        }
+        if( getNumParameter() != 0 ){
         result += "\"parameters\": [ ";
         for( Parameter p : getParameters() ){
-          result += t + ", ";
+        result += p.print() + ", ";
         }
         result = result.substring(0, result.length() - 2) + " ], ";
-      }
-      if( OperationObject.hasRequestBody() ){
-        result += "\"requestBody\": \"" + RequestBody + "\", ";
-      }
-      if( OperationObject.hasResponsesObject() ){
-        result += "\"responses\": " + ResponsesObject + ", ";
-      }
-      if( OperationObject.hasCallbacksTuples() ){
+        }
+        result = result.substring(0, result.length() - 2) + " }";
+        return result;
+        }
+    eq OperationObject.print() {
+        String result = "{ ";
+
+        if( getNumTag() != 0 ){
+        result += "\"tags\": [ ";
+        for( Tag t : getTags() ){
+        result += "\"" + t + "\"" + ", ";
+        }
+        result = result.substring(0, result.length() - 2) + " ], ";
+        }
+        if( !getSummary().isEmpty() ){
+        result += "\"summary\": \"" + getSummary() + "\", ";
+        }
+        if( hasExternalDocumentationObject() ){
+        result += "\"externalDocs\": \"" + getExternalDocumentationObject() + "\", ";
+        }
+        if( !getOperationID().isEmpty() ){
+        result += "\"operationId\": \"" + getOperationID() + "\", ";
+        }
+        if( getNumParameter() != 0 ){
+        result += "\"parameters\": [ ";
+        for( Parameter p : getParameters() ){
+        result += p + ", ";
+        }
+        result = result.substring(0, result.length() - 2) + " ], ";
+        }
+        if( hasRequestBody() ){
+        result += "\"requestBody\": \"" + getRequestBody() + "\", ";
+        }
+        result += "\"responses\": " + getResponsesObject() + ", ";
+        if( getNumCallbacksTuple() != 0 ){
         result += "\"callbacks\": { ";
         for( CallbacksTuple t : getCallbacksTuples() ){
-          result += t.print() + ", ";
+        result += t.print() + ", ";
         }
         result = result.substring(0, result.length() - 2) + " }, ";
-      }
-      if( OperationObject.hasDeprecated() ){
-        result += "\"deprecated\": \"" + Deprecated + "\", ";
-      }
-      if( OperationObject.hasSecurityRequirementObjects() ){
+        }
+        if( hasDeprecatedBoolean() ){
+        result += "\"deprecated\": \"" + getDeprecatedBoolean() + "\", ";
+        }
+        if( getNumSecurityRequirementObject() != 0 ){
         result += "\"security\": [ ";
         for( SecurityRequirementObject s : getSecurityRequirementObjects() ){
-          result += s.print() + ", ";
+        result += s.print() + ", ";
         }
         result = result.substring(0, result.length() - 2) + " ], ";
-      }
-      if( OperationObject.hasServerObjects() ){
+        }
+        if( getNumServerObject() != 0  ){
         result += "\"servers\": [ ";
         for( ServerObject s : getServerObjects() ){
-          result += s.print() + ", ";
+        result += s.print() + ", ";
         }
         result = result.substring(0, result.length() - 2) + " ], ";
-      }
-      result = result.substring(0, result.length() - 2) + " }";
-      return result;
-    }
+        }
+        result = result.substring(0, result.length() - 2) + " }";
+        return result;
+        }
     eq ExternalDocumentationObject.print() {
-      String result = "{ ";
+        String result = "{ ";
 
-      if( ExternalDocumentationObject.hasDescription() ){
-        result += "\"description\": \"" + Description + "\", ";
-      }
-      result += "\"url\": \"" + Url + "\" } ";
-      return result;
-    }
+        if( !getDescription().isEmpty() ){
+        result += "\"description\": \"" + getDescription() + "\", ";
+        }
+        result += "\"url\": \"" + getUrl() + "\" } ";
+        return result;
+        }
     eq ParameterObject.print() {
-      String result = "{ \"name\": \"" + Name + "\", \"in\" : " + In + ", ";
+        String result = "{ \"name\": \"" + getName() + "\", \"in\" : " + getIn() + ", ";
 
-      if( ParameterObject.hasDescription() ){
-        result += "\"description\": \"" + Description + "\", ";
-      }
-      result += "\"required\": \"" + Required + "\", ";
-      if( ParameterObject.hasDeprecated() ){
-        result += "\"deprecated\": " + Deprecated + ", ";
-      }
-      if( ParameterObject.hasAllowEmptyValue() ){
-        result += "\"allowEmptyValue\": " + AllowEmptyValue + ", ";
-      }
-      if( ParameterObject.hasStyle() ){
-        result += "\"style\": \"" + Style + "\", ";
-      }
-      if( ParameterObject.hasExplode() ){
-        result += "\"explode\": " + Explode + ", ";
-      }
-      if( ParameterObject.hasAllowReserved() ){
-        result += "\"allowReserved\": " + AllowReserved + ", ";
-      }
-      if( ParameterObject.hasSchema() ){
-        result += "\"schema\": " + Schema + ", ";
-      }
-      if( ParameterObject.hasExample() ){
-        result += "\"example\": " + Example + ", ";
-      }
-      if( ParameterObject.hasExamplesTuples() ){
+        if( !getDescription().isEmpty() ){
+        result += "\"description\": \"" + getDescription() + "\", ";
+        }
+        result += "\"required\": \"" + getRequired() + "\", ";
+        if( getDeprecatedBoolean() != null ){
+        result += "\"deprecated\": " + getDeprecatedBoolean() + ", ";
+        }
+        if( getAllowEmptyValue() != null){
+        result += "\"allowEmptyValue\": " + getAllowEmptyValue() + ", ";
+        }
+        if( !getStyle().isEmpty() ){
+        result += "\"style\": \"" + getStyle() + "\", ";
+        }
+        if( getExplode() != null ){
+        result += "\"explode\": " + getExplode() + ", ";
+        }
+        if( getAllowReserved() != null ){
+        result += "\"allowReserved\": " + getAllowReserved() + ", ";
+        }
+        if( hasSchema() ){
+        result += "\"schema\": " + getSchema() + ", ";
+        }
+        if( getExplode() != null ){
+        result += "\"example\": " + getExample() + ", ";
+        }
+        if( getNumExamplesTuple() != 0 ){
         result += "\"examples\": { ";
         for( ExamplesTuple e : getExamplesTuples() ){
-          result += e.print() + ", ";
+        result += e.print() + ", ";
         }
         result = result.substring(0, result.length() - 2) + " }, ";
-      }
-      if( ParameterObject.hasContentTuples() ){
+        }
+        if( getNumContentTuple() != 0 ){
         result += "\"content\": { ";
         for( ContentTuple c : getContentTuples() ){
-          result += c.print() + ", ";
+        result += c.print() + ", ";
         }
         result = result.substring(0, result.length() - 2) + " }, ";
-      }
-      result = result.substring(0, result.length() - 2) + " }";
-      return result;
-    }
+        }
+        result = result.substring(0, result.length() - 2) + " }";
+        return result;
+        }
     eq RequestBodyObject.print() {
-      String result = "{ ";
+        String result = "{ ";
 
-      if( RequestBodyObject.hasDescription() ){
-        result += "\"description\" : \"" + Description + "\", ";
-      }
-      if( RequestBodyObject.hasContentTuples() ){
+        if( !getDescription().isEmpty() ){
+        result += "\"description\" : \"" + getDescription() + "\", ";
+        }
+        if( getNumContentTuple() != 0 ){
         result += "\"content\": { ";
         for( ContentTuple c : getContentTuples() ){
-          result += c.print() + ", ";
+        result += c.print() + ", ";
         }
         result = result.substring(0, result.length() - 2) + " }, ";
-      }
-      if( RequestBodyObject.hasRequired() ){
-        result += "\"required\" : " + Required + ", ";
-      }
-      result = result.substring(0, result.length() - 2) + " } ";
-      return result;
-    }
+        }
+        if( getRequired() != null ){
+        result += "\"required\" : " + getRequired() + ", ";
+        }
+        result = result.substring(0, result.length() - 2) + " } ";
+        return result;
+        }
     eq MediaTypeObject.print() {
-      String result = "{ ";
+        String result = "{ ";
 
-      if( MediaTypeObject.hasSchema() ){
-        result += "\"schema\" : " + Schema + ", ";
-      }
-      if( MediaTypeObject.hasExample() ){
-        result += "\"example\" : " + Example + ", ";
-      }
-      if( MediaTypeObject.hasExamplesTuples() ){
+        if( hasSchema() ){
+        result += "\"schema\" : " + getSchema() + ", ";
+        }
+        if( getExample() != null ){
+        result += "\"example\" : " + getExample() + ", ";
+        }
+        if( getNumExamplesTuple() != 0 ){
         result += "\"examples\": { ";
         for( ExamplesTuple t : getExamplesTuples() ){
-          result += t.print() + ", ";
+        result += t.print() + ", ";
         }
         result = result.substring(0, result.length() - 2) + " }, ";
-      }
-      if( MediaTypeObject.hasEncodingTuples() ){
+        }
+        if( getNumEncodingTuple() != 0 ){
         result += "\"encoding\": { ";
         for( EncodingTuple e : getEncodingTuples() ){
-          result += e.print() + ", ";
+        result += e.print() + ", ";
         }
         result = result.substring(0, result.length() - 2) + " }, ";
-      }
-      result = result.substring(0, result.length() - 2) + " } ";
-      return result;
-    }
+        }
+        result = result.substring(0, result.length() - 2) + " } ";
+        return result;
+        }
     eq EncodingObject.print() {
-      String result = "{ ";
+        String result = "{ ";
 
-      if( EncodingObject.hasContentType() ){
-        result += "\"contentType\" : \"" + ContentType + "\", ";
-      }
-      if( EncodingObject.hasHeadersTuples() ){
+        if( !getContentType().isEmpty() ){
+        result += "\"contentType\" : \"" + getContentType() + "\", ";
+        }
+        if( getNumHeadersTuple() != 0 ){
         result += "\"headers\": { ";
         for( HeadersTuple t : getHeadersTuples() ){
-          result += t.print() + ", ";
+        result += t.print() + ", ";
         }
         result = result.substring(0, result.length() - 2) + " }, ";
-      }
-      if( EncodingObject.hasStyle() ){
-        result += "\"style\" : \"" + Style + "\", ";
-      }
-      if( EncodingObject.hasExplode() ){
-        result += "\"explode\" : " + Explode + ", ";
-      }
-      if( EncodingObject.hasAllowReserved() ){
-        result += "\"allowReserved\" : " + AllowReserved + ", ";
-      }
-      result = result.substring(0, result.length() - 2) + " }, ";
-      return result;
-    }
+        }
+        if( !getStyle().isEmpty() ){
+        result += "\"style\" : \"" + getStyle() + "\", ";
+        }
+        if( getExplode() != null ){
+        result += "\"explode\" : " + getExplode() + ", ";
+        }
+        if( getAllowReserved() != null ){
+        result += "\"allowReserved\" : " + getAllowReserved() + ", ";
+        }
+        result = result.substring(0, result.length() - 2) + " }, ";
+        return result;
+        }
     eq ResponsesObject.print() {
-      String result = "{ ";
+        String result = "{ ";
 
-      if( ResponsesObject.hasHTTPStatusCodes() ){
+        if( getNumHTTPStatusCode() != 0 ){
         for( HTTPStatusCode h : getHTTPStatusCodes() ){
-          result += h.print() + ", ";
+        result += h.print() + ", ";
         }
         result = result.substring(0, result.length() - 2);
-      }
-      result = " } ";
-      return result;
-    }
+        }
+        result = " } ";
+        return result;
+        }
     eq ResponseObject.print() {
-      String result = "\"" + Name + "\" : { " ;
+        String result = "\"" + getName() + "\" : { " ;
 
-      if( ResponseObject.hasDescription() ){
-        result += "\"description\" : \"" + Description + "\", ";
-      }
-      if( ResponseObject.hasHeadersTuples() ){
+        if( !getDescription().isEmpty() ){
+        result += "\"description\" : \"" + getDescription() + "\", ";
+        }
+        if( getNumHeadersTuple() != 0 ){
         result += "\"headers\": { ";
         for( HeadersTuple t : getHeadersTuples() ){
-          result += t.print() + ", ";
+        result += t.print() + ", ";
         }
         result = result.substring(0, result.length() - 2) + " }, ";
-      }
-      if( ResponseObject.hasContentTuples() ){
+        }
+        if( getNumContentTuple() != 0 ){
         result += "\"content\": { ";
         for( ContentTuple c : getContentTuples() ){
-          result += c.print() + ", ";
+        result += c.print() + ", ";
         }
         result = result.substring(0, result.length() - 2) + " }, ";
-      }
-      if( ResponseObject.hasLinksTuples() ){
+        }
+        if( getNumLinksTuple() != 0 ){
         result += "\"links\": { ";
-        for( LinksTuple t : LinksTuples() ){
-          result += t.print() + ", ";
+        for( LinksTuple t : getLinksTuples() ){
+        result += t.print() + ", ";
         }
         result = result.substring(0, result.length() - 2) + " }, ";
-      }
-      result = result.substring(0, result.length() - 2) + " } ";
-      return result;
-    }
+        }
+        result = result.substring(0, result.length() - 2) + " } ";
+        return result;
+        }
     eq CallbackObject.print() {
        String result = "{ }";
+       return result;
     }
     eq ExampleObject.print() {
-      String result = "{ ";
+        String result = "{ ";
 
-      if( ExampleObject.hasSummary() ){
-        result += "\"summary\" : \"" + Summary + "\", ";
-      }
-      if( ExampleObject.hasDescription() ){
-        result += "\"description\" : \"" + Description + "\", ";
-      }
-      if( ExampleObject.hasValue() ){
-        result += "\"value\" : " + Value + ", ";
-      }
-      if( ExampleObject.hasExternalValue() ){
-        result += "\"externalValue\" : \"" + ExternalValue + "\", ";
-      }
-      result = result.substring(0, result.length() - 2) + " } ";
-    }
+        if( !getSummary().isEmpty() ){
+        result += "\"summary\" : \"" + getSummary() + "\", ";
+        }
+        if( !getDescription().isEmpty() ){
+        result += "\"description\" : \"" + getDescription() + "\", ";
+        }
+        if( getValue() != null ){
+        result += "\"value\" : " + getValue() + ", ";
+        }
+        if( !getExternalValue().isEmpty() ){
+        result += "\"externalValue\" : \"" + getExternalValue() + "\", ";
+        }
+        result = result.substring(0, result.length() - 2) + " } ";
+        return result;
+        }
     eq LinkObject.print() {
-      String result = "{ ";
+        String result = "{ ";
 
-      if( LinkObject.hasOperationRef() ){
-        result += "\"operationRef\" : \"" + OperationRef + "\", ";
-      }
-      if( LinkObject.hasOperationID() ){
-        result += "\"operationID\" : \"" + OperationID + "\", ";
-      }
-      if( LinkObject.hasLinkParameterTuples() ){
+        if( !getOperationRef().isEmpty() ){
+        result += "\"operationRef\" : \"" + getOperationRef() + "\", ";
+        }
+        if( !getOperationID().isEmpty() ){
+        result += "\"operationID\" : \"" + getOperationID() + "\", ";
+        }
+        if( getNumLinkParameterTuple() != 0 ){
         result += "\"parameters\": { ";
         for( LinkParameterTuple l : getLinkParameterTuples() ){
-          result += l.print() + ", ";
+        result += l.print() + ", ";
         }
         result = result.substring(0, result.length() - 2) + " }, ";
-      }
-      if( LinkObject.hasLinkRequestBody() ){
-        result += "\"requestBody\" : " + LinkRequestBody + ", ";
-      }
-      if( LinkObject.hasDescription() ){
-        result += "\"description\" : \"" + Description + "\", ";
-      }
-      if( LinkObject.hasServerObject() ){
-        result += "\"server\" : \"" + ServerObject + "\", ";
-      }
-      result = result.substring(0, result.length - 2) + " } ";
-      return result;
-    }
+        }
+        if( getLinkRequestBody() != null ){
+        result += "\"requestBody\" : " + getLinkRequestBody() + ", ";
+        }
+        if( !getDescription().isEmpty() ){
+        result += "\"description\" : \"" + getDescription() + "\", ";
+        }
+        if( hasServerObject() ){
+        result += "\"server\" : \"" + getServerObject() + "\", ";
+        }
+        result = result.substring(0, result.length() - 2) + " } ";
+        return result;
+        }
     eq HeaderObject.print() {
-      String result = "{ ";
+        String result = "{ ";
 
-      if( HeaderObject.hasName() ){
-        result += "\"name\": \"" + Name + "\", ";
-      }
-      if( HeaderObject.hasIn() ){
-        result += "\"in\": \"" + In + "\", ";
-      }
-      if( HeaderObject.hasDescription() ){
-        result += "\"description\": \"" + Description + "\", ";
-      }
-      result += "\"required\": \"" + Required + "\", ";
-      if( HeaderObject.hasDeprecated() ){
-        result += "\"deprecated\": " + Deprecated + ", ";
-      }
-      if( HeaderObject.hasAllowEmptyValue() ){
-        result += "\"allowEmptyValue\": " + AllowEmptyValue + ", ";
-      }
-      if( HeaderObject.hasStyle() ){
-        result += "\"style\": \"" + Style + "\", ";
-      }
-      if( HeaderObject.hasExplode() ){
-        result += "\"explode\": " + Explode + ", ";
-      }
-      if( HeaderObject.hasAllowReserved() ){
-        result += "\"allowReserved\": " + AllowReserved + ", ";
-      }
-      if( HeaderObject.hasSchema() ){
-        result += "\"schema\": " + Schema + ", ";
-      }
-      if( HeaderObject.hasExample() ){
-        result += "\"example\": " + Example + ", ";
-      }
-      if( HeaderObject.hasExamplesTuples() ){
+        if( !getName().isEmpty() ){
+        result += "\"name\": \"" + getName() + "\", ";
+        }
+        if( !getIn().isEmpty() ){
+        result += "\"in\": \"" + getIn() + "\", ";
+        }
+        if( !getDescription().isEmpty() ){
+        result += "\"description\": \"" + getDescription() + "\", ";
+        }
+        result += "\"required\": \"" + getRequired() + "\", ";
+        if( getDeprecatedBoolean() != null ){
+        result += "\"deprecated\": " + getDeprecatedBoolean() + ", ";
+        }
+        if( getAllowEmptyValue() != null ){
+        result += "\"allowEmptyValue\": " + getAllowEmptyValue() + ", ";
+        }
+        if( !getStyle().isEmpty() ){
+        result += "\"style\": \"" + getStyle() + "\", ";
+        }
+        if( getExplode() != null ){
+        result += "\"explode\": " + getExplode() + ", ";
+        }
+        if( getAllowReserved() != null ){
+        result += "\"allowReserved\": " + getAllowReserved() + ", ";
+        }
+        if( hasSchema() ){
+        result += "\"schema\": " + getSchema() + ", ";
+        }
+        if( getExample() != null ){
+        result += "\"example\": " + getExample() + ", ";
+        }
+        if( getNumExamplesTuple() != 0 ){
         result += "\"examples\": { ";
         for( ExamplesTuple e : getExamplesTuples() ){
-          result += e.print() + ", ";
+        result += e.print() + ", ";
         }
         result = result.substring(0, result.length() - 2) + " }, ";
-      }
-      if( HeaderObject.hasContentTuples() ){
+        }
+        if( getNumContentTuple() != 0 ){
         result += "\"content\": { ";
         for( ContentTuple c : getContentTuples() ){
-          result += c.print() + ", ";
+        result += c.print() + ", ";
         }
         result = result.substring(0, result.length() - 2) + " }, ";
-      }
-      result = result.substring(0, result.length() - 2) + " }";
-      return result;
-    }
+        }
+        result = result.substring(0, result.length() - 2) + " }";
+        return result;
+        }
     eq TagObject.print() {
-      String result = "{ \"name\" : \"" + Name + "\", " ;
+        String result = "{ \"name\" : \"" + getName() + "\", " ;
 
-      if( TagObject.hasDescription() ){
-        result += "\"description\" : \"" + Description + "\", ";
-      }
-      if( TagObject.hasExternalDocumentationObject() ){
-        result += "\"externalDocs\" : " + ExternalDocumentationObject + ", ";
-      }
-      result = result.substring(0, result.length() - 2) + " }";
-      return result;
-    }
+        if( !getDescription().isEmpty() ){
+        result += "\"description\" : \"" + getDescription() + "\", ";
+        }
+        if( hasExternalDocumentationObject() ){
+        result += "\"externalDocs\" : " + getExternalDocumentationObject() + ", ";
+        }
+        result = result.substring(0, result.length() - 2) + " }";
+        return result;
+        }
     eq SecuritySchemeObject.print() {
-      String result = "{ \"type\" : \"" + SecurityType + "\", " ;
-      if( SecuritySchemeObject.hasDescription() ){
-        result += "\"description\" : \"" + Description + "\", ";
-      }
-      result += "\"name\" : \"" + SecurityName + "\", " +
-                "\"in\" : \"" + SecurityIn + "\", " +
-                "\"scheme\" : \"" + SecurityScheme + "\", ";
-      if( SecuritySchemeObject.hasBearerFormat() ){
-        result += "\"bearerFormat\" : \"" + BearerFormat + "\", ";
-      }
-      result += "\"flows\" : " + Flows + ", " +
-                "\"openIdConnectUrl\" : \"" + OpenIdConnectUrl + "\" }";
-      return result;
-    }
+        String result = "{ \"type\" : \"" + getSecurityType() + "\", " ;
+        if( !getDescription().isEmpty() ){
+        result += "\"description\" : \"" + getDescription() + "\", ";
+        }
+        result += "\"name\" : \"" + getSecurityName() + "\", " +
+        "\"in\" : \"" + getSecurityIn() + "\", " +
+        "\"scheme\" : \"" + getSecurityScheme() + "\", ";
+        if( !getBearerFormat().isEmpty() ){
+        result += "\"bearerFormat\" : \"" + getBearerFormat() + "\", ";
+        }
+        result += "\"flows\" : " + getFlows() + ", " +
+        "\"openIdConnectUrl\" : \"" + getOpenIdConnectUrl() + "\" }";
+        return result;
+        }
     eq OAuthFlowsObject.print() {
-      String result = "{ ";
-      if( OAuthFlowsObject.hasImplicit() ){
-        result += "\"implicit\" : " + Implicit + ", ";
-      }
-      if( OAuthFlowsObject.hasPassword() ){
-        result += "\"password\" : " + Password + ", ";
-      }
-      if( OAuthFlowsObject.hasClientCredentials() ){
-        result += "\"clientCredentials\" : " + ClientCredentials + ", ";
-      }
-      if( OAuthFlowsObject.has() ){
-        result += "\"authorizationCode\" : " + AuthorizationCode + ", ";
-      }
-      result = result.substring(0, result.length() - 2) + " }";
-      return result;
-    }
+        String result = "{ ";
+        if( hasImplicit() ){
+        result += "\"implicit\" : " + getImplicit().print() + ", ";
+        }
+        if( hasPassword() ){
+        result += "\"password\" : " + getPassword().print() + ", ";
+        }
+        if( hasClientCredentials() ){
+        result += "\"clientCredentials\" : " + getClientCredentials().print() + ", ";
+        }
+        if( hasAuthorizationCode() ){
+        result += "\"authorizationCode\" : " + getAuthorizationCode().print() + ", ";
+        }
+        result = result.substring(0, result.length() - 2) + " }";
+        return result;
+        }
     eq OAuthFlowObject.print() {
-      String result = "{ \"authorizationUrl\" : \"" + AuthorizationUrl + "\", \"tokenUrl\" : \"" + TokenUrl + "\", " ;
-      if( OAuthFlowObject.hasRefreshUrl() ){
-        result += "\"refreshUrl\" : \"" + RefreshUrl + "\" ";
-      }
-      if( OAuthFlowObject.hasScopesTuples() ){
+        String result = "{ \"authorizationUrl\" : \"" + getAuthorizationUrl() + "\", \"tokenUrl\" : \"" + getTokenUrl() + "\", " ;
+        if( !getRefreshUrl().isEmpty() ){
+        result += "\"refreshUrl\" : \"" + getRefreshUrl() + "\" ";
+        }
+        if( getNumScopesTuple() != 0 ){
         result += "\"scopes\": { ";
         for( ScopesTuple s : getScopesTuples() ){
-          result += s.print() + ", ";
+        result += s.print() + ", ";
         }
         result = result.substring(0, result.length() - 2) + " }, ";
-      }
-      result = result.substring(0, result.length() - 2) + " }";
-      return result;
-    }
-    eq SecurityRequirementObject.print() {
-      String result = "{ \"" + Name + "\" : [ ";
-      if( SecurityRequirementObject.hasSecurityRequirementValues() ){
-        for( SecurityRequirementValue s : getSecurityRequirementValues() ){
-          result += "\"" + s.print + "\", ";
         }
-        result = result.substring(0, result.length - 2) + " ] }";
-      }
-      return result;
-    }
+        result = result.substring(0, result.length() - 2) + " }";
+        return result;
+        }
+    eq SecurityRequirementObject.print() {
+        String result = "{ \"" + getName() + "\" : [ ";
+        if( getNumSecurityRequirementValue() != 0 ){
+        for( SecurityRequirementValue s : getSecurityRequirementValues() ){
+        result += "\"" + s.print() + "\", ";
+        }
+        result = result.substring(0, result.length() - 2) + " ] }";
+        }
+        return result;
+        }
 
     //Tuples
     eq ServerVariablesTuple.print() {
-      String result = "\"" + Name + "\": " + ServerVariableObject;
-      return result;
-    }
-    eq SchemasTuple.print() {
-      String result = "\"" + Name + "\": ";
-      if( SchemasTuple.hasSchemaObject() ){
-        result += SchemaObject;
-      } else {
-        result += "{ \"$ref\" : \"" + Ref + "\" }";
-      }
-      return result;
-    }
-    eq ResponsesTuple.print() {
-      String result = "\"" + Name + "\": ";
-      if( ResponsesTuple.hasResponseObject() ){
-        result += ResponseObject;
-      } else {
-        result += "{ \"$ref\" : \"" + Ref + "\" }";
-      }
-      return result;
-    }
-    eq ParameterTuple.print() {
-      String result = "\"" + Name + "\": ";
-      if( ParameterTuple.hasParameterObject() ){
-        result += ParameterObject;
-      } else {
-        result += "{ \"$ref\" : \"" + Ref + "\" }";
-      }
-      return result;
-    }
-    eq ExamplesTuple.print() {
-      String result = "\"" + Name + "\": ";
-      if( ExamplesTuple.hasExampleObject() ){
-        result += ExampleObject;
-      } else {
-        result += "{ \"$ref\" : \"" + Ref + "\" }";
-      }
-      return result;
-    }
-    eq RequestBodiesTuple.print() {
-      String result = "\"" + Name + "\": ";
-      if( RequestBodiesTuple.hasRequestBodyObject() ){
-        result += RequestBodyObject;
-      } else {
-        result += "{ \"$ref\" : \"" + Ref + "\" }";
-      }
-      return result;
-    }
-    eq HeadersTuple.print() {
-      String result = "\"" + Name + "\": ";
-      if( HeadersTuple.HeaderObject() ){
-        result += HeaderObject;
-      } else {
-        result += "{ \"$ref\" : \"" + Ref "\" }";
-      }
-      return result;
-    }
-    eq SecuritySchemesTuple.print() {
-      String result = "\"" + Name + "\": ";
-      if( SecuritySchemesTuple.hasSecuritySchemeObject() ){
-        result += SecuritySchemeObject;
-      } else {
-        result += "{ \"$ref\" : \"" + Ref "\" }";
-      }
-      return result;
-    }
-    eq LinksTuple.print() {
-      String result = "\"" + Name + "\": ";
-      if( LinksTuple.hasLinkObject() ){
-        result += LinkObject;
-      } else {
-        result += "{ \"$ref\" : \"" + Ref "\" }";
-      }
-      return result;
-    }
-    eq CallbacksTuple.print() {
-      String result = "\"" + Name + "\": ";
-      if( CallbacksTuple.hasCallbackObject() ){
-        result += CallbackObject;
-      } else {
-        result += "{ \"$ref\" : \"" + Ref "\" }";
-      }
-      return result;
-    }
-    eq ContentTuple.print() {
-      String result = "\"" + Name + "\": ";
-      if( ContentTuple.hasMediaTypeObject() ){
-        result += MediaTypeObject;
-      } else {
-        result += "{ \"$ref\" : \"" + Ref "\" }";
-      }
-      return result;
-    }
-    eq EncodingTuple.print() {
-      String result = "\"" + Name + "\": ";
-      if( EncodingTuple.hasEncodingObject() ){
-        result += EncodingObject;
-      } else {
-        result += "{ \"$ref\" : \"" + Ref "\" }";
-      }
-      return result;
-    }
+        String result = "\"" + getName() + "\": " + getServerVariableObject();
+        return result;
+        }
+    eq SchemaObjectTuple.print() {
+        String result = "\"" + getName() + "\": " + getSchemaObject();
+        return result;
+        }
+        eq SchemaReferenceTuple.print() {
+        String result = "\"" + getName() + "\" : ";
+        result += "{ \"$ref\" : \"" + getRef() + "\" }";
+        return result;
+        }
+    eq ResponseObjectTuple.print() {
+        String result = "\"" + getName() + "\": " + getResponseObject();
+        return result;
+        }
+        eq ResponseReferenceTuple.print() {
+        String result = "\"" + getName() + "\": ";
+        result += "{ \"$ref\" : \"" + getRef() + "\" }";
+        return result;
+        }
+    eq ParameterObjectTuple.print() {
+        String result = "\"" + getName() + "\": " + getParameterObject();
+        return result;
+        }
+        eq ParameterReferenceTuple.print() {
+        String result = "\"" + getName() + "\": ";
+        result += "{ \"$ref\" : \"" + getRef() + "\" }";
+        return result;
+        }
+    eq ExampleObjectTuple.print() {
+        String result = "\"" + getName() + "\": " + getExampleObject();
+        return result;
+        }
+        eq ExampleReferenceTuple.print() {
+        String result = "\"" + getName() + "\": ";
+        result += "{ \"$ref\" : \"" + getRef() + "\" }";
+        return result;
+        }
+    eq RequestBodyObjectTuple.print() {
+        String result = "\"" + getName() + "\" : " + getRequestBodyObject();
+        return result;
+        }
+        eq RequestBodyReferenceTuple.print() {
+        String result = "\"" + getName() + "\": ";
+        result += "{ \"$ref\" : \"" + getRef() + "\" }";
+        return result;
+        }
+    eq HeaderObjectTuple.print() {
+        String result = "\"" + getName() + "\": " + getHeaderObject();
+        return result;
+        }
+        eq HeaderReferenceTuple.print() {
+        String result = "\"" + getName() + "\": ";
+        result += "{ \"$ref\" : \"" + getRef() + "\" }";
+        return result;
+        }
+    eq SecuritySchemeObjectTuple.print() {
+        String result = "\"" + getName() + "\": " + getSecuritySchemeObject();
+        return result;
+        }
+        eq SecuritySchemeReferenceTuple.print() {
+        String result = "\"" + getName() + "\": ";
+        result += "{ \"$ref\" : \"" + getRef() + "\" }";
+        return result;
+        }
+    eq LinkObjectTuple.print() {
+        String result = "\"" + getName() + "\": " + getLinkObject();
+        return result;
+        }
+    eq LinkReferenceTuple.print() {
+        String result = "\"" + getName() + "\": ";
+        result += "{ \"$ref\" : \"" + getRef() + "\" }";
+        return result;
+        }
+    eq CallbackObjectTuple.print() {
+        String result = "\"" + getName() + "\": " + getCallbackObject();
+        return result;
+        }
+        eq CallbackReferenceTuple.print() {
+        String result = "\"" + getName() + "\": ";
+        result += "{ \"$ref\" : \"" + getRef() + "\" }";
+        return result;
+        }
+    eq ContentObjectTuple.print() {
+        String result = "\"" + getName() + "\": " + getMediaTypeObject();
+        return result;
+        }
+        eq ContentReferenceTuple.print() {
+        String result = "\"" + getName() + "\": ";
+        result += "{ \"$ref\" : \"" + getRef() + "\" }";
+        return result;
+        }
+    eq EncodingObjectTuple.print() {
+        String result = "\"" + getName() + "\": " + getEncodingObject();
+        return result;
+        }
+        eq EncodingReferenceTuple.print() {
+        String result = "\"" + getName() + "\": ";
+        result += "{ \"$ref\" : \"" + getRef() + "\" }";
+        return result;
+        }
     eq LinkParameterTuple.print() {
-      String result = "\"" + LinkParameterKey + "\": ";
-      if( LinkParameterValue instanceof String ){
-        result += "\"" + LinkParameterValue + "\"";
-      } else {
-        result += LinkParameterValue;
-      }
-      return result;
-    }
+        String result = "\"" + getLinkParameterKey() + "\": ";
+        if( getLinkParameterValue() instanceof String ){
+        result += "\"" + getLinkParameterValue() + "\"";
+        } else {
+        result += getLinkParameterValue();
+        }
+        return result;
+        }
     eq ScopesTuple.print() {
-      String result = "\"" + ScopesKey + "\": ";
-      if( ScopesValue instanceof String ){
-        result += "\"" + ScopesValue + "\"";
-      } else {
-        result += ScopesValue;
-      }
-      return result;
-    }
+        String result = "\"" + getScopesKey() + "\": \"" + getScopesValue() + "\"";
+        return result;
+        }
 }

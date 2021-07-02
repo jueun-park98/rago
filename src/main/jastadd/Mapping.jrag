@@ -1,3 +1,4 @@
+/*
 aspect Mapping {
 
     //ServerVariablesTuple in ServerObject
@@ -143,4 +144,4 @@ aspect Mapping {
       return null;
     }
 
-}
+}*/
