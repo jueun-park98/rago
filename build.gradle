@@ -6,7 +6,7 @@ apply plugin: 'jastadd'
 apply plugin: 'application'
 apply plugin: 'idea'
 
-mainClassName = 'de.tudresden.inf.st.most.ExerciseMain'
+mainClassName = 'de.tudresden.inf.st.openapi'
 
 sourceCompatibility = 1.8
 
@@ -34,7 +34,7 @@ jar {
   manifest {
     attributes(
       'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
-      'Main-Class': 'de.tudresden.inf.st.most.ExerciseMain'
+      'Main-Class': 'de.tudresden.inf.st.openapi'
     )
   }
 }
@@ -55,7 +55,7 @@ jastadd {
     modules {
 
         //noinspection GroovyAssignabilityCheck
-        module("expressions") {
+        module("openapispecification") {
 
             java {
                 basedir "src/main/java/"
@@ -80,9 +80,9 @@ jastadd {
         }
     }
 
-    module = "expressions"
+    module = "openapispecification"
 
-    astPackage = 'de.tudresden.inf.st.most.jastadd.ast'
+    astPackage = 'de.tudresden.inf.st.openapi.ast'
     genDir = 'src/gen/java'
 
     buildInfoDir = 'src/gen-res'

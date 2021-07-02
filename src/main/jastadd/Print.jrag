@@ -165,7 +165,7 @@ aspect Print {
         for( SecuritySchemesTuple t : getSecuritySchemesTuples() ){
           result += t.print() + ", ";
         }
-        result = result.substring(0, result.length() - 2) + " }", ;
+        result = result.substring(0, result.length() - 2) + " }, " ;
       }
       if( ComponentsObject.hasLinksTuples() ){
         result += "\"links\": { ";
@@ -603,7 +603,7 @@ aspect Print {
     eq OAuthFlowObject.print() {
       String result = "{ \"authorizationUrl\" : \"" + AuthorizationUrl + "\", \"tokenUrl\" : \"" + TokenUrl + "\", " ;
       if( OAuthFlowObject.hasRefreshUrl() ){
-        result += "\"refreshUrl\" : \"" + RefreshUrl + "\, ";
+        result += "\"refreshUrl\" : \"" + RefreshUrl + "\" ";
       }
       if( OAuthFlowObject.hasScopesTuples() ){
         result += "\"scopes\": { ";
@@ -636,7 +636,7 @@ aspect Print {
       if( SchemasTuple.hasSchemaObject() ){
         result += SchemaObject;
       } else {
-        result += "{ \"$ref\" : \"" + Ref "\" }";
+        result += "{ \"$ref\" : \"" + Ref + "\" }";
       }
       return result;
     }
@@ -645,7 +645,7 @@ aspect Print {
       if( ResponsesTuple.hasResponseObject() ){
         result += ResponseObject;
       } else {
-        result += "{ \"$ref\" : \"" + Ref "\" }";
+        result += "{ \"$ref\" : \"" + Ref + "\" }";
       }
       return result;
     }
@@ -654,7 +654,7 @@ aspect Print {
       if( ParameterTuple.hasParameterObject() ){
         result += ParameterObject;
       } else {
-        result += "{ \"$ref\" : \"" + Ref "\" }";
+        result += "{ \"$ref\" : \"" + Ref + "\" }";
       }
       return result;
     }
@@ -663,7 +663,7 @@ aspect Print {
       if( ExamplesTuple.hasExampleObject() ){
         result += ExampleObject;
       } else {
-        result += "{ \"$ref\" : \"" + Ref "\" }";
+        result += "{ \"$ref\" : \"" + Ref + "\" }";
       }
       return result;
     }
@@ -672,7 +672,7 @@ aspect Print {
       if( RequestBodiesTuple.hasRequestBodyObject() ){
         result += RequestBodyObject;
       } else {
-        result += "{ \"$ref\" : \"" + Ref "\" }";
+        result += "{ \"$ref\" : \"" + Ref + "\" }";
       }
       return result;
     }
