@@ -65,16 +65,16 @@ jastadd {
             jastadd {
                 basedir "src/main/jastadd/"
                 include "**/*.ast"
-                include "**/*.jadd"
+                //include "**/*.jadd"
                 include "**/*.jrag"
             }
 
             scanner {
-                include "src/main/jastadd/OpenAPISpecification.flex"
+                //include "src/main/jastadd/OpenAPISpecification.flex"
             }
 
             parser {
-                include "src/main/jastadd/OpenAPISpecification.parser"
+               //include "src/main/jastadd/OpenAPISpecification.parser"
             }
 
         }
