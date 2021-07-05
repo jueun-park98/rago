@@ -24,7 +24,7 @@ public class OpenAPIMain {
 
         System.out.println("Loading expression DSL file '" + fileName + "'.");
         FileReader reader = new FileReader(file);
-        return (OpenAPIObject) parser.parse(scanner);
+        return (OpenAPIObject) null; // ToDo
     }
 
     public static void main(String[] args) throws IOException {

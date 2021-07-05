@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.openapi4j</groupId>
+    <artifactId>openapi-parser</artifactId>
+    <version>1.0.7</version>
+    <name>openapi-parser</name>
+    <description>openapi4j schema parser &amp; validator</description>
+    <url>https://github.com/openapi4j/openapi4j</url>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <id>llfbandit</id>
+            <name>Rémy NOËL</name>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:git:git://github.com:openapi4j/openapi4j.git</connection>
+        <developerConnection>scm:git:ssh://@github.com:openapi4j/openapi4j.git</developerConnection>
+        <url>https://github.com/openapi4j/openapi4j</url>
+    </scm>
+    <dependencies>
+        <dependency>
+            <groupId>org.openapi4j</groupId>
+            <artifactId>openapi-core</artifactId>
+            <version>1.0.7</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+</project>
