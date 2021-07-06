@@ -15,8 +15,8 @@ import java.util.ArrayList;
 
 public class OpenAPIMain {
 
-    public static OpenAPIObject load(String fileName) throws IOException, ResolutionException, ValidationException {
-        fileName = "api-with-examples.json";
+    /** saving json-file with the openapi4j-parser in OpenAPIObject from RAG **/
+    public static OpenAPIObject setJSONinOpenAPIObj(String fileName) throws IOException, ResolutionException, ValidationException {
         URL expUrl = OpenAPIMain.class.getClassLoader().getResource(fileName);
         File file = null;
         if (expUrl != null) {
@@ -35,10 +35,16 @@ public class OpenAPIMain {
         return (OpenAPIObject) null; // ToDo
     }
 
+    /** Result of Print.jrag in String will be saved in json-format **/
+    public void save(OpenAPIObject openAPIObject) throws IOException, ResolutionException, ValidationException {
+
+    }
+
+    /** main-method, calls the set of methods to test an OpenAPI-Generator with JastAdd **/
     public static void main(String[] args) throws IOException, ResolutionException, ValidationException {
         OpenAPIObject openApi;
-//
         String fileName = "api-with-examples.json";
+        /*
         URL expUrl = OpenAPIMain.class.getClassLoader().getResource(fileName);
         File file = null;
         if (expUrl != null) {
@@ -52,17 +58,15 @@ public class OpenAPIMain {
 
         System.out.println("Loading expression DSL file '" + fileName + "'.");
         FileReader reader = new FileReader(file);
-        OpenApi3 api = new OpenApi3Parser().parse(expUrl, new ArrayList<>(), false);
+        OpenApi3 api = new OpenApi3Parser().parse(expUrl, new ArrayList<>(), true);
         System.out.println(api.toString());
-//
+        */
         //String fileName = "api-with-examples.json";
 
         if (args.length > 0) {
             fileName = args[0];
         }
 
-        //openApi = load(fileName);
-        //System.out.println(openApi.print());
     }
 
 }
