@@ -1,0 +1,8 @@
+remote_theme: pmarsceill/just-the-docs
+
+search_enabled: true
+heading_anchors: true
+
+aux_links:
+  "GitHub repository":
+    - "//github.com/openapi4j/openapi4j"
