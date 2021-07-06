@@ -2,7 +2,7 @@
 package de.tudresden.inf.st.openapi.ast;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/Documents/gitJastadd/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:78
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:78
  * @astdecl Tag : ASTNode ::= <Tag:String>;
  * @production Tag : {@link ASTNode} ::= <span class="component">&lt;Tag:String&gt;</span>;
 

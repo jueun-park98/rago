@@ -2,7 +2,7 @@
 package de.tudresden.inf.st.openapi.ast;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/Documents/gitJastadd/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:5
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:5
  * @astdecl ComponentsObject : ASTNode ::= SchemasTuple* ResponsesTuple* ParameterTuple* ExamplesTuple* RequestBodiesTuple* HeadersTuple* SecuritySchemesTuple* LinksTuple* CallbacksTuple*;
  * @production ComponentsObject : {@link ASTNode} ::= <span class="component">{@link SchemasTuple}*</span> <span class="component">{@link ResponsesTuple}*</span> <span class="component">{@link ParameterTuple}*</span> <span class="component">{@link ExamplesTuple}*</span> <span class="component">{@link RequestBodiesTuple}*</span> <span class="component">{@link HeadersTuple}*</span> <span class="component">{@link SecuritySchemesTuple}*</span> <span class="component">{@link LinksTuple}*</span> <span class="component">{@link CallbacksTuple}*</span>;
 
@@ -1153,10 +1153,10 @@ protected boolean print_visited = false;
   /**
    * @attribute syn
    * @aspect Print
-   * @declaredat /Users/jueunpark/Documents/gitJastadd/bachelor-thesis-jastadd/src/main/jastadd/Print.jrag:2
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Print", declaredAt="/Users/jueunpark/Documents/gitJastadd/bachelor-thesis-jastadd/src/main/jastadd/Print.jrag:2")
+  @ASTNodeAnnotation.Source(aspect="Print", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2")
   public String print() {
     if (print_visited) {
       throw new RuntimeException("Circular definition of attribute ASTNode.print().");

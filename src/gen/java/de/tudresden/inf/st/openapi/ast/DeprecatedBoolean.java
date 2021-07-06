@@ -2,7 +2,7 @@
 package de.tudresden.inf.st.openapi.ast;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/Documents/gitJastadd/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:82
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:82
  * @astdecl DeprecatedBoolean : ASTNode ::= <DeprecatedBoolean:Object>;
  * @production DeprecatedBoolean : {@link ASTNode} ::= <span class="component">&lt;DeprecatedBoolean:Object&gt;</span>;
 
