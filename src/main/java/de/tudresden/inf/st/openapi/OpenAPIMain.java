@@ -40,7 +40,7 @@ public class OpenAPIMain {
 
     }
 
-    /** main-method, calls the set of methods to test an OpenAPI-Generator with JastAdd **/
+    /** main-method, calls the set of methods to test the OpenAPI-Generator with JastAdd **/
     public static void main(String[] args) throws IOException, ResolutionException, ValidationException {
         OpenAPIObject openApi;
         String fileName = "api-with-examples.json";
