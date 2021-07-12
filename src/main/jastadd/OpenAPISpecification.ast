@@ -12,13 +12,13 @@ ContactObject ::= <Name> <Url> <Email>;
 LicenseObject ::= <Name> <Url>;
 
 //Contact Object
-//ContactObject ::= <Name:Object> <Url:Object> <Email:Object>;
+//ContactObject ::= <Name> <Url> <Email>;
 
 //License Object
-//LicenseObject ::= <Name> <Url:Object>;
+//LicenseObject ::= <Name> <Url>;
 
 //Server Object
-//ServerObject ::= <Url> <Description:Object> ServerVariablesTuple*;
+//ServerObject ::= <Url> <Description> ServerVariablesTuple*;
 ServerVariablesTuple ::= <Name> ServerVariableObject;
 
 //Server Variable Object
