@@ -204,8 +204,8 @@ public class OpenAPIMain {
         System.out.println(api.toString());
         */
         //String fileName = "api-with-examples.json";
-        openApi = parseJSON(fileName);
-        System.out.println(openApi.print());
+        //openApi = parseJSON(fileName);
+        //System.out.println(openApi.print());
 
         if (args.length > 0) {
             fileName = args[0];
@@ -355,6 +355,56 @@ public class OpenAPIMain {
 
     public OperationObject parseOperation(Operation operation){
         OperationObject operationObject = new OperationObject();
+        if( !operation.getTags().isEmpty() ){
+            for(String t : operation.getTags()) {
+                de.tudresden.inf.st.openapi.ast.Tag tag = new de.tudresden.inf.st.openapi.ast.Tag();
+                tag.setTag(t);
+                operationObject.addTag(tag);
+            }
+        }
+        if( !operation.getSummary().isEmpty() )
+            operationObject.setSummary(operation.getSummary());
+        if( !operation.getDescription().isEmpty() )
+            operationObject.setDescription( operation.getDescription() );
+        if( operation.getExternalDocs() != null )
+            operationObject.setExternalDocumentationObject( this.parseExternalDocs(operation.getExternalDocs()) );
+        if( !operation.getOperationId().isEmpty() )
+            operationObject.setOperationID( operation.getOperationId() );
+        if( !operation.getParameters().isEmpty() ){
+            for( Parameter p : operation.getParameters() )
+                operationObject.addParam(parseParameter(p));
+        }
+        if( operation.getRequestBody() != null )
+            operationObject.setRequestBody( this.parseRequestBody( operation.getRequestBody() ) );
+        if( !operation.getResponses().isEmpty() ){
+            ResponsesObject responsesObject = new ResponsesObject();
+            for( String key : operation.getResponses().keySet()){
+                ResponseObject responseObject = new ResponseObject();
+                responseObject = this.parseResponse(operation.getResponse(key));
+                responseObject.setName(key);
+                responsesObject.addHTTPStatusCode(responseObject);
+            }
+            operationObject.setResponsesObject(responsesObject);
+        }
+        if( !operation.getCallbacks().isEmpty() ){
+            CallbackObjectTuple callbackObjectTuple = new CallbackObjectTuple();
+            for( String key : operation.getCallbacks().keySet() ){
+                callbackObjectTuple.setName(key);
+                callbackObjectTuple.setCallbackObject(this.parseCallback(operation.getCallback(key)));
+                operationObject.addCallbacksTuple(callbackObjectTuple);
+            }
+        }
+        DeprecatedBoolean deprecatedBoolean = new DeprecatedBoolean();
+        deprecatedBoolean.setDeprecatedBoolean(operation.getDeprecated());
+        operationObject.setDeprecatedBoolean(deprecatedBoolean);
+        if( !operation.getSecurityRequirements().isEmpty() ){
+            for( SecurityRequirement sr : operation.getSecurityRequirements() )
+                operationObject.addSecurityRequirementObject(this.parseSecurityRequirement(sr));
+        }
+        if( !operation.getServers().isEmpty() ){
+            for( Server s : operation.getServers() )
+                operationObject.addServerObject(this.parseServer(s));
+        }
 
         return operationObject;
     }

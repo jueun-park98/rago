@@ -901,9 +901,9 @@ protected boolean print_visited = false;
             if( hasTrace() ){
             result += "\"trace\": \"" + getTrace() + "\", ";
             }
-            if( getNumParameter() != 0 ){
+            if( getNumParam() != 0 ){
             result += "\"parameters\": [ ";
-            for( Parameter p : getParameters() ){
+            for( Param p : getParams() ){
             result += p.print() + ", ";
             }
             result = result.substring(0, result.length() - 2) + " ], ";
