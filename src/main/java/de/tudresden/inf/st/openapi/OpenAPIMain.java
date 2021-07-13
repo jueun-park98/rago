@@ -1,10 +1,13 @@
 package de.tudresden.inf.st.openapi;
 
 import de.tudresden.inf.st.openapi.ast.*;
+import de.tudresden.inf.st.openapi.ast.Enum;
 import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.OpenApi3Parser;
 import org.openapi4j.parser.model.v3.*;
+import org.openapi4j.parser.model.v3.Parameter;
+import org.openapi4j.parser.model.v3.RequestBody;
 import org.openapi4j.parser.model.v3.Tag;
 
 import java.io.File;
@@ -80,10 +83,9 @@ public class OpenAPIMain {
         /** Components Object **/
 
         /** Paths Object with usage of Path Item Object **/
-        Iterator<String> pathKeys = api.getPaths().keySet().iterator();
-        while( pathKeys.hasNext() ){
+        for (String s : api.getPaths().keySet()) {
             PathItemObject pathItem = new PathItemObject();
-            String key = pathKeys.next();
+            String key = s;
             openapi.addPathsObject(new PathsObject(key, new PathItemObject()));
         }
 
@@ -211,4 +213,239 @@ public class OpenAPIMain {
 
     }
 
+    public InfoObject parseInfo(Info info) {
+        InfoObject infoObject = new InfoObject();
+        infoObject.setTitle( info.getTitle() );
+        infoObject.setVersion( info.getVersion() );
+        if( !info.getDescription().isEmpty() )
+            infoObject.setDescription( info.getDescription() );
+        if( !info.getTermsOfService().isEmpty() )
+            infoObject.setDescription( info.getTermsOfService() );
+        if( info.getContact() != null )
+            infoObject.setContactObject( this.parseContact(info.getContact()) );
+        if( info.getLicense() != null )
+            infoObject.setLicenseObject( this.parseLicense(info.getLicense()) );
+
+        return infoObject;
+    }
+
+    public ContactObject parseContact(Contact contact){
+        ContactObject contactObject = new ContactObject();
+        if( !contact.getName().isEmpty() )
+            contactObject.setName( contact.getName() );
+        if( !contact.getUrl().isEmpty() )
+            contactObject.setUrl( contact.getUrl() );
+        if( !contact.getEmail().isEmpty() )
+            contactObject.setEmail( contact.getEmail() );
+
+        return contactObject;
+    }
+
+    public LicenseObject parseLicense(License license){
+        LicenseObject licenseObject = new LicenseObject();
+        if( !license.getName().isEmpty() )
+            licenseObject.setName( license.getName() );
+        if( !license.getUrl().isEmpty() )
+            licenseObject.setUrl( license.getUrl() );
+
+        return licenseObject;
+    }
+
+    public ServerObject parseServer(Server server){
+        ServerObject serverObject = new ServerObject();
+        serverObject.setUrl( server.getUrl() );
+        if( !server.getDescription().isEmpty() )
+            serverObject.setDescription( server.getDescription() );
+        if( !server.getVariables().isEmpty() ){
+            for (String key : server.getVariables().keySet())
+                serverObject.addServerVariablesTuple(new ServerVariablesTuple(key, this.parseServerVariable(server.getVariable(key))));
+        }
+
+        return serverObject;
+    }
+
+    public ServerVariableObject parseServerVariable(ServerVariable serverVariable){
+        ServerVariableObject serverVariableObject = new ServerVariableObject();
+        serverVariableObject.setDefault( serverVariable.getDefault() );
+        if( !serverVariable.getDescription().isEmpty() )
+            serverVariableObject.setDescription( serverVariable.getDescription() );
+        if( !serverVariable.getEnums().isEmpty() ){
+            for( String e : serverVariable.getEnums() )
+                serverVariableObject.addEnum(new Enum(e));
+        }
+
+        return serverVariableObject;
+    }
+
+    public ComponentsObject parseComponents(Components components){
+        ComponentsObject componentsObject = new ComponentsObject();
+
+        return componentsObject;
+    }
+
+    public PathsObject parsePaths(OpenApi3 api3){
+        PathsObject pathsObject = new PathsObject();
+        for ( String key : api3.getPaths().keySet() ){
+            pathsObject.setRef( key );
+            pathsObject.setPathItemObject( this.parsePathItem(api3.getPath(key)) );
+        }
+
+        return pathsObject;
+    }
+
+    public PathItemObject parsePathItem(Path path){
+        PathItemObject pathItemObject = new PathItemObject();
+        if( !path.getRef().isEmpty() )
+            pathItemObject.setRef( path.getRef() );
+        if( !path.getSummary().isEmpty() )
+            pathItemObject.setSummary( path.getSummary() );
+        if( !path.getDescription().isEmpty() )
+            pathItemObject.setDescription( path.getDescription() );
+        if( path.getGet() != null ){
+            Get get = new Get();
+            get.setOperationObject( parseOperation( path.getGet() ) );
+            pathItemObject.setGet(get);
+        }
+        if( path.getPut() != null ){
+            Put put = new Put();
+            put.setOperationObject( parseOperation( path.getPut() ) );
+            pathItemObject.setPut(put);
+        }
+        if( path.getPost() != null ){
+            Post post = new Post();
+            post.setOperationObject( parseOperation( path.getPost() ) );
+            pathItemObject.setPost(post);
+        }
+        if( path.getDelete() != null ){
+            Delete delete = new Delete();
+            delete.setOperationObject( parseOperation( path.getDelete() ) );
+            pathItemObject.setDelete(delete);
+        }
+        if( path.getOptions() != null ){
+            Options options = new Options();
+            options.setOperationObject( parseOperation( path.getOptions() ) );
+            pathItemObject.setOptions(options);
+        }
+        if( path.getHead() != null ){
+            Head head = new Head();
+            head.setOperationObject( parseOperation( path.getHead() ) );
+            pathItemObject.setHead(head);
+        }
+        if( path.getPatch() != null ){
+            Patch patch = new Patch();
+            patch.setOperationObject( parseOperation( path.getPatch() ) );
+            pathItemObject.setPatch(patch);
+        }
+        if( path.getTrace() != null ){
+            Trace trace = new Trace();
+            trace.setOperationObject( parseOperation( path.getTrace() ) );
+            pathItemObject.setTrace(trace);
+        }
+        if( !path.getServers().isEmpty() ){
+            for(Server s : path.getServers())
+                pathItemObject.addServerObject(parseServer(s));
+        }
+        if( !path.getParameters().isEmpty() ){
+            for(Parameter p : path.getParameters())
+                pathItemObject.addParam(parseParameter(p));
+        }
+
+        return pathItemObject;
+    }
+
+    public OperationObject parseOperation(Operation operation){
+        OperationObject operationObject = new OperationObject();
+
+        return operationObject;
+    }
+
+    public ExternalDocumentationObject parseExternalDocs(ExternalDocs externalDocs){
+        ExternalDocumentationObject externalDocumentationObject = new ExternalDocumentationObject();
+
+        return externalDocumentationObject;
+    }
+
+    public ParameterObject parseParameter(Parameter parameter){
+        ParameterObject parameterObject = new ParameterObject();
+
+        return parameterObject;
+    }
+
+    public RequestBodyObject parseRequestBody(RequestBody requestBody){
+        RequestBodyObject requestBodyObject = new RequestBodyObject();
+
+        return requestBodyObject;
+    }
+
+    public MediaTypeObject parseMediaType(MediaType mediaType){
+        MediaTypeObject mediaTypeObject = new MediaTypeObject();
+
+        return mediaTypeObject;
+    }
+
+    public EncodingObject parseEncoding(EncodingProperty encodingProperty){
+        EncodingObject encodingObject = new EncodingObject();
+
+        return encodingObject;
+    }
+
+    public ResponseObject parseResponse(Response response){
+        ResponseObject responseObject = new ResponseObject();
+
+        return responseObject;
+    }
+
+    public CallbackObject parseCallback(Callback callback){
+        CallbackObject callbackObject = new CallbackObject();
+
+        return callbackObject;
+    }
+
+    public ExampleObject parseExample(Example example){
+        ExampleObject exampleObject = new ExampleObject();
+
+        return exampleObject;
+    }
+
+    public LinkObject parseLink(Link link){
+        LinkObject linkObject = new LinkObject();
+
+        return linkObject;
+    }
+
+    public HeaderObject parseHeader(Header header){
+        HeaderObject headerObject = new HeaderObject();
+
+        return headerObject;
+    }
+
+    public TagObject parseTag(Tag tag){
+        TagObject tagObject = new TagObject();
+
+        return tagObject;
+    }
+
+    public SecuritySchemeObject parseSecurityScheme(SecurityScheme securityScheme){
+        SecuritySchemeObject securitySchemeObject = new SecuritySchemeObject();
+
+        return securitySchemeObject;
+    }
+
+    public OAuthFlowsObject parseOAuthFlows(OAuthFlows oAuthFlows){
+        OAuthFlowsObject oAuthFlowsObject = new OAuthFlowsObject();
+
+        return oAuthFlowsObject;
+    }
+
+    public OAuthFlowObject parseOAuthFlow(OAuthFlow oAuthFlow){
+        OAuthFlowObject oAuthFlowObject = new OAuthFlowObject();
+
+        return oAuthFlowObject;
+    }
+
+    public SecurityRequirementObject parseSecurityRequirement(SecurityRequirement securityRequirement){
+        SecurityRequirementObject securityRequirementObject = new SecurityRequirementObject();
+
+        return securityRequirementObject;
+    }
 }

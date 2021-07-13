@@ -3,15 +3,15 @@ package de.tudresden.inf.st.openapi.ast;
 /**
  * @ast node
  * @declaredat /Users/jueunpark/Documents/gitJastadd/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:72
- * @astdecl Parameter : ASTNode;
- * @production Parameter : {@link ASTNode};
+ * @astdecl Param : ASTNode;
+ * @production Param : {@link ASTNode};
 
  */
-public abstract class Parameter extends ASTNode<ASTNode> implements Cloneable {
+public abstract class Param extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @declaredat ASTNode:1
    */
-  public Parameter() {
+  public Param() {
     super();
   }
   /**
@@ -51,8 +51,8 @@ public abstract class Parameter extends ASTNode<ASTNode> implements Cloneable {
   /** @apilevel internal 
    * @declaredat ASTNode:31
    */
-  public Parameter clone() throws CloneNotSupportedException {
-    Parameter node = (Parameter) super.clone();
+  public Param clone() throws CloneNotSupportedException {
+    Param node = (Param) super.clone();
     return node;
   }
   /**
@@ -64,7 +64,7 @@ public abstract class Parameter extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:42
    */
   @Deprecated
-  public abstract Parameter fullCopy();
+  public abstract Param fullCopy();
   /**
    * Create a deep copy of the AST subtree at this node.
    * The copy is dangling, i.e. has no parent.
@@ -72,7 +72,7 @@ public abstract class Parameter extends ASTNode<ASTNode> implements Cloneable {
    * @apilevel low-level
    * @declaredat ASTNode:50
    */
-  public abstract Parameter treeCopyNoTransform();
+  public abstract Param treeCopyNoTransform();
   /**
    * Create a deep copy of the AST subtree at this node.
    * The subtree of this node is traversed to trigger rewrites before copy.
@@ -81,7 +81,7 @@ public abstract class Parameter extends ASTNode<ASTNode> implements Cloneable {
    * @apilevel low-level
    * @declaredat ASTNode:58
    */
-  public abstract Parameter treeCopy();
+  public abstract Param treeCopy();
   /** @apilevel internal */
   public ASTNode rewriteTo() {
     return super.rewriteTo();

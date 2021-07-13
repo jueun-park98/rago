@@ -57,7 +57,7 @@ CallbackReferenceTuple:CallbacksTuple ::= <Name> <Ref>;
 
 //Paths Object
 //PathsObject ::= <Ref> PathItemObject;
-PathItemObject ::= <Ref> <Summary> <Description> [Get] [Put] [Post] [Delete] [Options] [Head] [Patch] [Trace] ServerObject* Parameter*;
+PathItemObject ::= <Ref> <Summary> <Description> [Get] [Put] [Post] [Delete] [Options] [Head] [Patch] [Trace] ServerObject* Param*;
 
 //Path Item Object
 //PathItemObject ::= <Summary> <Description> [Get] [Put] [Post] [Delete] [Options] [Head] [Patch] [Trace] Server* Parameter*;
@@ -69,12 +69,12 @@ Options ::= OperationObject;
 Head ::= OperationObject;
 Patch ::= OperationObject;
 Trace ::= OperationObject;
-abstract Parameter;
-ParameterReference:Parameter ::= <Ref>;
-ParameterObject:Parameter ::= <Name> <In> <Description> <Required:boolean> <DeprecatedBoolean:Object> <AllowEmptyValue:Object> <Style> <Explode:Object> <AllowReserved:Object> [Schema] <Example:Object> ExamplesTuple* ContentTuple*;
+abstract Param;
+ParameterReference:Param ::= <Ref>;
+ParameterObject:Param ::= <Name> <In> <Description> <Required:boolean> <DeprecatedBoolean:Object> <AllowEmptyValue:Object> <Style> <Explode:Object> <AllowReserved:Object> [Schema] <Example:Object> ExamplesTuple* ContentTuple*;
 
 //Operation Object
-OperationObject ::= Tag* <Summary> <Description> [ExternalDocumentationObject] <OperationID> Parameter* [RequestBody] ResponsesObject CallbacksTuple* [DeprecatedBoolean] SecurityRequirementObject* ServerObject*;
+OperationObject ::= Tag* <Summary> <Description> [ExternalDocumentationObject] <OperationID> Param* [RequestBody] ResponsesObject CallbacksTuple* [DeprecatedBoolean] SecurityRequirementObject* ServerObject*;
 Tag ::= <Tag:String>;
 abstract RequestBody;
 RequestBodyObject:RequestBody ::= <Description> ContentTuple* <Required:Object>;
