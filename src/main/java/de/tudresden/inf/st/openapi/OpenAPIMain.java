@@ -11,10 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.OptionalDouble;
+import java.util.*;
 
 public class OpenAPIMain {
 
@@ -32,7 +29,6 @@ public class OpenAPIMain {
         }
 
         System.out.println("Loading expression DSL file '" + fileName + "'.");
-        FileReader reader = new FileReader(file);
         OpenApi3 api = new OpenApi3Parser().parse(expUrl, new ArrayList<>(), false);
         OpenAPIObject openapi = new OpenAPIObject();
 
@@ -40,21 +36,39 @@ public class OpenAPIMain {
         openapi.setOpenAPI(api.getOpenapi());
 
         /** Contact Object **/
-        ContactObject contact = new ContactObject(  api.getInfo().getContact().getName(),
-                                                    api.getInfo().getContact().getUrl(),
-                                                    api.getInfo().getContact().getEmail());
+        /*
+        ContactObject contact = new ContactObject();
+        if( api.getInfo().getContact().getName() != null )
+            contact.setName( api.getInfo().getContact().getName() );
+        if( api.getInfo().getContact().getUrl() != null )
+            contact.setUrl( api.getInfo().getContact().getUrl() );
+        if( api.getInfo().getContact().getEmail() != null )
+            contact.setEmail( api.getInfo().getContact().getEmail() );*/
 
         /** License Object **/
+        /*
+        LicenseObject license = new LicenseObject();
+        if( api.getInfo().getLicense().getName() != null )
+            license.setName( api.getInfo().getLicense().getName() );
+        if( api.getInfo().getLicense().getUrl() != null )
+            license.setUrl( api.getInfo().getLicense().getUrl() );*/
+
+        /*
         LicenseObject license = new LicenseObject(  api.getInfo().getLicense().getName(),
-                                                    api.getInfo().getLicense().getUrl());
+                                                    api.getInfo().getLicense().getUrl());*/
 
         /** Info Object **/
+        InfoObject info = new InfoObject();
+        info.setTitle( api.getInfo().getTitle() );
+        info.setVersion( api.getInfo().getVersion() );
+        openapi.setInfoObject( info );
+        /*
         openapi.setInfoObject( new InfoObject(  api.getInfo().getTitle(),
                                                 api.getInfo().getDescription(),
                                                 api.getInfo().getTermsOfService(),
                                                 new Opt<>(contact),
                                                 new Opt<>(license),
-                                                api.getInfo().getVersion()));
+                                                api.getInfo().getVersion()));*/
 
         /** Server Object **/
 
@@ -63,6 +77,14 @@ public class OpenAPIMain {
         /** Components Object **/
 
         /** Paths Object **/
+        System.out.println( api.getPaths().get("/").getGet().getOperationId() );
+        PathsObject pathsObject = new PathsObject();
+        Iterator<String> pathKeys = api.getPaths().keySet().iterator();
+        while( pathKeys.hasNext() ){
+            String key = pathKeys.next();
+
+        }
+
 
         /** Path Item Object **/
 
@@ -150,6 +172,8 @@ public class OpenAPIMain {
         System.out.println(api.toString());
         */
         //String fileName = "api-with-examples.json";
+        //openApi = parseJSON(fileName);
+        //System.out.println(openApi.print());
 
         if (args.length > 0) {
             fileName = args[0];

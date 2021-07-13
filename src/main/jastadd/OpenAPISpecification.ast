@@ -1,5 +1,5 @@
 //OpenAPI Object
-OpenAPIObject ::= <OpenAPI> InfoObject ServerObject* PathsObject [ComponentsObject] SecurityRequirementObject* TagObject* [ExternalDocumentationObject];
+OpenAPIObject ::= <OpenAPI> InfoObject ServerObject* PathsObject* [ComponentsObject] SecurityRequirementObject* TagObject* [ExternalDocumentationObject];
 PathsObject ::= <Ref> PathItemObject;
 ServerObject ::= <Url> <Description> ServerVariablesTuple*;
 ComponentsObject ::= SchemasTuple* ResponsesTuple* ParameterTuple* ExamplesTuple* RequestBodiesTuple* HeadersTuple* SecuritySchemesTuple* LinksTuple* CallbacksTuple*;

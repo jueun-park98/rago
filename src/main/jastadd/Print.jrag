@@ -15,7 +15,16 @@ aspect Print {
         }
         result = result.substring(0, result.length() - 2) + " ], ";
       }
-      result += "\"paths\": \"" + getPathsObject().print() + ", ";
+      if( getNumServerObject() != 0 ){
+        result += "\"paths\": { ";
+        for( PathsObject p : getPathsObjects() ){
+        result += "\"" + p.getRef() + "\" : " + p.print() + ", ";
+        }
+        result = result.substring(0, result.length() - 2) + " }, ";
+      }
+
+      for( PathsObject p : getPathsObjects() ){}
+      //result += "\"paths\": \"" + getPathsObject().print() + ", ";
       if( hasComponentsObject() ){
         result += "\"components\": \"" + getComponentsObject().print() + ", ";
       }

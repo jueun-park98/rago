@@ -3,8 +3,8 @@ package de.tudresden.inf.st.openapi.ast;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:2
- * @astdecl OpenAPIObject : ASTNode ::= <OpenAPI:String> InfoObject ServerObject* PathsObject [ComponentsObject] SecurityRequirementObject* TagObject* [ExternalDocumentationObject];
- * @production OpenAPIObject : {@link ASTNode} ::= <span class="component">&lt;OpenAPI:String&gt;</span> <span class="component">{@link InfoObject}</span> <span class="component">{@link ServerObject}*</span> <span class="component">{@link PathsObject}</span> <span class="component">[{@link ComponentsObject}]</span> <span class="component">{@link SecurityRequirementObject}*</span> <span class="component">{@link TagObject}*</span> <span class="component">[{@link ExternalDocumentationObject}]</span>;
+ * @astdecl OpenAPIObject : ASTNode ::= <OpenAPI:String> InfoObject ServerObject* PathsObject* [ComponentsObject] SecurityRequirementObject* TagObject* [ExternalDocumentationObject];
+ * @production OpenAPIObject : {@link ASTNode} ::= <span class="component">&lt;OpenAPI:String&gt;</span> <span class="component">{@link InfoObject}</span> <span class="component">{@link ServerObject}*</span> <span class="component">{@link PathsObject}*</span> <span class="component">[{@link ComponentsObject}]</span> <span class="component">{@link SecurityRequirementObject}*</span> <span class="component">{@link TagObject}*</span> <span class="component">[{@link ExternalDocumentationObject}]</span>;
 
  */
 public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
@@ -24,20 +24,21 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
   public void init$Children() {
     children = new ASTNode[7];
     setChild(new JastAddList(), 1);
+    setChild(new JastAddList(), 2);
     setChild(new Opt(), 3);
     setChild(new JastAddList(), 4);
     setChild(new JastAddList(), 5);
     setChild(new Opt(), 6);
   }
   /**
-   * @declaredat ASTNode:18
+   * @declaredat ASTNode:19
    */
   @ASTNodeAnnotation.Constructor(
     name = {"OpenAPI", "InfoObject", "ServerObject", "PathsObject", "ComponentsObject", "SecurityRequirementObject", "TagObject", "ExternalDocumentationObject"},
-    type = {"String", "InfoObject", "JastAddList<ServerObject>", "PathsObject", "Opt<ComponentsObject>", "JastAddList<SecurityRequirementObject>", "JastAddList<TagObject>", "Opt<ExternalDocumentationObject>"},
-    kind = {"Token", "Child", "List", "Child", "Opt", "List", "List", "Opt"}
+    type = {"String", "InfoObject", "JastAddList<ServerObject>", "JastAddList<PathsObject>", "Opt<ComponentsObject>", "JastAddList<SecurityRequirementObject>", "JastAddList<TagObject>", "Opt<ExternalDocumentationObject>"},
+    kind = {"Token", "Child", "List", "List", "Opt", "List", "List", "Opt"}
   )
-  public OpenAPIObject(String p0, InfoObject p1, JastAddList<ServerObject> p2, PathsObject p3, Opt<ComponentsObject> p4, JastAddList<SecurityRequirementObject> p5, JastAddList<TagObject> p6, Opt<ExternalDocumentationObject> p7) {
+  public OpenAPIObject(String p0, InfoObject p1, JastAddList<ServerObject> p2, JastAddList<PathsObject> p3, Opt<ComponentsObject> p4, JastAddList<SecurityRequirementObject> p5, JastAddList<TagObject> p6, Opt<ExternalDocumentationObject> p7) {
     setOpenAPI(p0);
     setChild(p1, 0);
     setChild(p2, 1);
@@ -48,39 +49,39 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
     setChild(p7, 6);
   }
   /** @apilevel low-level 
-   * @declaredat ASTNode:34
+   * @declaredat ASTNode:35
    */
   protected int numChildren() {
     return 7;
   }
   /**
    * @apilevel internal
-   * @declaredat ASTNode:40
+   * @declaredat ASTNode:41
    */
   public boolean mayHaveRewrite() {
     return false;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:44
+   * @declaredat ASTNode:45
    */
   public void flushAttrCache() {
     super.flushAttrCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:48
+   * @declaredat ASTNode:49
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:52
+   * @declaredat ASTNode:53
    */
   public OpenAPIObject clone() throws CloneNotSupportedException {
     OpenAPIObject node = (OpenAPIObject) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:57
+   * @declaredat ASTNode:58
    */
   public OpenAPIObject copy() {
     try {
@@ -100,7 +101,7 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:76
+   * @declaredat ASTNode:77
    */
   @Deprecated
   public OpenAPIObject fullCopy() {
@@ -111,7 +112,7 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:86
+   * @declaredat ASTNode:87
    */
   public OpenAPIObject treeCopyNoTransform() {
     OpenAPIObject tree = (OpenAPIObject) copy();
@@ -132,7 +133,7 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:106
+   * @declaredat ASTNode:107
    */
   public OpenAPIObject treeCopy() {
     OpenAPIObject tree = (OpenAPIObject) copy();
@@ -148,7 +149,7 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:120
+   * @declaredat ASTNode:121
    */
   protected boolean is$Equal(ASTNode node) {
     return super.is$Equal(node) && (tokenString_OpenAPI == ((OpenAPIObject) node).tokenString_OpenAPI);    
@@ -310,30 +311,114 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
     return getServerObjectListNoTransform();
   }
   /**
-   * Replaces the PathsObject child.
-   * @param node The new node to replace the PathsObject child.
+   * Replaces the PathsObject list.
+   * @param list The new list node to be used as the PathsObject list.
    * @apilevel high-level
    */
-  public void setPathsObject(PathsObject node) {
-    setChild(node, 2);
+  public void setPathsObjectList(JastAddList<PathsObject> list) {
+    setChild(list, 2);
   }
   /**
-   * Retrieves the PathsObject child.
-   * @return The current node used as the PathsObject child.
+   * Retrieves the number of children in the PathsObject list.
+   * @return Number of children in the PathsObject list.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Child(name="PathsObject")
-  public PathsObject getPathsObject() {
-    return (PathsObject) getChild(2);
+  public int getNumPathsObject() {
+    return getPathsObjectList().getNumChild();
   }
   /**
-   * Retrieves the PathsObject child.
-   * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The current node used as the PathsObject child.
+   * Retrieves the number of children in the PathsObject list.
+   * Calling this method will not trigger rewrites.
+   * @return Number of children in the PathsObject list.
    * @apilevel low-level
    */
-  public PathsObject getPathsObjectNoTransform() {
-    return (PathsObject) getChildNoTransform(2);
+  public int getNumPathsObjectNoTransform() {
+    return getPathsObjectListNoTransform().getNumChildNoTransform();
+  }
+  /**
+   * Retrieves the element at index {@code i} in the PathsObject list.
+   * @param i Index of the element to return.
+   * @return The element at position {@code i} in the PathsObject list.
+   * @apilevel high-level
+   */
+  public PathsObject getPathsObject(int i) {
+    return (PathsObject) getPathsObjectList().getChild(i);
+  }
+  /**
+   * Check whether the PathsObject list has any children.
+   * @return {@code true} if it has at least one child, {@code false} otherwise.
+   * @apilevel high-level
+   */
+  public boolean hasPathsObject() {
+    return getPathsObjectList().getNumChild() != 0;
+  }
+  /**
+   * Append an element to the PathsObject list.
+   * @param node The element to append to the PathsObject list.
+   * @apilevel high-level
+   */
+  public void addPathsObject(PathsObject node) {
+    JastAddList<PathsObject> list = (parent == null) ? getPathsObjectListNoTransform() : getPathsObjectList();
+    list.addChild(node);
+  }
+  /** @apilevel low-level 
+   */
+  public void addPathsObjectNoTransform(PathsObject node) {
+    JastAddList<PathsObject> list = getPathsObjectListNoTransform();
+    list.addChild(node);
+  }
+  /**
+   * Replaces the PathsObject list element at index {@code i} with the new node {@code node}.
+   * @param node The new node to replace the old list element.
+   * @param i The list index of the node to be replaced.
+   * @apilevel high-level
+   */
+  public void setPathsObject(PathsObject node, int i) {
+    JastAddList<PathsObject> list = getPathsObjectList();
+    list.setChild(node, i);
+  }
+  /**
+   * Retrieves the PathsObject list.
+   * @return The node representing the PathsObject list.
+   * @apilevel high-level
+   */
+  @ASTNodeAnnotation.ListChild(name="PathsObject")
+  public JastAddList<PathsObject> getPathsObjectList() {
+    JastAddList<PathsObject> list = (JastAddList<PathsObject>) getChild(2);
+    return list;
+  }
+  /**
+   * Retrieves the PathsObject list.
+   * <p><em>This method does not invoke AST transformations.</em></p>
+   * @return The node representing the PathsObject list.
+   * @apilevel low-level
+   */
+  public JastAddList<PathsObject> getPathsObjectListNoTransform() {
+    return (JastAddList<PathsObject>) getChildNoTransform(2);
+  }
+  /**
+   * @return the element at index {@code i} in the PathsObject list without
+   * triggering rewrites.
+   */
+  public PathsObject getPathsObjectNoTransform(int i) {
+    return (PathsObject) getPathsObjectListNoTransform().getChildNoTransform(i);
+  }
+  /**
+   * Retrieves the PathsObject list.
+   * @return The node representing the PathsObject list.
+   * @apilevel high-level
+   */
+  public JastAddList<PathsObject> getPathsObjects() {
+    return getPathsObjectList();
+  }
+  /**
+   * Retrieves the PathsObject list.
+   * <p><em>This method does not invoke AST transformations.</em></p>
+   * @return The node representing the PathsObject list.
+   * @apilevel low-level
+   */
+  public JastAddList<PathsObject> getPathsObjectsNoTransform() {
+    return getPathsObjectListNoTransform();
   }
   /**
    * Replaces the optional node for the ComponentsObject child. This is the <code>Opt</code>
@@ -683,7 +768,16 @@ protected boolean print_visited = false;
             }
             result = result.substring(0, result.length() - 2) + " ], ";
           }
-          result += "\"paths\": \"" + getPathsObject().print() + ", ";
+          if( getNumServerObject() != 0 ){
+            result += "\"paths\": { ";
+            for( PathsObject p : getPathsObjects() ){
+            result += "\"" + p.getRef() + "\" : " + p.print() + ", ";
+            }
+            result = result.substring(0, result.length() - 2) + " }, ";
+          }
+    
+          for( PathsObject p : getPathsObjects() ){}
+          //result += "\"paths\": \"" + getPathsObject().print() + ", ";
           if( hasComponentsObject() ){
             result += "\"components\": \"" + getComponentsObject().print() + ", ";
           }
