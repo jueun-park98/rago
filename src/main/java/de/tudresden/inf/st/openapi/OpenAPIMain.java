@@ -5,6 +5,7 @@ import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.OpenApi3Parser;
 import org.openapi4j.parser.model.v3.*;
+import org.openapi4j.parser.model.v3.Tag;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -36,14 +37,16 @@ public class OpenAPIMain {
         openapi.setOpenAPI(api.getOpenapi());
 
         /** Contact Object **/
-        /*
         ContactObject contact = new ContactObject();
-        if( api.getInfo().getContact().getName() != null )
+        /*
+        if( api.getInfo().getContact().getName() != null && !api.getInfo().getContact().getName().isEmpty() )
             contact.setName( api.getInfo().getContact().getName() );
-        if( api.getInfo().getContact().getUrl() != null )
+        if( api.getInfo().getContact().getUrl() != null && !api.getInfo().getContact().getUrl().isEmpty() )
             contact.setUrl( api.getInfo().getContact().getUrl() );
-        if( api.getInfo().getContact().getEmail() != null )
-            contact.setEmail( api.getInfo().getContact().getEmail() );*/
+        if( api.getInfo().getContact().getEmail() != null && !api.getInfo().getContact().getEmail().isEmpty() )
+            contact.setEmail( api.getInfo().getContact().getEmail() );
+
+        System.out.println(contact.getName() + " " + contact.getEmail() + " " + contact.getUrl());*/
 
         /** License Object **/
         /*
@@ -76,21 +79,24 @@ public class OpenAPIMain {
 
         /** Components Object **/
 
-        /** Paths Object **/
-        System.out.println( api.getPaths().get("/").getGet().getOperationId() );
-        PathsObject pathsObject = new PathsObject();
+        /** Paths Object with usage of Path Item Object **/
         Iterator<String> pathKeys = api.getPaths().keySet().iterator();
         while( pathKeys.hasNext() ){
+            PathItemObject pathItem = new PathItemObject();
             String key = pathKeys.next();
-
+            openapi.addPathsObject(new PathsObject(key, new PathItemObject()));
         }
-
-
-        /** Path Item Object **/
 
         /** Operation Object **/
 
         /** External Documentation Object **/
+        if( api.getExternalDocs() != null ){
+            ExternalDocumentationObject externalDoc = new ExternalDocumentationObject();
+            if ( api.getExternalDocs().getDescription() != null )
+                externalDoc.setDescription( api.getExternalDocs().getDescription() );
+            externalDoc.setUrl( api.getExternalDocs().getUrl() );
+            openapi.setExternalDocumentationObject( externalDoc );
+        }
 
         /** Parameter Object **/
 
@@ -104,7 +110,7 @@ public class OpenAPIMain {
 
         /** Response Object **/
 
-        /** Callback Object **/
+        /** Callback Object with usage of Path Item Object **/
 
         /** Example Object **/
 
@@ -113,14 +119,31 @@ public class OpenAPIMain {
         /** Header Object**/
 
         /** Tag Object **/
+        if ( !api.getTags().isEmpty() ){
+            List<TagObject> tags = new ArrayList<>();
+            for( Tag t : api.getTags() ){
+                TagObject tag = new TagObject();
+                tag.setName( t.getName() );
+                if( t.getDescription() != null )
+                    tag.setDescription( t.getDescription() );
+                if( t.getExternalDocs() != null ){
+                    ExternalDocumentationObject externalDoc = new ExternalDocumentationObject();
+                    if ( t.getExternalDocs().getDescription() != null )
+                        externalDoc.setDescription( api.getExternalDocs().getDescription() );
+                    externalDoc.setUrl( api.getExternalDocs().getUrl() );
+                    tag.setExternalDocumentationObject( externalDoc );
+                }
+                tags.add(tag);
+            }
+        }
 
         /** Reference Object **/
 
-        /** Schema Object **/
+        /** Schema Object (skipped) **/
 
-        /** Discriminator Object **/
+        /** Discriminator Object (skipped because it is the part of Schema Object) **/
 
-        /** XML Object **/
+        /** XML Object (skipped because it is the part of Schema Object) **/
 
         /** Security Scheme Object **/
 
@@ -136,11 +159,18 @@ public class OpenAPIMain {
 
         /** Security Requirement Object **/
         /*
-        for( SecurityRequirement s : api.getSecurityRequirements() ){
-            openapi.addSecurityRequirementObject(new SecurityRequirementObject(s., s));
-            for( s.getRequirements(). )
-            openapi.addSecurityRequirementObject(new SecurityRequirementObject(s.getRequirements().));
-        } */
+        if( api.getSecurityRequirements() != null){
+            List<SecurityRequirement> securityRequirements = api.getSecurityRequirements();
+            for( SecurityRequirement s : securityRequirements ){
+                s.
+            }
+        }*/
+        /*
+        Iterator<String> pathKeys = api.getPaths().keySet().iterator();
+        while( pathKeys.hasNext() ){
+            String key = pathKeys.next();
+            openapi.addPathsObject(new PathsObject(key, new PathItemObject()));
+        }*/
 
         return openapi;
     }
@@ -172,8 +202,8 @@ public class OpenAPIMain {
         System.out.println(api.toString());
         */
         //String fileName = "api-with-examples.json";
-        //openApi = parseJSON(fileName);
-        //System.out.println(openApi.print());
+        openApi = parseJSON(fileName);
+        System.out.println(openApi.print());
 
         if (args.length > 0) {
             fileName = args[0];

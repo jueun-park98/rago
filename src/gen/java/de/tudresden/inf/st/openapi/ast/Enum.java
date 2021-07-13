@@ -2,7 +2,7 @@
 package de.tudresden.inf.st.openapi.ast;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:26
+ * @declaredat /Users/jueunpark/Documents/gitJastadd/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:26
  * @astdecl Enum : ASTNode ::= <EnumValue:String>;
  * @production Enum : {@link ASTNode} ::= <span class="component">&lt;EnumValue:String&gt;</span>;
 
