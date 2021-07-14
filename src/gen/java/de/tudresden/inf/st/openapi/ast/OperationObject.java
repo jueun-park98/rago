@@ -2,7 +2,7 @@
 package de.tudresden.inf.st.openapi.ast;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/Documents/gitJastadd/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:77
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:77
  * @astdecl OperationObject : ASTNode ::= Tag* <Summary:String> <Description:String> [ExternalDocumentationObject] <OperationID:String> Param* [RequestBody] ResponsesObject CallbacksTuple* [DeprecatedBoolean] SecurityRequirementObject* ServerObject*;
  * @production OperationObject : {@link ASTNode} ::= <span class="component">{@link Tag}*</span> <span class="component">&lt;Summary:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">[{@link ExternalDocumentationObject}]</span> <span class="component">&lt;OperationID:String&gt;</span> <span class="component">{@link Param}*</span> <span class="component">[{@link RequestBody}]</span> <span class="component">{@link ResponsesObject}</span> <span class="component">{@link CallbacksTuple}*</span> <span class="component">[{@link DeprecatedBoolean}]</span> <span class="component">{@link SecurityRequirementObject}*</span> <span class="component">{@link ServerObject}*</span>;
 
@@ -954,10 +954,10 @@ protected boolean print_visited = false;
   /**
    * @attribute syn
    * @aspect Print
-   * @declaredat /Users/jueunpark/Documents/gitJastadd/bachelor-thesis-jastadd/src/main/jastadd/Print.jrag:2
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Print", declaredAt="/Users/jueunpark/Documents/gitJastadd/bachelor-thesis-jastadd/src/main/jastadd/Print.jrag:2")
+  @ASTNodeAnnotation.Source(aspect="Print", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2")
   public String print() {
     if (print_visited) {
       throw new RuntimeException("Circular definition of attribute ASTNode.print().");
@@ -985,14 +985,14 @@ protected boolean print_visited = false;
             if( getNumParam() != 0 ){
             result += "\"parameters\": [ ";
             for( Param p : getParams() ){
-            result += p + ", ";
+            result += p.print() + ", ";
             }
             result = result.substring(0, result.length() - 2) + " ], ";
             }
             if( hasRequestBody() ){
-            result += "\"requestBody\": \"" + getRequestBody() + "\", ";
+            result += "\"requestBody\": \"" + getRequestBody().print() + "\", ";
             }
-            result += "\"responses\": " + getResponsesObject() + ", ";
+            result += "\"responses\": !!" + getResponsesObject().print() + "!!, ";
             if( getNumCallbacksTuple() != 0 ){
             result += "\"callbacks\": { ";
             for( CallbacksTuple t : getCallbacksTuples() ){
@@ -1000,8 +1000,8 @@ protected boolean print_visited = false;
             }
             result = result.substring(0, result.length() - 2) + " }, ";
             }
-            if( hasDeprecatedBoolean() ){
-            result += "\"deprecated\": \"" + getDeprecatedBoolean() + "\", ";
+            if( getDeprecatedBoolean().getDeprecatedBoolean() != null ){
+            result += "\"deprecated\": " + getDeprecatedBoolean().getDeprecatedBoolean() + ", ";
             }
             if( getNumSecurityRequirementObject() != 0 ){
             result += "\"security\": [ ";

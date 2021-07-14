@@ -3,7 +3,7 @@ OpenAPIObject ::= <OpenAPI> InfoObject ServerObject* PathsObject* [ComponentsObj
 PathsObject ::= <Ref> PathItemObject;
 ServerObject ::= <Url> <Description> ServerVariablesTuple*;
 ComponentsObject ::= SchemasTuple* ResponsesTuple* ParameterTuple* ExamplesTuple* RequestBodiesTuple* HeadersTuple* SecuritySchemesTuple* LinksTuple* CallbacksTuple*;
-SecurityRequirementObject ::= <Name> SecurityRequirementValue*;
+SecurityRequirementObject ::= SecurityRequirementTuple*;
 ExternalDocumentationObject ::= <Description> <Url>;
 
 //Info Object
@@ -116,7 +116,7 @@ HTTPStatusCodeReference:HTTPStatusCode ::= <Name> <Ref>;
 
 //Callback Object
 CallbackObject ::= Expression*;
-Expression ::= PathItemObject;
+Expression ::= <Name> PathItemObject;
 
 //Example Object
 ExampleObject ::= <Summary> <Description> <Value:Object> <ExternalValue>;
@@ -142,7 +142,7 @@ TagObject ::= <Name> <Description> [ExternalDocumentationObject];
 //XMLObject ::= <Name:Object> <Namespace:Object> <Prefix:Object> <Attribute:Object> <Wrapped:Object>;
 
 //Security Scheme Object
-SecuritySchemeObject ::= <SecurityType> <Description> <SecurityName> <SecurityIn> <SecurityScheme> <BearerFormat> Flows <OpenIdConnectUrl>;
+SecuritySchemeObject ::= <Type> <Description> <Name> <In> <Scheme> <BearerFormat> Flows <OpenIdConnectUrl>;
 Flows ::= OAuthFlowsObject;
 
 //OAuth Flows Object
@@ -157,5 +157,6 @@ OAuthFlowObject ::= <AuthorizationUrl> <TokenUrl> <RefreshUrl> ScopesTuple*;
 ScopesTuple ::= <ScopesKey> <ScopesValue>;
 
 //Security Requirement Object
-//SecurityRequirementObject ::= <Name> SecurityRequirementValue*;
+//SecurityRequirementObject ::= SecurityRequirementValue*;
+SecurityRequirementTuple ::= <Name> SecurityRequirementValue*;
 SecurityRequirementValue ::= <Value>;

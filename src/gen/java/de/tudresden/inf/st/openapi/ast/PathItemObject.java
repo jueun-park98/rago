@@ -2,7 +2,7 @@
 package de.tudresden.inf.st.openapi.ast;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/Documents/gitJastadd/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:60
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:60
  * @astdecl PathItemObject : ASTNode ::= <Ref:String> <Summary:String> <Description:String> [Get] [Put] [Post] [Delete] [Options] [Head] [Patch] [Trace] ServerObject* Param*;
  * @production PathItemObject : {@link ASTNode} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;Summary:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">[{@link Get}]</span> <span class="component">[{@link Put}]</span> <span class="component">[{@link Post}]</span> <span class="component">[{@link Delete}]</span> <span class="component">[{@link Options}]</span> <span class="component">[{@link Head}]</span> <span class="component">[{@link Patch}]</span> <span class="component">[{@link Trace}]</span> <span class="component">{@link ServerObject}*</span> <span class="component">{@link Param}*</span>;
 
@@ -856,10 +856,10 @@ protected boolean print_visited = false;
   /**
    * @attribute syn
    * @aspect Print
-   * @declaredat /Users/jueunpark/Documents/gitJastadd/bachelor-thesis-jastadd/src/main/jastadd/Print.jrag:2
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Print", declaredAt="/Users/jueunpark/Documents/gitJastadd/bachelor-thesis-jastadd/src/main/jastadd/Print.jrag:2")
+  @ASTNodeAnnotation.Source(aspect="Print", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2")
   public String print() {
     if (print_visited) {
       throw new RuntimeException("Circular definition of attribute ASTNode.print().");
@@ -878,28 +878,28 @@ protected boolean print_visited = false;
             result += "\"description\": \"" + getDescription() + "\", ";
             }
             if( hasGet() ){
-            result += "\"get\": \"" + getGet() + "\", ";
+            result += "\"get\": \"" + getGet().getOperationObject().print() + "\", ";
             }
             if( hasPut() ){
-            result += "\"put\": \"" + getPut() + "\", ";
+            result += "\"put\": \"" + getPut().getOperationObject().print() + "\", ";
             }
             if( hasPost() ){
-            result += "\"post\": \"" + getPost() + "\", ";
+            result += "\"post\": \"" + getPost().getOperationObject().print() + "\", ";
             }
             if( hasDelete() ){
-            result += "\"delete\": \"" + getDelete() + "\", ";
+            result += "\"delete\": \"" + getDelete().getOperationObject().print() + "\", ";
             }
             if( hasOptions() ){
-            result += "\"options\": \"" + getOptions() + "\", ";
+            result += "\"options\": \"" + getOptions().getOperationObject().print() + "\", ";
             }
             if( hasHead() ){
-            result += "\"head\": \"" + getHead() + "\", ";
+            result += "\"head\": \"" + getHead().getOperationObject().print() + "\", ";
             }
             if( hasPatch() ){
-            result += "\"patch\": \"" + getPatch() + "\", ";
+            result += "\"patch\": \"" + getPatch().getOperationObject().print() + "\", ";
             }
             if( hasTrace() ){
-            result += "\"trace\": \"" + getTrace() + "\", ";
+            result += "\"trace\": \"" + getTrace().getOperationObject().print() + "\", ";
             }
             if( getNumParam() != 0 ){
             result += "\"parameters\": [ ";

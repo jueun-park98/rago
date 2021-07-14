@@ -2,7 +2,7 @@
 package de.tudresden.inf.st.openapi.ast;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/Documents/gitJastadd/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:90
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:90
  * @astdecl SchemaReference : Schema ::= <Ref:String>;
  * @production SchemaReference : {@link Schema} ::= <span class="component">&lt;Ref:String&gt;</span>;
 

@@ -2,9 +2,9 @@
 package de.tudresden.inf.st.openapi.ast;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/Documents/gitJastadd/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:6
- * @astdecl SecurityRequirementObject : ASTNode ::= <Name:String> SecurityRequirementValue*;
- * @production SecurityRequirementObject : {@link ASTNode} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">{@link SecurityRequirementValue}*</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:6
+ * @astdecl SecurityRequirementObject : ASTNode ::= SecurityRequirementTuple*;
+ * @production SecurityRequirementObject : {@link ASTNode} ::= <span class="component">{@link SecurityRequirementTuple}*</span>;
 
  */
 public class SecurityRequirementObject extends ASTNode<ASTNode> implements Cloneable {
@@ -29,48 +29,47 @@ public class SecurityRequirementObject extends ASTNode<ASTNode> implements Clone
    * @declaredat ASTNode:14
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Name", "SecurityRequirementValue"},
-    type = {"String", "JastAddList<SecurityRequirementValue>"},
-    kind = {"Token", "List"}
+    name = {"SecurityRequirementTuple"},
+    type = {"JastAddList<SecurityRequirementTuple>"},
+    kind = {"List"}
   )
-  public SecurityRequirementObject(String p0, JastAddList<SecurityRequirementValue> p1) {
-    setName(p0);
-    setChild(p1, 0);
+  public SecurityRequirementObject(JastAddList<SecurityRequirementTuple> p0) {
+    setChild(p0, 0);
   }
   /** @apilevel low-level 
-   * @declaredat ASTNode:24
+   * @declaredat ASTNode:23
    */
   protected int numChildren() {
     return 1;
   }
   /**
    * @apilevel internal
-   * @declaredat ASTNode:30
+   * @declaredat ASTNode:29
    */
   public boolean mayHaveRewrite() {
     return false;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:34
+   * @declaredat ASTNode:33
    */
   public void flushAttrCache() {
     super.flushAttrCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:38
+   * @declaredat ASTNode:37
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:42
+   * @declaredat ASTNode:41
    */
   public SecurityRequirementObject clone() throws CloneNotSupportedException {
     SecurityRequirementObject node = (SecurityRequirementObject) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:47
+   * @declaredat ASTNode:46
    */
   public SecurityRequirementObject copy() {
     try {
@@ -90,7 +89,7 @@ public class SecurityRequirementObject extends ASTNode<ASTNode> implements Clone
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:66
+   * @declaredat ASTNode:65
    */
   @Deprecated
   public SecurityRequirementObject fullCopy() {
@@ -101,7 +100,7 @@ public class SecurityRequirementObject extends ASTNode<ASTNode> implements Clone
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:76
+   * @declaredat ASTNode:75
    */
   public SecurityRequirementObject treeCopyNoTransform() {
     SecurityRequirementObject tree = (SecurityRequirementObject) copy();
@@ -122,7 +121,7 @@ public class SecurityRequirementObject extends ASTNode<ASTNode> implements Clone
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:96
+   * @declaredat ASTNode:95
    */
   public SecurityRequirementObject treeCopy() {
     SecurityRequirementObject tree = (SecurityRequirementObject) copy();
@@ -138,165 +137,147 @@ public class SecurityRequirementObject extends ASTNode<ASTNode> implements Clone
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:110
+   * @declaredat ASTNode:109
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node) && (tokenString_Name == ((SecurityRequirementObject) node).tokenString_Name);    
+    return super.is$Equal(node);    
   }
   /**
-   * Replaces the lexeme Name.
-   * @param value The new value for the lexeme Name.
+   * Replaces the SecurityRequirementTuple list.
+   * @param list The new list node to be used as the SecurityRequirementTuple list.
    * @apilevel high-level
    */
-  public void setName(String value) {
-    tokenString_Name = value;
-  }
-  /** @apilevel internal 
-   */
-  protected String tokenString_Name;
-  /**
-   * Retrieves the value for the lexeme Name.
-   * @return The value for the lexeme Name.
-   * @apilevel high-level
-   */
-  @ASTNodeAnnotation.Token(name="Name")
-  public String getName() {
-    return tokenString_Name != null ? tokenString_Name : "";
-  }
-  /**
-   * Replaces the SecurityRequirementValue list.
-   * @param list The new list node to be used as the SecurityRequirementValue list.
-   * @apilevel high-level
-   */
-  public void setSecurityRequirementValueList(JastAddList<SecurityRequirementValue> list) {
+  public void setSecurityRequirementTupleList(JastAddList<SecurityRequirementTuple> list) {
     setChild(list, 0);
   }
   /**
-   * Retrieves the number of children in the SecurityRequirementValue list.
-   * @return Number of children in the SecurityRequirementValue list.
+   * Retrieves the number of children in the SecurityRequirementTuple list.
+   * @return Number of children in the SecurityRequirementTuple list.
    * @apilevel high-level
    */
-  public int getNumSecurityRequirementValue() {
-    return getSecurityRequirementValueList().getNumChild();
+  public int getNumSecurityRequirementTuple() {
+    return getSecurityRequirementTupleList().getNumChild();
   }
   /**
-   * Retrieves the number of children in the SecurityRequirementValue list.
+   * Retrieves the number of children in the SecurityRequirementTuple list.
    * Calling this method will not trigger rewrites.
-   * @return Number of children in the SecurityRequirementValue list.
+   * @return Number of children in the SecurityRequirementTuple list.
    * @apilevel low-level
    */
-  public int getNumSecurityRequirementValueNoTransform() {
-    return getSecurityRequirementValueListNoTransform().getNumChildNoTransform();
+  public int getNumSecurityRequirementTupleNoTransform() {
+    return getSecurityRequirementTupleListNoTransform().getNumChildNoTransform();
   }
   /**
-   * Retrieves the element at index {@code i} in the SecurityRequirementValue list.
+   * Retrieves the element at index {@code i} in the SecurityRequirementTuple list.
    * @param i Index of the element to return.
-   * @return The element at position {@code i} in the SecurityRequirementValue list.
+   * @return The element at position {@code i} in the SecurityRequirementTuple list.
    * @apilevel high-level
    */
-  public SecurityRequirementValue getSecurityRequirementValue(int i) {
-    return (SecurityRequirementValue) getSecurityRequirementValueList().getChild(i);
+  public SecurityRequirementTuple getSecurityRequirementTuple(int i) {
+    return (SecurityRequirementTuple) getSecurityRequirementTupleList().getChild(i);
   }
   /**
-   * Check whether the SecurityRequirementValue list has any children.
+   * Check whether the SecurityRequirementTuple list has any children.
    * @return {@code true} if it has at least one child, {@code false} otherwise.
    * @apilevel high-level
    */
-  public boolean hasSecurityRequirementValue() {
-    return getSecurityRequirementValueList().getNumChild() != 0;
+  public boolean hasSecurityRequirementTuple() {
+    return getSecurityRequirementTupleList().getNumChild() != 0;
   }
   /**
-   * Append an element to the SecurityRequirementValue list.
-   * @param node The element to append to the SecurityRequirementValue list.
+   * Append an element to the SecurityRequirementTuple list.
+   * @param node The element to append to the SecurityRequirementTuple list.
    * @apilevel high-level
    */
-  public void addSecurityRequirementValue(SecurityRequirementValue node) {
-    JastAddList<SecurityRequirementValue> list = (parent == null) ? getSecurityRequirementValueListNoTransform() : getSecurityRequirementValueList();
+  public void addSecurityRequirementTuple(SecurityRequirementTuple node) {
+    JastAddList<SecurityRequirementTuple> list = (parent == null) ? getSecurityRequirementTupleListNoTransform() : getSecurityRequirementTupleList();
     list.addChild(node);
   }
   /** @apilevel low-level 
    */
-  public void addSecurityRequirementValueNoTransform(SecurityRequirementValue node) {
-    JastAddList<SecurityRequirementValue> list = getSecurityRequirementValueListNoTransform();
+  public void addSecurityRequirementTupleNoTransform(SecurityRequirementTuple node) {
+    JastAddList<SecurityRequirementTuple> list = getSecurityRequirementTupleListNoTransform();
     list.addChild(node);
   }
   /**
-   * Replaces the SecurityRequirementValue list element at index {@code i} with the new node {@code node}.
+   * Replaces the SecurityRequirementTuple list element at index {@code i} with the new node {@code node}.
    * @param node The new node to replace the old list element.
    * @param i The list index of the node to be replaced.
    * @apilevel high-level
    */
-  public void setSecurityRequirementValue(SecurityRequirementValue node, int i) {
-    JastAddList<SecurityRequirementValue> list = getSecurityRequirementValueList();
+  public void setSecurityRequirementTuple(SecurityRequirementTuple node, int i) {
+    JastAddList<SecurityRequirementTuple> list = getSecurityRequirementTupleList();
     list.setChild(node, i);
   }
   /**
-   * Retrieves the SecurityRequirementValue list.
-   * @return The node representing the SecurityRequirementValue list.
+   * Retrieves the SecurityRequirementTuple list.
+   * @return The node representing the SecurityRequirementTuple list.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.ListChild(name="SecurityRequirementValue")
-  public JastAddList<SecurityRequirementValue> getSecurityRequirementValueList() {
-    JastAddList<SecurityRequirementValue> list = (JastAddList<SecurityRequirementValue>) getChild(0);
+  @ASTNodeAnnotation.ListChild(name="SecurityRequirementTuple")
+  public JastAddList<SecurityRequirementTuple> getSecurityRequirementTupleList() {
+    JastAddList<SecurityRequirementTuple> list = (JastAddList<SecurityRequirementTuple>) getChild(0);
     return list;
   }
   /**
-   * Retrieves the SecurityRequirementValue list.
+   * Retrieves the SecurityRequirementTuple list.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The node representing the SecurityRequirementValue list.
+   * @return The node representing the SecurityRequirementTuple list.
    * @apilevel low-level
    */
-  public JastAddList<SecurityRequirementValue> getSecurityRequirementValueListNoTransform() {
-    return (JastAddList<SecurityRequirementValue>) getChildNoTransform(0);
+  public JastAddList<SecurityRequirementTuple> getSecurityRequirementTupleListNoTransform() {
+    return (JastAddList<SecurityRequirementTuple>) getChildNoTransform(0);
   }
   /**
-   * @return the element at index {@code i} in the SecurityRequirementValue list without
+   * @return the element at index {@code i} in the SecurityRequirementTuple list without
    * triggering rewrites.
    */
-  public SecurityRequirementValue getSecurityRequirementValueNoTransform(int i) {
-    return (SecurityRequirementValue) getSecurityRequirementValueListNoTransform().getChildNoTransform(i);
+  public SecurityRequirementTuple getSecurityRequirementTupleNoTransform(int i) {
+    return (SecurityRequirementTuple) getSecurityRequirementTupleListNoTransform().getChildNoTransform(i);
   }
   /**
-   * Retrieves the SecurityRequirementValue list.
-   * @return The node representing the SecurityRequirementValue list.
+   * Retrieves the SecurityRequirementTuple list.
+   * @return The node representing the SecurityRequirementTuple list.
    * @apilevel high-level
    */
-  public JastAddList<SecurityRequirementValue> getSecurityRequirementValues() {
-    return getSecurityRequirementValueList();
+  public JastAddList<SecurityRequirementTuple> getSecurityRequirementTuples() {
+    return getSecurityRequirementTupleList();
   }
   /**
-   * Retrieves the SecurityRequirementValue list.
+   * Retrieves the SecurityRequirementTuple list.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The node representing the SecurityRequirementValue list.
+   * @return The node representing the SecurityRequirementTuple list.
    * @apilevel low-level
    */
-  public JastAddList<SecurityRequirementValue> getSecurityRequirementValuesNoTransform() {
-    return getSecurityRequirementValueListNoTransform();
+  public JastAddList<SecurityRequirementTuple> getSecurityRequirementTuplesNoTransform() {
+    return getSecurityRequirementTupleListNoTransform();
   }
 /** @apilevel internal */
 protected boolean print_visited = false;
   /**
    * @attribute syn
    * @aspect Print
-   * @declaredat /Users/jueunpark/Documents/gitJastadd/bachelor-thesis-jastadd/src/main/jastadd/Print.jrag:2
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Print", declaredAt="/Users/jueunpark/Documents/gitJastadd/bachelor-thesis-jastadd/src/main/jastadd/Print.jrag:2")
+  @ASTNodeAnnotation.Source(aspect="Print", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2")
   public String print() {
     if (print_visited) {
       throw new RuntimeException("Circular definition of attribute ASTNode.print().");
     }
     print_visited = true;
     try {
-            String result = "{ \"" + getName() + "\" : [ ";
-            if( getNumSecurityRequirementValue() != 0 ){
-            for( SecurityRequirementValue s : getSecurityRequirementValues() ){
-            result += "\"" + s.print() + "\", ";
+            String result = "{ ";
+            if( getNumSecurityRequirementTuple() != 0 ){
+            for( SecurityRequirementTuple t : getSecurityRequirementTuples() ){
+            result += "{ \"" + t.getName() + "\" : [ ";
+            for(SecurityRequirementValue v : t.getSecurityRequirementValues() )
+            result += "\"" + v.getValue() + "\", ";
+            result += result.substring(0, result.length() - 2) + " ] }";
             }
-            result = result.substring(0, result.length() - 2) + " ] }";
             }
             return result;
-            }
+        }
     finally {
       print_visited = false;
     }

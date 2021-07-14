@@ -2,9 +2,9 @@
 package de.tudresden.inf.st.openapi.ast;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/Documents/gitJastadd/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:145
- * @astdecl SecuritySchemeObject : ASTNode ::= <SecurityType:String> <Description:String> <SecurityName:String> <SecurityIn:String> <SecurityScheme:String> <BearerFormat:String> Flows <OpenIdConnectUrl:String>;
- * @production SecuritySchemeObject : {@link ASTNode} ::= <span class="component">&lt;SecurityType:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;SecurityName:String&gt;</span> <span class="component">&lt;SecurityIn:String&gt;</span> <span class="component">&lt;SecurityScheme:String&gt;</span> <span class="component">&lt;BearerFormat:String&gt;</span> <span class="component">{@link Flows}</span> <span class="component">&lt;OpenIdConnectUrl:String&gt;</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:145
+ * @astdecl SecuritySchemeObject : ASTNode ::= <Type:String> <Description:String> <Name:String> <In:String> <Scheme:String> <BearerFormat:String> Flows <OpenIdConnectUrl:String>;
+ * @production SecuritySchemeObject : {@link ASTNode} ::= <span class="component">&lt;Type:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;In:String&gt;</span> <span class="component">&lt;Scheme:String&gt;</span> <span class="component">&lt;BearerFormat:String&gt;</span> <span class="component">{@link Flows}</span> <span class="component">&lt;OpenIdConnectUrl:String&gt;</span>;
 
  */
 public class SecuritySchemeObject extends ASTNode<ASTNode> implements Cloneable {
@@ -28,16 +28,16 @@ public class SecuritySchemeObject extends ASTNode<ASTNode> implements Cloneable 
    * @declaredat ASTNode:13
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"SecurityType", "Description", "SecurityName", "SecurityIn", "SecurityScheme", "BearerFormat", "Flows", "OpenIdConnectUrl"},
+    name = {"Type", "Description", "Name", "In", "Scheme", "BearerFormat", "Flows", "OpenIdConnectUrl"},
     type = {"String", "String", "String", "String", "String", "String", "Flows", "String"},
     kind = {"Token", "Token", "Token", "Token", "Token", "Token", "Child", "Token"}
   )
   public SecuritySchemeObject(String p0, String p1, String p2, String p3, String p4, String p5, Flows p6, String p7) {
-    setSecurityType(p0);
+    setType(p0);
     setDescription(p1);
-    setSecurityName(p2);
-    setSecurityIn(p3);
-    setSecurityScheme(p4);
+    setName(p2);
+    setIn(p3);
+    setScheme(p4);
     setBearerFormat(p5);
     setChild(p6, 0);
     setOpenIdConnectUrl(p7);
@@ -146,27 +146,27 @@ public class SecuritySchemeObject extends ASTNode<ASTNode> implements Cloneable 
    * @declaredat ASTNode:115
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node) && (tokenString_SecurityType == ((SecuritySchemeObject) node).tokenString_SecurityType) && (tokenString_Description == ((SecuritySchemeObject) node).tokenString_Description) && (tokenString_SecurityName == ((SecuritySchemeObject) node).tokenString_SecurityName) && (tokenString_SecurityIn == ((SecuritySchemeObject) node).tokenString_SecurityIn) && (tokenString_SecurityScheme == ((SecuritySchemeObject) node).tokenString_SecurityScheme) && (tokenString_BearerFormat == ((SecuritySchemeObject) node).tokenString_BearerFormat) && (tokenString_OpenIdConnectUrl == ((SecuritySchemeObject) node).tokenString_OpenIdConnectUrl);    
+    return super.is$Equal(node) && (tokenString_Type == ((SecuritySchemeObject) node).tokenString_Type) && (tokenString_Description == ((SecuritySchemeObject) node).tokenString_Description) && (tokenString_Name == ((SecuritySchemeObject) node).tokenString_Name) && (tokenString_In == ((SecuritySchemeObject) node).tokenString_In) && (tokenString_Scheme == ((SecuritySchemeObject) node).tokenString_Scheme) && (tokenString_BearerFormat == ((SecuritySchemeObject) node).tokenString_BearerFormat) && (tokenString_OpenIdConnectUrl == ((SecuritySchemeObject) node).tokenString_OpenIdConnectUrl);    
   }
   /**
-   * Replaces the lexeme SecurityType.
-   * @param value The new value for the lexeme SecurityType.
+   * Replaces the lexeme Type.
+   * @param value The new value for the lexeme Type.
    * @apilevel high-level
    */
-  public void setSecurityType(String value) {
-    tokenString_SecurityType = value;
+  public void setType(String value) {
+    tokenString_Type = value;
   }
   /** @apilevel internal 
    */
-  protected String tokenString_SecurityType;
+  protected String tokenString_Type;
   /**
-   * Retrieves the value for the lexeme SecurityType.
-   * @return The value for the lexeme SecurityType.
+   * Retrieves the value for the lexeme Type.
+   * @return The value for the lexeme Type.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Token(name="SecurityType")
-  public String getSecurityType() {
-    return tokenString_SecurityType != null ? tokenString_SecurityType : "";
+  @ASTNodeAnnotation.Token(name="Type")
+  public String getType() {
+    return tokenString_Type != null ? tokenString_Type : "";
   }
   /**
    * Replaces the lexeme Description.
@@ -189,64 +189,64 @@ public class SecuritySchemeObject extends ASTNode<ASTNode> implements Cloneable 
     return tokenString_Description != null ? tokenString_Description : "";
   }
   /**
-   * Replaces the lexeme SecurityName.
-   * @param value The new value for the lexeme SecurityName.
+   * Replaces the lexeme Name.
+   * @param value The new value for the lexeme Name.
    * @apilevel high-level
    */
-  public void setSecurityName(String value) {
-    tokenString_SecurityName = value;
+  public void setName(String value) {
+    tokenString_Name = value;
   }
   /** @apilevel internal 
    */
-  protected String tokenString_SecurityName;
+  protected String tokenString_Name;
   /**
-   * Retrieves the value for the lexeme SecurityName.
-   * @return The value for the lexeme SecurityName.
+   * Retrieves the value for the lexeme Name.
+   * @return The value for the lexeme Name.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Token(name="SecurityName")
-  public String getSecurityName() {
-    return tokenString_SecurityName != null ? tokenString_SecurityName : "";
+  @ASTNodeAnnotation.Token(name="Name")
+  public String getName() {
+    return tokenString_Name != null ? tokenString_Name : "";
   }
   /**
-   * Replaces the lexeme SecurityIn.
-   * @param value The new value for the lexeme SecurityIn.
+   * Replaces the lexeme In.
+   * @param value The new value for the lexeme In.
    * @apilevel high-level
    */
-  public void setSecurityIn(String value) {
-    tokenString_SecurityIn = value;
-  }
-  /** @apilevel internal 
-   */
-  protected String tokenString_SecurityIn;
-  /**
-   * Retrieves the value for the lexeme SecurityIn.
-   * @return The value for the lexeme SecurityIn.
-   * @apilevel high-level
-   */
-  @ASTNodeAnnotation.Token(name="SecurityIn")
-  public String getSecurityIn() {
-    return tokenString_SecurityIn != null ? tokenString_SecurityIn : "";
-  }
-  /**
-   * Replaces the lexeme SecurityScheme.
-   * @param value The new value for the lexeme SecurityScheme.
-   * @apilevel high-level
-   */
-  public void setSecurityScheme(String value) {
-    tokenString_SecurityScheme = value;
+  public void setIn(String value) {
+    tokenString_In = value;
   }
   /** @apilevel internal 
    */
-  protected String tokenString_SecurityScheme;
+  protected String tokenString_In;
   /**
-   * Retrieves the value for the lexeme SecurityScheme.
-   * @return The value for the lexeme SecurityScheme.
+   * Retrieves the value for the lexeme In.
+   * @return The value for the lexeme In.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Token(name="SecurityScheme")
-  public String getSecurityScheme() {
-    return tokenString_SecurityScheme != null ? tokenString_SecurityScheme : "";
+  @ASTNodeAnnotation.Token(name="In")
+  public String getIn() {
+    return tokenString_In != null ? tokenString_In : "";
+  }
+  /**
+   * Replaces the lexeme Scheme.
+   * @param value The new value for the lexeme Scheme.
+   * @apilevel high-level
+   */
+  public void setScheme(String value) {
+    tokenString_Scheme = value;
+  }
+  /** @apilevel internal 
+   */
+  protected String tokenString_Scheme;
+  /**
+   * Retrieves the value for the lexeme Scheme.
+   * @return The value for the lexeme Scheme.
+   * @apilevel high-level
+   */
+  @ASTNodeAnnotation.Token(name="Scheme")
+  public String getScheme() {
+    return tokenString_Scheme != null ? tokenString_Scheme : "";
   }
   /**
    * Replaces the lexeme BearerFormat.
@@ -319,23 +319,23 @@ protected boolean print_visited = false;
   /**
    * @attribute syn
    * @aspect Print
-   * @declaredat /Users/jueunpark/Documents/gitJastadd/bachelor-thesis-jastadd/src/main/jastadd/Print.jrag:2
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Print", declaredAt="/Users/jueunpark/Documents/gitJastadd/bachelor-thesis-jastadd/src/main/jastadd/Print.jrag:2")
+  @ASTNodeAnnotation.Source(aspect="Print", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2")
   public String print() {
     if (print_visited) {
       throw new RuntimeException("Circular definition of attribute ASTNode.print().");
     }
     print_visited = true;
     try {
-            String result = "{ \"type\" : \"" + getSecurityType() + "\", " ;
+            String result = "{ \"type\" : \"" + getType() + "\", " ;
             if( !getDescription().isEmpty() ){
             result += "\"description\" : \"" + getDescription() + "\", ";
             }
-            result += "\"name\" : \"" + getSecurityName() + "\", " +
-            "\"in\" : \"" + getSecurityIn() + "\", " +
-            "\"scheme\" : \"" + getSecurityScheme() + "\", ";
+            result += "\"name\" : \"" + getName() + "\", " +
+            "\"in\" : \"" + getIn() + "\", " +
+            "\"scheme\" : \"" + getScheme() + "\", ";
             if( !getBearerFormat().isEmpty() ){
             result += "\"bearerFormat\" : \"" + getBearerFormat() + "\", ";
             }

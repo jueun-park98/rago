@@ -2,9 +2,9 @@
 package de.tudresden.inf.st.openapi.ast;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/Documents/gitJastadd/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:119
- * @astdecl Expression : ASTNode ::= PathItemObject;
- * @production Expression : {@link ASTNode} ::= <span class="component">{@link PathItemObject}</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:119
+ * @astdecl Expression : ASTNode ::= <Name:String> PathItemObject;
+ * @production Expression : {@link ASTNode} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">{@link PathItemObject}</span>;
 
  */
 public class Expression extends ASTNode<ASTNode> implements Cloneable {
@@ -28,47 +28,48 @@ public class Expression extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:13
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"PathItemObject"},
-    type = {"PathItemObject"},
-    kind = {"Child"}
+    name = {"Name", "PathItemObject"},
+    type = {"String", "PathItemObject"},
+    kind = {"Token", "Child"}
   )
-  public Expression(PathItemObject p0) {
-    setChild(p0, 0);
+  public Expression(String p0, PathItemObject p1) {
+    setName(p0);
+    setChild(p1, 0);
   }
   /** @apilevel low-level 
-   * @declaredat ASTNode:22
+   * @declaredat ASTNode:23
    */
   protected int numChildren() {
     return 1;
   }
   /**
    * @apilevel internal
-   * @declaredat ASTNode:28
+   * @declaredat ASTNode:29
    */
   public boolean mayHaveRewrite() {
     return false;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:32
+   * @declaredat ASTNode:33
    */
   public void flushAttrCache() {
     super.flushAttrCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:36
+   * @declaredat ASTNode:37
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:40
+   * @declaredat ASTNode:41
    */
   public Expression clone() throws CloneNotSupportedException {
     Expression node = (Expression) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:45
+   * @declaredat ASTNode:46
    */
   public Expression copy() {
     try {
@@ -88,7 +89,7 @@ public class Expression extends ASTNode<ASTNode> implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:64
+   * @declaredat ASTNode:65
    */
   @Deprecated
   public Expression fullCopy() {
@@ -99,7 +100,7 @@ public class Expression extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:74
+   * @declaredat ASTNode:75
    */
   public Expression treeCopyNoTransform() {
     Expression tree = (Expression) copy();
@@ -120,7 +121,7 @@ public class Expression extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:94
+   * @declaredat ASTNode:95
    */
   public Expression treeCopy() {
     Expression tree = (Expression) copy();
@@ -136,10 +137,30 @@ public class Expression extends ASTNode<ASTNode> implements Cloneable {
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:108
+   * @declaredat ASTNode:109
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node);    
+    return super.is$Equal(node) && (tokenString_Name == ((Expression) node).tokenString_Name);    
+  }
+  /**
+   * Replaces the lexeme Name.
+   * @param value The new value for the lexeme Name.
+   * @apilevel high-level
+   */
+  public void setName(String value) {
+    tokenString_Name = value;
+  }
+  /** @apilevel internal 
+   */
+  protected String tokenString_Name;
+  /**
+   * Retrieves the value for the lexeme Name.
+   * @return The value for the lexeme Name.
+   * @apilevel high-level
+   */
+  @ASTNodeAnnotation.Token(name="Name")
+  public String getName() {
+    return tokenString_Name != null ? tokenString_Name : "";
   }
   /**
    * Replaces the PathItemObject child.
