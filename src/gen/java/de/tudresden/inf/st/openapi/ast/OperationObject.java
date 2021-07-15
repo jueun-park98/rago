@@ -992,7 +992,7 @@ protected boolean print_visited = false;
             if( hasRequestBody() ){
             result += "\"requestBody\": \"" + getRequestBody().print() + "\", ";
             }
-            result += "\"responses\": !!" + getResponsesObject().print() + "!!, ";
+            result += "\"responses\": " + getResponsesObject().print() + ", ";
             if( getNumCallbacksTuple() != 0 ){
             result += "\"callbacks\": { ";
             for( CallbacksTuple t : getCallbacksTuples() ){

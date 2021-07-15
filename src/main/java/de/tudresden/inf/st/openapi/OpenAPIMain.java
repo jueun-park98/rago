@@ -8,12 +8,10 @@ import org.openapi4j.parser.OpenApi3Parser;
 import org.openapi4j.parser.model.v3.*;
 import org.openapi4j.parser.model.v3.Parameter;
 import org.openapi4j.parser.model.v3.RequestBody;
-import org.openapi4j.parser.model.v3.Schema;
 import org.openapi4j.parser.model.v3.Tag;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -76,7 +74,6 @@ public class OpenAPIMain {
         System.out.println("Loading expression DSL file '" + fileName + "'.");
         OpenApi3 api = new OpenApi3Parser().parse(expUrl, new ArrayList<>(), false);
         OpenAPIObject openapi = new OpenAPIObject();
-        JastAddList<PathsObject> paths = new JastAddList<>();
 
         openapi.setOpenAPI(api.getOpenapi());
         openapi.setInfoObject( parseInfo(api.getInfo()) );
