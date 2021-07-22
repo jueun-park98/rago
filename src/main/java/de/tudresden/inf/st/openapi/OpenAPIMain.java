@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class OpenAPIMain {
@@ -100,6 +101,39 @@ public class OpenAPIMain {
         return openapi;
     }
 
+    public static OpenApi3 composeOpenAPI (OpenAPIObject openAPIObject){
+        OpenApi3 api3 = new OpenApi3();
+        Map<String, Path> paths = new HashMap<>();
+
+        api3.setOpenapi( openAPIObject.getOpenAPI() );
+        api3.setInfo( composeInfo( openAPIObject.getInfoObject() ) );
+
+        for( PathsObject p : openAPIObject.getPathsObjects() ){
+            paths.put( p.getRef(), composePath(p.getPathItemObject()) );
+        }
+
+        api3.setPaths(paths);
+
+        if( openAPIObject.hasComponentsObject() )
+            api3.setComponents( composeComponents(openAPIObject.getComponentsObject()) );
+        if( openAPIObject.getNumSecurityRequirementObject() != 0 ){
+            List<SecurityRequirement> securityRequirements = new ArrayList<>();
+            for( SecurityRequirementObject s : openAPIObject.getSecurityRequirementObjects() )
+                securityRequirements.add( composeSecurityRequiremnet( s ) );
+            api3.setSecurityRequirements(securityRequirements);
+        }
+        if( openAPIObject.getNumTagObject() != 0 ){
+            List<Tag> tags = new ArrayList<>();
+            for( TagObject t : openAPIObject.getTagObjects() )
+                tags.add( composeTag(t) );
+            api3.setTags( tags );
+        }
+        if( openAPIObject.hasExternalDocumentationObject() )
+            api3.setExternalDocs( composeExternalDocs(openAPIObject.getExternalDocumentationObject()) );
+
+        return api3;
+    }
+
     public static InfoObject parseInfo(Info info) {
         InfoObject infoObject = new InfoObject();
 
@@ -118,6 +152,24 @@ public class OpenAPIMain {
         return infoObject;
     }
 
+    public static Info composeInfo (InfoObject infoObject){
+        Info info = new Info();
+
+        info.setTitle( infoObject.getTitle() );
+        info.setVersion( infoObject.getVersion() );
+
+        if( infoObject.getDescription() != null )
+            info.setDescription( infoObject.getDescription() );
+        if( infoObject.getTermsOfService() != null )
+            info.setTermsOfService( infoObject.getTermsOfService() );
+        if( infoObject.hasContactObject() )
+            info.setContact( composeContact(infoObject.getContactObject()) );
+        if( infoObject.hasLicenseObject() )
+            info.setLicense( composeLicense(infoObject.getLicenseObject()) );
+
+        return info;
+    }
+
     public static ContactObject parseContact(Contact contact){
         ContactObject contactObject = new ContactObject();
 
@@ -131,6 +183,19 @@ public class OpenAPIMain {
         return contactObject;
     }
 
+    public static Contact composeContact (ContactObject contactObject){
+        Contact contact = new Contact();
+
+        if( contactObject.getName() != null )
+            contact.setName( contactObject.getName() );
+        if( contactObject.getUrl() != null )
+            contact.setUrl( contactObject.getUrl() );
+        if( contactObject.getEmail() != null )
+            contact.setEmail( contactObject.getEmail() );
+
+        return contact;
+    }
+
     public static LicenseObject parseLicense(License license){
         LicenseObject licenseObject = new LicenseObject();
 
@@ -140,6 +205,17 @@ public class OpenAPIMain {
             licenseObject.setUrl( license.getUrl() );
 
         return licenseObject;
+    }
+
+    public static License composeLicense (LicenseObject licenseObject){
+        License license = new License();
+
+        license.setName( licenseObject.getName() );
+
+        if( licenseObject.getUrl() != null )
+            license.setUrl( licenseObject.getUrl() );
+
+        return license;
     }
 
     public static ServerObject parseServer(Server server){
@@ -157,6 +233,23 @@ public class OpenAPIMain {
         return serverObject;
     }
 
+    public static Server composeServer (ServerObject serverObject){
+        Server server = new Server();
+
+        server.setUrl( serverObject.getUrl() );
+
+        if( serverObject.getDescription() != null )
+            server.setDescription( serverObject.getDescription() );
+        if( serverObject.hasServerVariablesTuple() ){
+            Map<String, ServerVariable> serverVariables = new HashMap<>();
+            for( ServerVariablesTuple s : serverObject.getServerVariablesTuples() )
+                serverVariables.put( s.getName(), composeServerVariable(s.getServerVariableObject()) );
+            server.setVariables(serverVariables);
+        }
+
+        return server;
+    }
+
     public static ServerVariableObject parseServerVariable(ServerVariable serverVariable){
         ServerVariableObject serverVariableObject = new ServerVariableObject();
 
@@ -170,6 +263,23 @@ public class OpenAPIMain {
         }
 
         return serverVariableObject;
+    }
+
+    public static ServerVariable composeServerVariable (ServerVariableObject serverVariableObject){
+        ServerVariable serverVariable = new ServerVariable();
+
+        serverVariable.setDefault( serverVariableObject.getDefault() );
+
+        if( serverVariableObject.getDescription() != null )
+            serverVariable.setDescription( serverVariableObject.getDescription() );
+        if( serverVariableObject.getNumEnum() != 0 ){
+            List<String> enums = new ArrayList<>();
+            for( Enum e : serverVariableObject.getEnums() )
+                enums.add( e.getEnumValue() );
+            serverVariable.setEnums( enums );
+        }
+
+        return serverVariable;
     }
 
     public static ComponentsObject parseComponents(Components components){
@@ -269,6 +379,12 @@ public class OpenAPIMain {
         return componentsObject;
     }
 
+    public static Components composeComponents (ComponentsObject componentsObject){
+        Components components = new Components();
+
+        return components;
+    }
+
     public static PathsObject parsePaths(OpenApi3 api3){
         PathsObject pathsObject = new PathsObject();
 
@@ -341,6 +457,14 @@ public class OpenAPIMain {
         return pathItemObject;
     }
 
+    public static Path composePath (PathItemObject pathItemObject){
+        Path path = new Path();
+
+
+
+        return path;
+    }
+
     public static OperationObject parseOperation(Operation operation){
         OperationObject operationObject = new OperationObject();
         DeprecatedBoolean deprecatedBoolean = new DeprecatedBoolean();
@@ -400,6 +524,12 @@ public class OpenAPIMain {
         return operationObject;
     }
 
+    public static Operation composeOperation (OperationObject operationObject){
+        Operation operation = new Operation();
+
+        return operation;
+    }
+
     public static ExternalDocumentationObject parseExternalDocs(ExternalDocs externalDocs){
         ExternalDocumentationObject externalDocumentationObject = new ExternalDocumentationObject();
 
@@ -408,6 +538,12 @@ public class OpenAPIMain {
         externalDocumentationObject.setUrl( externalDocs.getUrl() );
 
         return externalDocumentationObject;
+    }
+
+    public static ExternalDocs composeExternalDocs (ExternalDocumentationObject externalDocumentationObject){
+        ExternalDocs externalDocs = new ExternalDocs();
+
+        return externalDocs;
     }
 
     public static ParameterObject parseParameter(Parameter parameter){
@@ -441,6 +577,12 @@ public class OpenAPIMain {
         return parameterObject;
     }
 
+    public static Parameter composeParameter (ParameterObject parameterObject){
+        Parameter parameter = new Parameter();
+
+        return parameter;
+    }
+
     public static RequestBodyObject parseRequestBody(RequestBody requestBody){
         RequestBodyObject requestBodyObject = new RequestBodyObject();
 
@@ -452,6 +594,12 @@ public class OpenAPIMain {
             requestBodyObject.setRequired( requestBody.getRequired() );
 
         return requestBodyObject;
+    }
+
+    public static RequestBody composeRequestBody (RequestBodyObject requestBodyObject){
+        RequestBody requestBody = new RequestBody();
+
+        return requestBody;
     }
 
     public static MediaTypeObject parseMediaType(MediaType mediaType){
@@ -471,6 +619,12 @@ public class OpenAPIMain {
         return mediaTypeObject;
     }
 
+    public static MediaType composeMediaType (MediaTypeObject mediaTypeObject){
+        MediaType mediaType = new MediaType();
+
+        return mediaType;
+    }
+
     public static EncodingObject parseEncoding(EncodingProperty encodingProperty){
         EncodingObject encodingObject = new EncodingObject();
 
@@ -487,6 +641,12 @@ public class OpenAPIMain {
         // if( encodingProperty.getAllowReserved() != null ) /** parser for allowReserved non-existent **/
 
         return encodingObject;
+    }
+
+    public static EncodingProperty composeEncodingProperty (EncodingObject encodingObject){
+        EncodingProperty encodingProperty = new EncodingProperty();
+
+        return encodingProperty;
     }
 
     public static ResponseObject parseResponse(Response response){
@@ -510,6 +670,12 @@ public class OpenAPIMain {
         return responseObject;
     }
 
+    public static Response composeResponse (ResponseObject responseObject){
+        Response response = new Response();
+
+        return response;
+    }
+
     public static CallbackObject parseCallback(Callback callback){
         CallbackObject callbackObject = new CallbackObject();
 
@@ -519,6 +685,12 @@ public class OpenAPIMain {
         }
 
         return callbackObject;
+    }
+
+    public static Callback composeCallback (CallbackObject callbackObject){
+        Callback callback = new Callback();
+
+        return callback;
     }
 
     public static ExampleObject parseExample(Example example){
@@ -534,6 +706,12 @@ public class OpenAPIMain {
             exampleObject.setExternalValue( example.getExternalValue() );
 
         return exampleObject;
+    }
+
+    public static Example composeExample (ExampleObject exampleObject){
+        Example example = new Example();
+
+        return example;
     }
 
     public static LinkObject parseLink(Link link){
@@ -553,6 +731,12 @@ public class OpenAPIMain {
             linkObject.setServerObject( parseServer(link.getServer()) );
 
         return linkObject;
+    }
+
+    public static Link composeLink (LinkObject linkObject){
+        Link link = new Link();
+
+        return link;
     }
 
     public static HeaderObject parseHeader(Header header){
@@ -584,6 +768,12 @@ public class OpenAPIMain {
         return headerObject;
     }
 
+    public static Header header (HeaderObject headerObject){
+        Header header = new Header();
+
+        return header;
+    }
+
     public static TagObject parseTag(Tag tag){
         TagObject tagObject = new TagObject();
 
@@ -595,6 +785,12 @@ public class OpenAPIMain {
             tagObject.setExternalDocumentationObject( parseExternalDocs(tag.getExternalDocs()) );
 
         return tagObject;
+    }
+
+    public static Tag composeTag (TagObject tagObject){
+        Tag tag = new Tag();
+
+        return tag;
     }
 
     public static SecuritySchemeObject parseSecurityScheme(SecurityScheme securityScheme){
@@ -615,6 +811,12 @@ public class OpenAPIMain {
             securitySchemeObject.setBearerFormat( securityScheme.getBearerFormat() );
 
         return securitySchemeObject;
+    }
+
+    public static SecurityScheme composeSecurityScheme (SecuritySchemeObject securitySchemeObject){
+        SecurityScheme securityScheme = new SecurityScheme();
+
+        return securityScheme;
     }
 
     public static OAuthFlowsObject parseOAuthFlows(OAuthFlows oAuthFlows){
@@ -641,6 +843,12 @@ public class OpenAPIMain {
         return oAuthFlowsObject;
     }
 
+    public static OAuthFlows composeOAuthFlows (OAuthFlowsObject oAuthFlowsObject){
+        OAuthFlows oAuthFlows = new OAuthFlows();
+
+        return oAuthFlows;
+    }
+
     public static OAuthFlowObject parseOAuthFlow(OAuthFlow oAuthFlow){
         OAuthFlowObject oAuthFlowObject = new OAuthFlowObject();
 
@@ -653,6 +861,12 @@ public class OpenAPIMain {
             oAuthFlowObject.setRefreshUrl( oAuthFlow.getRefreshUrl() );
 
         return oAuthFlowObject;
+    }
+
+    public static OAuthFlow composeOAuthFlow (OAuthFlowObject oAuthFlowObject){
+        OAuthFlow oAuthFlow = new OAuthFlow();
+
+        return oAuthFlow;
     }
 
     public static SecurityRequirementObject parseSecurityRequirement(SecurityRequirement securityRequirement){
@@ -670,5 +884,11 @@ public class OpenAPIMain {
         }
 
         return securityRequirementObject;
+    }
+
+    public static SecurityRequirement composeSecurityRequiremnet (SecurityRequirementObject securityRequirementObject){
+        SecurityRequirement securityRequirement = new SecurityRequirement();
+
+        return securityRequirement;
     }
 }
