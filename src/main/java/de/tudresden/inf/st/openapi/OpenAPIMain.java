@@ -8,6 +8,7 @@ import org.openapi4j.parser.OpenApi3Parser;
 import org.openapi4j.parser.model.v3.*;
 import org.openapi4j.parser.model.v3.Parameter;
 import org.openapi4j.parser.model.v3.RequestBody;
+import org.openapi4j.parser.model.v3.Schema;
 import org.openapi4j.parser.model.v3.Tag;
 
 import java.io.File;
@@ -382,6 +383,62 @@ public class OpenAPIMain {
     public static Components composeComponents (ComponentsObject componentsObject){
         Components components = new Components();
 
+        /*
+        if( componentsObject.hasSchemasTuple() ){
+            Map<String, Schema> schema = new HashMap<>();
+            for( SchemasTuple t : componentsObject.getSchemasTuples() ){
+
+            }
+        }*/
+        if( componentsObject.getNumResponsesTuple() != 0 ){
+            Map<String, Response> responses = new HashMap<>();
+            for( ResponsesTuple t : componentsObject.getResponsesTuples() )
+                responses.put(((ResponseObjectTuple)t).getName(), composeResponse(((ResponseObjectTuple)t).getResponseObject()));
+            components.setResponses(responses);
+        }
+        if( componentsObject.getNumParameterTuple() != 0 ){
+            Map<String, Parameter> parameters = new HashMap<>();
+            for( ParameterTuple t : componentsObject.getParameterTuples() )
+                parameters.put(((ParameterObjectTuple)t).getName(), composeParameter(((ParameterObjectTuple) t).getParameterObject()));
+            components.setParameters(parameters);
+        }
+        if( componentsObject.getNumExamplesTuple() != 0 ){
+            Map<String, Example> examples = new HashMap<>();
+            for( ExamplesTuple t : componentsObject.getExamplesTuples() )
+                examples.put(((ExampleObjectTuple)t).getName(), composeExample(((ExampleObjectTuple)t).getExampleObject()));
+            components.setExamples(examples);
+        }
+        if( componentsObject.getNumRequestBodiesTuple() != 0 ){
+            Map<String, RequestBody> requestBodies = new HashMap<>();
+            for( RequestBodiesTuple t : componentsObject.getRequestBodiesTuples() )
+                requestBodies.put(((RequestBodyObjectTuple)t).getName(), composeRequestBody(((RequestBodyObjectTuple)t).getRequestBodyObject()));
+            components.setRequestBodies(requestBodies);
+        }
+        if( componentsObject.getNumHeadersTuple() != 0 ){
+            Map<String, Header> headers = new HashMap<>();
+            for( HeadersTuple t : componentsObject.getHeadersTuples() )
+                headers.put(((HeaderObjectTuple)t).getName(), composeHeader(((HeaderObjectTuple)t).getHeaderObject()));
+            components.setHeaders(headers);
+        }
+        if( componentsObject.getNumSecuritySchemesTuple() != 0 ){
+            Map<String, SecurityScheme> securitySchemes = new HashMap<>();
+            for( SecuritySchemesTuple t : componentsObject.getSecuritySchemesTuples() )
+                securitySchemes.put(((SecuritySchemeObjectTuple)t).getName(), composeSecurityScheme(((SecuritySchemeObjectTuple)t).getSecuritySchemeObject()));
+            components.setSecuritySchemes(securitySchemes);
+        }
+        if( componentsObject.getNumLinksTuple() != 0 ){
+            Map<String, Link> links = new HashMap<>();
+            for( LinksTuple t : componentsObject.getLinksTuples() )
+                links.put(((LinkObjectTuple)t).getName(), composeLink(((LinkObjectTuple)t).getLinkObject()));
+            components.setLinks(links);
+        }
+        if( componentsObject.getNumCallbacksTuple() != 0 ){
+            Map<String, Callback> callbacks = new HashMap<>();
+            for( CallbacksTuple t : componentsObject.getCallbacksTuples() )
+                callbacks.put(((CallbackObjectTuple)t).getName(), composeCallback(((CallbackObjectTuple)t).getCallbackObject()));
+            components.setCallbacks(callbacks);
+        }
+
         return components;
     }
 
@@ -460,7 +517,35 @@ public class OpenAPIMain {
     public static Path composePath (PathItemObject pathItemObject){
         Path path = new Path();
 
-
+        if( pathItemObject.getRef() != null ){
+            // path.setReference() detected new difference in the documentation ver 3.0.2 it is in type String.
+        }
+        if( pathItemObject.getSummary() != null)
+            path.setSummary(pathItemObject.getSummary());
+        if( pathItemObject.getDescription() != null )
+            path.setDescription(pathItemObject.getDescription());
+        if( pathItemObject.hasGet() )
+            path.setGet( composeOperation(pathItemObject.getGet().getOperationObject()) );
+        if( pathItemObject.hasPut() )
+            path.setPut( composeOperation(pathItemObject.getPut().getOperationObject()) );
+        if( pathItemObject.hasPost() )
+            path.setPost( composeOperation(pathItemObject.getPost().getOperationObject()) );
+        if( pathItemObject.hasDelete() )
+            path.setDelete( composeOperation(pathItemObject.getDelete().getOperationObject()) );
+        if( pathItemObject.hasOptions() )
+            path.setOptions( composeOperation(pathItemObject.getOptions().getOperationObject()) );
+        if( pathItemObject.hasHead() )
+            path.setHead( composeOperation(pathItemObject.getHead().getOperationObject()) );
+        if( pathItemObject.hasPatch() )
+            path.setPatch( composeOperation(pathItemObject.getPatch().getOperationObject()) );
+        if( pathItemObject.getNumServerObject() != 0 ){
+            for( ServerObject s : pathItemObject.getServerObjects() )
+                path.addServer( composeServer(s) );
+        }
+        if( pathItemObject.getNumParam() != 0 ){
+            for( Param p : pathItemObject.getParams() )
+                path.addParameter( composeParameter((ParameterObject) p) );
+        }
 
         return path;
     }
@@ -768,7 +853,7 @@ public class OpenAPIMain {
         return headerObject;
     }
 
-    public static Header header (HeaderObject headerObject){
+    public static Header composeHeader (HeaderObject headerObject){
         Header header = new Header();
 
         return header;
