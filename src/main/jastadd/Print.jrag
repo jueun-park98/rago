@@ -525,12 +525,6 @@ aspect Print {
     eq HeaderObject.print() {
         String result = "{ ";
 
-        if( !getName().isEmpty() ){
-        result += "\"name\": \"" + getName() + "\", ";
-        }
-        if( !getIn().isEmpty() ){
-        result += "\"in\": \"" + getIn() + "\", ";
-        }
         if( !getDescription().isEmpty() ){
         result += "\"description\": \"" + getDescription() + "\", ";
         }

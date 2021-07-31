@@ -1,7 +1,9 @@
 package de.tudresden.inf.st.openapi;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import de.tudresden.inf.st.openapi.ast.*;
 import de.tudresden.inf.st.openapi.ast.Enum;
+import org.openapi4j.core.exception.EncodeException;
 import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.OpenApi3Parser;
@@ -12,11 +14,13 @@ import org.openapi4j.parser.model.v3.Schema;
 import org.openapi4j.parser.model.v3.Tag;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class OpenAPIMain {
 
@@ -26,14 +30,12 @@ public class OpenAPIMain {
     }
 
     /** main-method, calls the set of methods to test the OpenAPI-Generator with JastAdd **/
-    public static void main(String[] args) throws IOException, ResolutionException, ValidationException {
+    public static void main(String[] args) throws IOException, ResolutionException, ValidationException, EncodeException {
         OpenAPIObject openApi;
+        OpenApi3 api3;
         String fileName = "api-with-examples.json";
+        FileWriter writer = new FileWriter("composedFile.json");
 
-        openApi = parseOpenAPI(fileName);
-        System.out.println(openApi.print());
-
-        /*
         URL expUrl = OpenAPIMain.class.getClassLoader().getResource(fileName);
         File file = null;
         if (expUrl != null) {
@@ -45,14 +47,15 @@ public class OpenAPIMain {
             throw new FileNotFoundException("Could not load JSON file " + fileName);
         }
 
+        OpenApi3 api = new OpenApi3Parser().parse(expUrl, new ArrayList<>(), false);
         System.out.println("Loading expression DSL file '" + fileName + "'.");
-        FileReader reader = new FileReader(file);
-        OpenApi3 api = new OpenApi3Parser().parse(expUrl, new ArrayList<>(), true);
-        System.out.println(api.toString());
-        */
-        //String fileName = "api-with-examples.json";
-        //openApi = parseJSON(fileName);
-        //System.out.println(openApi.print());
+
+        openApi = parseOpenAPI(api);
+
+        api3 = composeOpenAPI(openApi);
+
+        writer.write(api3.toNode().toPrettyString());
+        writer.close();
 
         if (args.length > 0) {
             fileName = args[0];
@@ -61,20 +64,7 @@ public class OpenAPIMain {
     }
 
     /** saving json-file with the openapi4j-parser in OpenAPIObject from RAG **/
-    public static OpenAPIObject parseOpenAPI(String fileName) throws IOException, ResolutionException, ValidationException {
-        URL expUrl = OpenAPIMain.class.getClassLoader().getResource(fileName);
-        File file = null;
-        if (expUrl != null) {
-            file = new File(expUrl.getFile());
-        } else {
-            file = new File(fileName);
-        }
-        if (file == null) {
-            throw new FileNotFoundException("Could not load JSON file " + fileName);
-        }
-
-        System.out.println("Loading expression DSL file '" + fileName + "'.");
-        OpenApi3 api = new OpenApi3Parser().parse(expUrl, new ArrayList<>(), false);
+    public static OpenAPIObject parseOpenAPI(OpenApi3 api) throws IOException, ResolutionException, ValidationException {
         OpenAPIObject openapi = new OpenAPIObject();
 
         openapi.setOpenAPI(api.getOpenapi());
@@ -612,6 +602,47 @@ public class OpenAPIMain {
     public static Operation composeOperation (OperationObject operationObject){
         Operation operation = new Operation();
 
+        if( operationObject.getNumTag() != 0 ){
+            for( de.tudresden.inf.st.openapi.ast.Tag t : operationObject.getTags() )
+                operation.addTag(t.getTag());
+        }
+        if( operationObject.getSummary() != null )
+            operation.setSummary( operationObject.getSummary() );
+        if( operationObject.getDescription() != null )
+            operation.setDescription( operationObject.getDescription() );
+        if( operationObject.hasExternalDocumentationObject() )
+            operation.setExternalDocs( composeExternalDocs(operationObject.getExternalDocumentationObject()) );
+        if( operationObject.getOperationID() != null )
+            operation.setOperationId( operationObject.getOperationID() );
+        if( operationObject.getNumParam() != 0 ){
+            for( Param p : operationObject.getParams() )
+                operation.addParameter( composeParameter( ((ParameterObject) p) ) );
+        }
+        if( operationObject.hasRequestBody() )
+            operation.setRequestBody( composeRequestBody( ((RequestBodyObject) operationObject.getRequestBody())) );
+        if( operationObject.getResponsesObject().getNumHTTPStatusCode() != 0){
+            Map<String, Response> responses = new HashMap<>();
+            for( HTTPStatusCode h : operationObject.getResponsesObject().getHTTPStatusCodes() )
+                responses.put( ((ResponseObject)h).getName(), composeResponse( ((ResponseObject) h)) );
+            operation.setResponses(responses);
+        }
+        if( operationObject.getNumCallbacksTuple() != 0 ){
+            Map<String, Callback> callbacks = new HashMap<>();
+            for( CallbacksTuple t : operationObject.getCallbacksTuples() )
+                callbacks.put( ((CallbackObjectTuple)t).getName(), composeCallback( ((CallbackObjectTuple) t).getCallbackObject()) );
+            operation.setCallbacks(callbacks);
+        }
+        //if( operationObject.getDeprecatedBoolean() != null )
+        //    operation.setDeprecated( (boolean) operationObject.getDeprecatedBoolean().getDeprecatedBoolean() );
+        if( operationObject.getNumSecurityRequirementObject() != 0 ){
+            for( SecurityRequirementObject s : operationObject.getSecurityRequirementObjects() )
+                operation.addSecurityRequirement( composeSecurityRequiremnet(s) );
+        }
+        if( operationObject.getNumServerObject() != 0 ){
+            for( ServerObject s : operationObject.getServerObjects() )
+                operation.addServer( composeServer(s) );
+        }
+
         return operation;
     }
 
@@ -627,6 +658,10 @@ public class OpenAPIMain {
 
     public static ExternalDocs composeExternalDocs (ExternalDocumentationObject externalDocumentationObject){
         ExternalDocs externalDocs = new ExternalDocs();
+
+        if( externalDocumentationObject.getDescription() != null )
+            externalDocs.getDescription();
+        externalDocs.setUrl( externalDocumentationObject.getUrl() );
 
         return externalDocs;
     }
@@ -647,7 +682,7 @@ public class OpenAPIMain {
         if( parameter.getExplode() != null )
             parameterObject.setExplode( parameter.getExplode() );
         if( parameter.getAllowReserved() != null )
-            parameterObject.setExplode( parameter.getAllowReserved() );
+            parameterObject.setAllowReserved( parameter.getAllowReserved() );
         if( parameter.getExample() != null )
             parameterObject.setExample( parameter.getExample() );
         if( parameter.getExamples() != null ){
@@ -664,6 +699,37 @@ public class OpenAPIMain {
 
     public static Parameter composeParameter (ParameterObject parameterObject){
         Parameter parameter = new Parameter();
+
+        parameter.setName( parameterObject.getName() );
+        parameter.setIn( parameterObject.getIn() );
+        parameter.setRequired( parameterObject.getRequired() );
+
+        if( parameterObject.getDescription() != null )
+            parameter.setDescription( parameterObject.getDescription() );
+        if( parameterObject.getDeprecatedBoolean() != null )
+            parameter.setDeprecated( (boolean) parameterObject.getDeprecatedBoolean() );
+        if( parameterObject.getStyle() != null )
+            parameter.setStyle( parameter.getStyle() );
+        if( parameterObject.getAllowReserved() != null )
+            parameter.setAllowReserved( (boolean) parameterObject.getAllowReserved() );
+        if( parameterObject.getExplode() != null )
+            parameter.setExplode( (boolean) parameterObject.getExplode() );
+        if( parameterObject.getAllowReserved() != null )
+            parameter.setAllowReserved( (boolean) parameterObject.getAllowReserved() );
+        if( parameterObject.getExample() != null )
+            parameter.setExample( parameterObject.getExample() );
+        if( parameterObject.getNumExamplesTuple() != 0 ){
+            Map<String, Example> examples = new HashMap<>();
+            for( ExamplesTuple t : parameterObject.getExamplesTuples() )
+                examples.put( ((ExampleObjectTuple)t).getName(), composeExample( ((ExampleObjectTuple)t).getExampleObject() ) );
+            parameter.setExamples(examples);
+        }
+        if( parameterObject.getNumContentTuple() != 0 ){
+            Map<String, MediaType> contents = new HashMap<>();
+            for( ContentTuple t : parameterObject.getContentTuples() )
+                contents.put( ((ContentObjectTuple)t).getName(), composeMediaType( ((ContentObjectTuple)t).getMediaTypeObject() ) );
+            parameter.setContentMediaTypes(contents);
+        }
 
         return parameter;
     }
@@ -683,6 +749,15 @@ public class OpenAPIMain {
 
     public static RequestBody composeRequestBody (RequestBodyObject requestBodyObject){
         RequestBody requestBody = new RequestBody();
+        Map<String, MediaType> contents = new HashMap<>();
+
+        for( ContentTuple t : requestBodyObject.getContentTuples() )
+            contents.put( ((ContentObjectTuple)t).getName(), composeMediaType( ((ContentObjectTuple)t).getMediaTypeObject() ) );
+        requestBody.setContentMediaTypes(contents);
+        if( requestBodyObject.getDescription() != null )
+            requestBody.setDescription(requestBodyObject.getDescription());
+        if( requestBodyObject.getRequired() != null )
+            requestBody.setRequired((boolean)requestBodyObject.getRequired());
 
         return requestBody;
     }
@@ -707,6 +782,21 @@ public class OpenAPIMain {
     public static MediaType composeMediaType (MediaTypeObject mediaTypeObject){
         MediaType mediaType = new MediaType();
 
+        if( mediaTypeObject.getExample() != null )
+            mediaType.setExample( mediaTypeObject.getExample() );
+        if( mediaTypeObject.getNumExamplesTuple() != 0 ){
+            Map<String, Example> examples = new HashMap<>();
+            for( ExamplesTuple t : mediaTypeObject.getExamplesTuples() )
+                examples.put( ((ExampleObjectTuple)t).getName(), composeExample( ((ExampleObjectTuple)t).getExampleObject() ) );
+            mediaType.setExamples(examples);
+        }
+        if( mediaTypeObject.getNumEncodingTuple() != 0 ){
+            Map<String, EncodingProperty> encodings = new HashMap<>();
+            for( EncodingTuple t : mediaTypeObject.getEncodingTuples() )
+                encodings.put( ((EncodingObjectTuple)t).getName(), composeEncodingProperty( ((EncodingObjectTuple)t).getEncodingObject() ) );
+            mediaType.setEncodings(encodings);
+        }
+
         return mediaType;
     }
 
@@ -730,6 +820,19 @@ public class OpenAPIMain {
 
     public static EncodingProperty composeEncodingProperty (EncodingObject encodingObject){
         EncodingProperty encodingProperty = new EncodingProperty();
+
+        if( encodingObject.getContentType() != null )
+            encodingProperty.setContentType( encodingObject.getContentType() );
+        if( encodingObject.getNumHeadersTuple() != 0 ){
+            Map<String, Header> headers = new HashMap<>();
+            for( HeadersTuple t : encodingObject.getHeadersTuples() )
+                headers.put( ((HeaderObjectTuple)t).getName(), composeHeader( ((HeaderObjectTuple)t).getHeaderObject() ) );
+            encodingProperty.setHeaders(headers);
+        }
+        if( encodingObject.getStyle() != null )
+            encodingProperty.setStyle(encodingObject.getStyle());
+        if( encodingObject.getExplode() != null )
+            encodingProperty.setExplode( (boolean) encodingObject.getExplode() );
 
         return encodingProperty;
     }
@@ -758,6 +861,26 @@ public class OpenAPIMain {
     public static Response composeResponse (ResponseObject responseObject){
         Response response = new Response();
 
+        response.setDescription( responseObject.getDescription() );
+
+        if( responseObject.getNumHeadersTuple() != 0 ){
+            Map<String, Header> headers = new HashMap<>();
+            for( HeadersTuple t : responseObject.getHeadersTuples() )
+                headers.put( ((HeaderObjectTuple)t).getName(), composeHeader( ((HeaderObjectTuple)t).getHeaderObject() ) );
+            response.setHeaders(headers);
+        }
+        if( responseObject.getNumContentTuple() != 0 ){
+            Map<String, MediaType> contents = new HashMap<>();
+            for( ContentTuple t : responseObject.getContentTuples() )
+                contents.put( ((ContentObjectTuple)t).getName(), composeMediaType( ((ContentObjectTuple)t).getMediaTypeObject() ) );
+            response.setContentMediaTypes(contents);
+        }
+        if( responseObject.getNumLinksTuple() != 0 ){
+            Map<String, Link> links = new HashMap<>();
+            for( LinksTuple t : responseObject.getLinksTuples() )
+                links.put( ((LinkObjectTuple)t).getName(), composeLink( ((LinkObjectTuple)t).getLinkObject() ) );
+        }
+
         return response;
     }
 
@@ -774,6 +897,13 @@ public class OpenAPIMain {
 
     public static Callback composeCallback (CallbackObject callbackObject){
         Callback callback = new Callback();
+
+        if( callbackObject.getNumExpression() != 0 ){
+            Map<String, Path> paths = new HashMap<>();
+            for( Expression e : callbackObject.getExpressions() )
+                paths.put( e.getName(), composePath( e.getPathItemObject() ));
+            callback.setCallbackPaths(paths);
+        }
 
         return callback;
     }
@@ -795,6 +925,15 @@ public class OpenAPIMain {
 
     public static Example composeExample (ExampleObject exampleObject){
         Example example = new Example();
+
+        if( exampleObject.getSummary() != null )
+            example.setSummary( exampleObject.getSummary() );
+        if( exampleObject.getDescription() != null )
+            example.setDescription( exampleObject.getDescription() );
+        if( exampleObject.getValue() != null )
+            example.setValue( exampleObject.getValue() );
+        if( exampleObject.getExternalValue() != null )
+            example.setExternalValue( exampleObject.getExternalValue() );
 
         return example;
     }
@@ -820,6 +959,21 @@ public class OpenAPIMain {
 
     public static Link composeLink (LinkObject linkObject){
         Link link = new Link();
+
+        if( linkObject.getOperationRef() != null )
+            link.setOperationRef( linkObject.getOperationRef() );
+        if( linkObject.getOperationID() != null )
+            link.setOperationId( linkObject.getOperationID() );
+        if( linkObject.getNumLinkParameterTuple() != 0 ){
+            Map<String, String> parameters = new HashMap<>();
+            for( LinkParameterTuple t : linkObject.getLinkParameterTuples() )
+                parameters.put( t.getLinkParameterKey(), t.getLinkParameterValue() );
+            link.setParameters(parameters);
+        }
+        if( linkObject.getDescription() != null )
+            link.setDescription( linkObject.getDescription() );
+        if( linkObject.hasServerObject() )
+            link.setServer( composeServer(linkObject.getServerObject()) );
 
         return link;
     }
@@ -856,6 +1010,31 @@ public class OpenAPIMain {
     public static Header composeHeader (HeaderObject headerObject){
         Header header = new Header();
 
+        header.setRequired( headerObject.getRequired() );
+
+        if( headerObject.getDescription() != null )
+            header.setDescription( headerObject.getDescription() );
+        if( headerObject.getStyle() != null )
+            header.setStyle(headerObject.getStyle());
+        if( headerObject.getExplode() != null )
+            header.setExplode((boolean)headerObject.getExplode());
+        if( headerObject.getAllowReserved() != null )
+            header.setAllowReserved((boolean)headerObject.getAllowReserved());
+        if( headerObject.getExample() != null )
+            header.setExample(headerObject.getExample());
+        if( headerObject.getNumExamplesTuple() != 0 ){
+            Map<String, Example> examples = new HashMap<>();
+            for( ExamplesTuple t : headerObject.getExamplesTuples() )
+                examples.put( ((ExampleObjectTuple)t).getName(), composeExample( ((ExampleObjectTuple)t).getExampleObject() ) );
+            header.setExample(examples);
+        }
+        if( headerObject.getNumContentTuple() != 0 ){
+            Map<String, MediaType> contents = new HashMap<>();
+            for( ContentTuple t : headerObject.getContentTuples() )
+                contents.put( ((ContentObjectTuple)t).getName(), composeMediaType( ((ContentObjectTuple)t).getMediaTypeObject() ) );
+            header.setContentMediaTypes(contents);
+        }
+
         return header;
     }
 
@@ -874,6 +1053,13 @@ public class OpenAPIMain {
 
     public static Tag composeTag (TagObject tagObject){
         Tag tag = new Tag();
+
+        tag.setName( tagObject.getName() );
+
+        if( tagObject.getDescription() != null )
+            tag.setDescription( tagObject.getDescription() );
+        if( tagObject.hasExternalDocumentationObject() )
+            tag.setExternalDocs( composeExternalDocs(tagObject.getExternalDocumentationObject()) );
 
         return tag;
     }
@@ -900,6 +1086,18 @@ public class OpenAPIMain {
 
     public static SecurityScheme composeSecurityScheme (SecuritySchemeObject securitySchemeObject){
         SecurityScheme securityScheme = new SecurityScheme();
+
+        securityScheme.setType( securitySchemeObject.getType() );
+        securityScheme.setName( securitySchemeObject.getName() );
+        securityScheme.setIn( securitySchemeObject.getIn() );
+        securityScheme.setScheme( securitySchemeObject.getScheme() );
+        securityScheme.setOpenIdConnectUrl( securitySchemeObject.getOpenIdConnectUrl() );
+        securityScheme.setFlows( composeOAuthFlows( securitySchemeObject.getFlows().getOAuthFlowsObject() ) );
+
+        if( securitySchemeObject.getDescription() != null )
+            securityScheme.setDescription( securitySchemeObject.getDescription() );
+        if( securitySchemeObject.getBearerFormat() != null )
+            securityScheme.setBearerFormat( securitySchemeObject.getBearerFormat() );
 
         return securityScheme;
     }
@@ -931,6 +1129,15 @@ public class OpenAPIMain {
     public static OAuthFlows composeOAuthFlows (OAuthFlowsObject oAuthFlowsObject){
         OAuthFlows oAuthFlows = new OAuthFlows();
 
+        if( oAuthFlowsObject.hasImplicit() )
+            oAuthFlows.setImplicit( composeOAuthFlow(oAuthFlowsObject.getImplicit().getOAuthFlowObject()) );
+        if( oAuthFlowsObject.hasPassword() )
+            oAuthFlows.setPassword( composeOAuthFlow(oAuthFlowsObject.getPassword().getOAuthFlowObject()) );
+        if( oAuthFlowsObject.hasClientCredentials() )
+            oAuthFlows.setClientCredentials( composeOAuthFlow(oAuthFlowsObject.getClientCredentials().getOAuthFlowObject()) );
+        if( oAuthFlowsObject.hasAuthorizationCode() )
+            oAuthFlows.setAuthorizationCode( composeOAuthFlow(oAuthFlowsObject.getAuthorizationCode().getOAuthFlowObject()) );
+
         return oAuthFlows;
     }
 
@@ -950,13 +1157,22 @@ public class OpenAPIMain {
 
     public static OAuthFlow composeOAuthFlow (OAuthFlowObject oAuthFlowObject){
         OAuthFlow oAuthFlow = new OAuthFlow();
+        Map<String, String> scopes = new HashMap<>();
+
+        oAuthFlow.setAuthorizationUrl(oAuthFlowObject.getAuthorizationUrl());
+        oAuthFlow.setTokenUrl(oAuthFlowObject.getTokenUrl());
+        for( ScopesTuple t : oAuthFlowObject.getScopesTuples() )
+            scopes.put(t.getScopesKey(), t.getScopesValue());
+        oAuthFlow.setScopes(scopes);
+
+        if( oAuthFlowObject.getRefreshUrl() != null )
+            oAuthFlow.setRefreshUrl(oAuthFlowObject.getRefreshUrl());
 
         return oAuthFlow;
     }
 
     public static SecurityRequirementObject parseSecurityRequirement(SecurityRequirement securityRequirement){
         SecurityRequirementObject securityRequirementObject = new SecurityRequirementObject();
-
 
         if( securityRequirement.getRequirements() != null ){
             for( String key : securityRequirement.getRequirements().keySet() ){
@@ -973,6 +1189,17 @@ public class OpenAPIMain {
 
     public static SecurityRequirement composeSecurityRequiremnet (SecurityRequirementObject securityRequirementObject){
         SecurityRequirement securityRequirement = new SecurityRequirement();
+
+        if( securityRequirementObject.getNumSecurityRequirementTuple() != 0 ){
+            Map<String, List<String>> requirements = new HashMap<>();
+            for( SecurityRequirementTuple t : securityRequirementObject.getSecurityRequirementTuples() ){
+                List<String> values = new ArrayList<>();
+                for( SecurityRequirementValue v : t.getSecurityRequirementValues() )
+                    values.add(v.getValue());
+                requirements.put(t.getName(), values);
+            }
+            securityRequirement.setRequirements(requirements);
+        }
 
         return securityRequirement;
     }

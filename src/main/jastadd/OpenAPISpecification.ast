@@ -123,10 +123,10 @@ ExampleObject ::= <Summary> <Description> <Value:Object> <ExternalValue>;
 
 //Link Object
 LinkObject ::= <OperationRef> <OperationID> LinkParameterTuple* <LinkRequestBody:Object> <Description> [ServerObject];
-LinkParameterTuple ::= <LinkParameterKey> <LinkParameterValue:Object>;
+LinkParameterTuple ::= <LinkParameterKey> <LinkParameterValue>;
 
 //Header Object
-HeaderObject ::= <Name> <In> <Description> <Required:boolean> <DeprecatedBoolean:Object> <AllowEmptyValue:Object> <Style> <Explode:Object> <AllowReserved:Object> [Schema] <Example:Object> ExamplesTuple* ContentTuple*;
+HeaderObject ::= <Description> <Required:boolean> <DeprecatedBoolean:Object> <AllowEmptyValue:Object> <Style> <Explode:Object> <AllowReserved:Object> [Schema] <Example:Object> ExamplesTuple* ContentTuple*;
 
 //Tag Object
 TagObject ::= <Name> <Description> [ExternalDocumentationObject];

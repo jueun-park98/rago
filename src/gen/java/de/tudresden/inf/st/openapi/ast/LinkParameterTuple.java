@@ -3,8 +3,8 @@ package de.tudresden.inf.st.openapi.ast;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:126
- * @astdecl LinkParameterTuple : ASTNode ::= <LinkParameterKey:String> <LinkParameterValue:Object>;
- * @production LinkParameterTuple : {@link ASTNode} ::= <span class="component">&lt;LinkParameterKey:String&gt;</span> <span class="component">&lt;LinkParameterValue:Object&gt;</span>;
+ * @astdecl LinkParameterTuple : ASTNode ::= <LinkParameterKey:String> <LinkParameterValue:String>;
+ * @production LinkParameterTuple : {@link ASTNode} ::= <span class="component">&lt;LinkParameterKey:String&gt;</span> <span class="component">&lt;LinkParameterValue:String&gt;</span>;
 
  */
 public class LinkParameterTuple extends ASTNode<ASTNode> implements Cloneable {
@@ -28,10 +28,10 @@ public class LinkParameterTuple extends ASTNode<ASTNode> implements Cloneable {
    */
   @ASTNodeAnnotation.Constructor(
     name = {"LinkParameterKey", "LinkParameterValue"},
-    type = {"String", "Object"},
+    type = {"String", "String"},
     kind = {"Token", "Token"}
   )
-  public LinkParameterTuple(String p0, Object p1) {
+  public LinkParameterTuple(String p0, String p1) {
     setLinkParameterKey(p0);
     setLinkParameterValue(p1);
   }
@@ -139,7 +139,7 @@ public class LinkParameterTuple extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:108
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node) && (tokenString_LinkParameterKey == ((LinkParameterTuple) node).tokenString_LinkParameterKey) && (tokenObject_LinkParameterValue == ((LinkParameterTuple) node).tokenObject_LinkParameterValue);    
+    return super.is$Equal(node) && (tokenString_LinkParameterKey == ((LinkParameterTuple) node).tokenString_LinkParameterKey) && (tokenString_LinkParameterValue == ((LinkParameterTuple) node).tokenString_LinkParameterValue);    
   }
   /**
    * Replaces the lexeme LinkParameterKey.
@@ -166,20 +166,20 @@ public class LinkParameterTuple extends ASTNode<ASTNode> implements Cloneable {
    * @param value The new value for the lexeme LinkParameterValue.
    * @apilevel high-level
    */
-  public void setLinkParameterValue(Object value) {
-    tokenObject_LinkParameterValue = value;
+  public void setLinkParameterValue(String value) {
+    tokenString_LinkParameterValue = value;
   }
   /** @apilevel internal 
    */
-  protected Object tokenObject_LinkParameterValue;
+  protected String tokenString_LinkParameterValue;
   /**
    * Retrieves the value for the lexeme LinkParameterValue.
    * @return The value for the lexeme LinkParameterValue.
    * @apilevel high-level
    */
   @ASTNodeAnnotation.Token(name="LinkParameterValue")
-  public Object getLinkParameterValue() {
-    return tokenObject_LinkParameterValue;
+  public String getLinkParameterValue() {
+    return tokenString_LinkParameterValue != null ? tokenString_LinkParameterValue : "";
   }
 /** @apilevel internal */
 protected boolean print_visited = false;

@@ -1,0 +1,9 @@
+/*
+aspect Composer {
+
+    public Components ComponentsObject.composeComponents (){
+        Components components = new Components();
+
+        return components;
+    }
+}*/

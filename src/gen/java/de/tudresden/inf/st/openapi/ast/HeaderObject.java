@@ -3,8 +3,8 @@ package de.tudresden.inf.st.openapi.ast;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:129
- * @astdecl HeaderObject : ASTNode ::= <Name:String> <In:String> <Description:String> <Required:boolean> <DeprecatedBoolean:Object> <AllowEmptyValue:Object> <Style:String> <Explode:Object> <AllowReserved:Object> [Schema] <Example:Object> ExamplesTuple* ContentTuple*;
- * @production HeaderObject : {@link ASTNode} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;In:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;Required:boolean&gt;</span> <span class="component">&lt;DeprecatedBoolean:Object&gt;</span> <span class="component">&lt;AllowEmptyValue:Object&gt;</span> <span class="component">&lt;Style:String&gt;</span> <span class="component">&lt;Explode:Object&gt;</span> <span class="component">&lt;AllowReserved:Object&gt;</span> <span class="component">[{@link Schema}]</span> <span class="component">&lt;Example:Object&gt;</span> <span class="component">{@link ExamplesTuple}*</span> <span class="component">{@link ContentTuple}*</span>;
+ * @astdecl HeaderObject : ASTNode ::= <Description:String> <Required:boolean> <DeprecatedBoolean:Object> <AllowEmptyValue:Object> <Style:String> <Explode:Object> <AllowReserved:Object> [Schema] <Example:Object> ExamplesTuple* ContentTuple*;
+ * @production HeaderObject : {@link ASTNode} ::= <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;Required:boolean&gt;</span> <span class="component">&lt;DeprecatedBoolean:Object&gt;</span> <span class="component">&lt;AllowEmptyValue:Object&gt;</span> <span class="component">&lt;Style:String&gt;</span> <span class="component">&lt;Explode:Object&gt;</span> <span class="component">&lt;AllowReserved:Object&gt;</span> <span class="component">[{@link Schema}]</span> <span class="component">&lt;Example:Object&gt;</span> <span class="component">{@link ExamplesTuple}*</span> <span class="component">{@link ContentTuple}*</span>;
 
  */
 public class HeaderObject extends ASTNode<ASTNode> implements Cloneable {
@@ -31,59 +31,57 @@ public class HeaderObject extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:16
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Name", "In", "Description", "Required", "DeprecatedBoolean", "AllowEmptyValue", "Style", "Explode", "AllowReserved", "Schema", "Example", "ExamplesTuple", "ContentTuple"},
-    type = {"String", "String", "String", "boolean", "Object", "Object", "String", "Object", "Object", "Opt<Schema>", "Object", "JastAddList<ExamplesTuple>", "JastAddList<ContentTuple>"},
-    kind = {"Token", "Token", "Token", "Token", "Token", "Token", "Token", "Token", "Token", "Opt", "Token", "List", "List"}
+    name = {"Description", "Required", "DeprecatedBoolean", "AllowEmptyValue", "Style", "Explode", "AllowReserved", "Schema", "Example", "ExamplesTuple", "ContentTuple"},
+    type = {"String", "boolean", "Object", "Object", "String", "Object", "Object", "Opt<Schema>", "Object", "JastAddList<ExamplesTuple>", "JastAddList<ContentTuple>"},
+    kind = {"Token", "Token", "Token", "Token", "Token", "Token", "Token", "Opt", "Token", "List", "List"}
   )
-  public HeaderObject(String p0, String p1, String p2, boolean p3, Object p4, Object p5, String p6, Object p7, Object p8, Opt<Schema> p9, Object p10, JastAddList<ExamplesTuple> p11, JastAddList<ContentTuple> p12) {
-    setName(p0);
-    setIn(p1);
-    setDescription(p2);
-    setRequired(p3);
-    setDeprecatedBoolean(p4);
-    setAllowEmptyValue(p5);
-    setStyle(p6);
-    setExplode(p7);
-    setAllowReserved(p8);
-    setChild(p9, 0);
-    setExample(p10);
-    setChild(p11, 1);
-    setChild(p12, 2);
+  public HeaderObject(String p0, boolean p1, Object p2, Object p3, String p4, Object p5, Object p6, Opt<Schema> p7, Object p8, JastAddList<ExamplesTuple> p9, JastAddList<ContentTuple> p10) {
+    setDescription(p0);
+    setRequired(p1);
+    setDeprecatedBoolean(p2);
+    setAllowEmptyValue(p3);
+    setStyle(p4);
+    setExplode(p5);
+    setAllowReserved(p6);
+    setChild(p7, 0);
+    setExample(p8);
+    setChild(p9, 1);
+    setChild(p10, 2);
   }
   /** @apilevel low-level 
-   * @declaredat ASTNode:37
+   * @declaredat ASTNode:35
    */
   protected int numChildren() {
     return 3;
   }
   /**
    * @apilevel internal
-   * @declaredat ASTNode:43
+   * @declaredat ASTNode:41
    */
   public boolean mayHaveRewrite() {
     return false;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:47
+   * @declaredat ASTNode:45
    */
   public void flushAttrCache() {
     super.flushAttrCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:51
+   * @declaredat ASTNode:49
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:55
+   * @declaredat ASTNode:53
    */
   public HeaderObject clone() throws CloneNotSupportedException {
     HeaderObject node = (HeaderObject) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:60
+   * @declaredat ASTNode:58
    */
   public HeaderObject copy() {
     try {
@@ -103,7 +101,7 @@ public class HeaderObject extends ASTNode<ASTNode> implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:79
+   * @declaredat ASTNode:77
    */
   @Deprecated
   public HeaderObject fullCopy() {
@@ -114,7 +112,7 @@ public class HeaderObject extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:89
+   * @declaredat ASTNode:87
    */
   public HeaderObject treeCopyNoTransform() {
     HeaderObject tree = (HeaderObject) copy();
@@ -135,7 +133,7 @@ public class HeaderObject extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:109
+   * @declaredat ASTNode:107
    */
   public HeaderObject treeCopy() {
     HeaderObject tree = (HeaderObject) copy();
@@ -151,50 +149,10 @@ public class HeaderObject extends ASTNode<ASTNode> implements Cloneable {
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:123
+   * @declaredat ASTNode:121
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node) && (tokenString_Name == ((HeaderObject) node).tokenString_Name) && (tokenString_In == ((HeaderObject) node).tokenString_In) && (tokenString_Description == ((HeaderObject) node).tokenString_Description) && (tokenboolean_Required == ((HeaderObject) node).tokenboolean_Required) && (tokenObject_DeprecatedBoolean == ((HeaderObject) node).tokenObject_DeprecatedBoolean) && (tokenObject_AllowEmptyValue == ((HeaderObject) node).tokenObject_AllowEmptyValue) && (tokenString_Style == ((HeaderObject) node).tokenString_Style) && (tokenObject_Explode == ((HeaderObject) node).tokenObject_Explode) && (tokenObject_AllowReserved == ((HeaderObject) node).tokenObject_AllowReserved) && (tokenObject_Example == ((HeaderObject) node).tokenObject_Example);    
-  }
-  /**
-   * Replaces the lexeme Name.
-   * @param value The new value for the lexeme Name.
-   * @apilevel high-level
-   */
-  public void setName(String value) {
-    tokenString_Name = value;
-  }
-  /** @apilevel internal 
-   */
-  protected String tokenString_Name;
-  /**
-   * Retrieves the value for the lexeme Name.
-   * @return The value for the lexeme Name.
-   * @apilevel high-level
-   */
-  @ASTNodeAnnotation.Token(name="Name")
-  public String getName() {
-    return tokenString_Name != null ? tokenString_Name : "";
-  }
-  /**
-   * Replaces the lexeme In.
-   * @param value The new value for the lexeme In.
-   * @apilevel high-level
-   */
-  public void setIn(String value) {
-    tokenString_In = value;
-  }
-  /** @apilevel internal 
-   */
-  protected String tokenString_In;
-  /**
-   * Retrieves the value for the lexeme In.
-   * @return The value for the lexeme In.
-   * @apilevel high-level
-   */
-  @ASTNodeAnnotation.Token(name="In")
-  public String getIn() {
-    return tokenString_In != null ? tokenString_In : "";
+    return super.is$Equal(node) && (tokenString_Description == ((HeaderObject) node).tokenString_Description) && (tokenboolean_Required == ((HeaderObject) node).tokenboolean_Required) && (tokenObject_DeprecatedBoolean == ((HeaderObject) node).tokenObject_DeprecatedBoolean) && (tokenObject_AllowEmptyValue == ((HeaderObject) node).tokenObject_AllowEmptyValue) && (tokenString_Style == ((HeaderObject) node).tokenString_Style) && (tokenObject_Explode == ((HeaderObject) node).tokenObject_Explode) && (tokenObject_AllowReserved == ((HeaderObject) node).tokenObject_AllowReserved) && (tokenObject_Example == ((HeaderObject) node).tokenObject_Example);    
   }
   /**
    * Replaces the lexeme Description.
@@ -644,12 +602,6 @@ protected boolean print_visited = false;
     try {
             String result = "{ ";
     
-            if( !getName().isEmpty() ){
-            result += "\"name\": \"" + getName() + "\", ";
-            }
-            if( !getIn().isEmpty() ){
-            result += "\"in\": \"" + getIn() + "\", ";
-            }
             if( !getDescription().isEmpty() ){
             result += "\"description\": \"" + getDescription() + "\", ";
             }
