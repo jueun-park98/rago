@@ -33,8 +33,8 @@ public class OpenAPIMain {
     public static void main(String[] args) throws IOException, ResolutionException, ValidationException, EncodeException {
         OpenAPIObject openApi;
         OpenApi3 api3;
-        String fileName = "uspto.json";
-        FileWriter writer = new FileWriter("./gen-api-ex/api-with-examples_generated.json");
+        String fileName = "petstore-expanded.json";
+        FileWriter writer = new FileWriter("./gen-api-ex/petstore-expanded_generated.json");
 
         URL expUrl = OpenAPIMain.class.getClassLoader().getResource(fileName);
         File file = null;
