@@ -33,8 +33,8 @@ public class OpenAPIMain {
     public static void main(String[] args) throws IOException, ResolutionException, ValidationException, EncodeException {
         OpenAPIObject openApi;
         OpenApi3 api3;
-        String fileName = "api-with-examples.json";
-        FileWriter writer = new FileWriter("composedFile.json");
+        String fileName = "uspto.json";
+        FileWriter writer = new FileWriter("./gen-api-ex/api-with-examples_generated.json");
 
         URL expUrl = OpenAPIMain.class.getClassLoader().getResource(fileName);
         File file = null;
@@ -671,7 +671,10 @@ public class OpenAPIMain {
 
         parameterObject.setName(parameter.getName());
         parameterObject.setIn(parameter.getIn());
-        parameterObject.setRequired(parameter.getRequired());
+        if( parameter.getRequired() == null )
+            parameterObject.setRequired(false);
+        else
+            parameterObject.setRequired(parameter.getRequired());
 
         if( parameter.getDescription() != null )
             parameterObject.setDescription( parameter.getDescription() );
