@@ -1,17 +1,12 @@
 {
   "openapi" : "3.0.0",
   "info" : {
-    "description" : "",
-    "termsOfService" : "",
     "title" : "Callback Example",
     "version" : "1.0.0"
   },
   "paths" : {
     "/streams" : {
-      "description" : "",
-      "summary" : "",
       "post" : {
-        "summary" : "",
         "description" : "subscribes a client to receive out-of-band data",
         "operationId" : "",
         "parameters" : [ {
@@ -31,11 +26,7 @@
         "callbacks" : {
           "onData" : {
             "{$request.query.callbackUrl}/data" : {
-              "description" : "",
-              "summary" : "",
               "post" : {
-                "summary" : "",
-                "description" : "",
                 "operationId" : "",
                 "requestBody" : {
                   "description" : "subscription payload",

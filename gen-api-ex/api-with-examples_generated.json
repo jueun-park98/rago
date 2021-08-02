@@ -1,18 +1,13 @@
 {
   "openapi" : "3.0.0",
   "info" : {
-    "description" : "",
-    "termsOfService" : "",
     "title" : "Simple API overview",
     "version" : "2.0.0"
   },
   "paths" : {
     "/v2" : {
-      "description" : "",
-      "summary" : "",
       "get" : {
         "summary" : "Show API version details",
-        "description" : "",
         "operationId" : "getVersionDetailsv2",
         "responses" : {
           "200" : {
@@ -21,8 +16,6 @@
               "application/json" : {
                 "examples" : {
                   "foo" : {
-                    "summary" : "",
-                    "description" : "",
                     "value" : {
                       "version" : {
                         "status" : "CURRENT",
@@ -52,8 +45,7 @@
                           "rel" : "describedby"
                         } ]
                       }
-                    },
-                    "externalValue" : ""
+                    }
                   }
                 }
               }
@@ -65,8 +57,6 @@
               "application/json" : {
                 "examples" : {
                   "foo" : {
-                    "summary" : "",
-                    "description" : "",
                     "value" : {
                       "version" : {
                         "status" : "CURRENT",
@@ -92,8 +82,7 @@
                           "rel" : "describedby"
                         } ]
                       }
-                    },
-                    "externalValue" : ""
+                    }
                   }
                 }
               }
@@ -103,11 +92,8 @@
       }
     },
     "/" : {
-      "description" : "",
-      "summary" : "",
       "get" : {
         "summary" : "List API versions",
-        "description" : "",
         "operationId" : "listVersionsv2",
         "responses" : {
           "200" : {
@@ -116,8 +102,6 @@
               "application/json" : {
                 "examples" : {
                   "foo" : {
-                    "summary" : "",
-                    "description" : "",
                     "value" : {
                       "versions" : [ {
                         "status" : "CURRENT",
@@ -136,8 +120,7 @@
                           "rel" : "self"
                         } ]
                       } ]
-                    },
-                    "externalValue" : ""
+                    }
                   }
                 }
               }
@@ -149,10 +132,7 @@
               "application/json" : {
                 "examples" : {
                   "foo" : {
-                    "summary" : "",
-                    "description" : "",
-                    "value" : "{\n \"versions\": [\n       {\n         \"status\": \"CURRENT\",\n         \"updated\": \"2011-01-21T11:33:21Z\",\n         \"id\": \"v2.0\",\n         \"links\": [\n             {\n                 \"href\": \"http://127.0.0.1:8774/v2/\",\n                 \"rel\": \"self\"\n             }\n         ]\n     },\n     {\n         \"status\": \"EXPERIMENTAL\",\n         \"updated\": \"2013-07-23T11:33:21Z\",\n         \"id\": \"v3.0\",\n         \"links\": [\n             {\n                 \"href\": \"http://127.0.0.1:8774/v3/\",\n                 \"rel\": \"self\"\n             }\n         ]\n     }\n ]\n}\n",
-                    "externalValue" : ""
+                    "value" : "{\n \"versions\": [\n       {\n         \"status\": \"CURRENT\",\n         \"updated\": \"2011-01-21T11:33:21Z\",\n         \"id\": \"v2.0\",\n         \"links\": [\n             {\n                 \"href\": \"http://127.0.0.1:8774/v2/\",\n                 \"rel\": \"self\"\n             }\n         ]\n     },\n     {\n         \"status\": \"EXPERIMENTAL\",\n         \"updated\": \"2013-07-23T11:33:21Z\",\n         \"id\": \"v3.0\",\n         \"links\": [\n             {\n                 \"href\": \"http://127.0.0.1:8774/v3/\",\n                 \"rel\": \"self\"\n             }\n         ]\n     }\n ]\n}\n"
                   }
                 }
               }

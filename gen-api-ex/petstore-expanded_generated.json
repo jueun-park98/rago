@@ -6,12 +6,12 @@
       "name" : "Swagger API Team",
       "url" : "http://swagger.io"
     },
-    "description" : "http://swagger.io/terms/",
+    "description" : "A sample API that uses a petstore as an example to demonstrate features in the OpenAPI 3.0 specification",
     "license" : {
       "name" : "Apache 2.0",
       "url" : "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "termsOfService" : "",
+    "termsOfService" : "http://swagger.io/terms/",
     "title" : "Swagger Petstore",
     "version" : "1.0.0"
   },
