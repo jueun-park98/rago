@@ -1,5 +1,10 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
+import org.openapi4j.core.exception.ResolutionException;
+import org.openapi4j.core.validation.ValidationException;
+import org.openapi4j.parser.model.v3.*;
+import java.io.IOException;
+import java.util.*;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:12
@@ -8,6 +13,34 @@ package de.tudresden.inf.st.openapi.ast;
 
  */
 public class LicenseObject extends ASTNode<ASTNode> implements Cloneable {
+  /**
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:74
+   */
+  public static License composeLicense (LicenseObject licenseObject){
+        License license = new License();
+
+        license.setName( licenseObject.getName() );
+
+        if( licenseObject.getUrl() != null )
+        license.setUrl( licenseObject.getUrl() );
+
+        return license;
+        }
+  /**
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:62
+   */
+  public static LicenseObject parseLicense(License license){
+        LicenseObject licenseObject = new LicenseObject();
+
+        if( license.getName() != null )
+        licenseObject.setName( license.getName() );
+        if( license.getUrl() != null )
+        licenseObject.setUrl( license.getUrl() );
+
+        return licenseObject;
+        }
   /**
    * @declaredat ASTNode:1
    */
@@ -180,34 +213,6 @@ public class LicenseObject extends ASTNode<ASTNode> implements Cloneable {
   @ASTNodeAnnotation.Token(name="Url")
   public String getUrl() {
     return tokenString_Url != null ? tokenString_Url : "";
-  }
-/** @apilevel internal */
-protected boolean print_visited = false;
-  /**
-   * @attribute syn
-   * @aspect Print
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Print", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2")
-  public String print() {
-    if (print_visited) {
-      throw new RuntimeException("Circular definition of attribute ASTNode.print().");
-    }
-    print_visited = true;
-    try {
-            String result =
-            "{ \"name\": \"" + getName() + "\"";
-    
-            if( !getUrl().isEmpty() ){
-            result +=", \"url\": \"" + getUrl() + "\"";
-            }
-            result += " }";
-            return result;
-            }
-    finally {
-      print_visited = false;
-    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

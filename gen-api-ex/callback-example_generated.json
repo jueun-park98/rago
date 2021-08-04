@@ -8,7 +8,6 @@
     "/streams" : {
       "post" : {
         "description" : "subscribes a client to receive out-of-band data",
-        "operationId" : "",
         "parameters" : [ {
           "description" : "the location where data will be sent.  Must be network accessible\nby the source server\n",
           "required" : true,
@@ -27,7 +26,6 @@
           "onData" : {
             "{$request.query.callbackUrl}/data" : {
               "post" : {
-                "operationId" : "",
                 "requestBody" : {
                   "description" : "subscription payload",
                   "content" : {

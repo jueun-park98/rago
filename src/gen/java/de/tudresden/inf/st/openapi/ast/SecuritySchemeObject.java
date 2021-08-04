@@ -1,5 +1,10 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
+import org.openapi4j.core.exception.ResolutionException;
+import org.openapi4j.core.validation.ValidationException;
+import org.openapi4j.parser.model.v3.*;
+import java.io.IOException;
+import java.util.*;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:145
@@ -8,6 +13,50 @@ package de.tudresden.inf.st.openapi.ast;
 
  */
 public class SecuritySchemeObject extends ASTNode<ASTNode> implements Cloneable {
+  /**
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:482
+   */
+  public static SecurityScheme composeSecurityScheme (SecuritySchemeObject securitySchemeObject){
+        SecurityScheme securityScheme = new SecurityScheme();
+
+        securityScheme.setType( securitySchemeObject.getType() );
+        securityScheme.setName( securitySchemeObject.getName() );
+        securityScheme.setIn( securitySchemeObject.getIn() );
+        securityScheme.setScheme( securitySchemeObject.getScheme() );
+        securityScheme.setOpenIdConnectUrl( securitySchemeObject.getOpenIdConnectUrl() );
+        securityScheme.setFlows( OAuthFlowsObject.composeOAuthFlows( securitySchemeObject.getFlows().getOAuthFlowsObject() ) );
+
+        if( !securitySchemeObject.getDescription().isEmpty() )
+        securityScheme.setDescription( securitySchemeObject.getDescription() );
+        if( securitySchemeObject.getBearerFormat() != null )
+        securityScheme.setBearerFormat( securitySchemeObject.getBearerFormat() );
+
+        return securityScheme;
+        }
+  /**
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:531
+   */
+  public static SecuritySchemeObject parseSecurityScheme(SecurityScheme securityScheme){
+        SecuritySchemeObject securitySchemeObject = new SecuritySchemeObject();
+        Flows flows = new Flows();
+
+        securitySchemeObject.setType( securityScheme.getType() );
+        securitySchemeObject.setName( securityScheme.getName() );
+        securitySchemeObject.setIn( securityScheme.getIn() );
+        securitySchemeObject.setScheme( securityScheme.getScheme() );
+        securitySchemeObject.setOpenIdConnectUrl( securityScheme.getOpenIdConnectUrl() );
+        flows.setOAuthFlowsObject( OAuthFlowsObject.parseOAuthFlows(securityScheme.getFlows()) );
+        securitySchemeObject.setFlows( flows );
+
+        if( securityScheme.getDescription() != null )
+        securitySchemeObject.setDescription( securityScheme.getDescription() );
+        if( securityScheme.getBearerFormat() != null )
+        securitySchemeObject.setBearerFormat( securityScheme.getBearerFormat() );
+
+        return securitySchemeObject;
+        }
   /**
    * @declaredat ASTNode:1
    */
@@ -313,39 +362,6 @@ public class SecuritySchemeObject extends ASTNode<ASTNode> implements Cloneable 
   @ASTNodeAnnotation.Token(name="OpenIdConnectUrl")
   public String getOpenIdConnectUrl() {
     return tokenString_OpenIdConnectUrl != null ? tokenString_OpenIdConnectUrl : "";
-  }
-/** @apilevel internal */
-protected boolean print_visited = false;
-  /**
-   * @attribute syn
-   * @aspect Print
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Print", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2")
-  public String print() {
-    if (print_visited) {
-      throw new RuntimeException("Circular definition of attribute ASTNode.print().");
-    }
-    print_visited = true;
-    try {
-            String result = "{ \"type\" : \"" + getType() + "\", " ;
-            if( !getDescription().isEmpty() ){
-            result += "\"description\" : \"" + getDescription() + "\", ";
-            }
-            result += "\"name\" : \"" + getName() + "\", " +
-            "\"in\" : \"" + getIn() + "\", " +
-            "\"scheme\" : \"" + getScheme() + "\", ";
-            if( !getBearerFormat().isEmpty() ){
-            result += "\"bearerFormat\" : \"" + getBearerFormat() + "\", ";
-            }
-            result += "\"flows\" : " + getFlows() + ", " +
-            "\"openIdConnectUrl\" : \"" + getOpenIdConnectUrl() + "\" }";
-            return result;
-            }
-    finally {
-      print_visited = false;
-    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

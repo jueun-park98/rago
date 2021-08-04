@@ -1,5 +1,10 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
+import org.openapi4j.core.exception.ResolutionException;
+import org.openapi4j.core.validation.ValidationException;
+import org.openapi4j.parser.model.v3.*;
+import java.io.IOException;
+import java.util.*;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:106
@@ -8,6 +13,49 @@ package de.tudresden.inf.st.openapi.ast;
 
  */
 public class EncodingObject extends ASTNode<ASTNode> implements Cloneable {
+  /**
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:344
+   */
+  public static EncodingProperty composeEncodingProperty (EncodingObject encodingObject){
+        EncodingProperty encodingProperty = new EncodingProperty();
+
+        if( encodingObject.getContentType() != null )
+        encodingProperty.setContentType( encodingObject.getContentType() );
+        if( encodingObject.getNumHeadersTuple() != 0 ){
+        Map<String, Header> headers = new HashMap<>();
+        for( HeadersTuple t : encodingObject.getHeadersTuples() )
+        headers.put( ((HeaderObjectTuple)t).getName(), HeaderObject.composeHeader( ((HeaderObjectTuple)t).getHeaderObject() ) );
+        encodingProperty.setHeaders(headers);
+        }
+        if( encodingObject.getStyle() != null )
+        encodingProperty.setStyle(encodingObject.getStyle());
+        if( encodingObject.getExplode() != null )
+        encodingProperty.setExplode( (boolean) encodingObject.getExplode() );
+
+        return encodingProperty;
+        }
+  /**
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:405
+   */
+  public static EncodingObject parseEncoding(EncodingProperty encodingProperty){
+        EncodingObject encodingObject = new EncodingObject();
+
+        if( encodingProperty.getContentType() != null )
+        encodingObject.setContentType( encodingProperty.getContentType() );
+        if( encodingProperty.getHeaders() != null ){
+        for( String key : encodingProperty.getHeaders().keySet() )
+        encodingObject.addHeadersTuple(new HeaderObjectTuple(key, HeaderObject.parseHeader(encodingProperty.getHeader(key))));
+        }
+        if( encodingProperty.getStyle() != null )
+        encodingObject.setStyle( encodingProperty.getStyle() );
+        if( encodingProperty.getExplode() != null )
+        encodingObject.setExplode( encodingProperty.getExplode() );
+        // if( encodingProperty.getAllowReserved() != null ) /** parser for allowReserved non-existent **/
+
+        return encodingObject;
+        }
   /**
    * @declaredat ASTNode:1
    */
@@ -335,49 +383,6 @@ public class EncodingObject extends ASTNode<ASTNode> implements Cloneable {
   @ASTNodeAnnotation.Token(name="AllowReserved")
   public Object getAllowReserved() {
     return tokenObject_AllowReserved;
-  }
-/** @apilevel internal */
-protected boolean print_visited = false;
-  /**
-   * @attribute syn
-   * @aspect Print
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Print", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2")
-  public String print() {
-    if (print_visited) {
-      throw new RuntimeException("Circular definition of attribute ASTNode.print().");
-    }
-    print_visited = true;
-    try {
-            String result = "{ ";
-    
-            if( !getContentType().isEmpty() ){
-            result += "\"contentType\" : \"" + getContentType() + "\", ";
-            }
-            if( getNumHeadersTuple() != 0 ){
-            result += "\"headers\": { ";
-            for( HeadersTuple t : getHeadersTuples() ){
-            result += t.print() + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " }, ";
-            }
-            if( !getStyle().isEmpty() ){
-            result += "\"style\" : \"" + getStyle() + "\", ";
-            }
-            if( getExplode() != null ){
-            result += "\"explode\" : " + getExplode() + ", ";
-            }
-            if( getAllowReserved() != null ){
-            result += "\"allowReserved\" : " + getAllowReserved() + ", ";
-            }
-            result += result.substring(0, result.length() - 2) + " }, ";
-            return result;
-            }
-    finally {
-      print_visited = false;
-    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

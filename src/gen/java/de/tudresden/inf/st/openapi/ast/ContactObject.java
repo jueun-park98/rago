@@ -1,5 +1,10 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
+import org.openapi4j.core.exception.ResolutionException;
+import org.openapi4j.core.validation.ValidationException;
+import org.openapi4j.parser.model.v3.*;
+import java.io.IOException;
+import java.util.*;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:11
@@ -8,6 +13,38 @@ package de.tudresden.inf.st.openapi.ast;
 
  */
 public class ContactObject extends ASTNode<ASTNode> implements Cloneable {
+  /**
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:61
+   */
+  public static Contact composeContact (ContactObject contactObject){
+        Contact contact = new Contact();
+
+        if( contactObject.getName() != null )
+        contact.setName( contactObject.getName() );
+        if( contactObject.getUrl() != null )
+        contact.setUrl( contactObject.getUrl() );
+        if( contactObject.getEmail() != null )
+        contact.setEmail( contactObject.getEmail() );
+
+        return contact;
+        }
+  /**
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:49
+   */
+  public static ContactObject parseContact(Contact contact){
+        ContactObject contactObject = new ContactObject();
+
+        if( contact.getName() != null )
+        contactObject.setName( contact.getName() );
+        if( contact.getUrl() != null )
+        contactObject.setUrl( contact.getUrl() );
+        if( contact.getEmail() != null )
+        contactObject.setEmail( contact.getEmail() );
+
+        return contactObject;
+        }
   /**
    * @declaredat ASTNode:1
    */
@@ -201,40 +238,6 @@ public class ContactObject extends ASTNode<ASTNode> implements Cloneable {
   @ASTNodeAnnotation.Token(name="Email")
   public String getEmail() {
     return tokenString_Email != null ? tokenString_Email : "";
-  }
-/** @apilevel internal */
-protected boolean print_visited = false;
-  /**
-   * @attribute syn
-   * @aspect Print
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Print", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2")
-  public String print() {
-    if (print_visited) {
-      throw new RuntimeException("Circular definition of attribute ASTNode.print().");
-    }
-    print_visited = true;
-    try {
-            String result =
-            "{ ";
-    
-            if( !getName().isEmpty() ){
-            result += "\"name\": \"" + getName() + "\", ";
-            }
-            if( !getUrl().isEmpty() ){
-            result += "\"url\": \"" + getUrl() + "\", ";
-            }
-            if( !getEmail().isEmpty() ){
-            result += "\"email\": \"" + getEmail() + "\", ";
-            }
-            result = result.substring(0, result.length() - 2) + " }";
-            return result;
-            }
-    finally {
-      print_visited = false;
-    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

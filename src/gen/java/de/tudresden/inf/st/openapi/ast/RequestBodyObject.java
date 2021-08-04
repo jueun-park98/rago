@@ -1,5 +1,10 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
+import org.openapi4j.core.exception.ResolutionException;
+import org.openapi4j.core.validation.ValidationException;
+import org.openapi4j.parser.model.v3.*;
+import java.io.IOException;
+import java.util.*;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:80
@@ -8,6 +13,40 @@ package de.tudresden.inf.st.openapi.ast;
 
  */
 public class RequestBodyObject extends RequestBody implements Cloneable {
+  /**
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:308
+   */
+  public static org.openapi4j.parser.model.v3.RequestBody composeRequestBody (RequestBodyObject requestBodyObject){
+        org.openapi4j.parser.model.v3.RequestBody requestBody = new org.openapi4j.parser.model.v3.RequestBody();
+        Map<String, MediaType> contents = new HashMap<>();
+
+        for( ContentTuple t : requestBodyObject.getContentTuples() )
+        contents.put( ((ContentObjectTuple)t).getName(), MediaTypeObject.composeMediaType( ((ContentObjectTuple)t).getMediaTypeObject() ) );
+        requestBody.setContentMediaTypes(contents);
+        if( !requestBodyObject.getDescription().isEmpty() )
+        requestBody.setDescription(requestBodyObject.getDescription());
+        if( requestBodyObject.getRequired() != null )
+        requestBody.setRequired((boolean)requestBodyObject.getRequired());
+
+        return requestBody;
+        }
+  /**
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:375
+   */
+  public static RequestBodyObject parseRequestBody(org.openapi4j.parser.model.v3.RequestBody requestBody){
+        RequestBodyObject requestBodyObject = new RequestBodyObject();
+
+        for( String key : requestBody.getContentMediaTypes().keySet() )
+        requestBodyObject.addContentTuple(new ContentObjectTuple(key, MediaTypeObject.parseMediaType(requestBody.getContentMediaType(key))));
+        if( requestBody.getDescription() != null )
+        requestBodyObject.setDescription(requestBody.getDescription());
+        if( requestBody.getRequired() != null )
+        requestBodyObject.setRequired( requestBody.getRequired() );
+
+        return requestBodyObject;
+        }
   /**
    * @declaredat ASTNode:1
    */
@@ -293,43 +332,6 @@ public class RequestBodyObject extends RequestBody implements Cloneable {
   @ASTNodeAnnotation.Token(name="Required")
   public Object getRequired() {
     return tokenObject_Required;
-  }
-/** @apilevel internal */
-protected boolean print_visited = false;
-  /**
-   * @attribute syn
-   * @aspect Print
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Print", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2")
-  public String print() {
-    if (print_visited) {
-      throw new RuntimeException("Circular definition of attribute ASTNode.print().");
-    }
-    print_visited = true;
-    try {
-            String result = "{ ";
-    
-            if( !getDescription().isEmpty() ){
-            result += "\"description\" : \"" + getDescription() + "\", ";
-            }
-            if( getNumContentTuple() != 0 ){
-            result += "\"content\": { ";
-            for( ContentTuple c : getContentTuples() ){
-            result += c.print() + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " }, ";
-            }
-            if( getRequired() != null ){
-            result += "\"required\" : " + getRequired() + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " } ";
-            return result;
-            }
-    finally {
-      print_visited = false;
-    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

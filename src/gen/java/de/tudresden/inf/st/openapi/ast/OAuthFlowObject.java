@@ -1,5 +1,10 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
+import org.openapi4j.core.exception.ResolutionException;
+import org.openapi4j.core.validation.ValidationException;
+import org.openapi4j.parser.model.v3.*;
+import java.io.IOException;
+import java.util.*;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:156
@@ -8,6 +13,42 @@ package de.tudresden.inf.st.openapi.ast;
 
  */
 public class OAuthFlowObject extends ASTNode<ASTNode> implements Cloneable {
+  /**
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:515
+   */
+  public static OAuthFlow composeOAuthFlow (OAuthFlowObject oAuthFlowObject){
+        OAuthFlow oAuthFlow = new OAuthFlow();
+        Map<String, String> scopes = new HashMap<>();
+
+        oAuthFlow.setAuthorizationUrl(oAuthFlowObject.getAuthorizationUrl());
+        oAuthFlow.setTokenUrl(oAuthFlowObject.getTokenUrl());
+        for( ScopesTuple t : oAuthFlowObject.getScopesTuples() )
+        scopes.put(t.getScopesKey(), t.getScopesValue());
+        oAuthFlow.setScopes(scopes);
+
+        if( oAuthFlowObject.getRefreshUrl() != null )
+        oAuthFlow.setRefreshUrl(oAuthFlowObject.getRefreshUrl());
+
+        return oAuthFlow;
+        }
+  /**
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:575
+   */
+  public static OAuthFlowObject parseOAuthFlow(OAuthFlow oAuthFlow){
+        OAuthFlowObject oAuthFlowObject = new OAuthFlowObject();
+
+        oAuthFlowObject.setAuthorizationUrl( oAuthFlow.getAuthorizationUrl() );
+        oAuthFlowObject.setTokenUrl( oAuthFlow.getTokenUrl() );
+        for( String key : oAuthFlow.getScopes().keySet() )
+        oAuthFlowObject.addScopesTuple( new ScopesTuple(key, oAuthFlow.getScope(key)) );
+
+        if( oAuthFlow.getRefreshUrl() != null )
+        oAuthFlowObject.setRefreshUrl( oAuthFlow.getRefreshUrl() );
+
+        return oAuthFlowObject;
+        }
   /**
    * @declaredat ASTNode:1
    */
@@ -314,39 +355,6 @@ public class OAuthFlowObject extends ASTNode<ASTNode> implements Cloneable {
    */
   public JastAddList<ScopesTuple> getScopesTuplesNoTransform() {
     return getScopesTupleListNoTransform();
-  }
-/** @apilevel internal */
-protected boolean print_visited = false;
-  /**
-   * @attribute syn
-   * @aspect Print
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Print", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2")
-  public String print() {
-    if (print_visited) {
-      throw new RuntimeException("Circular definition of attribute ASTNode.print().");
-    }
-    print_visited = true;
-    try {
-            String result = "{ \"authorizationUrl\" : \"" + getAuthorizationUrl() + "\", \"tokenUrl\" : \"" + getTokenUrl() + "\", " ;
-            if( !getRefreshUrl().isEmpty() ){
-            result += "\"refreshUrl\" : \"" + getRefreshUrl() + "\" ";
-            }
-            if( getNumScopesTuple() != 0 ){
-            result += "\"scopes\": { ";
-            for( ScopesTuple s : getScopesTuples() ){
-            result += s.print() + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " }, ";
-            }
-            result = result.substring(0, result.length() - 2) + " }";
-            return result;
-            }
-    finally {
-      print_visited = false;
-    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

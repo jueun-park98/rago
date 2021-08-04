@@ -1,5 +1,10 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
+import org.openapi4j.core.exception.ResolutionException;
+import org.openapi4j.core.validation.ValidationException;
+import org.openapi4j.parser.model.v3.*;
+import java.io.IOException;
+import java.util.*;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:6
@@ -8,6 +13,45 @@ package de.tudresden.inf.st.openapi.ast;
 
  */
 public class SecurityRequirementObject extends ASTNode<ASTNode> implements Cloneable {
+  /**
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:531
+   */
+  public static SecurityRequirement composeSecurityRequiremnet (SecurityRequirementObject securityRequirementObject){
+        SecurityRequirement securityRequirement = new SecurityRequirement();
+
+        if( securityRequirementObject.getNumSecurityRequirementTuple() != 0 ){
+        Map<String, List<String>> requirements = new HashMap<>();
+        for( SecurityRequirementTuple t : securityRequirementObject.getSecurityRequirementTuples() ){
+        List<String> values = new ArrayList<>();
+        for( SecurityRequirementValue v : t.getSecurityRequirementValues() )
+        values.add(v.getValue());
+        requirements.put(t.getName(), values);
+        }
+        securityRequirement.setRequirements(requirements);
+        }
+
+        return securityRequirement;
+        }
+  /**
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:589
+   */
+  public static SecurityRequirementObject parseSecurityRequirement(SecurityRequirement securityRequirement){
+        SecurityRequirementObject securityRequirementObject = new SecurityRequirementObject();
+
+        if( securityRequirement.getRequirements() != null ){
+        for( String key : securityRequirement.getRequirements().keySet() ){
+        JastAddList<SecurityRequirementTuple> tuples = new JastAddList<>();
+        for( String v : securityRequirement.getRequirement(key) ) {
+        JastAddList<SecurityRequirementValue> values = new JastAddList<>();
+        }
+
+        }
+        }
+
+        return securityRequirementObject;
+        }
   /**
    * @declaredat ASTNode:1
    */
@@ -251,36 +295,6 @@ public class SecurityRequirementObject extends ASTNode<ASTNode> implements Clone
    */
   public JastAddList<SecurityRequirementTuple> getSecurityRequirementTuplesNoTransform() {
     return getSecurityRequirementTupleListNoTransform();
-  }
-/** @apilevel internal */
-protected boolean print_visited = false;
-  /**
-   * @attribute syn
-   * @aspect Print
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Print", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2")
-  public String print() {
-    if (print_visited) {
-      throw new RuntimeException("Circular definition of attribute ASTNode.print().");
-    }
-    print_visited = true;
-    try {
-            String result = "{ ";
-            if( getNumSecurityRequirementTuple() != 0 ){
-            for( SecurityRequirementTuple t : getSecurityRequirementTuples() ){
-            result += "{ \"" + t.getName() + "\" : [ ";
-            for(SecurityRequirementValue v : t.getSecurityRequirementValues() )
-            result += "\"" + v.getValue() + "\", ";
-            result += result.substring(0, result.length() - 2) + " ] }";
-            }
-            }
-            return result;
-        }
-    finally {
-      print_visited = false;
-    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

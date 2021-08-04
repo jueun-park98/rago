@@ -1,5 +1,10 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
+import org.openapi4j.core.exception.ResolutionException;
+import org.openapi4j.core.validation.ValidationException;
+import org.openapi4j.parser.model.v3.*;
+import java.io.IOException;
+import java.util.*;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:60
@@ -8,6 +13,106 @@ package de.tudresden.inf.st.openapi.ast;
 
  */
 public class PathItemObject extends ASTNode<ASTNode> implements Cloneable {
+  /**
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:181
+   */
+  public static Path composePath (PathItemObject pathItemObject){
+        Path path = new Path();
+
+        if( !pathItemObject.getSummary().isEmpty())
+        path.setSummary(pathItemObject.getSummary());
+        if( !pathItemObject.getDescription().isEmpty() )
+        path.setDescription(pathItemObject.getDescription());
+        if( pathItemObject.hasGet() )
+        path.setGet( OperationObject.composeOperation(pathItemObject.getGet().getOperationObject()) );
+        if( pathItemObject.hasPut() )
+        path.setPut( OperationObject.composeOperation(pathItemObject.getPut().getOperationObject()) );
+        if( pathItemObject.hasPost() )
+        path.setPost( OperationObject.composeOperation(pathItemObject.getPost().getOperationObject()) );
+        if( pathItemObject.hasDelete() )
+        path.setDelete( OperationObject.composeOperation(pathItemObject.getDelete().getOperationObject()) );
+        if( pathItemObject.hasOptions() )
+        path.setOptions( OperationObject.composeOperation(pathItemObject.getOptions().getOperationObject()) );
+        if( pathItemObject.hasHead() )
+        path.setHead( OperationObject.composeOperation(pathItemObject.getHead().getOperationObject()) );
+        if( pathItemObject.hasPatch() )
+        path.setPatch( OperationObject.composeOperation(pathItemObject.getPatch().getOperationObject()) );
+        if( pathItemObject.getNumServerObject() != 0 ){
+        for( ServerObject s : pathItemObject.getServerObjects() )
+        path.addServer( ServerObject.composeServer(s) );
+        }
+        if( pathItemObject.getNumParam() != 0 ){
+        for( Param p : pathItemObject.getParams() )
+        path.addParameter( ParameterObject.composeParameter((ParameterObject) p) );
+        }
+
+        return path;
+        }
+  /**
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:211
+   */
+  public static PathItemObject parsePath(Path path){
+        PathItemObject pathItemObject = new PathItemObject();
+
+        if( path.getRef() != null )
+        pathItemObject.setRef( path.getRef() );
+        if( path.getSummary() != null )
+        pathItemObject.setSummary( path.getSummary() );
+        if( path.getDescription() != null )
+        pathItemObject.setDescription( path.getDescription() );
+        if( path.getGet() != null ){
+        Get get = new Get();
+        get.setOperationObject( OperationObject.parseOperation( path.getGet() ) );
+        pathItemObject.setGet(get);
+        }
+        if( path.getPut() != null ){
+        Put put = new Put();
+        put.setOperationObject( OperationObject.parseOperation( path.getPut() ) );
+        pathItemObject.setPut(put);
+        }
+        if( path.getPost() != null ){
+        Post post = new Post();
+        post.setOperationObject( OperationObject.parseOperation( path.getPost() ) );
+        pathItemObject.setPost(post);
+        }
+        if( path.getDelete() != null ){
+        Delete delete = new Delete();
+        delete.setOperationObject( OperationObject.parseOperation( path.getDelete() ) );
+        pathItemObject.setDelete(delete);
+        }
+        if( path.getOptions() != null ){
+        Options options = new Options();
+        options.setOperationObject( OperationObject.parseOperation( path.getOptions() ) );
+        pathItemObject.setOptions(options);
+        }
+        if( path.getHead() != null ){
+        Head head = new Head();
+        head.setOperationObject( OperationObject.parseOperation( path.getHead() ) );
+        pathItemObject.setHead(head);
+        }
+        if( path.getPatch() != null ){
+        Patch patch = new Patch();
+        patch.setOperationObject( OperationObject.parseOperation( path.getPatch() ) );
+        pathItemObject.setPatch(patch);
+        }
+        if( path.getTrace() != null ){
+        Trace trace = new Trace();
+        trace.setOperationObject( OperationObject.parseOperation( path.getTrace() ) );
+        pathItemObject.setTrace(trace);
+        }
+        if( path.getServers() != null ){
+        for(Server s : path.getServers())
+        pathItemObject.addServerObject( ServerObject.parseServer(s));
+        }
+        if( path.getParameters() != null ){
+        for(Parameter p : path.getParameters())
+        pathItemObject.addParam( ParameterObject.parseParameter(p));
+        }
+
+        return pathItemObject;
+        }
   /**
    * @declaredat ASTNode:1
    */
@@ -850,70 +955,6 @@ public class PathItemObject extends ASTNode<ASTNode> implements Cloneable {
    */
   public JastAddList<Param> getParamsNoTransform() {
     return getParamListNoTransform();
-  }
-/** @apilevel internal */
-protected boolean print_visited = false;
-  /**
-   * @attribute syn
-   * @aspect Print
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Print", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2")
-  public String print() {
-    if (print_visited) {
-      throw new RuntimeException("Circular definition of attribute ASTNode.print().");
-    }
-    print_visited = true;
-    try {
-            String result = "{ ";
-    
-            if( !getRef().isEmpty() ){
-            result += "\"$ref\": \"" + getRef() + "\", ";
-            }
-            if( !getSummary().isEmpty() ){
-            result += "\"summary\": \"" + getSummary() + "\", ";
-            }
-            if( !getDescription().isEmpty() ){
-            result += "\"description\": \"" + getDescription() + "\", ";
-            }
-            if( hasGet() ){
-            result += "\"get\": \"" + getGet().getOperationObject().print() + "\", ";
-            }
-            if( hasPut() ){
-            result += "\"put\": \"" + getPut().getOperationObject().print() + "\", ";
-            }
-            if( hasPost() ){
-            result += "\"post\": \"" + getPost().getOperationObject().print() + "\", ";
-            }
-            if( hasDelete() ){
-            result += "\"delete\": \"" + getDelete().getOperationObject().print() + "\", ";
-            }
-            if( hasOptions() ){
-            result += "\"options\": \"" + getOptions().getOperationObject().print() + "\", ";
-            }
-            if( hasHead() ){
-            result += "\"head\": \"" + getHead().getOperationObject().print() + "\", ";
-            }
-            if( hasPatch() ){
-            result += "\"patch\": \"" + getPatch().getOperationObject().print() + "\", ";
-            }
-            if( hasTrace() ){
-            result += "\"trace\": \"" + getTrace().getOperationObject().print() + "\", ";
-            }
-            if( getNumParam() != 0 ){
-            result += "\"parameters\": [ ";
-            for( Param p : getParams() ){
-            result += p.print() + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " ], ";
-            }
-            result = result.substring(0, result.length() - 2) + " }";
-            return result;
-            }
-    finally {
-      print_visited = false;
-    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

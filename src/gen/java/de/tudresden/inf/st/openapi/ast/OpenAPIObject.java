@@ -1,5 +1,10 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
+import org.openapi4j.core.exception.ResolutionException;
+import org.openapi4j.core.validation.ValidationException;
+import org.openapi4j.parser.model.v3.*;
+import java.io.IOException;
+import java.util.*;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:2
@@ -8,6 +13,73 @@ package de.tudresden.inf.st.openapi.ast;
 
  */
 public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
+  /**
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:10
+   */
+  public static OpenApi3 composeOpenAPI (OpenAPIObject openAPIObject){
+        OpenApi3 api3 = new OpenApi3();
+        Map<String, Path> paths = new HashMap<>();
+
+        api3.setOpenapi( openAPIObject.getOpenAPI() );
+        api3.setInfo( InfoObject.composeInfo( openAPIObject.getInfoObject() ) );
+
+        for( PathsObject p : openAPIObject.getPathsObjects() ){
+        paths.put( p.getRef(), PathItemObject.composePath(p.getPathItemObject()) );
+        }
+
+        api3.setPaths(paths);
+
+        if( openAPIObject.hasComponentsObject() )
+        api3.setComponents( ComponentsObject.composeComponents(openAPIObject.getComponentsObject()) );
+        if( openAPIObject.getNumSecurityRequirementObject() != 0 ){
+        List<SecurityRequirement> securityRequirements = new ArrayList<>();
+        for( SecurityRequirementObject s : openAPIObject.getSecurityRequirementObjects() )
+        securityRequirements.add( SecurityRequirementObject.composeSecurityRequiremnet( s ) );
+        api3.setSecurityRequirements(securityRequirements);
+        }
+        if( openAPIObject.getNumTagObject() != 0 ){
+        List<org.openapi4j.parser.model.v3.Tag> tags = new ArrayList<>();
+        for( TagObject t : openAPIObject.getTagObjects() )
+        tags.add( TagObject.composeTag(t) );
+        api3.setTags( tags );
+        }
+        if( openAPIObject.hasExternalDocumentationObject() )
+        api3.setExternalDocs( ExternalDocumentationObject.composeExternalDocs(openAPIObject.getExternalDocumentationObject()) );
+
+        return api3;
+        }
+  /**
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:3
+   */
+  public static OpenAPIObject parseOpenAPI(OpenApi3 api) throws IOException, ResolutionException, ValidationException {
+        OpenAPIObject openapi = new OpenAPIObject();
+
+        openapi.setOpenAPI(api.getOpenapi());
+        openapi.setInfoObject( InfoObject.parseInfo(api.getInfo()) );
+        for( String key : api.getPaths().keySet() )
+        openapi.addPathsObject( new PathsObject( key, PathItemObject.parsePath(api.getPath(key))) );
+
+        if( api.getServers() != null ) {
+        for( Server s : api.getServers() )
+        openapi.addServerObject( ServerObject.parseServer(s) );
+        }
+        if( api.getComponents() != null )
+        openapi.setComponentsObject( ComponentsObject.parseComponents(api.getComponents()) );
+        if( api.getSecurityRequirements() != null ){
+        for( SecurityRequirement s : api.getSecurityRequirements() )
+        openapi.addSecurityRequirementObject( SecurityRequirementObject.parseSecurityRequirement(s) );
+        }
+        if( api.getTags() != null ){
+        for( org.openapi4j.parser.model.v3.Tag t : api.getTags() )
+        openapi.addTagObject( TagObject.parseTag(t) );
+        }
+        if( api.getExternalDocs() != null )
+        openapi.setExternalDocumentationObject( ExternalDocumentationObject.parseExternalDocs(api.getExternalDocs()) );
+
+        return openapi;
+        }
   /**
    * @declaredat ASTNode:1
    */
@@ -741,66 +813,6 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
    */
   public Opt<ExternalDocumentationObject> getExternalDocumentationObjectOptNoTransform() {
     return (Opt<ExternalDocumentationObject>) getChildNoTransform(6);
-  }
-/** @apilevel internal */
-protected boolean print_visited = false;
-  /**
-   * @attribute syn
-   * @aspect Print
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Print", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2")
-  public String print() {
-    if (print_visited) {
-      throw new RuntimeException("Circular definition of attribute ASTNode.print().");
-    }
-    print_visited = true;
-    try {
-          String result =
-            "{ \"openapi\": \"" + getOpenAPI() + "\", " +
-            "\"info\": " + getInfoObject().print() + ", ";
-    
-          if( getNumServerObject() != 0 ){
-            result += "\"servers\": [ ";
-            for( ServerObject s : getServerObjects() ){
-              result += s.print() + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " ], ";
-          }
-          if( getNumPathsObject() != 0 ){
-            result += "\"paths\": { ";
-            for( PathsObject p : getPathsObjects() ){
-            result += p.print() + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " }, ";
-          }
-          if( hasComponentsObject() ){
-            result += "\"components\": \"" + getComponentsObject().print() + ", ";
-          }
-          if( getNumSecurityRequirementObject() != 0 ){
-            result += "\"security\": [ ";
-            for( SecurityRequirementObject s : getSecurityRequirementObjects() ){
-              result += s.print() + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " ], ";
-          }
-          if( getNumTagObject() != 0 ){
-            result += "\"tags\": [ ";
-            for( TagObject t : getTagObjects() ){
-            result += t.print() + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " ], ";
-            }
-          if( hasExternalDocumentationObject() ){
-            result += "\"externalDocs\": \"" + getExternalDocumentationObject().print() + ", ";
-          }
-          result = result.substring(0, result.length() - 2) + " }";
-          return result;
-        }
-    finally {
-      print_visited = false;
-    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

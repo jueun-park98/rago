@@ -1,5 +1,10 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
+import org.openapi4j.core.exception.ResolutionException;
+import org.openapi4j.core.validation.ValidationException;
+import org.openapi4j.parser.model.v3.*;
+import java.io.IOException;
+import java.util.*;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:118
@@ -8,6 +13,36 @@ package de.tudresden.inf.st.openapi.ast;
 
  */
 public class CallbackObject extends ASTNode<ASTNode> implements Cloneable {
+  /**
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:389
+   */
+  public static Callback composeCallback (CallbackObject callbackObject){
+        Callback callback = new Callback();
+
+        if( callbackObject.getNumExpression() != 0 ){
+        Map<String, Path> paths = new HashMap<>();
+        for( Expression e : callbackObject.getExpressions() )
+        paths.put( e.getName(), PathItemObject.composePath( e.getPathItemObject() ));
+        callback.setCallbackPaths(paths);
+        }
+
+        return callback;
+        }
+  /**
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:444
+   */
+  public static CallbackObject parseCallback(Callback callback){
+        CallbackObject callbackObject = new CallbackObject();
+
+        if( callback.getCallbackPaths() != null ){
+        for( String key : callback.getCallbackPaths().keySet() )
+        callbackObject.addExpression(new Expression(key, PathItemObject.parsePath(callback.getCallbackPath(key))));
+        }
+
+        return callbackObject;
+        }
   /**
    * @declaredat ASTNode:1
    */
@@ -251,33 +286,6 @@ public class CallbackObject extends ASTNode<ASTNode> implements Cloneable {
    */
   public JastAddList<Expression> getExpressionsNoTransform() {
     return getExpressionListNoTransform();
-  }
-/** @apilevel internal */
-protected boolean print_visited = false;
-  /**
-   * @attribute syn
-   * @aspect Print
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Print", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2")
-  public String print() {
-    if (print_visited) {
-      throw new RuntimeException("Circular definition of attribute ASTNode.print().");
-    }
-    print_visited = true;
-    try {
-           String result = "{ " ;
-           if( getNumExpression() != 0 ){
-               for( Expression e : getExpressions() )
-                   result += "\"" + e.getName() + "\" : " + e.getPathItemObject().print() + ", ";
-               result = result.substring(0, result.length() - 2) + " } ";
-            }
-           return result;
-        }
-    finally {
-      print_visited = false;
-    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

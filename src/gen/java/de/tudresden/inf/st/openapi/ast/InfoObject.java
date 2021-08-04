@@ -1,5 +1,10 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
+import org.openapi4j.core.exception.ResolutionException;
+import org.openapi4j.core.validation.ValidationException;
+import org.openapi4j.parser.model.v3.*;
+import java.io.IOException;
+import java.util.*;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:10
@@ -8,6 +13,48 @@ package de.tudresden.inf.st.openapi.ast;
 
  */
 public class InfoObject extends ASTNode<ASTNode> implements Cloneable {
+  /**
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:43
+   */
+  public static Info composeInfo (InfoObject infoObject){
+        Info info = new Info();
+
+        info.setTitle( infoObject.getTitle() );
+        info.setVersion( infoObject.getVersion() );
+
+        if( !infoObject.getDescription().isEmpty() )
+        info.setDescription( infoObject.getDescription() );
+        if( !infoObject.getTermsOfService().isEmpty() )
+        info.setTermsOfService( infoObject.getTermsOfService() );
+        if( infoObject.hasContactObject() )
+        info.setContact( ContactObject.composeContact(infoObject.getContactObject()) );
+        if( infoObject.hasLicenseObject() )
+        info.setLicense( LicenseObject.composeLicense(infoObject.getLicenseObject()) );
+
+        return info;
+        }
+  /**
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:31
+   */
+  public static InfoObject parseInfo(Info info) {
+        InfoObject infoObject = new InfoObject();
+
+        infoObject.setTitle( info.getTitle() );
+        infoObject.setVersion( info.getVersion() );
+
+        if( info.getDescription() != null )
+        infoObject.setDescription( info.getDescription() );
+        if( info.getTermsOfService() != null )
+        infoObject.setTermsOfService( info.getTermsOfService() );
+        if( info.getContact() != null )
+        infoObject.setContactObject( ContactObject.parseContact(info.getContact()) );
+        if( info.getLicense() != null )
+        infoObject.setLicenseObject( LicenseObject.parseLicense(info.getLicense()) );
+
+        return infoObject;
+        }
   /**
    * @declaredat ASTNode:1
    */
@@ -329,44 +376,6 @@ public class InfoObject extends ASTNode<ASTNode> implements Cloneable {
   @ASTNodeAnnotation.Token(name="Version")
   public String getVersion() {
     return tokenString_Version != null ? tokenString_Version : "";
-  }
-/** @apilevel internal */
-protected boolean print_visited = false;
-  /**
-   * @attribute syn
-   * @aspect Print
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Print", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2")
-  public String print() {
-    if (print_visited) {
-      throw new RuntimeException("Circular definition of attribute ASTNode.print().");
-    }
-    print_visited = true;
-    try {
-            String result =
-            "{ \"title\": \"" + getTitle() + "\", ";
-    
-            if( !getDescription().isEmpty() ){
-            result += "{ \"description\": \"" + getDescription() + "\", ";
-            }
-            if( !getTermsOfService().isEmpty() ){
-            result += "{ \"termsOfService\": \"" + getTermsOfService() + "\", ";
-            }
-            if( hasContactObject() ){
-            result += "{ \"contact\": \"" + getContactObject().print() + ", ";
-            }
-            if( hasLicenseObject() ){
-            result += "{ \"license\": \"" + getLicenseObject().print() + ", ";
-            }
-    
-            result += "\"version\": \"" + getVersion() + "\" }";
-            return result;
-            }
-    finally {
-      print_visited = false;
-    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

@@ -1,5 +1,10 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
+import org.openapi4j.core.exception.ResolutionException;
+import org.openapi4j.core.validation.ValidationException;
+import org.openapi4j.parser.model.v3.*;
+import java.io.IOException;
+import java.util.*;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:129
@@ -8,6 +13,72 @@ package de.tudresden.inf.st.openapi.ast;
 
  */
 public class HeaderObject extends ASTNode<ASTNode> implements Cloneable {
+  /**
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:438
+   */
+  public static Header composeHeader (HeaderObject headerObject){
+        Header header = new Header();
+
+        header.setRequired( headerObject.getRequired() );
+
+        if( !headerObject.getDescription().isEmpty() )
+        header.setDescription( headerObject.getDescription() );
+        if( headerObject.getStyle() != null )
+        header.setStyle(headerObject.getStyle());
+        if( headerObject.getExplode() != null )
+        header.setExplode((boolean)headerObject.getExplode());
+        if( headerObject.getAllowReserved() != null )
+        header.setAllowReserved((boolean)headerObject.getAllowReserved());
+        if( headerObject.getExample() != null )
+        header.setExample(headerObject.getExample());
+        if( headerObject.getNumExamplesTuple() != 0 ){
+        Map<String, Example> examples = new HashMap<>();
+        for( ExamplesTuple t : headerObject.getExamplesTuples() )
+        examples.put( ((ExampleObjectTuple)t).getName(), ExampleObject.composeExample( ((ExampleObjectTuple)t).getExampleObject() ) );
+        header.setExample(examples);
+        }
+        if( headerObject.getNumContentTuple() != 0 ){
+        Map<String, MediaType> contents = new HashMap<>();
+        for( ContentTuple t : headerObject.getContentTuples() )
+        contents.put( ((ContentObjectTuple)t).getName(), MediaTypeObject.composeMediaType( ((ContentObjectTuple)t).getMediaTypeObject() ) );
+        header.setContentMediaTypes(contents);
+        }
+
+        return header;
+        }
+  /**
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:489
+   */
+  public static HeaderObject parseHeader(Header header){
+        HeaderObject headerObject = new HeaderObject();
+
+        if( header.getRequired() != null )
+        headerObject.setRequired( header.getRequired() );
+        if( header.getDescription() != null )
+        headerObject.setDescription( header.getDescription() );
+        if( header.getDeprecated() != null )
+        headerObject.setDeprecatedBoolean( header.getDeprecated() );
+        if( header.getStyle() != null )
+        headerObject.setStyle( header.getStyle() );
+        if( header.getExplode() != null )
+        headerObject.setExplode( header.getExplode() );
+        if( header.getAllowReserved() != null )
+        headerObject.setExplode( header.getAllowReserved() );
+        if( header.getExample() != null )
+        headerObject.setExample( header.getExample() );
+        if( header.getExamples() != null ){
+        for( String key : header.getExamples().keySet() )
+        headerObject.addExamplesTuple(new ExampleObjectTuple(key, ExampleObject.parseExample(header.getExample(key))));
+        }
+        if( header.getContentMediaTypes() != null ){
+        for( String key : header.getContentMediaTypes().keySet() )
+        headerObject.addContentTuple(new ContentObjectTuple(key, MediaTypeObject.parseMediaType(header.getContentMediaType(key))));
+        }
+
+        return headerObject;
+        }
   /**
    * @declaredat ASTNode:1
    */
@@ -584,69 +655,6 @@ public class HeaderObject extends ASTNode<ASTNode> implements Cloneable {
    */
   public JastAddList<ContentTuple> getContentTuplesNoTransform() {
     return getContentTupleListNoTransform();
-  }
-/** @apilevel internal */
-protected boolean print_visited = false;
-  /**
-   * @attribute syn
-   * @aspect Print
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Print", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2")
-  public String print() {
-    if (print_visited) {
-      throw new RuntimeException("Circular definition of attribute ASTNode.print().");
-    }
-    print_visited = true;
-    try {
-            String result = "{ ";
-    
-            if( !getDescription().isEmpty() ){
-            result += "\"description\": \"" + getDescription() + "\", ";
-            }
-            result += "\"required\": \"" + getRequired() + "\", ";
-            if( getDeprecatedBoolean() != null ){
-            result += "\"deprecated\": " + getDeprecatedBoolean() + ", ";
-            }
-            if( getAllowEmptyValue() != null ){
-            result += "\"allowEmptyValue\": " + getAllowEmptyValue() + ", ";
-            }
-            if( !getStyle().isEmpty() ){
-            result += "\"style\": \"" + getStyle() + "\", ";
-            }
-            if( getExplode() != null ){
-            result += "\"explode\": " + getExplode() + ", ";
-            }
-            if( getAllowReserved() != null ){
-            result += "\"allowReserved\": " + getAllowReserved() + ", ";
-            }
-            if( hasSchema() ){
-            result += "\"schema\": " + getSchema() + ", ";
-            }
-            if( getExample() != null ){
-            result += "\"example\": " + getExample() + ", ";
-            }
-            if( getNumExamplesTuple() != 0 ){
-            result += "\"examples\": { ";
-            for( ExamplesTuple e : getExamplesTuples() ){
-            result += e.print() + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " }, ";
-            }
-            if( getNumContentTuple() != 0 ){
-            result += "\"content\": { ";
-            for( ContentTuple c : getContentTuples() ){
-            result += c.print() + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " }, ";
-            }
-            result = result.substring(0, result.length() - 2) + " }";
-            return result;
-            }
-    finally {
-      print_visited = false;
-    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

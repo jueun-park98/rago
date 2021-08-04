@@ -1,5 +1,10 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
+import org.openapi4j.core.exception.ResolutionException;
+import org.openapi4j.core.validation.ValidationException;
+import org.openapi4j.parser.model.v3.*;
+import java.io.IOException;
+import java.util.*;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:25
@@ -8,6 +13,44 @@ package de.tudresden.inf.st.openapi.ast;
 
  */
 public class ServerVariableObject extends ASTNode<ASTNode> implements Cloneable {
+  /**
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:102
+   */
+  public static ServerVariable composeServerVariable (ServerVariableObject serverVariableObject){
+        ServerVariable serverVariable = new ServerVariable();
+
+        serverVariable.setDefault( serverVariableObject.getDefault() );
+
+        if( !serverVariableObject.getDescription().isEmpty() )
+        serverVariable.setDescription( serverVariableObject.getDescription() );
+        if( serverVariableObject.getNumEnum() != 0 ){
+        List<String> enums = new ArrayList<>();
+        for( Enum e : serverVariableObject.getEnums() )
+        enums.add( e.getEnumValue() );
+        serverVariable.setEnums( enums );
+        }
+
+        return serverVariable;
+        }
+  /**
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:88
+   */
+  public static ServerVariableObject parseServerVariable(ServerVariable serverVariable){
+        ServerVariableObject serverVariableObject = new ServerVariableObject();
+
+        serverVariableObject.setDefault( serverVariable.getDefault() );
+
+        if( serverVariable.getDescription() != null )
+        serverVariableObject.setDescription( serverVariable.getDescription() );
+        if( serverVariable.getEnums() != null ){
+        for( String e : serverVariable.getEnums() )
+        serverVariableObject.addEnum(new Enum(e));
+        }
+
+        return serverVariableObject;
+        }
   /**
    * @declaredat ASTNode:1
    */
@@ -293,41 +336,6 @@ public class ServerVariableObject extends ASTNode<ASTNode> implements Cloneable 
   @ASTNodeAnnotation.Token(name="Description")
   public String getDescription() {
     return tokenString_Description != null ? tokenString_Description : "";
-  }
-/** @apilevel internal */
-protected boolean print_visited = false;
-  /**
-   * @attribute syn
-   * @aspect Print
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Print", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2")
-  public String print() {
-    if (print_visited) {
-      throw new RuntimeException("Circular definition of attribute ASTNode.print().");
-    }
-    print_visited = true;
-    try {
-            String result = "{ ";
-    
-            if( getNumEnum() != 0 ){
-            result += "\"enum\": [ ";
-            for( Enum e : getEnums() ){
-            result += "\"" + e + "\"" + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " ], ";
-            }
-            result += "\"default\": \"" + getDefault() + "\", ";
-            if( !getDescription().isEmpty() ){
-            result += "\"description\": \"" + getDescription() + "\", ";
-            }
-            result = result.substring(0, result.length() - 2) + " }";
-            return result;
-            }
-    finally {
-      print_visited = false;
-    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

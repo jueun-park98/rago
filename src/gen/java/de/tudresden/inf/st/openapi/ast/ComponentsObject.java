@@ -1,5 +1,10 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
+import org.openapi4j.core.exception.ResolutionException;
+import org.openapi4j.core.validation.ValidationException;
+import org.openapi4j.parser.model.v3.*;
+import java.io.IOException;
+import java.util.*;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:5
@@ -8,6 +13,171 @@ package de.tudresden.inf.st.openapi.ast;
 
  */
 public class ComponentsObject extends ASTNode<ASTNode> implements Cloneable {
+  /**
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:119
+   */
+  public static Components composeComponents (ComponentsObject componentsObject){
+        Components components = new Components();
+
+        /*
+        if( componentsObject.hasSchemasTuple() ){
+            Map<String, Schema> schema = new HashMap<>();
+            for( SchemasTuple t : componentsObject.getSchemasTuples() ){
+
+            }
+        }*/
+        if( componentsObject.getNumResponsesTuple() != 0 ){
+        Map<String, Response> responses = new HashMap<>();
+        for( ResponsesTuple t : componentsObject.getResponsesTuples() )
+        responses.put(((ResponseObjectTuple)t).getName(), ResponseObject.composeResponse(((ResponseObjectTuple)t).getResponseObject()));
+        components.setResponses(responses);
+        }
+        if( componentsObject.getNumParameterTuple() != 0 ){
+        Map<String, Parameter> parameters = new HashMap<>();
+        for( ParameterTuple t : componentsObject.getParameterTuples() )
+        parameters.put(((ParameterObjectTuple)t).getName(), ParameterObject.composeParameter(((ParameterObjectTuple) t).getParameterObject()));
+        components.setParameters(parameters);
+        }
+        if( componentsObject.getNumExamplesTuple() != 0 ){
+        Map<String, Example> examples = new HashMap<>();
+        for( ExamplesTuple t : componentsObject.getExamplesTuples() )
+        examples.put(((ExampleObjectTuple)t).getName(), ExampleObject.composeExample(((ExampleObjectTuple)t).getExampleObject()));
+        components.setExamples(examples);
+        }
+        if( componentsObject.getNumRequestBodiesTuple() != 0 ){
+        Map<String, org.openapi4j.parser.model.v3.RequestBody> requestBodies = new HashMap<>();
+        for( RequestBodiesTuple t : componentsObject.getRequestBodiesTuples() )
+        requestBodies.put(((RequestBodyObjectTuple)t).getName(), RequestBodyObject.composeRequestBody(((RequestBodyObjectTuple)t).getRequestBodyObject()));
+        components.setRequestBodies(requestBodies);
+        }
+        if( componentsObject.getNumHeadersTuple() != 0 ){
+        Map<String, Header> headers = new HashMap<>();
+        for( HeadersTuple t : componentsObject.getHeadersTuples() )
+        headers.put(((HeaderObjectTuple)t).getName(), HeaderObject.composeHeader(((HeaderObjectTuple)t).getHeaderObject()));
+        components.setHeaders(headers);
+        }
+        if( componentsObject.getNumSecuritySchemesTuple() != 0 ){
+        Map<String, SecurityScheme> securitySchemes = new HashMap<>();
+        for( SecuritySchemesTuple t : componentsObject.getSecuritySchemesTuples() )
+        securitySchemes.put(((SecuritySchemeObjectTuple)t).getName(), SecuritySchemeObject.composeSecurityScheme(((SecuritySchemeObjectTuple)t).getSecuritySchemeObject()));
+        components.setSecuritySchemes(securitySchemes);
+        }
+        if( componentsObject.getNumLinksTuple() != 0 ){
+        Map<String, Link> links = new HashMap<>();
+        for( LinksTuple t : componentsObject.getLinksTuples() )
+        links.put(((LinkObjectTuple)t).getName(), LinkObject.composeLink(((LinkObjectTuple)t).getLinkObject()));
+        components.setLinks(links);
+        }
+        if( componentsObject.getNumCallbacksTuple() != 0 ){
+        Map<String, Callback> callbacks = new HashMap<>();
+        for( CallbacksTuple t : componentsObject.getCallbacksTuples() )
+        callbacks.put(((CallbackObjectTuple)t).getName(), CallbackObject.composeCallback(((CallbackObjectTuple)t).getCallbackObject()));
+        components.setCallbacks(callbacks);
+        }
+
+        return components;
+        }
+  /**
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:103
+   */
+  public static ComponentsObject parseComponents(Components components){
+        ComponentsObject componentsObject = new ComponentsObject();
+
+        if( components.getSchemas() != null ){
+        JastAddList<SchemasTuple> schemasTuples = new JastAddList<>();
+        for( String key : components.getSchemas().keySet() ){
+        SchemaObjectTuple schemaObjectTuple = new SchemaObjectTuple();
+        schemaObjectTuple.setName( key );
+        schemaObjectTuple.setSchemaObject( new SchemaObject() );
+        schemasTuples.add(schemaObjectTuple);
+        }
+        componentsObject.setSchemasTupleList(schemasTuples);
+        }
+        if( components.getResponses() != null ){
+        JastAddList<ResponsesTuple> responsesTuples = new JastAddList<>();
+        for( String key : components.getResponses().keySet() ){
+        ResponseObjectTuple responseObjectTuple = new ResponseObjectTuple();
+        responseObjectTuple.setName( key );
+        responseObjectTuple.setResponseObject( ResponseObject.parseResponse(components.getResponse(key)) );
+        responsesTuples.add(responseObjectTuple);
+        }
+        componentsObject.setResponsesTupleList(responsesTuples);
+        }
+        if( components.getParameters() != null ){
+        JastAddList<ParameterTuple> parameterTuples = new JastAddList<>();
+        for( String key : components.getParameters().keySet() ){
+        ParameterObjectTuple parameterObjectTuple = new ParameterObjectTuple();
+        parameterObjectTuple.setName( key );
+        parameterObjectTuple.setParameterObject( ParameterObject.parseParameter(components.getParameter(key)) );
+        parameterTuples.add(parameterObjectTuple);
+        }
+        componentsObject.setParameterTupleList(parameterTuples);
+        }
+        if( components.getExamples() != null ){
+        JastAddList<ExamplesTuple> examplesTuples = new JastAddList<>();
+        for( String key : components.getExamples().keySet() ){
+        ExampleObjectTuple exampleObjectTuple = new ExampleObjectTuple();
+        exampleObjectTuple.setName( key );
+        exampleObjectTuple.setExampleObject( ExampleObject.parseExample(components.getExample(key)) );
+        examplesTuples.add(exampleObjectTuple);
+        }
+        componentsObject.setExamplesTupleList(examplesTuples);
+        }
+        if( components.getRequestBodies() != null ){
+        JastAddList<RequestBodiesTuple> requestBodiesTuples = new JastAddList<>();
+        for( String key : components.getRequestBodies().keySet() ){
+        RequestBodyObjectTuple requestBodyObjectTuple = new RequestBodyObjectTuple();
+        requestBodyObjectTuple.setName( key );
+        requestBodyObjectTuple.setRequestBodyObject( RequestBodyObject.parseRequestBody(components.getRequestBody(key)) );
+        requestBodiesTuples.add(requestBodyObjectTuple);
+        }
+        componentsObject.setRequestBodiesTupleList(requestBodiesTuples);
+        }
+        if( components.getHeaders() != null ){
+        JastAddList<HeadersTuple> headersTuples = new JastAddList<>();
+        for( String key : components.getHeaders().keySet() ){
+        HeaderObjectTuple headerObjectTuple = new HeaderObjectTuple();
+        headerObjectTuple.setName( key );
+        headerObjectTuple.setHeaderObject( HeaderObject.parseHeader(components.getHeader(key)) );
+        headersTuples.add(headerObjectTuple);
+        }
+        componentsObject.setHeadersTupleList(headersTuples);
+        }
+        if( components.getSecuritySchemes() != null ){
+        JastAddList<SecuritySchemesTuple> securitySchemesTuples = new JastAddList<>();
+        for( String key : components.getSecuritySchemes().keySet() ){
+        SecuritySchemeObjectTuple securitySchemeObjectTuple = new SecuritySchemeObjectTuple();
+        securitySchemeObjectTuple.setName( key );
+        securitySchemeObjectTuple.setSecuritySchemeObject( SecuritySchemeObject.parseSecurityScheme(components.getSecurityScheme(key)) );
+        securitySchemesTuples.add(securitySchemeObjectTuple);
+        }
+        componentsObject.setSecuritySchemesTupleList(securitySchemesTuples);
+        }
+        if( components.getLinks() != null ){
+        JastAddList<LinksTuple> linksTuples = new JastAddList<>();
+        for( String key : components.getLinks().keySet() ){
+        LinkObjectTuple linkObjectTuple = new LinkObjectTuple();
+        linkObjectTuple.setName( key );
+        linkObjectTuple.setLinkObject( LinkObject.parseLink(components.getLink(key)) );
+        linksTuples.add(linkObjectTuple);
+        }
+        componentsObject.setLinksTupleList(linksTuples);
+        }
+        if( components.getCallbacks() != null ){
+        JastAddList<CallbacksTuple> callbacksTuples = new JastAddList<>();
+        for( String key : components.getCallbacks().keySet() ){
+        CallbackObjectTuple callbackObjectTuple = new CallbackObjectTuple();
+        callbackObjectTuple.setName( key );
+        callbackObjectTuple.setCallbackObject( CallbackObject.parseCallback(components.getCallback(key)) );
+        callbacksTuples.add(callbackObjectTuple);
+        }
+        componentsObject.setCallbacksTupleList(callbacksTuples);
+        }
+
+        return componentsObject;
+        }
   /**
    * @declaredat ASTNode:1
    */
@@ -1147,93 +1317,6 @@ public class ComponentsObject extends ASTNode<ASTNode> implements Cloneable {
    */
   public JastAddList<CallbacksTuple> getCallbacksTuplesNoTransform() {
     return getCallbacksTupleListNoTransform();
-  }
-/** @apilevel internal */
-protected boolean print_visited = false;
-  /**
-   * @attribute syn
-   * @aspect Print
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Print", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2")
-  public String print() {
-    if (print_visited) {
-      throw new RuntimeException("Circular definition of attribute ASTNode.print().");
-    }
-    print_visited = true;
-    try {
-            String result = "{ ";
-    
-            if( getNumSchemasTuple() != 0 ){
-            result += "\"schemas\": { ";
-            for( SchemasTuple t : getSchemasTuples() ){
-            result += t.print() + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " }, ";
-            }
-            if( getNumResponsesTuple() != 0 ){
-            result += "\"responses\": { ";
-            for( ResponsesTuple t : getResponsesTuples() ){
-            result += "{ " + ((ResponseObjectTuple) t).getName() + ((ResponseObjectTuple) t).getResponseObject().print() + " }, ";
-            }
-            result = result.substring(0, result.length() - 2) + " }, ";
-            }
-            if( getNumParameterTuple() != 0 ){
-            result += "\"parameters\": { ";
-            for( ParameterTuple t : getParameterTuples() ){
-            result += t.print() + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " }, ";
-            }
-            if( getNumExamplesTuple() != 0 ){
-            result += "\"examples\": { ";
-            for( ExamplesTuple t : getExamplesTuples() ){
-            result += t.print() + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " }, ";
-            }
-            if( getNumRequestBodiesTuple() != 0 ){
-            result += "\"requestBodies\": { ";
-            for( RequestBodiesTuple t : getRequestBodiesTuples() ){
-            result += t.print() + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " }, ";
-            }
-            if( getNumHeadersTuple() != 0 ){
-            result += "\"headers\": { ";
-            for( HeadersTuple t : getHeadersTuples() ){
-            result += t.print() + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " }, ";
-            }
-            if( getNumSecuritySchemesTuple() != 0 ){
-            result += "\"securitySchemes\": { ";
-            for( SecuritySchemesTuple t : getSecuritySchemesTuples() ){
-            result += t.print() + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " }, " ;
-            }
-            if( getNumLinksTuple() != 0 ){
-            result += "\"links\": { ";
-            for( LinksTuple t : getLinksTuples() ){
-            result += t.print() + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " }, ";
-            }
-            if( getNumCallbacksTuple() != 0 ){
-            result += "\"callbacks\": { ";
-            for( CallbacksTuple t : getCallbacksTuples() ){
-            result += t.print() + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " }, ";
-            }
-            result = result.substring(0, result.length() - 2) + " }";
-            return result;
-            }
-    finally {
-      print_visited = false;
-    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

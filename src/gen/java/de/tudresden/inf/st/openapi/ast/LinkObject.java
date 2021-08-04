@@ -1,5 +1,10 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
+import org.openapi4j.core.exception.ResolutionException;
+import org.openapi4j.core.validation.ValidationException;
+import org.openapi4j.parser.model.v3.*;
+import java.io.IOException;
+import java.util.*;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:125
@@ -8,6 +13,52 @@ package de.tudresden.inf.st.openapi.ast;
 
  */
 public class LinkObject extends ASTNode<ASTNode> implements Cloneable {
+  /**
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:417
+   */
+  public static Link composeLink (LinkObject linkObject){
+        Link link = new Link();
+
+        if( linkObject.getOperationRef() != null )
+        link.setOperationRef( linkObject.getOperationRef() );
+        if( linkObject.getOperationID() != null )
+        link.setOperationId( linkObject.getOperationID() );
+        if( linkObject.getNumLinkParameterTuple() != 0 ){
+        Map<String, String> parameters = new HashMap<>();
+        for( LinkParameterTuple t : linkObject.getLinkParameterTuples() )
+        parameters.put( t.getLinkParameterKey(), t.getLinkParameterValue() );
+        link.setParameters(parameters);
+        }
+        if( !linkObject.getDescription().isEmpty() )
+        link.setDescription( linkObject.getDescription() );
+        if( linkObject.hasServerObject() )
+        link.setServer( ServerObject.composeServer(linkObject.getServerObject()) );
+
+        return link;
+        }
+  /**
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:470
+   */
+  public static LinkObject parseLink(Link link){
+        LinkObject linkObject = new LinkObject();
+
+        if( link.getOperationRef() != null )
+        linkObject.setOperationRef( link.getOperationRef() );
+        if( link.getOperationId() != null )
+        linkObject.setOperationID( link.getOperationId() );
+        if( link.getParameters() != null ){
+        for( String key : link.getParameters().keySet() )
+        linkObject.addLinkParameterTuple(new LinkParameterTuple(key, link.getParameter(key)));
+        }
+        if( link.getDescription() != null )
+        linkObject.setDescription( link.getDescription() );
+        if( link.getServer() != null )
+        linkObject.setServerObject( ServerObject.parseServer(link.getServer()) );
+
+        return linkObject;
+        }
   /**
    * @declaredat ASTNode:1
    */
@@ -388,52 +439,6 @@ public class LinkObject extends ASTNode<ASTNode> implements Cloneable {
    */
   public Opt<ServerObject> getServerObjectOptNoTransform() {
     return (Opt<ServerObject>) getChildNoTransform(1);
-  }
-/** @apilevel internal */
-protected boolean print_visited = false;
-  /**
-   * @attribute syn
-   * @aspect Print
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Print", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2")
-  public String print() {
-    if (print_visited) {
-      throw new RuntimeException("Circular definition of attribute ASTNode.print().");
-    }
-    print_visited = true;
-    try {
-            String result = "{ ";
-    
-            if( !getOperationRef().isEmpty() ){
-            result += "\"operationRef\" : \"" + getOperationRef() + "\", ";
-            }
-            if( !getOperationID().isEmpty() ){
-            result += "\"operationID\" : \"" + getOperationID() + "\", ";
-            }
-            if( getNumLinkParameterTuple() != 0 ){
-            result += "\"parameters\": { ";
-            for( LinkParameterTuple l : getLinkParameterTuples() ){
-            result += l.print() + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " }, ";
-            }
-            if( getLinkRequestBody() != null ){
-            result += "\"requestBody\" : " + getLinkRequestBody() + ", ";
-            }
-            if( !getDescription().isEmpty() ){
-            result += "\"description\" : \"" + getDescription() + "\", ";
-            }
-            if( hasServerObject() ){
-            result += "\"server\" : \"" + getServerObject().print() + "\", ";
-            }
-            result = result.substring(0, result.length() - 2) + " } ";
-            return result;
-            }
-    finally {
-      print_visited = false;
-    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

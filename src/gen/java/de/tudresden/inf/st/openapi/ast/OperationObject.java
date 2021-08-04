@@ -1,5 +1,10 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
+import org.openapi4j.core.exception.ResolutionException;
+import org.openapi4j.core.validation.ValidationException;
+import org.openapi4j.parser.model.v3.*;
+import java.io.IOException;
+import java.util.*;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:77
@@ -8,6 +13,118 @@ package de.tudresden.inf.st.openapi.ast;
 
  */
 public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
+  /**
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:214
+   */
+  public static Operation composeOperation (OperationObject operationObject){
+        Operation operation = new Operation();
+
+        if( operationObject.getNumTag() != 0 ){
+        for( de.tudresden.inf.st.openapi.ast.Tag t : operationObject.getTags() )
+        operation.addTag(t.getTag());
+        }
+        if( !operationObject.getSummary().isEmpty() )
+        operation.setSummary( operationObject.getSummary() );
+        if( !operationObject.getDescription().isEmpty() )
+        operation.setDescription( operationObject.getDescription() );
+        if( operationObject.hasExternalDocumentationObject() )
+        operation.setExternalDocs( ExternalDocumentationObject.composeExternalDocs(operationObject.getExternalDocumentationObject()) );
+        if( !operationObject.getOperationID().isEmpty() )
+        operation.setOperationId( operationObject.getOperationID() );
+        if( operationObject.getNumParam() != 0 ){
+        for( Param p : operationObject.getParams() )
+        operation.addParameter( ParameterObject.composeParameter( ((ParameterObject) p) ) );
+        }
+        if( operationObject.hasRequestBody() )
+        operation.setRequestBody( RequestBodyObject.composeRequestBody( ((RequestBodyObject) operationObject.getRequestBody())) );
+        if( operationObject.getResponsesObject().getNumHTTPStatusCode() != 0){
+        Map<String, Response> responses = new HashMap<>();
+        for( HTTPStatusCode h : operationObject.getResponsesObject().getHTTPStatusCodes() )
+        responses.put( ((ResponseObject)h).getName(), ResponseObject.composeResponse( ((ResponseObject) h)) );
+        operation.setResponses(responses);
+        }
+        if( operationObject.getNumCallbacksTuple() != 0 ){
+        Map<String, Callback> callbacks = new HashMap<>();
+        for( CallbacksTuple t : operationObject.getCallbacksTuples() )
+        callbacks.put( ((CallbackObjectTuple)t).getName(), CallbackObject.composeCallback( ((CallbackObjectTuple) t).getCallbackObject()) );
+        operation.setCallbacks(callbacks);
+        }
+        //if( operationObject.getDeprecatedBoolean() != null )
+        //    operation.setDeprecated( (boolean) operationObject.getDeprecatedBoolean().getDeprecatedBoolean() );
+        if( operationObject.getNumSecurityRequirementObject() != 0 ){
+        for( SecurityRequirementObject s : operationObject.getSecurityRequirementObjects() )
+        operation.addSecurityRequirement( SecurityRequirementObject.composeSecurityRequiremnet(s) );
+        }
+        if( operationObject.getNumServerObject() != 0 ){
+        for( ServerObject s : operationObject.getServerObjects() )
+        operation.addServer( ServerObject.composeServer(s) );
+        }
+
+        return operation;
+        }
+  /**
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:272
+   */
+  public static OperationObject parseOperation(Operation operation){
+        OperationObject operationObject = new OperationObject();
+        DeprecatedBoolean deprecatedBoolean = new DeprecatedBoolean();
+
+        deprecatedBoolean.setDeprecatedBoolean(operation.getDeprecated());
+        operationObject.setDeprecatedBoolean(deprecatedBoolean);
+
+        if( operation.getTags() != null ){
+        for(String t : operation.getTags()) {
+        de.tudresden.inf.st.openapi.ast.Tag tag = new de.tudresden.inf.st.openapi.ast.Tag();
+        tag.setTag(t);
+        operationObject.addTag(tag);
+        }
+        }
+        if( operation.getSummary() != null )
+        operationObject.setSummary(operation.getSummary());
+        if( operation.getDescription() != null )
+        operationObject.setDescription( operation.getDescription() );
+        if( operation.getExternalDocs() != null )
+        operationObject.setExternalDocumentationObject( ExternalDocumentationObject.parseExternalDocs(operation.getExternalDocs()) );
+        if( operation.getOperationId() != null )
+        operationObject.setOperationID( operation.getOperationId() );
+        if( operation.getParameters() != null ){
+        for( Parameter p : operation.getParameters() )
+        operationObject.addParam(ParameterObject.parseParameter(p));
+        }
+        if( operation.getRequestBody() != null )
+        operationObject.setRequestBody( RequestBodyObject.parseRequestBody( operation.getRequestBody() ) );
+        if( operation.getResponses() != null ){
+        ResponsesObject responsesObject = new ResponsesObject();
+        for( String key : operation.getResponses().keySet()){
+        ResponseObject responseObject;
+        responseObject = ResponseObject.parseResponse(operation.getResponse(key));
+        responseObject.setName(key);
+        responsesObject.addHTTPStatusCode(responseObject);
+        }
+        operationObject.setResponsesObject(responsesObject);
+        }
+        if( operation.getCallbacks() != null ){
+        CallbackObjectTuple callbackObjectTuple = new CallbackObjectTuple();
+        for( String key : operation.getCallbacks().keySet() ){
+        callbackObjectTuple.setName(key);
+        callbackObjectTuple.setCallbackObject(CallbackObject.parseCallback(operation.getCallback(key)));
+        operationObject.addCallbacksTuple(callbackObjectTuple);
+        }
+        }
+
+        if( operation.getSecurityRequirements() != null ){
+        for( SecurityRequirement sr : operation.getSecurityRequirements() )
+        operationObject.addSecurityRequirementObject(SecurityRequirementObject.parseSecurityRequirement(sr));
+        }
+        if( operation.getServers() != null ){
+        for( Server s : operation.getServers() )
+        operationObject.addServerObject(ServerObject.parseServer(s));
+        }
+
+        return operationObject;
+        }
   /**
    * @declaredat ASTNode:1
    */
@@ -948,81 +1065,6 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
    */
   public JastAddList<ServerObject> getServerObjectsNoTransform() {
     return getServerObjectListNoTransform();
-  }
-/** @apilevel internal */
-protected boolean print_visited = false;
-  /**
-   * @attribute syn
-   * @aspect Print
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Print", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2")
-  public String print() {
-    if (print_visited) {
-      throw new RuntimeException("Circular definition of attribute ASTNode.print().");
-    }
-    print_visited = true;
-    try {
-            String result = "{ ";
-    
-            if( getNumTag() != 0 ){
-            result += "\"tags\": [ ";
-            for( Tag t : getTags() ){
-            result += "\"" + t + "\"" + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " ], ";
-            }
-            if( !getSummary().isEmpty() ){
-            result += "\"summary\": \"" + getSummary() + "\", ";
-            }
-            if( hasExternalDocumentationObject() ){
-            result += "\"externalDocs\": \"" + getExternalDocumentationObject() + "\", ";
-            }
-            if( !getOperationID().isEmpty() ){
-            result += "\"operationId\": \"" + getOperationID() + "\", ";
-            }
-            if( getNumParam() != 0 ){
-            result += "\"parameters\": [ ";
-            for( Param p : getParams() ){
-            result += p.print() + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " ], ";
-            }
-            if( hasRequestBody() ){
-            result += "\"requestBody\": \"" + getRequestBody().print() + "\", ";
-            }
-            result += "\"responses\": " + getResponsesObject().print() + ", ";
-            if( getNumCallbacksTuple() != 0 ){
-            result += "\"callbacks\": { ";
-            for( CallbacksTuple t : getCallbacksTuples() ){
-            result += t.print() + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " }, ";
-            }
-            if( getDeprecatedBoolean().getDeprecatedBoolean() != null ){
-            result += "\"deprecated\": " + getDeprecatedBoolean().getDeprecatedBoolean() + ", ";
-            }
-            if( getNumSecurityRequirementObject() != 0 ){
-            result += "\"security\": [ ";
-            for( SecurityRequirementObject s : getSecurityRequirementObjects() ){
-            result += s.print() + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " ], ";
-            }
-            if( getNumServerObject() != 0  ){
-            result += "\"servers\": [ ";
-            for( ServerObject s : getServerObjects() ){
-            result += s.print() + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " ], ";
-            }
-            result = result.substring(0, result.length() - 2) + " }";
-            return result;
-            }
-    finally {
-      print_visited = false;
-    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

@@ -1,5 +1,10 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
+import org.openapi4j.core.exception.ResolutionException;
+import org.openapi4j.core.validation.ValidationException;
+import org.openapi4j.parser.model.v3.*;
+import java.io.IOException;
+import java.util.*;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:149
@@ -8,6 +13,51 @@ package de.tudresden.inf.st.openapi.ast;
 
  */
 public class OAuthFlowsObject extends ASTNode<ASTNode> implements Cloneable {
+  /**
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:500
+   */
+  public static OAuthFlows composeOAuthFlows (OAuthFlowsObject oAuthFlowsObject){
+        OAuthFlows oAuthFlows = new OAuthFlows();
+
+        if( oAuthFlowsObject.hasImplicit() )
+        oAuthFlows.setImplicit( OAuthFlowObject.composeOAuthFlow(oAuthFlowsObject.getImplicit().getOAuthFlowObject()) );
+        if( oAuthFlowsObject.hasPassword() )
+        oAuthFlows.setPassword( OAuthFlowObject.composeOAuthFlow(oAuthFlowsObject.getPassword().getOAuthFlowObject()) );
+        if( oAuthFlowsObject.hasClientCredentials() )
+        oAuthFlows.setClientCredentials( OAuthFlowObject.composeOAuthFlow(oAuthFlowsObject.getClientCredentials().getOAuthFlowObject()) );
+        if( oAuthFlowsObject.hasAuthorizationCode() )
+        oAuthFlows.setAuthorizationCode( OAuthFlowObject.composeOAuthFlow(oAuthFlowsObject.getAuthorizationCode().getOAuthFlowObject()) );
+
+        return oAuthFlows;
+        }
+  /**
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:551
+   */
+  public static OAuthFlowsObject parseOAuthFlows(OAuthFlows oAuthFlows){
+        OAuthFlowsObject oAuthFlowsObject = new OAuthFlowsObject();
+        Implicit implicit = new Implicit();
+        Password password = new Password();
+        ClientCredentials clientCredentials = new ClientCredentials();
+        AuthorizationCode authorizationCode = new AuthorizationCode();
+
+        if( oAuthFlows.getImplicit() != null )
+        implicit.setOAuthFlowObject( OAuthFlowObject.parseOAuthFlow(oAuthFlows.getImplicit()) );
+        if( oAuthFlows.getPassword() != null )
+        password.setOAuthFlowObject( OAuthFlowObject.parseOAuthFlow(oAuthFlows.getPassword()) );
+        if( oAuthFlows.getClientCredentials() != null )
+        clientCredentials.setOAuthFlowObject( OAuthFlowObject.parseOAuthFlow(oAuthFlows.getClientCredentials()) );
+        if( oAuthFlows.getAuthorizationCode() != null )
+        authorizationCode.setOAuthFlowObject( OAuthFlowObject.parseOAuthFlow(oAuthFlows.getAuthorizationCode()) );
+
+        oAuthFlowsObject.setImplicit(implicit);
+        oAuthFlowsObject.setPassword(password);
+        oAuthFlowsObject.setClientCredentials(clientCredentials);
+        oAuthFlowsObject.setAuthorizationCode(authorizationCode);
+
+        return oAuthFlowsObject;
+        }
   /**
    * @declaredat ASTNode:1
    */
@@ -351,41 +401,6 @@ public class OAuthFlowsObject extends ASTNode<ASTNode> implements Cloneable {
    */
   public Opt<AuthorizationCode> getAuthorizationCodeOptNoTransform() {
     return (Opt<AuthorizationCode>) getChildNoTransform(3);
-  }
-/** @apilevel internal */
-protected boolean print_visited = false;
-  /**
-   * @attribute syn
-   * @aspect Print
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Print", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2")
-  public String print() {
-    if (print_visited) {
-      throw new RuntimeException("Circular definition of attribute ASTNode.print().");
-    }
-    print_visited = true;
-    try {
-            String result = "{ ";
-            if( hasImplicit() ){
-            result += "\"implicit\" : " + getImplicit().print() + ", ";
-            }
-            if( hasPassword() ){
-            result += "\"password\" : " + getPassword().print() + ", ";
-            }
-            if( hasClientCredentials() ){
-            result += "\"clientCredentials\" : " + getClientCredentials().print() + ", ";
-            }
-            if( hasAuthorizationCode() ){
-            result += "\"authorizationCode\" : " + getAuthorizationCode().print() + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " }";
-            return result;
-            }
-    finally {
-      print_visited = false;
-    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

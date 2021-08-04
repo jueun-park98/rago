@@ -1,5 +1,10 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
+import org.openapi4j.core.exception.ResolutionException;
+import org.openapi4j.core.validation.ValidationException;
+import org.openapi4j.parser.model.v3.*;
+import java.io.IOException;
+import java.util.*;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:4
@@ -8,6 +13,44 @@ package de.tudresden.inf.st.openapi.ast;
 
  */
 public class ServerObject extends ASTNode<ASTNode> implements Cloneable {
+  /**
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:85
+   */
+  public static Server composeServer (ServerObject serverObject){
+        Server server = new Server();
+
+        server.setUrl( serverObject.getUrl() );
+
+        if( !serverObject.getDescription().isEmpty() )
+        server.setDescription( serverObject.getDescription() );
+        if( serverObject.hasServerVariablesTuple() ){
+        Map<String, ServerVariable> serverVariables = new HashMap<>();
+        for( ServerVariablesTuple s : serverObject.getServerVariablesTuples() )
+        serverVariables.put( s.getName(), ServerVariableObject.composeServerVariable(s.getServerVariableObject()) );
+        server.setVariables(serverVariables);
+        }
+
+        return server;
+        }
+  /**
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:73
+   */
+  public static ServerObject parseServer(Server server){
+        ServerObject serverObject = new ServerObject();
+
+        serverObject.setUrl( server.getUrl() );
+
+        if( server.getDescription() != null )
+        serverObject.setDescription( server.getDescription() );
+        if( server.getVariables() != null ){
+        for (String key : server.getVariables().keySet())
+        serverObject.addServerVariablesTuple(new ServerVariablesTuple(key, ServerVariableObject.parseServerVariable(server.getVariable(key))));
+        }
+
+        return serverObject;
+        }
   /**
    * @declaredat ASTNode:1
    */
@@ -293,41 +336,6 @@ public class ServerObject extends ASTNode<ASTNode> implements Cloneable {
    */
   public JastAddList<ServerVariablesTuple> getServerVariablesTuplesNoTransform() {
     return getServerVariablesTupleListNoTransform();
-  }
-/** @apilevel internal */
-protected boolean print_visited = false;
-  /**
-   * @attribute syn
-   * @aspect Print
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Print", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2")
-  public String print() {
-    if (print_visited) {
-      throw new RuntimeException("Circular definition of attribute ASTNode.print().");
-    }
-    print_visited = true;
-    try {
-            String result =
-            "{ \"url\": \"" + getUrl() + "\", ";
-    
-            if( !getDescription().isEmpty() ){
-            result += ", \"description\": \"" + getDescription() + "\", ";
-            }
-            if( getNumServerVariablesTuple() != 0 ){
-            result += "\"variables\": { ";
-            for( ServerVariablesTuple s : getServerVariablesTuples() ){
-            result += s.print() + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " }, ";
-            }
-            result = result.substring(0, result.length() - 2) + " }";
-            return result;
-            }
-    finally {
-      print_visited = false;
-    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

@@ -1,5 +1,10 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
+import org.openapi4j.core.exception.ResolutionException;
+import org.openapi4j.core.validation.ValidationException;
+import org.openapi4j.parser.model.v3.*;
+import java.io.IOException;
+import java.util.*;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:74
@@ -8,6 +13,83 @@ package de.tudresden.inf.st.openapi.ast;
 
  */
 public class ParameterObject extends Param implements Cloneable {
+  /**
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:271
+   */
+  public static Parameter composeParameter (ParameterObject parameterObject){
+        Parameter parameter = new Parameter();
+
+        parameter.setName( parameterObject.getName() );
+        parameter.setIn( parameterObject.getIn() );
+        parameter.setRequired( parameterObject.getRequired() );
+
+        if( !parameterObject.getDescription().isEmpty() )
+        parameter.setDescription( parameterObject.getDescription() );
+        if( parameterObject.getDeprecatedBoolean() != null )
+        parameter.setDeprecated( (boolean) parameterObject.getDeprecatedBoolean() );
+        if( parameterObject.getStyle() != null )
+        parameter.setStyle( parameter.getStyle() );
+        if( parameterObject.getAllowReserved() != null )
+        parameter.setAllowReserved( (boolean) parameterObject.getAllowReserved() );
+        if( parameterObject.getExplode() != null )
+        parameter.setExplode( (boolean) parameterObject.getExplode() );
+        if( parameterObject.getAllowReserved() != null )
+        parameter.setAllowReserved( (boolean) parameterObject.getAllowReserved() );
+        if( parameterObject.getExample() != null )
+        parameter.setExample( parameterObject.getExample() );
+        if( parameterObject.getNumExamplesTuple() != 0 ){
+        Map<String, Example> examples = new HashMap<>();
+        for( ExamplesTuple t : parameterObject.getExamplesTuples() )
+        examples.put( ((ExampleObjectTuple)t).getName(), ExampleObject.composeExample( ((ExampleObjectTuple)t).getExampleObject() ) );
+        parameter.setExamples(examples);
+        }
+        if( parameterObject.getNumContentTuple() != 0 ){
+        Map<String, MediaType> contents = new HashMap<>();
+        for( ContentTuple t : parameterObject.getContentTuples() )
+        contents.put( ((ContentObjectTuple)t).getName(), MediaTypeObject.composeMediaType( ((ContentObjectTuple)t).getMediaTypeObject() ) );
+        parameter.setContentMediaTypes(contents);
+        }
+
+        return parameter;
+        }
+  /**
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:341
+   */
+  public static ParameterObject parseParameter(Parameter parameter){
+        ParameterObject parameterObject = new ParameterObject();
+
+        parameterObject.setName(parameter.getName());
+        parameterObject.setIn(parameter.getIn());
+        if( parameter.getRequired() == null )
+        parameterObject.setRequired(false);
+        else
+        parameterObject.setRequired(parameter.getRequired());
+
+        if( parameter.getDescription() != null )
+        parameterObject.setDescription( parameter.getDescription() );
+        if( parameter.getDeprecated() != null )
+        parameterObject.setDeprecatedBoolean( parameter.getDeprecated() );
+        if( parameter.getStyle() != null )
+        parameterObject.setStyle( parameter.getStyle() );
+        if( parameter.getExplode() != null )
+        parameterObject.setExplode( parameter.getExplode() );
+        if( parameter.getAllowReserved() != null )
+        parameterObject.setAllowReserved( parameter.getAllowReserved() );
+        if( parameter.getExample() != null )
+        parameterObject.setExample( parameter.getExample() );
+        if( parameter.getExamples() != null ){
+        for( String key : parameter.getExamples().keySet() )
+        parameterObject.addExamplesTuple(new ExampleObjectTuple(key, ExampleObject.parseExample(parameter.getExample(key))));
+        }
+        if( parameter.getContentMediaTypes() != null ){
+        for( String key : parameter.getContentMediaTypes().keySet() )
+        parameterObject.addContentTuple(new ContentObjectTuple(key, MediaTypeObject.parseMediaType(parameter.getContentMediaType(key))));
+        }
+
+        return parameterObject;
+        }
   /**
    * @declaredat ASTNode:1
    */
@@ -626,69 +708,6 @@ public class ParameterObject extends Param implements Cloneable {
    */
   public JastAddList<ContentTuple> getContentTuplesNoTransform() {
     return getContentTupleListNoTransform();
-  }
-/** @apilevel internal */
-protected boolean print_visited = false;
-  /**
-   * @attribute syn
-   * @aspect Print
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Print", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2")
-  public String print() {
-    if (print_visited) {
-      throw new RuntimeException("Circular definition of attribute ASTNode.print().");
-    }
-    print_visited = true;
-    try {
-            String result = "{ \"name\": \"" + getName() + "\", \"in\" : " + getIn() + ", ";
-    
-            if( !getDescription().isEmpty() ){
-            result += "\"description\": \"" + getDescription() + "\", ";
-            }
-            result += "\"required\": \"" + getRequired() + "\", ";
-            if( getDeprecatedBoolean() != null ){
-            result += "\"deprecated\": " + getDeprecatedBoolean() + ", ";
-            }
-            if( getAllowEmptyValue() != null){
-            result += "\"allowEmptyValue\": " + getAllowEmptyValue() + ", ";
-            }
-            if( !getStyle().isEmpty() ){
-            result += "\"style\": \"" + getStyle() + "\", ";
-            }
-            if( getExplode() != null ){
-            result += "\"explode\": " + getExplode() + ", ";
-            }
-            if( getAllowReserved() != null ){
-            result += "\"allowReserved\": false, "; /** no attribut in parser, so setting default (false) **/
-            }
-            if( hasSchema() ){
-            result += "\"schema\": " + getSchema().print() + ", ";
-            }
-            if( getExplode() != null ){
-            result += "\"example\": " + getExample() + ", ";
-            }
-            if( getNumExamplesTuple() != 0 ){
-            result += "\"examples\": { ";
-            for( ExamplesTuple e : getExamplesTuples() ){
-            result += e.print() + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " }, ";
-            }
-            if( getNumContentTuple() != 0 ){
-            result += "\"content\": { ";
-            for( ContentTuple c : getContentTuples() ){
-            result += c.print() + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " }, ";
-            }
-            result = result.substring(0, result.length() - 2) + " }";
-            return result;
-            }
-    finally {
-      print_visited = false;
-    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

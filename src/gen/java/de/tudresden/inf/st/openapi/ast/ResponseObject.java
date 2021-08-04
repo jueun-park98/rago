@@ -1,5 +1,10 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
+import org.openapi4j.core.exception.ResolutionException;
+import org.openapi4j.core.validation.ValidationException;
+import org.openapi4j.parser.model.v3.*;
+import java.io.IOException;
+import java.util.*;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:111
@@ -8,6 +13,59 @@ package de.tudresden.inf.st.openapi.ast;
 
  */
 public class ResponseObject extends HTTPStatusCode implements Cloneable {
+  /**
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:363
+   */
+  public static Response composeResponse (ResponseObject responseObject){
+        Response response = new Response();
+
+        response.setDescription( responseObject.getDescription() );
+
+        if( responseObject.getNumHeadersTuple() != 0 ){
+        Map<String, Header> headers = new HashMap<>();
+        for( HeadersTuple t : responseObject.getHeadersTuples() )
+        headers.put( ((HeaderObjectTuple)t).getName(), HeaderObject.composeHeader( ((HeaderObjectTuple)t).getHeaderObject() ) );
+        response.setHeaders(headers);
+        }
+        if( responseObject.getNumContentTuple() != 0 ){
+        Map<String, MediaType> contents = new HashMap<>();
+        for( ContentTuple t : responseObject.getContentTuples() )
+        contents.put( ((ContentObjectTuple)t).getName(), MediaTypeObject.composeMediaType( ((ContentObjectTuple)t).getMediaTypeObject() ) );
+        response.setContentMediaTypes(contents);
+        }
+        if( responseObject.getNumLinksTuple() != 0 ){
+        Map<String, Link> links = new HashMap<>();
+        for( LinksTuple t : responseObject.getLinksTuples() )
+        links.put( ((LinkObjectTuple)t).getName(), LinkObject.composeLink( ((LinkObjectTuple)t).getLinkObject() ) );
+        }
+
+        return response;
+        }
+  /**
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:423
+   */
+  public static ResponseObject parseResponse(Response response){
+        ResponseObject responseObject = new ResponseObject();
+
+        responseObject.setDescription( response.getDescription() );
+
+        if( response.getHeaders() != null ){
+        for( String key : response.getHeaders().keySet() )
+        responseObject.addHeadersTuple( new HeaderObjectTuple(key, HeaderObject.parseHeader(response.getHeader(key))) );
+        }
+        if( response.getContentMediaTypes() != null ){
+        for( String key : response.getContentMediaTypes().keySet() )
+        responseObject.addContentTuple( new ContentObjectTuple(key, MediaTypeObject.parseMediaType(response.getContentMediaType(key))) );
+        }
+        if( response.getLinks() != null ){
+        for( String key : response.getLinks().keySet() )
+        responseObject.addLinksTuple( new LinkObjectTuple(key, LinkObject.parseLink(response.getLink(key))) );
+        }
+
+        return responseObject;
+        }
   /**
    * @declaredat ASTNode:1
    */
@@ -517,54 +575,6 @@ public class ResponseObject extends HTTPStatusCode implements Cloneable {
    */
   public JastAddList<LinksTuple> getLinksTuplesNoTransform() {
     return getLinksTupleListNoTransform();
-  }
-/** @apilevel internal */
-protected boolean print_visited = false;
-  /**
-   * @attribute syn
-   * @aspect Print
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Print", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2")
-  public String print() {
-    if (print_visited) {
-      throw new RuntimeException("Circular definition of attribute ASTNode.print().");
-    }
-    print_visited = true;
-    try {
-            String result = "\"" + getName() + "\" : { " ;
-    
-            if( !getDescription().isEmpty() ){
-            result += "\"description\" : \"" + getDescription() + "\", ";
-            }
-            if( getNumHeadersTuple() != 0 ){
-            result += "\"headers\": { ";
-            for( HeadersTuple t : getHeadersTuples() ){
-            result += t.print() + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " }, ";
-            }
-            if( getNumContentTuple() != 0 ){
-            result += "\"content\": { ";
-            for( ContentTuple c : getContentTuples() ){
-            result += c.print() + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " }, ";
-            }
-            if( getNumLinksTuple() != 0 ){
-            result += "\"links\": { ";
-            for( LinksTuple t : getLinksTuples() ){
-            result += t.print() + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " }, ";
-            }
-            result = result.substring(0, result.length() - 2) + " } ";
-            return result;
-            }
-    finally {
-      print_visited = false;
-    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

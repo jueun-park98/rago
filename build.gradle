@@ -20,10 +20,13 @@ dependencies {
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.12.1'
     implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: '2.12.1'
     implementation group: 'net.sf.beaver', name: 'beaver-rt', version: '0.9.11'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.8'
+    implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: '2.9.8'
 
 
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.7.0'
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.7.0'
+    testImplementation 'com.flipkart.zjsonpatch:zjsonpatch:0.4.10'
 }
 
 buildscript {
@@ -69,7 +72,7 @@ jastadd {
             jastadd {
                 basedir "src/main/jastadd/"
                 include "**/*.ast"
-                //include "**/*.jadd"
+                include "**/*.jadd"
                 include "**/*.jrag"
             }
 

@@ -1,5 +1,10 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
+import org.openapi4j.core.exception.ResolutionException;
+import org.openapi4j.core.validation.ValidationException;
+import org.openapi4j.parser.model.v3.*;
+import java.io.IOException;
+import java.util.*;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:122
@@ -8,6 +13,42 @@ package de.tudresden.inf.st.openapi.ast;
 
  */
 public class ExampleObject extends ASTNode<ASTNode> implements Cloneable {
+  /**
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:402
+   */
+  public static Example composeExample (ExampleObject exampleObject){
+        Example example = new Example();
+
+        if( !exampleObject.getSummary().isEmpty() )
+        example.setSummary( exampleObject.getSummary() );
+        if( !exampleObject.getDescription().isEmpty() )
+        example.setDescription( exampleObject.getDescription() );
+        if( exampleObject.getValue() != null )
+        example.setValue( exampleObject.getValue() );
+        if( !exampleObject.getExternalValue().isEmpty() )
+        example.setExternalValue( exampleObject.getExternalValue() );
+
+        return example;
+        }
+  /**
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:455
+   */
+  public static ExampleObject parseExample(Example example){
+        ExampleObject exampleObject = new ExampleObject();
+
+        if( example.getSummary() != null )
+        exampleObject.setSummary( example.getSummary() );
+        if( example.getDescription() != null )
+        exampleObject.setDescription( example.getDescription() );
+        if( example.getValue() != null )
+        exampleObject.setValue( example.getValue() );
+        if( example.getExternalValue() != null )
+        exampleObject.setExternalValue( example.getExternalValue() );
+
+        return exampleObject;
+        }
   /**
    * @declaredat ASTNode:1
    */
@@ -222,42 +263,6 @@ public class ExampleObject extends ASTNode<ASTNode> implements Cloneable {
   @ASTNodeAnnotation.Token(name="ExternalValue")
   public String getExternalValue() {
     return tokenString_ExternalValue != null ? tokenString_ExternalValue : "";
-  }
-/** @apilevel internal */
-protected boolean print_visited = false;
-  /**
-   * @attribute syn
-   * @aspect Print
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Print", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2")
-  public String print() {
-    if (print_visited) {
-      throw new RuntimeException("Circular definition of attribute ASTNode.print().");
-    }
-    print_visited = true;
-    try {
-            String result = "{ ";
-    
-            if( !getSummary().isEmpty() ){
-            result += "\"summary\" : \"" + getSummary() + "\", ";
-            }
-            if( !getDescription().isEmpty() ){
-            result += "\"description\" : \"" + getDescription() + "\", ";
-            }
-            if( getValue() != null ){
-            result += "\"value\" : " + getValue() + ", ";
-            }
-            if( !getExternalValue().isEmpty() ){
-            result += "\"externalValue\" : \"" + getExternalValue() + "\", ";
-            }
-            result = result.substring(0, result.length() - 2) + " } ";
-            return result;
-            }
-    finally {
-      print_visited = false;
-    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

@@ -1,5 +1,10 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
+import org.openapi4j.core.exception.ResolutionException;
+import org.openapi4j.core.validation.ValidationException;
+import org.openapi4j.parser.model.v3.*;
+import java.io.IOException;
+import java.util.*;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:7
@@ -8,6 +13,32 @@ package de.tudresden.inf.st.openapi.ast;
 
  */
 public class ExternalDocumentationObject extends ASTNode<ASTNode> implements Cloneable {
+  /**
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:261
+   */
+  public static ExternalDocs composeExternalDocs (ExternalDocumentationObject externalDocumentationObject){
+        ExternalDocs externalDocs = new ExternalDocs();
+
+        if( !externalDocumentationObject.getDescription().isEmpty() )
+        externalDocs.getDescription();
+        externalDocs.setUrl( externalDocumentationObject.getUrl() );
+
+        return externalDocs;
+        }
+  /**
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:331
+   */
+  public static ExternalDocumentationObject parseExternalDocs(ExternalDocs externalDocs){
+        ExternalDocumentationObject externalDocumentationObject = new ExternalDocumentationObject();
+
+        if( externalDocs.getDescription() != null )
+        externalDocumentationObject.setDescription( externalDocs.getDescription() );
+        externalDocumentationObject.setUrl( externalDocs.getUrl() );
+
+        return externalDocumentationObject;
+        }
   /**
    * @declaredat ASTNode:1
    */
@@ -180,33 +211,6 @@ public class ExternalDocumentationObject extends ASTNode<ASTNode> implements Clo
   @ASTNodeAnnotation.Token(name="Url")
   public String getUrl() {
     return tokenString_Url != null ? tokenString_Url : "";
-  }
-/** @apilevel internal */
-protected boolean print_visited = false;
-  /**
-   * @attribute syn
-   * @aspect Print
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Print", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2")
-  public String print() {
-    if (print_visited) {
-      throw new RuntimeException("Circular definition of attribute ASTNode.print().");
-    }
-    print_visited = true;
-    try {
-            String result = "{ ";
-    
-            if( !getDescription().isEmpty() ){
-            result += "\"description\": \"" + getDescription() + "\", ";
-            }
-            result += "\"url\": \"" + getUrl() + "\" } ";
-            return result;
-            }
-    finally {
-      print_visited = false;
-    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

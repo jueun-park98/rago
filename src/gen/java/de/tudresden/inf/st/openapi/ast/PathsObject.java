@@ -1,5 +1,10 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
+import org.openapi4j.core.exception.ResolutionException;
+import org.openapi4j.core.validation.ValidationException;
+import org.openapi4j.parser.model.v3.*;
+import java.io.IOException;
+import java.util.*;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:3
@@ -8,6 +13,20 @@ package de.tudresden.inf.st.openapi.ast;
 
  */
 public class PathsObject extends ASTNode<ASTNode> implements Cloneable {
+  /**
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:200
+   */
+  public static PathsObject parsePaths(OpenApi3 api3){
+        PathsObject pathsObject = new PathsObject();
+
+        for ( String key : api3.getPaths().keySet() ){
+        pathsObject.setRef( key );
+        pathsObject.setPathItemObject( PathItemObject.parsePath(api3.getPath(key)) );
+        }
+
+        return pathsObject;
+        }
   /**
    * @declaredat ASTNode:1
    */
@@ -187,28 +206,6 @@ public class PathsObject extends ASTNode<ASTNode> implements Cloneable {
    */
   public PathItemObject getPathItemObjectNoTransform() {
     return (PathItemObject) getChildNoTransform(0);
-  }
-/** @apilevel internal */
-protected boolean print_visited = false;
-  /**
-   * @attribute syn
-   * @aspect Print
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Print", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2")
-  public String print() {
-    if (print_visited) {
-      throw new RuntimeException("Circular definition of attribute ASTNode.print().");
-    }
-    print_visited = true;
-    try {
-            String result = "{ \"" + getRef() + "\": " + getPathItemObject().print() + " }";
-            return result;
-            }
-    finally {
-      print_visited = false;
-    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

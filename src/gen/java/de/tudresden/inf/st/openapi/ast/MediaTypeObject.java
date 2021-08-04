@@ -1,5 +1,10 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
+import org.openapi4j.core.exception.ResolutionException;
+import org.openapi4j.core.validation.ValidationException;
+import org.openapi4j.parser.model.v3.*;
+import java.io.IOException;
+import java.util.*;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:100
@@ -8,6 +13,50 @@ package de.tudresden.inf.st.openapi.ast;
 
  */
 public class MediaTypeObject extends ASTNode<ASTNode> implements Cloneable {
+  /**
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:323
+   */
+  public static MediaType composeMediaType (MediaTypeObject mediaTypeObject){
+        MediaType mediaType = new MediaType();
+
+        if( mediaTypeObject.getExample() != null )
+        mediaType.setExample( mediaTypeObject.getExample() );
+        if( mediaTypeObject.getNumExamplesTuple() != 0 ){
+        Map<String, Example> examples = new HashMap<>();
+        for( ExamplesTuple t : mediaTypeObject.getExamplesTuples() )
+        examples.put( ((ExampleObjectTuple)t).getName(), ExampleObject.composeExample( ((ExampleObjectTuple)t).getExampleObject() ) );
+        mediaType.setExamples(examples);
+        }
+        if( mediaTypeObject.getNumEncodingTuple() != 0 ){
+        Map<String, EncodingProperty> encodings = new HashMap<>();
+        for( EncodingTuple t : mediaTypeObject.getEncodingTuples() )
+        encodings.put( ((EncodingObjectTuple)t).getName(), EncodingObject.composeEncodingProperty( ((EncodingObjectTuple)t).getEncodingObject() ) );
+        mediaType.setEncodings(encodings);
+        }
+
+        return mediaType;
+        }
+  /**
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:388
+   */
+  public static MediaTypeObject parseMediaType(MediaType mediaType){
+        MediaTypeObject mediaTypeObject = new MediaTypeObject();
+
+        if( mediaType.getExample() != null )
+        mediaTypeObject.setExample( mediaType.getExample() );
+        if( mediaType.getExamples() != null ){
+        for( String key : mediaType.getExamples().keySet() )
+        mediaTypeObject.addExamplesTuple(new ExampleObjectTuple(key, ExampleObject.parseExample(mediaType.getExample(key))));
+        }
+        if( mediaType.getEncodings() != null ){
+        for( String key : mediaType.getEncodings().keySet() )
+        mediaTypeObject.addEncodingTuple(new EncodingObjectTuple(key, EncodingObject.parseEncoding(mediaType.getEncoding(key))));
+        }
+
+        return mediaTypeObject;
+        }
   /**
    * @declaredat ASTNode:1
    */
@@ -437,50 +486,6 @@ public class MediaTypeObject extends ASTNode<ASTNode> implements Cloneable {
    */
   public JastAddList<EncodingTuple> getEncodingTuplesNoTransform() {
     return getEncodingTupleListNoTransform();
-  }
-/** @apilevel internal */
-protected boolean print_visited = false;
-  /**
-   * @attribute syn
-   * @aspect Print
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Print", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Print.jrag:2")
-  public String print() {
-    if (print_visited) {
-      throw new RuntimeException("Circular definition of attribute ASTNode.print().");
-    }
-    print_visited = true;
-    try {
-            String result = "{ ";
-    
-            if( hasSchema() ){
-            result += "\"schema\" : " + getSchema().print() + ", ";
-            }
-            if( getExample() != null ){
-            result += "\"example\" : " + getExample() + ", ";
-            }
-            if( getNumExamplesTuple() != 0 ){
-            result += "\"examples\": { ";
-            for( ExamplesTuple t : getExamplesTuples() ){
-            result += t.print() + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " }, ";
-            }
-            if( getNumEncodingTuple() != 0 ){
-            result += "\"encoding\": { ";
-            for( EncodingTuple e : getEncodingTuples() ){
-            result += e.print() + ", ";
-            }
-            result = result.substring(0, result.length() - 2) + " }, ";
-            }
-            result = result.substring(0, result.length() - 2) + " } ";
-            return result;
-            }
-    finally {
-      print_visited = false;
-    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

@@ -1,5 +1,10 @@
 package de.tudresden.inf.st.openapi.ast;
 
+import org.openapi4j.core.exception.ResolutionException;
+import org.openapi4j.core.validation.ValidationException;
+import org.openapi4j.parser.model.v3.*;
+import java.io.IOException;
+import java.util.*;
 /** Wrapper class for storing nullable attribute values. 
  * @ast class
  * @declaredat ASTState:2
