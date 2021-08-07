@@ -79,15 +79,12 @@ public class OpenAPIMain_test {
     }
 
     protected void compareJson(JsonNode expectedNode, JsonNode actualNode, Path path) throws IOException {
-
         JsonNode diff = JsonDiff.asJson(expectedNode, actualNode);
-        System.out.println(diff.toPrettyString());
+
         // if the Jsons are equivalent, there is no reason to to the text comparison
         // if there is a difference, a text comparison might look better than just the diff.
-
         if (diff.size() != 0) {
-            String expected = Files.readString(path);
-            Assertions.assertEquals(expected, expectedNode.toPrettyString(), "YAMLs for " + path + " are different:\n" + diff.toString());
+            Assertions.assertEquals(actualNode.toPrettyString(), expectedNode.toPrettyString(), "JSONs for " + path + " are different:\n" + diff.toPrettyString());
         }
     }
 }

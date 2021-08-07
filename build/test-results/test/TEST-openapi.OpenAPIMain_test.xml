@@ -1,18 +1,179 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="openapi.OpenAPIMain_test" tests="1" skipped="0" failures="1" errors="0" timestamp="2021-08-04T17:53:51" hostname="DESKTOP-5DL2OO8" time="0.356">
+<testsuite name="openapi.OpenAPIMain_test" tests="1" skipped="0" failures="1" errors="0" timestamp="2021-08-05T13:39:16" hostname="MacBook-Air-von-Jueun.local" time="0.554">
   <properties/>
-  <testcase name="test()" classname="openapi.OpenAPIMain_test" time="0.356">
-    <failure message="java.nio.file.NoSuchFileException: api-with-examples.json" type="java.nio.file.NoSuchFileException">java.nio.file.NoSuchFileException: api-with-examples.json
-	at java.base/sun.nio.fs.WindowsException.translateToIOException(WindowsException.java:85)
-	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:103)
-	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:108)
-	at java.base/sun.nio.fs.WindowsFileSystemProvider.newByteChannel(WindowsFileSystemProvider.java:231)
-	at java.base/java.nio.file.Files.newByteChannel(Files.java:370)
-	at java.base/java.nio.file.Files.newByteChannel(Files.java:421)
-	at java.base/java.nio.file.Files.readAllBytes(Files.java:3205)
-	at java.base/java.nio.file.Files.readString(Files.java:3283)
-	at java.base/java.nio.file.Files.readString(Files.java:3242)
-	at openapi.OpenAPIMain_test.compareJson(OpenAPIMain_test.java:89)
+  <testcase name="test()" classname="openapi.OpenAPIMain_test" time="0.554">
+    <failure message="org.opentest4j.AssertionFailedError: JSONs for api-with-examples.json are different:&#10;[ {&#10;  &quot;op&quot; : &quot;add&quot;,&#10;  &quot;path&quot; : &quot;/paths/~1streams/post/parameters/0/schema&quot;,&#10;  &quot;value&quot; : {&#10;    &quot;example&quot; : &quot;https://tonys-server.com&quot;,&#10;    &quot;format&quot; : &quot;uri&quot;,&#10;    &quot;type&quot; : &quot;string&quot;&#10;  }&#10;}, {&#10;  &quot;op&quot; : &quot;add&quot;,&#10;  &quot;path&quot; : &quot;/paths/~1streams/post/responses/201/content/application~1json/schema&quot;,&#10;  &quot;value&quot; : {&#10;    &quot;description&quot; : &quot;subscription information&quot;,&#10;    &quot;properties&quot; : {&#10;      &quot;subscriptionId&quot; : {&#10;        &quot;description&quot; : &quot;this unique identifier allows management of the subscription&quot;,&#10;        &quot;example&quot; : &quot;2531329f-fb09-4ef7-887e-84e648214436&quot;,&#10;        &quot;type&quot; : &quot;string&quot;&#10;      }&#10;    },&#10;    &quot;required&quot; : [ &quot;subscriptionId&quot; ]&#10;  }&#10;}, {&#10;  &quot;op&quot; : &quot;add&quot;,&#10;  &quot;path&quot; : &quot;/paths/~1streams/post/callbacks/onData/{$request.query.callbackUrl}~1data/post/requestBody/content/application~1json/schema&quot;,&#10;  &quot;value&quot; : {&#10;    &quot;properties&quot; : {&#10;      &quot;timestamp&quot; : {&#10;        &quot;format&quot; : &quot;date-time&quot;,&#10;        &quot;type&quot; : &quot;string&quot;&#10;      },&#10;      &quot;userData&quot; : {&#10;        &quot;type&quot; : &quot;string&quot;&#10;      }&#10;    },&#10;    &quot;type&quot; : &quot;object&quot;&#10;  }&#10;} ] ==&gt; expected: &lt;{&#10;  &quot;openapi&quot; : &quot;3.0.0&quot;,&#10;  &quot;info&quot; : {&#10;    &quot;title&quot; : &quot;Callback Example&quot;,&#10;    &quot;version&quot; : &quot;1.0.0&quot;&#10;  },&#10;  &quot;paths&quot; : {&#10;    &quot;/streams&quot; : {&#10;      &quot;post&quot; : {&#10;        &quot;description&quot; : &quot;subscribes a client to receive out-of-band data&quot;,&#10;        &quot;parameters&quot; : [ {&#10;          &quot;description&quot; : &quot;the location where data will be sent.  Must be network accessible\nby the source server\n&quot;,&#10;          &quot;required&quot; : true,&#10;          &quot;schema&quot; : {&#10;            &quot;example&quot; : &quot;https://tonys-server.com&quot;,&#10;            &quot;format&quot; : &quot;uri&quot;,&#10;            &quot;type&quot; : &quot;string&quot;&#10;          },&#10;          &quot;in&quot; : &quot;query&quot;,&#10;          &quot;name&quot; : &quot;callbackUrl&quot;&#10;        } ],&#10;        &quot;responses&quot; : {&#10;          &quot;201&quot; : {&#10;            &quot;description&quot; : &quot;subscription successfully created&quot;,&#10;            &quot;content&quot; : {&#10;              &quot;application/json&quot; : {&#10;                &quot;schema&quot; : {&#10;                  &quot;description&quot; : &quot;subscription information&quot;,&#10;                  &quot;properties&quot; : {&#10;                    &quot;subscriptionId&quot; : {&#10;                      &quot;description&quot; : &quot;this unique identifier allows management of the subscription&quot;,&#10;                      &quot;example&quot; : &quot;2531329f-fb09-4ef7-887e-84e648214436&quot;,&#10;                      &quot;type&quot; : &quot;string&quot;&#10;                    }&#10;                  },&#10;                  &quot;required&quot; : [ &quot;subscriptionId&quot; ]&#10;                }&#10;              }&#10;            }&#10;          }&#10;        },&#10;        &quot;callbacks&quot; : {&#10;          &quot;onData&quot; : {&#10;            &quot;{$request.query.callbackUrl}/data&quot; : {&#10;              &quot;post&quot; : {&#10;                &quot;requestBody&quot; : {&#10;                  &quot;description&quot; : &quot;subscription payload&quot;,&#10;                  &quot;content&quot; : {&#10;                    &quot;application/json&quot; : {&#10;                      &quot;schema&quot; : {&#10;                        &quot;properties&quot; : {&#10;                          &quot;timestamp&quot; : {&#10;                            &quot;format&quot; : &quot;date-time&quot;,&#10;                            &quot;type&quot; : &quot;string&quot;&#10;                          },&#10;                          &quot;userData&quot; : {&#10;                            &quot;type&quot; : &quot;string&quot;&#10;                          }&#10;                        },&#10;                        &quot;type&quot; : &quot;object&quot;&#10;                      }&#10;                    }&#10;                  }&#10;                },&#10;                &quot;responses&quot; : {&#10;                  &quot;202&quot; : {&#10;                    &quot;description&quot; : &quot;Your server implementation should return this HTTP status code\nif the data was received successfully\n&quot;&#10;                  },&#10;                  &quot;204&quot; : {&#10;                    &quot;description&quot; : &quot;Your server should return this HTTP status code if no longer interested\nin further updates\n&quot;&#10;                  }&#10;                }&#10;              }&#10;            }&#10;          }&#10;        }&#10;      }&#10;    }&#10;  }&#10;}&gt; but was: &lt;{&#10;  &quot;openapi&quot; : &quot;3.0.0&quot;,&#10;  &quot;info&quot; : {&#10;    &quot;title&quot; : &quot;Callback Example&quot;,&#10;    &quot;version&quot; : &quot;1.0.0&quot;&#10;  },&#10;  &quot;paths&quot; : {&#10;    &quot;/streams&quot; : {&#10;      &quot;post&quot; : {&#10;        &quot;description&quot; : &quot;subscribes a client to receive out-of-band data&quot;,&#10;        &quot;parameters&quot; : [ {&#10;          &quot;description&quot; : &quot;the location where data will be sent.  Must be network accessible\nby the source server\n&quot;,&#10;          &quot;required&quot; : true,&#10;          &quot;in&quot; : &quot;query&quot;,&#10;          &quot;name&quot; : &quot;callbackUrl&quot;&#10;        } ],&#10;        &quot;responses&quot; : {&#10;          &quot;201&quot; : {&#10;            &quot;description&quot; : &quot;subscription successfully created&quot;,&#10;            &quot;content&quot; : {&#10;              &quot;application/json&quot; : { }&#10;            }&#10;          }&#10;        },&#10;        &quot;callbacks&quot; : {&#10;          &quot;onData&quot; : {&#10;            &quot;{$request.query.callbackUrl}/data&quot; : {&#10;              &quot;post&quot; : {&#10;                &quot;requestBody&quot; : {&#10;                  &quot;description&quot; : &quot;subscription payload&quot;,&#10;                  &quot;content&quot; : {&#10;                    &quot;application/json&quot; : { }&#10;                  }&#10;                },&#10;                &quot;responses&quot; : {&#10;                  &quot;202&quot; : {&#10;                    &quot;description&quot; : &quot;Your server implementation should return this HTTP status code\nif the data was received successfully\n&quot;&#10;                  },&#10;                  &quot;204&quot; : {&#10;                    &quot;description&quot; : &quot;Your server should return this HTTP status code if no longer interested\nin further updates\n&quot;&#10;                  }&#10;                }&#10;              }&#10;            }&#10;          }&#10;        }&#10;      }&#10;    }&#10;  }&#10;}&gt;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: JSONs for api-with-examples.json are different:
+[ {
+  &quot;op&quot; : &quot;add&quot;,
+  &quot;path&quot; : &quot;/paths/~1streams/post/parameters/0/schema&quot;,
+  &quot;value&quot; : {
+    &quot;example&quot; : &quot;https://tonys-server.com&quot;,
+    &quot;format&quot; : &quot;uri&quot;,
+    &quot;type&quot; : &quot;string&quot;
+  }
+}, {
+  &quot;op&quot; : &quot;add&quot;,
+  &quot;path&quot; : &quot;/paths/~1streams/post/responses/201/content/application~1json/schema&quot;,
+  &quot;value&quot; : {
+    &quot;description&quot; : &quot;subscription information&quot;,
+    &quot;properties&quot; : {
+      &quot;subscriptionId&quot; : {
+        &quot;description&quot; : &quot;this unique identifier allows management of the subscription&quot;,
+        &quot;example&quot; : &quot;2531329f-fb09-4ef7-887e-84e648214436&quot;,
+        &quot;type&quot; : &quot;string&quot;
+      }
+    },
+    &quot;required&quot; : [ &quot;subscriptionId&quot; ]
+  }
+}, {
+  &quot;op&quot; : &quot;add&quot;,
+  &quot;path&quot; : &quot;/paths/~1streams/post/callbacks/onData/{$request.query.callbackUrl}~1data/post/requestBody/content/application~1json/schema&quot;,
+  &quot;value&quot; : {
+    &quot;properties&quot; : {
+      &quot;timestamp&quot; : {
+        &quot;format&quot; : &quot;date-time&quot;,
+        &quot;type&quot; : &quot;string&quot;
+      },
+      &quot;userData&quot; : {
+        &quot;type&quot; : &quot;string&quot;
+      }
+    },
+    &quot;type&quot; : &quot;object&quot;
+  }
+} ] ==&gt; expected: &lt;{
+  &quot;openapi&quot; : &quot;3.0.0&quot;,
+  &quot;info&quot; : {
+    &quot;title&quot; : &quot;Callback Example&quot;,
+    &quot;version&quot; : &quot;1.0.0&quot;
+  },
+  &quot;paths&quot; : {
+    &quot;/streams&quot; : {
+      &quot;post&quot; : {
+        &quot;description&quot; : &quot;subscribes a client to receive out-of-band data&quot;,
+        &quot;parameters&quot; : [ {
+          &quot;description&quot; : &quot;the location where data will be sent.  Must be network accessible\nby the source server\n&quot;,
+          &quot;required&quot; : true,
+          &quot;schema&quot; : {
+            &quot;example&quot; : &quot;https://tonys-server.com&quot;,
+            &quot;format&quot; : &quot;uri&quot;,
+            &quot;type&quot; : &quot;string&quot;
+          },
+          &quot;in&quot; : &quot;query&quot;,
+          &quot;name&quot; : &quot;callbackUrl&quot;
+        } ],
+        &quot;responses&quot; : {
+          &quot;201&quot; : {
+            &quot;description&quot; : &quot;subscription successfully created&quot;,
+            &quot;content&quot; : {
+              &quot;application/json&quot; : {
+                &quot;schema&quot; : {
+                  &quot;description&quot; : &quot;subscription information&quot;,
+                  &quot;properties&quot; : {
+                    &quot;subscriptionId&quot; : {
+                      &quot;description&quot; : &quot;this unique identifier allows management of the subscription&quot;,
+                      &quot;example&quot; : &quot;2531329f-fb09-4ef7-887e-84e648214436&quot;,
+                      &quot;type&quot; : &quot;string&quot;
+                    }
+                  },
+                  &quot;required&quot; : [ &quot;subscriptionId&quot; ]
+                }
+              }
+            }
+          }
+        },
+        &quot;callbacks&quot; : {
+          &quot;onData&quot; : {
+            &quot;{$request.query.callbackUrl}/data&quot; : {
+              &quot;post&quot; : {
+                &quot;requestBody&quot; : {
+                  &quot;description&quot; : &quot;subscription payload&quot;,
+                  &quot;content&quot; : {
+                    &quot;application/json&quot; : {
+                      &quot;schema&quot; : {
+                        &quot;properties&quot; : {
+                          &quot;timestamp&quot; : {
+                            &quot;format&quot; : &quot;date-time&quot;,
+                            &quot;type&quot; : &quot;string&quot;
+                          },
+                          &quot;userData&quot; : {
+                            &quot;type&quot; : &quot;string&quot;
+                          }
+                        },
+                        &quot;type&quot; : &quot;object&quot;
+                      }
+                    }
+                  }
+                },
+                &quot;responses&quot; : {
+                  &quot;202&quot; : {
+                    &quot;description&quot; : &quot;Your server implementation should return this HTTP status code\nif the data was received successfully\n&quot;
+                  },
+                  &quot;204&quot; : {
+                    &quot;description&quot; : &quot;Your server should return this HTTP status code if no longer interested\nin further updates\n&quot;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}&gt; but was: &lt;{
+  &quot;openapi&quot; : &quot;3.0.0&quot;,
+  &quot;info&quot; : {
+    &quot;title&quot; : &quot;Callback Example&quot;,
+    &quot;version&quot; : &quot;1.0.0&quot;
+  },
+  &quot;paths&quot; : {
+    &quot;/streams&quot; : {
+      &quot;post&quot; : {
+        &quot;description&quot; : &quot;subscribes a client to receive out-of-band data&quot;,
+        &quot;parameters&quot; : [ {
+          &quot;description&quot; : &quot;the location where data will be sent.  Must be network accessible\nby the source server\n&quot;,
+          &quot;required&quot; : true,
+          &quot;in&quot; : &quot;query&quot;,
+          &quot;name&quot; : &quot;callbackUrl&quot;
+        } ],
+        &quot;responses&quot; : {
+          &quot;201&quot; : {
+            &quot;description&quot; : &quot;subscription successfully created&quot;,
+            &quot;content&quot; : {
+              &quot;application/json&quot; : { }
+            }
+          }
+        },
+        &quot;callbacks&quot; : {
+          &quot;onData&quot; : {
+            &quot;{$request.query.callbackUrl}/data&quot; : {
+              &quot;post&quot; : {
+                &quot;requestBody&quot; : {
+                  &quot;description&quot; : &quot;subscription payload&quot;,
+                  &quot;content&quot; : {
+                    &quot;application/json&quot; : { }
+                  }
+                },
+                &quot;responses&quot; : {
+                  &quot;202&quot; : {
+                    &quot;description&quot; : &quot;Your server implementation should return this HTTP status code\nif the data was received successfully\n&quot;
+                  },
+                  &quot;204&quot; : {
+                    &quot;description&quot; : &quot;Your server should return this HTTP status code if no longer interested\nin further updates\n&quot;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}&gt;
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:55)
+	at org.junit.jupiter.api.AssertionUtils.failNotEqual(AssertionUtils.java:62)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1135)
+	at openapi.OpenAPIMain_test.compareJson(OpenAPIMain_test.java:87)
 	at openapi.OpenAPIMain_test.test(OpenAPIMain_test.java:78)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
@@ -45,7 +206,7 @@
 	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:126)
 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:84)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
 	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38)
 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:143)
 	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
@@ -55,7 +216,7 @@
 	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:126)
 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:84)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
 	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38)
 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:143)
 	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
@@ -103,49 +264,11 @@
 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
 	at org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:56)
-	at java.base/java.lang.Thread.run(Thread.java:834)
+	at java.base/java.lang.Thread.run(Thread.java:829)
 </failure>
   </testcase>
   <system-out><![CDATA[Loading expression DSL file 'callback-example.json'.
 true
-[ {
-  "op" : "add",
-  "path" : "/paths/~1streams/post/parameters/0/schema",
-  "value" : {
-    "example" : "https://tonys-server.com",
-    "format" : "uri",
-    "type" : "string"
-  }
-}, {
-  "op" : "add",
-  "path" : "/paths/~1streams/post/responses/201/content/application~1json/schema",
-  "value" : {
-    "description" : "subscription information",
-    "properties" : {
-      "subscriptionId" : {
-        "description" : "this unique identifier allows management of the subscription",
-        "example" : "2531329f-fb09-4ef7-887e-84e648214436",
-        "type" : "string"
-      }
-    },
-    "required" : [ "subscriptionId" ]
-  }
-}, {
-  "op" : "add",
-  "path" : "/paths/~1streams/post/callbacks/onData/{$request.query.callbackUrl}~1data/post/requestBody/content/application~1json/schema",
-  "value" : {
-    "properties" : {
-      "timestamp" : {
-        "format" : "date-time",
-        "type" : "string"
-      },
-      "userData" : {
-        "type" : "string"
-      }
-    },
-    "type" : "object"
-  }
-} ]
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

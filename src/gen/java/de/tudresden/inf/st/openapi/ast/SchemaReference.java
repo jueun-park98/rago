@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.*;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:90
+ * @declaredat /Users/jueunpark/Documents/gitJastadd/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:90
  * @astdecl SchemaReference : Schema ::= <Ref:String>;
  * @production SchemaReference : {@link Schema} ::= <span class="component">&lt;Ref:String&gt;</span>;
 

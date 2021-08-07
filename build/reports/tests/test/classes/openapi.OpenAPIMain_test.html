@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.356s</div>
+<div class="counter">0.554s</div>
 <p>duration</p>
 </div>
 </td>
@@ -76,17 +76,178 @@
 <a name="test()"></a>
 <h3 class="failures">test()</h3>
 <span class="code">
-<pre>java.nio.file.NoSuchFileException: api-with-examples.json
-	at java.base/sun.nio.fs.WindowsException.translateToIOException(WindowsException.java:85)
-	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:103)
-	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:108)
-	at java.base/sun.nio.fs.WindowsFileSystemProvider.newByteChannel(WindowsFileSystemProvider.java:231)
-	at java.base/java.nio.file.Files.newByteChannel(Files.java:370)
-	at java.base/java.nio.file.Files.newByteChannel(Files.java:421)
-	at java.base/java.nio.file.Files.readAllBytes(Files.java:3205)
-	at java.base/java.nio.file.Files.readString(Files.java:3283)
-	at java.base/java.nio.file.Files.readString(Files.java:3242)
-	at openapi.OpenAPIMain_test.compareJson(OpenAPIMain_test.java:89)
+<pre>org.opentest4j.AssertionFailedError: JSONs for api-with-examples.json are different:
+[ {
+  &quot;op&quot; : &quot;add&quot;,
+  &quot;path&quot; : &quot;/paths/~1streams/post/parameters/0/schema&quot;,
+  &quot;value&quot; : {
+    &quot;example&quot; : &quot;https://tonys-server.com&quot;,
+    &quot;format&quot; : &quot;uri&quot;,
+    &quot;type&quot; : &quot;string&quot;
+  }
+}, {
+  &quot;op&quot; : &quot;add&quot;,
+  &quot;path&quot; : &quot;/paths/~1streams/post/responses/201/content/application~1json/schema&quot;,
+  &quot;value&quot; : {
+    &quot;description&quot; : &quot;subscription information&quot;,
+    &quot;properties&quot; : {
+      &quot;subscriptionId&quot; : {
+        &quot;description&quot; : &quot;this unique identifier allows management of the subscription&quot;,
+        &quot;example&quot; : &quot;2531329f-fb09-4ef7-887e-84e648214436&quot;,
+        &quot;type&quot; : &quot;string&quot;
+      }
+    },
+    &quot;required&quot; : [ &quot;subscriptionId&quot; ]
+  }
+}, {
+  &quot;op&quot; : &quot;add&quot;,
+  &quot;path&quot; : &quot;/paths/~1streams/post/callbacks/onData/{$request.query.callbackUrl}~1data/post/requestBody/content/application~1json/schema&quot;,
+  &quot;value&quot; : {
+    &quot;properties&quot; : {
+      &quot;timestamp&quot; : {
+        &quot;format&quot; : &quot;date-time&quot;,
+        &quot;type&quot; : &quot;string&quot;
+      },
+      &quot;userData&quot; : {
+        &quot;type&quot; : &quot;string&quot;
+      }
+    },
+    &quot;type&quot; : &quot;object&quot;
+  }
+} ] ==&gt; expected: &lt;{
+  &quot;openapi&quot; : &quot;3.0.0&quot;,
+  &quot;info&quot; : {
+    &quot;title&quot; : &quot;Callback Example&quot;,
+    &quot;version&quot; : &quot;1.0.0&quot;
+  },
+  &quot;paths&quot; : {
+    &quot;/streams&quot; : {
+      &quot;post&quot; : {
+        &quot;description&quot; : &quot;subscribes a client to receive out-of-band data&quot;,
+        &quot;parameters&quot; : [ {
+          &quot;description&quot; : &quot;the location where data will be sent.  Must be network accessible\nby the source server\n&quot;,
+          &quot;required&quot; : true,
+          &quot;schema&quot; : {
+            &quot;example&quot; : &quot;https://tonys-server.com&quot;,
+            &quot;format&quot; : &quot;uri&quot;,
+            &quot;type&quot; : &quot;string&quot;
+          },
+          &quot;in&quot; : &quot;query&quot;,
+          &quot;name&quot; : &quot;callbackUrl&quot;
+        } ],
+        &quot;responses&quot; : {
+          &quot;201&quot; : {
+            &quot;description&quot; : &quot;subscription successfully created&quot;,
+            &quot;content&quot; : {
+              &quot;application/json&quot; : {
+                &quot;schema&quot; : {
+                  &quot;description&quot; : &quot;subscription information&quot;,
+                  &quot;properties&quot; : {
+                    &quot;subscriptionId&quot; : {
+                      &quot;description&quot; : &quot;this unique identifier allows management of the subscription&quot;,
+                      &quot;example&quot; : &quot;2531329f-fb09-4ef7-887e-84e648214436&quot;,
+                      &quot;type&quot; : &quot;string&quot;
+                    }
+                  },
+                  &quot;required&quot; : [ &quot;subscriptionId&quot; ]
+                }
+              }
+            }
+          }
+        },
+        &quot;callbacks&quot; : {
+          &quot;onData&quot; : {
+            &quot;{$request.query.callbackUrl}/data&quot; : {
+              &quot;post&quot; : {
+                &quot;requestBody&quot; : {
+                  &quot;description&quot; : &quot;subscription payload&quot;,
+                  &quot;content&quot; : {
+                    &quot;application/json&quot; : {
+                      &quot;schema&quot; : {
+                        &quot;properties&quot; : {
+                          &quot;timestamp&quot; : {
+                            &quot;format&quot; : &quot;date-time&quot;,
+                            &quot;type&quot; : &quot;string&quot;
+                          },
+                          &quot;userData&quot; : {
+                            &quot;type&quot; : &quot;string&quot;
+                          }
+                        },
+                        &quot;type&quot; : &quot;object&quot;
+                      }
+                    }
+                  }
+                },
+                &quot;responses&quot; : {
+                  &quot;202&quot; : {
+                    &quot;description&quot; : &quot;Your server implementation should return this HTTP status code\nif the data was received successfully\n&quot;
+                  },
+                  &quot;204&quot; : {
+                    &quot;description&quot; : &quot;Your server should return this HTTP status code if no longer interested\nin further updates\n&quot;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}&gt; but was: &lt;{
+  &quot;openapi&quot; : &quot;3.0.0&quot;,
+  &quot;info&quot; : {
+    &quot;title&quot; : &quot;Callback Example&quot;,
+    &quot;version&quot; : &quot;1.0.0&quot;
+  },
+  &quot;paths&quot; : {
+    &quot;/streams&quot; : {
+      &quot;post&quot; : {
+        &quot;description&quot; : &quot;subscribes a client to receive out-of-band data&quot;,
+        &quot;parameters&quot; : [ {
+          &quot;description&quot; : &quot;the location where data will be sent.  Must be network accessible\nby the source server\n&quot;,
+          &quot;required&quot; : true,
+          &quot;in&quot; : &quot;query&quot;,
+          &quot;name&quot; : &quot;callbackUrl&quot;
+        } ],
+        &quot;responses&quot; : {
+          &quot;201&quot; : {
+            &quot;description&quot; : &quot;subscription successfully created&quot;,
+            &quot;content&quot; : {
+              &quot;application/json&quot; : { }
+            }
+          }
+        },
+        &quot;callbacks&quot; : {
+          &quot;onData&quot; : {
+            &quot;{$request.query.callbackUrl}/data&quot; : {
+              &quot;post&quot; : {
+                &quot;requestBody&quot; : {
+                  &quot;description&quot; : &quot;subscription payload&quot;,
+                  &quot;content&quot; : {
+                    &quot;application/json&quot; : { }
+                  }
+                },
+                &quot;responses&quot; : {
+                  &quot;202&quot; : {
+                    &quot;description&quot; : &quot;Your server implementation should return this HTTP status code\nif the data was received successfully\n&quot;
+                  },
+                  &quot;204&quot; : {
+                    &quot;description&quot; : &quot;Your server should return this HTTP status code if no longer interested\nin further updates\n&quot;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}&gt;
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:55)
+	at org.junit.jupiter.api.AssertionUtils.failNotEqual(AssertionUtils.java:62)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1135)
+	at openapi.OpenAPIMain_test.compareJson(OpenAPIMain_test.java:87)
 	at openapi.OpenAPIMain_test.test(OpenAPIMain_test.java:78)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
@@ -119,7 +280,7 @@
 	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:126)
 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:84)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
 	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38)
 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:143)
 	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
@@ -129,7 +290,7 @@
 	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:126)
 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:84)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
 	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38)
 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:143)
 	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
@@ -177,7 +338,7 @@
 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
 	at org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:56)
-	at java.base/java.lang.Thread.run(Thread.java:834)
+	at java.base/java.lang.Thread.run(Thread.java:829)
 </pre>
 </span>
 </div>
@@ -194,7 +355,7 @@
 </thead>
 <tr>
 <td class="failures">test()</td>
-<td class="failures">0.356s</td>
+<td class="failures">0.554s</td>
 <td class="failures">failed</td>
 </tr>
 </table>
@@ -204,44 +365,6 @@
 <span class="code">
 <pre>Loading expression DSL file 'callback-example.json'.
 true
-[ {
-  &quot;op&quot; : &quot;add&quot;,
-  &quot;path&quot; : &quot;/paths/~1streams/post/parameters/0/schema&quot;,
-  &quot;value&quot; : {
-    &quot;example&quot; : &quot;https://tonys-server.com&quot;,
-    &quot;format&quot; : &quot;uri&quot;,
-    &quot;type&quot; : &quot;string&quot;
-  }
-}, {
-  &quot;op&quot; : &quot;add&quot;,
-  &quot;path&quot; : &quot;/paths/~1streams/post/responses/201/content/application~1json/schema&quot;,
-  &quot;value&quot; : {
-    &quot;description&quot; : &quot;subscription information&quot;,
-    &quot;properties&quot; : {
-      &quot;subscriptionId&quot; : {
-        &quot;description&quot; : &quot;this unique identifier allows management of the subscription&quot;,
-        &quot;example&quot; : &quot;2531329f-fb09-4ef7-887e-84e648214436&quot;,
-        &quot;type&quot; : &quot;string&quot;
-      }
-    },
-    &quot;required&quot; : [ &quot;subscriptionId&quot; ]
-  }
-}, {
-  &quot;op&quot; : &quot;add&quot;,
-  &quot;path&quot; : &quot;/paths/~1streams/post/callbacks/onData/{$request.query.callbackUrl}~1data/post/requestBody/content/application~1json/schema&quot;,
-  &quot;value&quot; : {
-    &quot;properties&quot; : {
-      &quot;timestamp&quot; : {
-        &quot;format&quot; : &quot;date-time&quot;,
-        &quot;type&quot; : &quot;string&quot;
-      },
-      &quot;userData&quot; : {
-        &quot;type&quot; : &quot;string&quot;
-      }
-    },
-    &quot;type&quot; : &quot;object&quot;
-  }
-} ]
 </pre>
 </span>
 </div>
@@ -253,7 +376,7 @@ true
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 6.8</a> at 2021. 8. 5. 오전 2:53:51</p>
+<a href="http://www.gradle.org">Gradle 6.8</a> at 2021. 8. 5. 오후 10:39:17</p>
 </div>
 </div>
 </body>
