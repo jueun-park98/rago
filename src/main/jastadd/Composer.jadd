@@ -479,6 +479,127 @@ public static org.openapi4j.parser.model.v3.Tag TagObject.composeTag (TagObject 
         return tag;
         }
 
+public static org.openapi4j.parser.model.v3.Schema SchemaObject.composeSchema (SchemaObject schemaObject) {
+        org.openapi4j.parser.model.v3.Schema schema = new org.openapi4j.parser.model.v3.Schema();
+
+        if( schemaObject.hasAdditionalProperties() )
+        schema.setAdditionalProperties(composeSchema(schemaObject.getAdditionalProperties().getSchemaObject()));
+        if( schemaObject.getAdditionalPropertiesAllowed() != null )
+        schema.setAdditionalPropertiesAllowed((boolean)schemaObject.getAdditionalPropertiesAllowed());
+        if( schemaObject.getDefaultValue() != null )
+        schema.setDefault(schemaObject.getDefaultValue());
+        if( !schemaObject.getDescription().isEmpty() )
+        schema.setDescription(schemaObject.getDescription());
+        if( schemaObject.getDeprecatedBoolean() != null )
+        schema.setDeprecated((boolean)schemaObject.getDeprecatedBoolean());
+        if( schemaObject.hasDiscriminatorObject() )
+        schema.setDiscriminator(DiscriminatorObject.composeDiscriminator(schemaObject.getDiscriminatorObject()));
+        if( schemaObject.getExample() != null )
+        schema.setExample(schemaObject.getExample());
+        if( schemaObject.getExclusiveMaximum() != null )
+        schema.setExclusiveMaximum((boolean)schemaObject.getExclusiveMaximum());
+        if( schemaObject.getExclusiveMinimum() != null )
+        schema.setExclusiveMinimum((boolean)schemaObject.getExclusiveMinimum());
+        if( schemaObject.hasExternalDocumentationObject() )
+        schema.setExternalDocs(ExternalDocumentationObject.composeExternalDocs(schemaObject.getExternalDocumentationObject()));
+        if( !schemaObject.getFormat().isEmpty() )
+        schema.setFormat(schemaObject.getFormat());
+        if( schemaObject.hasItemsSchema() )
+        schema.setItemsSchema(composeSchema(schemaObject.getItemsSchema().getSchemaObject()));
+        if( schemaObject.getMaximum() != null )
+        schema.setMaximum((Number) schemaObject.getMaximum());
+        if( schemaObject.getMinimum() != null )
+        schema.setMinimum((Number) schemaObject.getMinimum());
+        if( schemaObject.getMaxItems() != null )
+        schema.setMaxItems((Integer) schemaObject.getMaxItems());
+        if( schemaObject.getMinItems() != null )
+        schema.setMinItems((Integer) schemaObject.getMinItems());
+        if( schemaObject.getMaxLength() != null )
+        schema.setMaxLength((Integer) schemaObject.getMaxLength());
+        if( schemaObject.getMinLength() != null )
+        schema.setMinLength((Integer) schemaObject.getMinLength());
+        if( schemaObject.getMaxProperties() != null )
+        schema.setMaxProperties((Integer) schemaObject.getMaxProperties());
+        if( schemaObject.getMinProperties() != null )
+        schema.setMinProperties((Integer) schemaObject.getMinProperties());
+        if( schemaObject.getMultipleOf() != null )
+        schema.setMultipleOf((Number) schemaObject.getMultipleOf());
+        if( schemaObject.hasNotSchema() )
+        schema.setNotSchema(composeSchema(schemaObject.getNotSchema().getSchemaObject()));
+        if( schemaObject.getNullable() != null )
+        schema.setNullable((boolean) schemaObject.getNullable());
+        if( !schemaObject.getPattern().isEmpty() )
+        schema.setPattern(schemaObject.getPattern());
+        if( schemaObject.getNumPropertyItem() != 0 ){
+        Map<String, org.openapi4j.parser.model.v3.Schema> properties = new HashMap<>();
+        for( PropertyItem p : schemaObject.getPropertyItems() )
+        properties.put(p.getName(), composeSchema(p.getSchemaObject()));
+        schema.setProperties(properties);
+        }
+        if( schemaObject.getNumRequiredField() != 0 ){
+        for( RequiredField r : schemaObject.getRequiredFields() )
+        schema.addRequiredField(r.getValue());
+        }
+        if( schemaObject.getNumAllOfSchema() != 0 ){
+        for( AllOfSchema a : schemaObject.getAllOfSchemas() )
+        schema.addAllOfSchema(composeSchema(a.getSchemaObject()));
+        }
+        if( schemaObject.getNumAnyOfSchema() != 0 ){
+        for( AnyOfSchema a : schemaObject.getAnyOfSchemas() )
+        schema.addAnyOfSchema(composeSchema(a.getSchemaObject()));
+        }
+        if( schemaObject.getNumOneOfSchema() != 0 ){
+        for( OneOfSchema o : schemaObject.getOneOfSchemas() )
+        schema.addOneOfSchema(composeSchema(o.getSchemaObject()));
+        }
+        if( schemaObject.getReadOnly() != null )
+        schema.setReadOnly((boolean) schemaObject.getReadOnly());
+        if( schemaObject.getWriteOnly() != null )
+        schema.setWriteOnly((boolean) schemaObject.getWriteOnly());
+        if( !schemaObject.getType().isEmpty() )
+        schema.setType(schemaObject.getType());
+        if( !schemaObject.getTitle().isEmpty() )
+        schema.setTitle(schemaObject.getTitle());
+        if( schemaObject.getUniqueItems() != null )
+        schema.setUniqueItems((boolean) schemaObject.getUniqueItems());
+        if( schemaObject.hasXmlObject() )
+        schema.setXml(XmlObject.composeXml(schemaObject.getXmlObject()));
+
+        return schema;
+        }
+
+public static Discriminator DiscriminatorObject.composeDiscriminator (DiscriminatorObject discriminatorObject) {
+        Discriminator discriminator = new Discriminator();
+
+        if( !discriminatorObject.getPropertyName().isEmpty() )
+        discriminator.setPropertyName(discriminatorObject.getPropertyName());
+        if( discriminatorObject.getNumMappingTuple() != 0 ){
+        Map<String, String> mapping = new HashMap<>();
+        for( MappingTuple m : discriminatorObject.getMappingTuples() )
+        mapping.put(m.getKey(), m.getValue());
+        discriminator.setMapping(mapping);
+        }
+
+        return discriminator;
+        }
+
+public static Xml XmlObject.composeXml (XmlObject xmlObject) {
+        Xml xml = new Xml();
+
+        if( !xmlObject.getName().isEmpty() )
+        xml.setName(xmlObject.getName());
+        if( !xmlObject.getNamespace().isEmpty() )
+        xml.setNamespace(xmlObject.getNamespace());
+        if( !xmlObject.getPrefix().isEmpty() )
+        xml.setPrefix(xmlObject.getPrefix());
+        if( xmlObject.getAttribute() != null )
+        xml.setAttribute((boolean) xmlObject.getAttribute());
+        if( xmlObject.getWrapped() != null )
+        xml.setWrapped((boolean) xmlObject.getWrapped());
+
+        return xml;
+        }
+
 public static SecurityScheme SecuritySchemeObject.composeSecurityScheme (SecuritySchemeObject securitySchemeObject){
         SecurityScheme securityScheme = new SecurityScheme();
 

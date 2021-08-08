@@ -108,7 +108,7 @@ public static ComponentsObject ComponentsObject.parseComponents(Components compo
         for( String key : components.getSchemas().keySet() ){
         SchemaObjectTuple schemaObjectTuple = new SchemaObjectTuple();
         schemaObjectTuple.setName( key );
-        schemaObjectTuple.setSchemaObject( new SchemaObject() );
+        schemaObjectTuple.setSchemaObject( SchemaObject.parseSchema(components.getSchema(key)) );
         schemasTuples.add(schemaObjectTuple);
         }
         componentsObject.setSchemasTupleList(schemasTuples);
@@ -526,6 +526,159 @@ public static TagObject TagObject.parseTag(org.openapi4j.parser.model.v3.Tag tag
         tagObject.setExternalDocumentationObject( ExternalDocumentationObject.parseExternalDocs(tag.getExternalDocs()) );
 
         return tagObject;
+        }
+
+public static SchemaObject SchemaObject.parseSchema (org.openapi4j.parser.model.v3.Schema schema) {
+        SchemaObject schemaObject = new SchemaObject();
+
+        if( schema.getAdditionalProperties() != null ){
+        AdditionalProperties additionalProperties = new AdditionalProperties();
+        additionalProperties.setSchemaObject(parseSchema(schema.getAdditionalProperties()));
+        schemaObject.setAdditionalProperties(additionalProperties);
+        }
+        if( schema.getAdditionalPropertiesAllowed() != null )
+        schemaObject.setAdditionalPropertiesAllowed(schema.getAdditionalPropertiesAllowed());
+        if( schema.getDefault() != null )
+        schemaObject.setDefaultValue(schema.getDefault());
+        if( schema.getDescription() != null )
+        schemaObject.setDescription(schema.getDescription());
+        if( schema.getDeprecated() != null )
+        schemaObject.setDeprecatedBoolean(schema.getDeprecated());
+        if( schema.getDiscriminator() != null )
+        schemaObject.setDiscriminatorObject(DiscriminatorObject.parseDiscriminator(schema.getDiscriminator()));
+        if( !schema.getEnums().isEmpty() ){
+        EnumObj enumObj = new EnumObj();
+        for( Object o : schema.getEnums() ){
+        enumObj.setEnumOb(o);
+        schemaObject.addEnumObj(enumObj);
+        }
+        }
+        if( schema.getExample() != null )
+        schemaObject.setExample(schema.getExample());
+        if( schema.getExclusiveMaximum() != null )
+        schemaObject.setExclusiveMaximum(schema.getExclusiveMaximum());
+        if( schema.getExclusiveMinimum() != null )
+        schemaObject.setExclusiveMinimum(schema.getExclusiveMinimum());
+        if( schema.getExternalDocs() != null )
+        schemaObject.setExternalDocumentationObject(ExternalDocumentationObject.parseExternalDocs(schema.getExternalDocs()));
+        if( schema.getFormat() != null )
+        schemaObject.setFormat(schema.getFormat());
+        if( schema.getItemsSchema() != null ){
+        ItemsSchema itemsSchema = new ItemsSchema();
+        itemsSchema.setSchemaObject(parseSchema(schema.getItemsSchema()));
+        schemaObject.setItemsSchema(itemsSchema);
+        }
+        if( schema.getMaximum() != null )
+        schemaObject.setMaximum(schema.getMaximum());
+        if( schema.getMinimum() != null )
+        schemaObject.setMinimum(schema.getMinimum());
+        if( schema.getMaxItems() != null )
+        schemaObject.setMaxItems(schema.getMaxItems());
+        if( schema.getMinItems() != null )
+        schemaObject.setMinItems(schema.getMinItems());
+        if( schema.getMaxLength() != null )
+        schemaObject.setMaxLength(schema.getMaxLength());
+        if( schema.getMinLength() != null )
+        schemaObject.setMinLength(schema.getMinLength());
+        if( schema.getMaxProperties() != null )
+        schemaObject.setMaxProperties(schema.getMaxProperties());
+        if( schema.getMinProperties() != null )
+        schemaObject.setMinProperties(schema.getMinProperties());
+        if( schema.getMultipleOf() != null )
+        schemaObject.setMultipleOf(schema.getMultipleOf());
+        if( schema.getNotSchema() != null ){
+        NotSchema notSchema = new NotSchema();
+        notSchema.setSchemaObject(parseSchema(schema.getNotSchema()));
+        schemaObject.setNotSchema(notSchema);
+        }
+        if( schema.getNullable() != null )
+        schemaObject.setNullable(schema.getNullable());
+        if( schema.getPattern() != null )
+        schemaObject.setPattern(schema.getPattern());
+        if( !schema.getProperties().isEmpty() ){
+        PropertyItem propertyItem = new PropertyItem();
+        for( String key : schema.getProperties().keySet() ){
+        propertyItem.setName(key);
+        propertyItem.setSchemaObject(parseSchema(schema.getProperty(key)));
+        schemaObject.addPropertyItem(propertyItem);
+        }
+        }
+        if( !schema.getRequiredFields().isEmpty() ){
+        RequiredField requiredField = new RequiredField();
+        for( String s : schema.getRequiredFields() ){
+        requiredField.setValue(s);
+        schemaObject.addRequiredField(requiredField);
+        }
+        }
+        if( !schema.getAllOfSchemas().isEmpty() ){
+        AllOfSchema allOfSchema = new AllOfSchema();
+        for(org.openapi4j.parser.model.v3.Schema schemaItem : schema.getAllOfSchemas()){
+        allOfSchema.setSchemaObject(parseSchema(schemaItem));
+        schemaObject.addAllOfSchema(allOfSchema);
+        }
+        }
+        if( !schema.getAnyOfSchemas().isEmpty() ){
+        AnyOfSchema anyOfSchema = new AnyOfSchema();
+        for(org.openapi4j.parser.model.v3.Schema schemaItem : schema.getAnyOfSchemas()){
+        anyOfSchema.setSchemaObject(parseSchema(schemaItem));
+        schemaObject.addAnyOfSchema(anyOfSchema);
+        }
+        }
+        if( !schema.getOneOfSchemas().isEmpty() ){
+        OneOfSchema oneOfSchema = new OneOfSchema();
+        for(org.openapi4j.parser.model.v3.Schema schemaItem : schema.getOneOfSchemas()){
+        oneOfSchema.setSchemaObject(parseSchema(schemaItem));
+        schemaObject.addOneOfSchema(oneOfSchema);
+        }
+        }
+        if( schema.getReadOnly() != null )
+        schemaObject.setReadOnly(schema.getReadOnly());
+        if( schema.getWriteOnly() != null )
+        schemaObject.setWriteOnly(schema.getWriteOnly());
+        if( schema.getType() != null )
+        schemaObject.setType(schema.getType());
+        if( schema.getTitle() != null )
+        schemaObject.setTitle(schema.getTitle());
+        if( schema.getUniqueItems() != null )
+        schemaObject.setUniqueItems(schema.getUniqueItems());
+        if( schema.getXml() != null )
+        schemaObject.setXmlObject(XmlObject.parseXml(schema.getXml()));
+
+        return schemaObject;
+        }
+
+public static DiscriminatorObject DiscriminatorObject.parseDiscriminator (Discriminator discriminator) {
+        DiscriminatorObject discriminatorObject = new DiscriminatorObject();
+
+        if( discriminator.getPropertyName() != null )
+        discriminatorObject.setPropertyName(discriminator.getPropertyName());
+        if( !discriminator.getMapping().isEmpty() ){
+        MappingTuple mapping = new MappingTuple();
+        for( String key : discriminator.getMapping().keySet() ){
+        mapping.setKey(key);
+        mapping.setValue(discriminator.getMapping().get(key));
+        discriminatorObject.addMappingTuple(mapping);
+        }
+        }
+
+        return discriminatorObject;
+        }
+
+public static XmlObject XmlObject.parseXml (Xml xml) {
+        XmlObject xmlObject = new XmlObject();
+
+        if( xml.getName() != null )
+        xmlObject.setName(xml.getName());
+        if( xml.getNamespace() != null )
+        xmlObject.setNamespace(xml.getNamespace());
+        if( xml.getPrefix() != null )
+        xmlObject.setPrefix(xml.getPrefix());
+        if( xml.getAttribute() != null )
+        xmlObject.setAttribute(xml.getAttribute());
+        if( xml.getWrapped() != null )
+        xmlObject.setWrapped(xml.getWrapped());
+
+        return xmlObject;
         }
 
 public static SecuritySchemeObject SecuritySchemeObject.parseSecurityScheme(SecurityScheme securityScheme){

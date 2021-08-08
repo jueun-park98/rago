@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.*;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/Documents/gitJastadd/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:109
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:109
  * @astdecl ResponsesObject : ASTNode ::= HTTPStatusCode*;
  * @production ResponsesObject : {@link ASTNode} ::= <span class="component">{@link HTTPStatusCode}*</span>;
 

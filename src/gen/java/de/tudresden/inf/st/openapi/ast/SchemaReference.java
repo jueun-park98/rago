@@ -7,9 +7,9 @@ import java.io.IOException;
 import java.util.*;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/Documents/gitJastadd/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:90
- * @astdecl SchemaReference : Schema ::= <Ref:String>;
- * @production SchemaReference : {@link Schema} ::= <span class="component">&lt;Ref:String&gt;</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:90
+ * @astdecl SchemaReference : Schema ::= <Name:String> <Ref:String>;
+ * @production SchemaReference : {@link Schema} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;Ref:String&gt;</span>;
 
  */
 public class SchemaReference extends Schema implements Cloneable {
@@ -32,47 +32,48 @@ public class SchemaReference extends Schema implements Cloneable {
    * @declaredat ASTNode:12
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Ref"},
-    type = {"String"},
-    kind = {"Token"}
+    name = {"Name", "Ref"},
+    type = {"String", "String"},
+    kind = {"Token", "Token"}
   )
-  public SchemaReference(String p0) {
-    setRef(p0);
+  public SchemaReference(String p0, String p1) {
+    setName(p0);
+    setRef(p1);
   }
   /** @apilevel low-level 
-   * @declaredat ASTNode:21
+   * @declaredat ASTNode:22
    */
   protected int numChildren() {
     return 0;
   }
   /**
    * @apilevel internal
-   * @declaredat ASTNode:27
+   * @declaredat ASTNode:28
    */
   public boolean mayHaveRewrite() {
     return false;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:31
+   * @declaredat ASTNode:32
    */
   public void flushAttrCache() {
     super.flushAttrCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:35
+   * @declaredat ASTNode:36
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:39
+   * @declaredat ASTNode:40
    */
   public SchemaReference clone() throws CloneNotSupportedException {
     SchemaReference node = (SchemaReference) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:44
+   * @declaredat ASTNode:45
    */
   public SchemaReference copy() {
     try {
@@ -92,7 +93,7 @@ public class SchemaReference extends Schema implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:63
+   * @declaredat ASTNode:64
    */
   @Deprecated
   public SchemaReference fullCopy() {
@@ -103,7 +104,7 @@ public class SchemaReference extends Schema implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:73
+   * @declaredat ASTNode:74
    */
   public SchemaReference treeCopyNoTransform() {
     SchemaReference tree = (SchemaReference) copy();
@@ -124,7 +125,7 @@ public class SchemaReference extends Schema implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:93
+   * @declaredat ASTNode:94
    */
   public SchemaReference treeCopy() {
     SchemaReference tree = (SchemaReference) copy();
@@ -140,10 +141,30 @@ public class SchemaReference extends Schema implements Cloneable {
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:107
+   * @declaredat ASTNode:108
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node) && (tokenString_Ref == ((SchemaReference) node).tokenString_Ref);    
+    return super.is$Equal(node) && (tokenString_Name == ((SchemaReference) node).tokenString_Name) && (tokenString_Ref == ((SchemaReference) node).tokenString_Ref);    
+  }
+  /**
+   * Replaces the lexeme Name.
+   * @param value The new value for the lexeme Name.
+   * @apilevel high-level
+   */
+  public void setName(String value) {
+    tokenString_Name = value;
+  }
+  /** @apilevel internal 
+   */
+  protected String tokenString_Name;
+  /**
+   * Retrieves the value for the lexeme Name.
+   * @return The value for the lexeme Name.
+   * @apilevel high-level
+   */
+  @ASTNodeAnnotation.Token(name="Name")
+  public String getName() {
+    return tokenString_Name != null ? tokenString_Name : "";
   }
   /**
    * Replaces the lexeme Ref.

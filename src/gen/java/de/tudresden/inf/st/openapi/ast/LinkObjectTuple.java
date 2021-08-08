@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.*;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/Documents/gitJastadd/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:52
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:52
  * @astdecl LinkObjectTuple : LinksTuple ::= <Name:String> LinkObject;
  * @production LinkObjectTuple : {@link LinksTuple} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">{@link LinkObject}</span>;
 
