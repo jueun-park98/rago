@@ -9,17 +9,22 @@ aspect Composer {
 
     public static OpenApi3 OpenAPIObject.composeOpenAPI (OpenAPIObject openAPIObject){
         OpenApi3 api3 = new OpenApi3();
-        Map<String, Path> paths = new HashMap<>();
 
         api3.setOpenapi( openAPIObject.getOpenAPI() );
         api3.setInfo( InfoObject.composeInfo( openAPIObject.getInfoObject() ) );
 
-        for( PathsObject p : openAPIObject.getPathsObjects() ){
+        if( openAPIObject.getNumPathsObject() != 0 ){
+        Map<String, Path> paths = new HashMap<>();
+        for( PathsObject p : openAPIObject.getPathsObjects() )
         paths.put( p.getRef(), PathItemObject.composePath(p.getPathItemObject()) );
-        }
-
         api3.setPaths(paths);
-
+        }
+        if(openAPIObject.getNumServerObject() != 0 ){
+        List<org.openapi4j.parser.model.v3.Server> servers = new ArrayList<>();
+        for( ServerObject s : openAPIObject.getServerObjects() )
+        servers.add(ServerObject.composeServer(s));
+        api3.setServers(servers);
+        }
         if( openAPIObject.hasComponentsObject() )
         api3.setComponents( ComponentsObject.composeComponents(openAPIObject.getComponentsObject()) );
         if( openAPIObject.getNumSecurityRequirementObject() != 0 ){
@@ -119,13 +124,12 @@ public static ServerVariable ServerVariableObject.composeServerVariable (ServerV
 public static Components ComponentsObject.composeComponents (ComponentsObject componentsObject){
         Components components = new Components();
 
-        /*
-        if( componentsObject.hasSchemasTuple() ){
-            Map<String, Schema> schema = new HashMap<>();
-            for( SchemasTuple t : componentsObject.getSchemasTuples() ){
-
-            }
-        }*/
+        if( componentsObject.getNumSchemasTuple() != 0 ){
+        Map<String, org.openapi4j.parser.model.v3.Schema> schemas = new HashMap<>();
+        for( SchemasTuple t : componentsObject.getSchemasTuples() )
+        schemas.put(((SchemaObjectTuple)t).getName(), SchemaObject.composeSchema(((SchemaObjectTuple)t).getSchemaObject()) );
+        components.setSchemas(schemas);
+        }
         if( componentsObject.getNumResponsesTuple() != 0 ){
         Map<String, Response> responses = new HashMap<>();
         for( ResponsesTuple t : componentsObject.getResponsesTuples() )
@@ -287,6 +291,8 @@ public static Parameter ParameterObject.composeParameter (ParameterObject parame
         parameter.setExplode( (boolean) parameterObject.getExplode() );
         if( parameterObject.getAllowReserved() != null )
         parameter.setAllowReserved( (boolean) parameterObject.getAllowReserved() );
+        if( parameterObject.getSchemaObject() != null )
+        parameter.setSchema( SchemaObject.composeSchema(parameterObject.getSchemaObject()) );
         if( parameterObject.getExample() != null )
         parameter.setExample( parameterObject.getExample() );
         if( parameterObject.getNumExamplesTuple() != 0 ){
@@ -323,6 +329,8 @@ public static org.openapi4j.parser.model.v3.RequestBody RequestBodyObject.compos
 public static MediaType MediaTypeObject.composeMediaType (MediaTypeObject mediaTypeObject){
         MediaType mediaType = new MediaType();
 
+        if( mediaTypeObject.getSchemaObject() != null )
+        mediaType.setSchema( SchemaObject.composeSchema(mediaTypeObject.getSchemaObject()) );
         if( mediaTypeObject.getExample() != null )
         mediaType.setExample( mediaTypeObject.getExample() );
         if( mediaTypeObject.getNumExamplesTuple() != 0 ){
@@ -532,7 +540,7 @@ public static org.openapi4j.parser.model.v3.Schema SchemaObject.composeSchema (S
         schema.setPattern(schemaObject.getPattern());
         if( schemaObject.getNumPropertyItem() != 0 ){
         Map<String, org.openapi4j.parser.model.v3.Schema> properties = new HashMap<>();
-        for( PropertyItem p : schemaObject.getPropertyItems() )
+        for( PropertyItem p : schemaObject.getPropertyItemList() )
         properties.put(p.getName(), composeSchema(p.getSchemaObject()));
         schema.setProperties(properties);
         }

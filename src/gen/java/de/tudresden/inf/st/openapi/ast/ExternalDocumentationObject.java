@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.*;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:7
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:7
  * @astdecl ExternalDocumentationObject : ASTNode ::= <Description:String> <Url:String>;
  * @production ExternalDocumentationObject : {@link ASTNode} ::= <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;Url:String&gt;</span>;
 
@@ -15,7 +15,7 @@ import java.util.*;
 public class ExternalDocumentationObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:261
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:265
    */
   public static ExternalDocs composeExternalDocs (ExternalDocumentationObject externalDocumentationObject){
         ExternalDocs externalDocs = new ExternalDocs();
@@ -28,7 +28,7 @@ public class ExternalDocumentationObject extends ASTNode<ASTNode> implements Clo
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:331
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:331
    */
   public static ExternalDocumentationObject parseExternalDocs(ExternalDocs externalDocs){
         ExternalDocumentationObject externalDocumentationObject = new ExternalDocumentationObject();

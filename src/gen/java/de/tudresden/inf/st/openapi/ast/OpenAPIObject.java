@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.*;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:2
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:2
  * @astdecl OpenAPIObject : ASTNode ::= <OpenAPI:String> InfoObject ServerObject* PathsObject* [ComponentsObject] SecurityRequirementObject* TagObject* [ExternalDocumentationObject];
  * @production OpenAPIObject : {@link ASTNode} ::= <span class="component">&lt;OpenAPI:String&gt;</span> <span class="component">{@link InfoObject}</span> <span class="component">{@link ServerObject}*</span> <span class="component">{@link PathsObject}*</span> <span class="component">[{@link ComponentsObject}]</span> <span class="component">{@link SecurityRequirementObject}*</span> <span class="component">{@link TagObject}*</span> <span class="component">[{@link ExternalDocumentationObject}]</span>;
 
@@ -15,21 +15,26 @@ import java.util.*;
 public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:10
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:10
    */
   public static OpenApi3 composeOpenAPI (OpenAPIObject openAPIObject){
         OpenApi3 api3 = new OpenApi3();
-        Map<String, Path> paths = new HashMap<>();
 
         api3.setOpenapi( openAPIObject.getOpenAPI() );
         api3.setInfo( InfoObject.composeInfo( openAPIObject.getInfoObject() ) );
 
-        for( PathsObject p : openAPIObject.getPathsObjects() ){
+        if( openAPIObject.getNumPathsObject() != 0 ){
+        Map<String, Path> paths = new HashMap<>();
+        for( PathsObject p : openAPIObject.getPathsObjects() )
         paths.put( p.getRef(), PathItemObject.composePath(p.getPathItemObject()) );
-        }
-
         api3.setPaths(paths);
-
+        }
+        if(openAPIObject.getNumServerObject() != 0 ){
+        List<org.openapi4j.parser.model.v3.Server> servers = new ArrayList<>();
+        for( ServerObject s : openAPIObject.getServerObjects() )
+        servers.add(ServerObject.composeServer(s));
+        api3.setServers(servers);
+        }
         if( openAPIObject.hasComponentsObject() )
         api3.setComponents( ComponentsObject.composeComponents(openAPIObject.getComponentsObject()) );
         if( openAPIObject.getNumSecurityRequirementObject() != 0 ){
@@ -51,7 +56,7 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:3
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:3
    */
   public static OpenAPIObject parseOpenAPI(OpenApi3 api) throws IOException, ResolutionException, ValidationException {
         OpenAPIObject openapi = new OpenAPIObject();

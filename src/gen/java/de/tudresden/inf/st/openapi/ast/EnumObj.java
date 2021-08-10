@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.*;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:137
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:137
  * @astdecl EnumObj : ASTNode ::= <EnumOb:Object>;
  * @production EnumObj : {@link ASTNode} ::= <span class="component">&lt;EnumOb:Object&gt;</span>;
 

@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.*;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:91
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:91
  * @astdecl SchemaObject : Schema ::= [AdditionalProperties] <AdditionalPropertiesAllowed:Object> <DefaultValue:Object> <Description:String> <DeprecatedBoolean:Object> [DiscriminatorObject] EnumObj* <Example:Object> <ExclusiveMaximum:Object> <ExclusiveMinimum:Object> [ExternalDocumentationObject] <Format:String> [ItemsSchema] <Maximum:Object> <Minimum:Object> <MaxItems:Object> <MinItems:Object> <MaxLength:Object> <MinLength:Object> <MaxProperties:Object> <MinProperties:Object> <MultipleOf:Object> [NotSchema] <Nullable:Object> <Pattern:String> PropertyItem* RequiredField* AllOfSchema* AnyOfSchema* OneOfSchema* <ReadOnly:Object> <WriteOnly:Object> <Type:String> <Title:String> <UniqueItems:Object> [XmlObject];
  * @production SchemaObject : {@link Schema} ::= <span class="component">[{@link AdditionalProperties}]</span> <span class="component">&lt;AdditionalPropertiesAllowed:Object&gt;</span> <span class="component">&lt;DefaultValue:Object&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;DeprecatedBoolean:Object&gt;</span> <span class="component">[{@link DiscriminatorObject}]</span> <span class="component">{@link EnumObj}*</span> <span class="component">&lt;Example:Object&gt;</span> <span class="component">&lt;ExclusiveMaximum:Object&gt;</span> <span class="component">&lt;ExclusiveMinimum:Object&gt;</span> <span class="component">[{@link ExternalDocumentationObject}]</span> <span class="component">&lt;Format:String&gt;</span> <span class="component">[{@link ItemsSchema}]</span> <span class="component">&lt;Maximum:Object&gt;</span> <span class="component">&lt;Minimum:Object&gt;</span> <span class="component">&lt;MaxItems:Object&gt;</span> <span class="component">&lt;MinItems:Object&gt;</span> <span class="component">&lt;MaxLength:Object&gt;</span> <span class="component">&lt;MinLength:Object&gt;</span> <span class="component">&lt;MaxProperties:Object&gt;</span> <span class="component">&lt;MinProperties:Object&gt;</span> <span class="component">&lt;MultipleOf:Object&gt;</span> <span class="component">[{@link NotSchema}]</span> <span class="component">&lt;Nullable:Object&gt;</span> <span class="component">&lt;Pattern:String&gt;</span> <span class="component">{@link PropertyItem}*</span> <span class="component">{@link RequiredField}*</span> <span class="component">{@link AllOfSchema}*</span> <span class="component">{@link AnyOfSchema}*</span> <span class="component">{@link OneOfSchema}*</span> <span class="component">&lt;ReadOnly:Object&gt;</span> <span class="component">&lt;WriteOnly:Object&gt;</span> <span class="component">&lt;Type:String&gt;</span> <span class="component">&lt;Title:String&gt;</span> <span class="component">&lt;UniqueItems:Object&gt;</span> <span class="component">[{@link XmlObject}]</span>;
 
@@ -15,7 +15,7 @@ import java.util.*;
 public class SchemaObject extends Schema implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:482
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:490
    */
   public static org.openapi4j.parser.model.v3.Schema composeSchema (SchemaObject schemaObject) {
         org.openapi4j.parser.model.v3.Schema schema = new org.openapi4j.parser.model.v3.Schema();
@@ -70,7 +70,7 @@ public class SchemaObject extends Schema implements Cloneable {
         schema.setPattern(schemaObject.getPattern());
         if( schemaObject.getNumPropertyItem() != 0 ){
         Map<String, org.openapi4j.parser.model.v3.Schema> properties = new HashMap<>();
-        for( PropertyItem p : schemaObject.getPropertyItems() )
+        for( PropertyItem p : schemaObject.getPropertyItemList() )
         properties.put(p.getName(), composeSchema(p.getSchemaObject()));
         schema.setProperties(properties);
         }
@@ -107,7 +107,7 @@ public class SchemaObject extends Schema implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:531
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:535
    */
   public static SchemaObject parseSchema (org.openapi4j.parser.model.v3.Schema schema) {
         SchemaObject schemaObject = new SchemaObject();
@@ -127,7 +127,7 @@ public class SchemaObject extends Schema implements Cloneable {
         schemaObject.setDeprecatedBoolean(schema.getDeprecated());
         if( schema.getDiscriminator() != null )
         schemaObject.setDiscriminatorObject(DiscriminatorObject.parseDiscriminator(schema.getDiscriminator()));
-        if( !schema.getEnums().isEmpty() ){
+        if( schema.getEnums() != null ){
         EnumObj enumObj = new EnumObj();
         for( Object o : schema.getEnums() ){
         enumObj.setEnumOb(o);
@@ -176,36 +176,33 @@ public class SchemaObject extends Schema implements Cloneable {
         schemaObject.setNullable(schema.getNullable());
         if( schema.getPattern() != null )
         schemaObject.setPattern(schema.getPattern());
-        if( !schema.getProperties().isEmpty() ){
+        if( schema.getProperties() != null  ){
         PropertyItem propertyItem = new PropertyItem();
-        for( String key : schema.getProperties().keySet() ){
-        propertyItem.setName(key);
-        propertyItem.setSchemaObject(parseSchema(schema.getProperty(key)));
-        schemaObject.addPropertyItem(propertyItem);
+        for( String key : schema.getProperties().keySet() )
+        schemaObject.addPropertyItem(new PropertyItem(key, parseSchema(schema.getProperty(key))));
         }
-        }
-        if( !schema.getRequiredFields().isEmpty() ){
+        if( schema.getRequiredFields() != null ){
         RequiredField requiredField = new RequiredField();
         for( String s : schema.getRequiredFields() ){
         requiredField.setValue(s);
         schemaObject.addRequiredField(requiredField);
         }
         }
-        if( !schema.getAllOfSchemas().isEmpty() ){
+        if( schema.getAllOfSchemas() != null ){
         AllOfSchema allOfSchema = new AllOfSchema();
         for(org.openapi4j.parser.model.v3.Schema schemaItem : schema.getAllOfSchemas()){
         allOfSchema.setSchemaObject(parseSchema(schemaItem));
         schemaObject.addAllOfSchema(allOfSchema);
         }
         }
-        if( !schema.getAnyOfSchemas().isEmpty() ){
+        if( schema.getAnyOfSchemas() != null ){
         AnyOfSchema anyOfSchema = new AnyOfSchema();
         for(org.openapi4j.parser.model.v3.Schema schemaItem : schema.getAnyOfSchemas()){
         anyOfSchema.setSchemaObject(parseSchema(schemaItem));
         schemaObject.addAnyOfSchema(anyOfSchema);
         }
         }
-        if( !schema.getOneOfSchemas().isEmpty() ){
+        if( schema.getOneOfSchemas() != null ){
         OneOfSchema oneOfSchema = new OneOfSchema();
         for(org.openapi4j.parser.model.v3.Schema schemaItem : schema.getOneOfSchemas()){
         oneOfSchema.setSchemaObject(parseSchema(schemaItem));

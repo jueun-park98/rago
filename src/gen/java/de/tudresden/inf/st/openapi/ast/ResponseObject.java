@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.*;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:111
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:111
  * @astdecl ResponseObject : HTTPStatusCode ::= <Name:String> <Description:String> HeadersTuple* ContentTuple* LinksTuple*;
  * @production ResponseObject : {@link HTTPStatusCode} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">{@link HeadersTuple}*</span> <span class="component">{@link ContentTuple}*</span> <span class="component">{@link LinksTuple}*</span>;
 
@@ -15,7 +15,7 @@ import java.util.*;
 public class ResponseObject extends HTTPStatusCode implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:363
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:371
    */
   public static Response composeResponse (ResponseObject responseObject){
         Response response = new Response();
@@ -44,7 +44,7 @@ public class ResponseObject extends HTTPStatusCode implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:423
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:427
    */
   public static ResponseObject parseResponse(Response response){
         ResponseObject responseObject = new ResponseObject();

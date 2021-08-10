@@ -7,19 +7,21 @@ import java.io.IOException;
 import java.util.*;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:100
- * @astdecl MediaTypeObject : ASTNode ::= [Schema] <Example:Object> ExamplesTuple* EncodingTuple*;
- * @production MediaTypeObject : {@link ASTNode} ::= <span class="component">[{@link Schema}]</span> <span class="component">&lt;Example:Object&gt;</span> <span class="component">{@link ExamplesTuple}*</span> <span class="component">{@link EncodingTuple}*</span>;
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:100
+ * @astdecl MediaTypeObject : ASTNode ::= [SchemaObject] <Example:Object> ExamplesTuple* EncodingTuple*;
+ * @production MediaTypeObject : {@link ASTNode} ::= <span class="component">[{@link SchemaObject}]</span> <span class="component">&lt;Example:Object&gt;</span> <span class="component">{@link ExamplesTuple}*</span> <span class="component">{@link EncodingTuple}*</span>;
 
  */
 public class MediaTypeObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:323
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:329
    */
   public static MediaType composeMediaType (MediaTypeObject mediaTypeObject){
         MediaType mediaType = new MediaType();
 
+        if( mediaTypeObject.getSchemaObject() != null )
+        mediaType.setSchema( SchemaObject.composeSchema(mediaTypeObject.getSchemaObject()) );
         if( mediaTypeObject.getExample() != null )
         mediaType.setExample( mediaTypeObject.getExample() );
         if( mediaTypeObject.getNumExamplesTuple() != 0 ){
@@ -39,11 +41,13 @@ public class MediaTypeObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:388
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:390
    */
   public static MediaTypeObject parseMediaType(MediaType mediaType){
         MediaTypeObject mediaTypeObject = new MediaTypeObject();
 
+        if( mediaType.getSchema() != null )
+        mediaTypeObject.setSchemaObject(SchemaObject.parseSchema(mediaType.getSchema()));
         if( mediaType.getExample() != null )
         mediaTypeObject.setExample( mediaType.getExample() );
         if( mediaType.getExamples() != null ){
@@ -80,11 +84,11 @@ public class MediaTypeObject extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:16
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Schema", "Example", "ExamplesTuple", "EncodingTuple"},
-    type = {"Opt<Schema>", "Object", "JastAddList<ExamplesTuple>", "JastAddList<EncodingTuple>"},
+    name = {"SchemaObject", "Example", "ExamplesTuple", "EncodingTuple"},
+    type = {"Opt<SchemaObject>", "Object", "JastAddList<ExamplesTuple>", "JastAddList<EncodingTuple>"},
     kind = {"Opt", "Token", "List", "List"}
   )
-  public MediaTypeObject(Opt<Schema> p0, Object p1, JastAddList<ExamplesTuple> p2, JastAddList<EncodingTuple> p3) {
+  public MediaTypeObject(Opt<SchemaObject> p0, Object p1, JastAddList<ExamplesTuple> p2, JastAddList<EncodingTuple> p3) {
     setChild(p0, 0);
     setExample(p1);
     setChild(p2, 1);
@@ -197,55 +201,55 @@ public class MediaTypeObject extends ASTNode<ASTNode> implements Cloneable {
     return super.is$Equal(node) && (tokenObject_Example == ((MediaTypeObject) node).tokenObject_Example);    
   }
   /**
-   * Replaces the optional node for the Schema child. This is the <code>Opt</code>
-   * node containing the child Schema, not the actual child!
-   * @param opt The new node to be used as the optional node for the Schema child.
+   * Replaces the optional node for the SchemaObject child. This is the <code>Opt</code>
+   * node containing the child SchemaObject, not the actual child!
+   * @param opt The new node to be used as the optional node for the SchemaObject child.
    * @apilevel low-level
    */
-  public void setSchemaOpt(Opt<Schema> opt) {
+  public void setSchemaObjectOpt(Opt<SchemaObject> opt) {
     setChild(opt, 0);
   }
   /**
-   * Replaces the (optional) Schema child.
-   * @param node The new node to be used as the Schema child.
+   * Replaces the (optional) SchemaObject child.
+   * @param node The new node to be used as the SchemaObject child.
    * @apilevel high-level
    */
-  public void setSchema(Schema node) {
-    getSchemaOpt().setChild(node, 0);
+  public void setSchemaObject(SchemaObject node) {
+    getSchemaObjectOpt().setChild(node, 0);
   }
   /**
-   * Check whether the optional Schema child exists.
-   * @return {@code true} if the optional Schema child exists, {@code false} if it does not.
+   * Check whether the optional SchemaObject child exists.
+   * @return {@code true} if the optional SchemaObject child exists, {@code false} if it does not.
    * @apilevel high-level
    */
-  public boolean hasSchema() {
-    return getSchemaOpt().getNumChild() != 0;
+  public boolean hasSchemaObject() {
+    return getSchemaObjectOpt().getNumChild() != 0;
   }
   /**
-   * Retrieves the (optional) Schema child.
-   * @return The Schema child, if it exists. Returns {@code null} otherwise.
+   * Retrieves the (optional) SchemaObject child.
+   * @return The SchemaObject child, if it exists. Returns {@code null} otherwise.
    * @apilevel low-level
    */
-  public Schema getSchema() {
-    return (Schema) getSchemaOpt().getChild(0);
+  public SchemaObject getSchemaObject() {
+    return (SchemaObject) getSchemaObjectOpt().getChild(0);
   }
   /**
-   * Retrieves the optional node for the Schema child. This is the <code>Opt</code> node containing the child Schema, not the actual child!
-   * @return The optional node for child the Schema child.
+   * Retrieves the optional node for the SchemaObject child. This is the <code>Opt</code> node containing the child SchemaObject, not the actual child!
+   * @return The optional node for child the SchemaObject child.
    * @apilevel low-level
    */
-  @ASTNodeAnnotation.OptChild(name="Schema")
-  public Opt<Schema> getSchemaOpt() {
-    return (Opt<Schema>) getChild(0);
+  @ASTNodeAnnotation.OptChild(name="SchemaObject")
+  public Opt<SchemaObject> getSchemaObjectOpt() {
+    return (Opt<SchemaObject>) getChild(0);
   }
   /**
-   * Retrieves the optional node for child Schema. This is the <code>Opt</code> node containing the child Schema, not the actual child!
+   * Retrieves the optional node for child SchemaObject. This is the <code>Opt</code> node containing the child SchemaObject, not the actual child!
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The optional node for child Schema.
+   * @return The optional node for child SchemaObject.
    * @apilevel low-level
    */
-  public Opt<Schema> getSchemaOptNoTransform() {
-    return (Opt<Schema>) getChildNoTransform(0);
+  public Opt<SchemaObject> getSchemaObjectOptNoTransform() {
+    return (Opt<SchemaObject>) getChildNoTransform(0);
   }
   /**
    * Replaces the lexeme Example.

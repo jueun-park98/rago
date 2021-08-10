@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.*;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:126
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:126
  * @astdecl LinkParameterTuple : ASTNode ::= <LinkParameterKey:String> <LinkParameterValue:String>;
  * @production LinkParameterTuple : {@link ASTNode} ::= <span class="component">&lt;LinkParameterKey:String&gt;</span> <span class="component">&lt;LinkParameterValue:String&gt;</span>;
 

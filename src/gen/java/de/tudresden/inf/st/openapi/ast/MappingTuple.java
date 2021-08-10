@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.*;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:148
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:148
  * @astdecl MappingTuple : ASTNode ::= <Key:String> <Value:String>;
  * @production MappingTuple : {@link ASTNode} ::= <span class="component">&lt;Key:String&gt;</span> <span class="component">&lt;Value:String&gt;</span>;
 

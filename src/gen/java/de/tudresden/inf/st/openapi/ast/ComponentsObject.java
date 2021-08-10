@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.*;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:5
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:5
  * @astdecl ComponentsObject : ASTNode ::= SchemasTuple* ResponsesTuple* ParameterTuple* ExamplesTuple* RequestBodiesTuple* HeadersTuple* SecuritySchemesTuple* LinksTuple* CallbacksTuple*;
  * @production ComponentsObject : {@link ASTNode} ::= <span class="component">{@link SchemasTuple}*</span> <span class="component">{@link ResponsesTuple}*</span> <span class="component">{@link ParameterTuple}*</span> <span class="component">{@link ExamplesTuple}*</span> <span class="component">{@link RequestBodiesTuple}*</span> <span class="component">{@link HeadersTuple}*</span> <span class="component">{@link SecuritySchemesTuple}*</span> <span class="component">{@link LinksTuple}*</span> <span class="component">{@link CallbacksTuple}*</span>;
 
@@ -15,18 +15,17 @@ import java.util.*;
 public class ComponentsObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:119
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:124
    */
   public static Components composeComponents (ComponentsObject componentsObject){
         Components components = new Components();
 
-        /*
-        if( componentsObject.hasSchemasTuple() ){
-            Map<String, Schema> schema = new HashMap<>();
-            for( SchemasTuple t : componentsObject.getSchemasTuples() ){
-
-            }
-        }*/
+        if( componentsObject.getNumSchemasTuple() != 0 ){
+        Map<String, org.openapi4j.parser.model.v3.Schema> schemas = new HashMap<>();
+        for( SchemasTuple t : componentsObject.getSchemasTuples() )
+        schemas.put(((SchemaObjectTuple)t).getName(), SchemaObject.composeSchema(((SchemaObjectTuple)t).getSchemaObject()) );
+        components.setSchemas(schemas);
+        }
         if( componentsObject.getNumResponsesTuple() != 0 ){
         Map<String, Response> responses = new HashMap<>();
         for( ResponsesTuple t : componentsObject.getResponsesTuples() )
@@ -80,7 +79,7 @@ public class ComponentsObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:103
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:103
    */
   public static ComponentsObject parseComponents(Components components){
         ComponentsObject componentsObject = new ComponentsObject();

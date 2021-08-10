@@ -358,6 +358,8 @@ public static ParameterObject ParameterObject.parseParameter(Parameter parameter
         parameterObject.setExplode( parameter.getExplode() );
         if( parameter.getAllowReserved() != null )
         parameterObject.setAllowReserved( parameter.getAllowReserved() );
+        if( parameter.getSchema() != null )
+        parameterObject.setSchemaObject(SchemaObject.parseSchema(parameter.getSchema()));
         if( parameter.getExample() != null )
         parameterObject.setExample( parameter.getExample() );
         if( parameter.getExamples() != null ){
@@ -388,6 +390,8 @@ public static RequestBodyObject RequestBodyObject.parseRequestBody(org.openapi4j
 public static MediaTypeObject MediaTypeObject.parseMediaType(MediaType mediaType){
         MediaTypeObject mediaTypeObject = new MediaTypeObject();
 
+        if( mediaType.getSchema() != null )
+        mediaTypeObject.setSchemaObject(SchemaObject.parseSchema(mediaType.getSchema()));
         if( mediaType.getExample() != null )
         mediaTypeObject.setExample( mediaType.getExample() );
         if( mediaType.getExamples() != null ){
@@ -546,7 +550,7 @@ public static SchemaObject SchemaObject.parseSchema (org.openapi4j.parser.model.
         schemaObject.setDeprecatedBoolean(schema.getDeprecated());
         if( schema.getDiscriminator() != null )
         schemaObject.setDiscriminatorObject(DiscriminatorObject.parseDiscriminator(schema.getDiscriminator()));
-        if( !schema.getEnums().isEmpty() ){
+        if( schema.getEnums() != null ){
         EnumObj enumObj = new EnumObj();
         for( Object o : schema.getEnums() ){
         enumObj.setEnumOb(o);
@@ -595,36 +599,33 @@ public static SchemaObject SchemaObject.parseSchema (org.openapi4j.parser.model.
         schemaObject.setNullable(schema.getNullable());
         if( schema.getPattern() != null )
         schemaObject.setPattern(schema.getPattern());
-        if( !schema.getProperties().isEmpty() ){
+        if( schema.getProperties() != null  ){
         PropertyItem propertyItem = new PropertyItem();
-        for( String key : schema.getProperties().keySet() ){
-        propertyItem.setName(key);
-        propertyItem.setSchemaObject(parseSchema(schema.getProperty(key)));
-        schemaObject.addPropertyItem(propertyItem);
+        for( String key : schema.getProperties().keySet() )
+        schemaObject.addPropertyItem(new PropertyItem(key, parseSchema(schema.getProperty(key))));
         }
-        }
-        if( !schema.getRequiredFields().isEmpty() ){
+        if( schema.getRequiredFields() != null ){
         RequiredField requiredField = new RequiredField();
         for( String s : schema.getRequiredFields() ){
         requiredField.setValue(s);
         schemaObject.addRequiredField(requiredField);
         }
         }
-        if( !schema.getAllOfSchemas().isEmpty() ){
+        if( schema.getAllOfSchemas() != null ){
         AllOfSchema allOfSchema = new AllOfSchema();
         for(org.openapi4j.parser.model.v3.Schema schemaItem : schema.getAllOfSchemas()){
         allOfSchema.setSchemaObject(parseSchema(schemaItem));
         schemaObject.addAllOfSchema(allOfSchema);
         }
         }
-        if( !schema.getAnyOfSchemas().isEmpty() ){
+        if( schema.getAnyOfSchemas() != null ){
         AnyOfSchema anyOfSchema = new AnyOfSchema();
         for(org.openapi4j.parser.model.v3.Schema schemaItem : schema.getAnyOfSchemas()){
         anyOfSchema.setSchemaObject(parseSchema(schemaItem));
         schemaObject.addAnyOfSchema(anyOfSchema);
         }
         }
-        if( !schema.getOneOfSchemas().isEmpty() ){
+        if( schema.getOneOfSchemas() != null ){
         OneOfSchema oneOfSchema = new OneOfSchema();
         for(org.openapi4j.parser.model.v3.Schema schemaItem : schema.getOneOfSchemas()){
         oneOfSchema.setSchemaObject(parseSchema(schemaItem));
@@ -652,7 +653,7 @@ public static DiscriminatorObject DiscriminatorObject.parseDiscriminator (Discri
 
         if( discriminator.getPropertyName() != null )
         discriminatorObject.setPropertyName(discriminator.getPropertyName());
-        if( !discriminator.getMapping().isEmpty() ){
+        if( discriminator.getMapping() != null ){
         MappingTuple mapping = new MappingTuple();
         for( String key : discriminator.getMapping().keySet() ){
         mapping.setKey(key);

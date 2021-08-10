@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.*;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:77
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:77
  * @astdecl OperationObject : ASTNode ::= Tag* <Summary:String> <Description:String> [ExternalDocumentationObject] <OperationID:String> Param* [RequestBody] ResponsesObject CallbacksTuple* [DeprecatedBoolean] SecurityRequirementObject* ServerObject*;
  * @production OperationObject : {@link ASTNode} ::= <span class="component">{@link Tag}*</span> <span class="component">&lt;Summary:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">[{@link ExternalDocumentationObject}]</span> <span class="component">&lt;OperationID:String&gt;</span> <span class="component">{@link Param}*</span> <span class="component">[{@link RequestBody}]</span> <span class="component">{@link ResponsesObject}</span> <span class="component">{@link CallbacksTuple}*</span> <span class="component">[{@link DeprecatedBoolean}]</span> <span class="component">{@link SecurityRequirementObject}*</span> <span class="component">{@link ServerObject}*</span>;
 
@@ -15,7 +15,7 @@ import java.util.*;
 public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:214
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:218
    */
   public static Operation composeOperation (OperationObject operationObject){
         Operation operation = new Operation();
@@ -65,7 +65,7 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:272
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:272
    */
   public static OperationObject parseOperation(Operation operation){
         OperationObject operationObject = new OperationObject();

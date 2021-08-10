@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.*;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:118
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:118
  * @astdecl CallbackObject : ASTNode ::= Expression*;
  * @production CallbackObject : {@link ASTNode} ::= <span class="component">{@link Expression}*</span>;
 
@@ -15,7 +15,7 @@ import java.util.*;
 public class CallbackObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:389
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:397
    */
   public static Callback composeCallback (CallbackObject callbackObject){
         Callback callback = new Callback();
@@ -31,7 +31,7 @@ public class CallbackObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:444
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:448
    */
   public static CallbackObject parseCallback(Callback callback){
         CallbackObject callbackObject = new CallbackObject();

@@ -1,170 +1,463 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="openapi.OpenAPIMain_test" tests="1" skipped="0" failures="1" errors="0" timestamp="2021-08-08T09:55:48" hostname="DESKTOP-5DL2OO8" time="0.326">
+<testsuite name="openapi.OpenAPIMain_test" tests="1" skipped="0" failures="1" errors="0" timestamp="2021-08-10T04:01:51" hostname="MacBook-Air-von-Jueun.local" time="0.748">
   <properties/>
-  <testcase name="test()" classname="openapi.OpenAPIMain_test" time="0.326">
-    <failure message="org.opentest4j.AssertionFailedError: JSONs for api-with-examples.json are different:&#10;[ {&#13;&#10;  &quot;op&quot; : &quot;add&quot;,&#13;&#10;  &quot;path&quot; : &quot;/paths/~1streams/post/parameters/0/schema&quot;,&#13;&#10;  &quot;value&quot; : {&#13;&#10;    &quot;example&quot; : &quot;https://tonys-server.com&quot;,&#13;&#10;    &quot;format&quot; : &quot;uri&quot;,&#13;&#10;    &quot;type&quot; : &quot;string&quot;&#13;&#10;  }&#13;&#10;}, {&#13;&#10;  &quot;op&quot; : &quot;add&quot;,&#13;&#10;  &quot;path&quot; : &quot;/paths/~1streams/post/responses/201/content/application~1json/schema&quot;,&#13;&#10;  &quot;value&quot; : {&#13;&#10;    &quot;description&quot; : &quot;subscription information&quot;,&#13;&#10;    &quot;properties&quot; : {&#13;&#10;      &quot;subscriptionId&quot; : {&#13;&#10;        &quot;description&quot; : &quot;this unique identifier allows management of the subscription&quot;,&#13;&#10;        &quot;example&quot; : &quot;2531329f-fb09-4ef7-887e-84e648214436&quot;,&#13;&#10;        &quot;type&quot; : &quot;string&quot;&#13;&#10;      }&#13;&#10;    },&#13;&#10;    &quot;required&quot; : [ &quot;subscriptionId&quot; ]&#13;&#10;  }&#13;&#10;}, {&#13;&#10;  &quot;op&quot; : &quot;add&quot;,&#13;&#10;  &quot;path&quot; : &quot;/paths/~1streams/post/callbacks/onData/{$request.query.callbackUrl}~1data/post/requestBody/content/application~1json/schema&quot;,&#13;&#10;  &quot;value&quot; : {&#13;&#10;    &quot;properties&quot; : {&#13;&#10;      &quot;timestamp&quot; : {&#13;&#10;        &quot;format&quot; : &quot;date-time&quot;,&#13;&#10;        &quot;type&quot; : &quot;string&quot;&#13;&#10;      },&#13;&#10;      &quot;userData&quot; : {&#13;&#10;        &quot;type&quot; : &quot;string&quot;&#13;&#10;      }&#13;&#10;    },&#13;&#10;    &quot;type&quot; : &quot;object&quot;&#13;&#10;  }&#13;&#10;} ] ==&gt; expected: &lt;{&#13;&#10;  &quot;openapi&quot; : &quot;3.0.0&quot;,&#13;&#10;  &quot;info&quot; : {&#13;&#10;    &quot;title&quot; : &quot;Callback Example&quot;,&#13;&#10;    &quot;version&quot; : &quot;1.0.0&quot;&#13;&#10;  },&#13;&#10;  &quot;paths&quot; : {&#13;&#10;    &quot;/streams&quot; : {&#13;&#10;      &quot;post&quot; : {&#13;&#10;        &quot;description&quot; : &quot;subscribes a client to receive out-of-band data&quot;,&#13;&#10;        &quot;parameters&quot; : [ {&#13;&#10;          &quot;description&quot; : &quot;the location where data will be sent.  Must be network accessible\nby the source server\n&quot;,&#13;&#10;          &quot;required&quot; : true,&#13;&#10;          &quot;schema&quot; : {&#13;&#10;            &quot;example&quot; : &quot;https://tonys-server.com&quot;,&#13;&#10;            &quot;format&quot; : &quot;uri&quot;,&#13;&#10;            &quot;type&quot; : &quot;string&quot;&#13;&#10;          },&#13;&#10;          &quot;in&quot; : &quot;query&quot;,&#13;&#10;          &quot;name&quot; : &quot;callbackUrl&quot;&#13;&#10;        } ],&#13;&#10;        &quot;responses&quot; : {&#13;&#10;          &quot;201&quot; : {&#13;&#10;            &quot;description&quot; : &quot;subscription successfully created&quot;,&#13;&#10;            &quot;content&quot; : {&#13;&#10;              &quot;application/json&quot; : {&#13;&#10;                &quot;schema&quot; : {&#13;&#10;                  &quot;description&quot; : &quot;subscription information&quot;,&#13;&#10;                  &quot;properties&quot; : {&#13;&#10;                    &quot;subscriptionId&quot; : {&#13;&#10;                      &quot;description&quot; : &quot;this unique identifier allows management of the subscription&quot;,&#13;&#10;                      &quot;example&quot; : &quot;2531329f-fb09-4ef7-887e-84e648214436&quot;,&#13;&#10;                      &quot;type&quot; : &quot;string&quot;&#13;&#10;                    }&#13;&#10;                  },&#13;&#10;                  &quot;required&quot; : [ &quot;subscriptionId&quot; ]&#13;&#10;                }&#13;&#10;              }&#13;&#10;            }&#13;&#10;          }&#13;&#10;        },&#13;&#10;        &quot;callbacks&quot; : {&#13;&#10;          &quot;onData&quot; : {&#13;&#10;            &quot;{$request.query.callbackUrl}/data&quot; : {&#13;&#10;              &quot;post&quot; : {&#13;&#10;                &quot;requestBody&quot; : {&#13;&#10;                  &quot;description&quot; : &quot;subscription payload&quot;,&#13;&#10;                  &quot;content&quot; : {&#13;&#10;                    &quot;application/json&quot; : {&#13;&#10;                      &quot;schema&quot; : {&#13;&#10;                        &quot;properties&quot; : {&#13;&#10;                          &quot;timestamp&quot; : {&#13;&#10;                            &quot;format&quot; : &quot;date-time&quot;,&#13;&#10;                            &quot;type&quot; : &quot;string&quot;&#13;&#10;                          },&#13;&#10;                          &quot;userData&quot; : {&#13;&#10;                            &quot;type&quot; : &quot;string&quot;&#13;&#10;                          }&#13;&#10;                        },&#13;&#10;                        &quot;type&quot; : &quot;object&quot;&#13;&#10;                      }&#13;&#10;                    }&#13;&#10;                  }&#13;&#10;                },&#13;&#10;                &quot;responses&quot; : {&#13;&#10;                  &quot;202&quot; : {&#13;&#10;                    &quot;description&quot; : &quot;Your server implementation should return this HTTP status code\nif the data was received successfully\n&quot;&#13;&#10;                  },&#13;&#10;                  &quot;204&quot; : {&#13;&#10;                    &quot;description&quot; : &quot;Your server should return this HTTP status code if no longer interested\nin further updates\n&quot;&#13;&#10;                  }&#13;&#10;                }&#13;&#10;              }&#13;&#10;            }&#13;&#10;          }&#13;&#10;        }&#13;&#10;      }&#13;&#10;    }&#13;&#10;  }&#13;&#10;}&gt; but was: &lt;{&#13;&#10;  &quot;openapi&quot; : &quot;3.0.0&quot;,&#13;&#10;  &quot;info&quot; : {&#13;&#10;    &quot;title&quot; : &quot;Callback Example&quot;,&#13;&#10;    &quot;version&quot; : &quot;1.0.0&quot;&#13;&#10;  },&#13;&#10;  &quot;paths&quot; : {&#13;&#10;    &quot;/streams&quot; : {&#13;&#10;      &quot;post&quot; : {&#13;&#10;        &quot;description&quot; : &quot;subscribes a client to receive out-of-band data&quot;,&#13;&#10;        &quot;parameters&quot; : [ {&#13;&#10;          &quot;description&quot; : &quot;the location where data will be sent.  Must be network accessible\nby the source server\n&quot;,&#13;&#10;          &quot;required&quot; : true,&#13;&#10;          &quot;in&quot; : &quot;query&quot;,&#13;&#10;          &quot;name&quot; : &quot;callbackUrl&quot;&#13;&#10;        } ],&#13;&#10;        &quot;responses&quot; : {&#13;&#10;          &quot;201&quot; : {&#13;&#10;            &quot;description&quot; : &quot;subscription successfully created&quot;,&#13;&#10;            &quot;content&quot; : {&#13;&#10;              &quot;application/json&quot; : { }&#13;&#10;            }&#13;&#10;          }&#13;&#10;        },&#13;&#10;        &quot;callbacks&quot; : {&#13;&#10;          &quot;onData&quot; : {&#13;&#10;            &quot;{$request.query.callbackUrl}/data&quot; : {&#13;&#10;              &quot;post&quot; : {&#13;&#10;                &quot;requestBody&quot; : {&#13;&#10;                  &quot;description&quot; : &quot;subscription payload&quot;,&#13;&#10;                  &quot;content&quot; : {&#13;&#10;                    &quot;application/json&quot; : { }&#13;&#10;                  }&#13;&#10;                },&#13;&#10;                &quot;responses&quot; : {&#13;&#10;                  &quot;202&quot; : {&#13;&#10;                    &quot;description&quot; : &quot;Your server implementation should return this HTTP status code\nif the data was received successfully\n&quot;&#13;&#10;                  },&#13;&#10;                  &quot;204&quot; : {&#13;&#10;                    &quot;description&quot; : &quot;Your server should return this HTTP status code if no longer interested\nin further updates\n&quot;&#13;&#10;                  }&#13;&#10;                }&#13;&#10;              }&#13;&#10;            }&#13;&#10;          }&#13;&#10;        }&#13;&#10;      }&#13;&#10;    }&#13;&#10;  }&#13;&#10;}&gt;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: JSONs for api-with-examples.json are different:
+  <testcase name="test()" classname="openapi.OpenAPIMain_test" time="0.748">
+    <failure message="org.opentest4j.AssertionFailedError: JSONs for uspto.json are different:&#10;[ {&#10;  &quot;op&quot; : &quot;replace&quot;,&#10;  &quot;path&quot; : &quot;/paths/~1{dataset}~1{version}~1records/post/responses/200/content/application~1json/schema/items/additionalProperties&quot;,&#10;  &quot;value&quot; : {&#10;    &quot;type&quot; : &quot;object&quot;&#10;  }&#10;}, {&#10;  &quot;op&quot; : &quot;add&quot;,&#10;  &quot;path&quot; : &quot;/paths/~1/get/responses/200/content/application~1json/schema/$ref&quot;,&#10;  &quot;value&quot; : &quot;#/components/schemas/dataSetList&quot;&#10;} ] ==&gt; expected: &lt;{&#10;  &quot;openapi&quot; : &quot;3.0.1&quot;,&#10;  &quot;info&quot; : {&#10;    &quot;contact&quot; : {&#10;      &quot;email&quot; : &quot;developer@uspto.gov&quot;,&#10;      &quot;name&quot; : &quot;Open Data Portal&quot;,&#10;      &quot;url&quot; : &quot;https://developer.uspto.gov&quot;&#10;    },&#10;    &quot;description&quot; : &quot;The Data Set API (DSAPI) allows the public users to discover and search USPTO exported data sets. This is a generic API that allows USPTO users to make any CSV based data files searchable through API. With the help of GET call, it returns the list of data fields that are searchable. With the help of POST call, data can be fetched based on the filters on the field names. Please note that POST call is used to search the actual data. The reason for the POST call is that it allows users to specify any complex search criteria without worry about the GET size limitations as well as encoding of the input parameters.&quot;,&#10;    &quot;title&quot; : &quot;USPTO Data Set API&quot;,&#10;    &quot;version&quot; : &quot;1.0.0&quot;&#10;  },&#10;  &quot;servers&quot; : [ {&#10;    &quot;url&quot; : &quot;{scheme}://developer.uspto.gov/ds-api&quot;,&#10;    &quot;variables&quot; : {&#10;      &quot;scheme&quot; : {&#10;        &quot;description&quot; : &quot;The Data Set API is accessible via https and http&quot;,&#10;        &quot;default&quot; : &quot;https&quot;,&#10;        &quot;enum&quot; : [ &quot;https&quot;, &quot;http&quot; ]&#10;      }&#10;    }&#10;  } ],&#10;  &quot;tags&quot; : [ {&#10;    &quot;name&quot; : &quot;metadata&quot;,&#10;    &quot;description&quot; : &quot;Find out about the data sets&quot;&#10;  }, {&#10;    &quot;name&quot; : &quot;search&quot;,&#10;    &quot;description&quot; : &quot;Search a data set&quot;&#10;  } ],&#10;  &quot;paths&quot; : {&#10;    &quot;/&quot; : {&#10;      &quot;get&quot; : {&#10;        &quot;tags&quot; : [ &quot;metadata&quot; ],&#10;        &quot;summary&quot; : &quot;List available data sets&quot;,&#10;        &quot;operationId&quot; : &quot;list-data-sets&quot;,&#10;        &quot;responses&quot; : {&#10;          &quot;200&quot; : {&#10;            &quot;description&quot; : &quot;Returns a list of data sets&quot;,&#10;            &quot;content&quot; : {&#10;              &quot;application/json&quot; : {&#10;                &quot;example&quot; : {&#10;                  &quot;total&quot; : 2,&#10;                  &quot;apis&quot; : [ {&#10;                    &quot;apiKey&quot; : &quot;oa_citations&quot;,&#10;                    &quot;apiVersionNumber&quot; : &quot;v1&quot;,&#10;                    &quot;apiUrl&quot; : &quot;https://developer.uspto.gov/ds-api/oa_citations/v1/fields&quot;,&#10;                    &quot;apiDocumentationUrl&quot; : &quot;https://developer.uspto.gov/ds-api-docs/index.html?url=https://developer.uspto.gov/ds-api/swagger/docs/oa_citations.json&quot;&#10;                  }, {&#10;                    &quot;apiKey&quot; : &quot;cancer_moonshot&quot;,&#10;                    &quot;apiVersionNumber&quot; : &quot;v1&quot;,&#10;                    &quot;apiUrl&quot; : &quot;https://developer.uspto.gov/ds-api/cancer_moonshot/v1/fields&quot;,&#10;                    &quot;apiDocumentationUrl&quot; : &quot;https://developer.uspto.gov/ds-api-docs/index.html?url=https://developer.uspto.gov/ds-api/swagger/docs/cancer_moonshot.json&quot;&#10;                  } ]&#10;                },&#10;                &quot;schema&quot; : {&#10;                  &quot;$ref&quot; : &quot;#/components/schemas/dataSetList&quot;&#10;                }&#10;              }&#10;            }&#10;          }&#10;        }&#10;      }&#10;    },&#10;    &quot;/{dataset}/{version}/fields&quot; : {&#10;      &quot;get&quot; : {&#10;        &quot;tags&quot; : [ &quot;metadata&quot; ],&#10;        &quot;summary&quot; : &quot;Provides the general information about the API and the list of fields that can be used to query the dataset.&quot;,&#10;        &quot;description&quot; : &quot;This GET API returns the list of all the searchable field names that are in the oa_citations. Please see the 'fields' attribute which returns an array of field names. Each field or a combination of fields can be searched using the syntax options shown below.&quot;,&#10;        &quot;operationId&quot; : &quot;list-searchable-fields&quot;,&#10;        &quot;parameters&quot; : [ {&#10;          &quot;description&quot; : &quot;Name of the dataset.&quot;,&#10;          &quot;example&quot; : &quot;oa_citations&quot;,&#10;          &quot;required&quot; : true,&#10;          &quot;schema&quot; : {&#10;            &quot;type&quot; : &quot;string&quot;&#10;          },&#10;          &quot;in&quot; : &quot;path&quot;,&#10;          &quot;name&quot; : &quot;dataset&quot;&#10;        }, {&#10;          &quot;description&quot; : &quot;Version of the dataset.&quot;,&#10;          &quot;example&quot; : &quot;v1&quot;,&#10;          &quot;required&quot; : true,&#10;          &quot;schema&quot; : {&#10;            &quot;type&quot; : &quot;string&quot;&#10;          },&#10;          &quot;in&quot; : &quot;path&quot;,&#10;          &quot;name&quot; : &quot;version&quot;&#10;        } ],&#10;        &quot;responses&quot; : {&#10;          &quot;200&quot; : {&#10;            &quot;description&quot; : &quot;The dataset API for the given version is found and it is accessible to consume.&quot;,&#10;            &quot;content&quot; : {&#10;              &quot;application/json&quot; : {&#10;                &quot;schema&quot; : {&#10;                  &quot;type&quot; : &quot;string&quot;&#10;                }&#10;              }&#10;            }&#10;          },&#10;          &quot;404&quot; : {&#10;            &quot;description&quot; : &quot;The combination of dataset name and version is not found in the system or it is not published yet to be consumed by public.&quot;,&#10;            &quot;content&quot; : {&#10;              &quot;application/json&quot; : {&#10;                &quot;schema&quot; : {&#10;                  &quot;type&quot; : &quot;string&quot;&#10;                }&#10;              }&#10;            }&#10;          }&#10;        }&#10;      }&#10;    },&#10;    &quot;/{dataset}/{version}/records&quot; : {&#10;      &quot;post&quot; : {&#10;        &quot;tags&quot; : [ &quot;search&quot; ],&#10;        &quot;summary&quot; : &quot;Provides search capability for the data set with the given search criteria.&quot;,&#10;        &quot;description&quot; : &quot;This API is based on Solr/Lucene Search. The data is indexed using SOLR. This GET API returns the list of all the searchable field names that are in the Solr Index. Please see the 'fields' attribute which returns an array of field names. Each field or a combination of fields can be searched using the Solr/Lucene Syntax. Please refer https://lucene.apache.org/core/3_6_2/queryparsersyntax.html#Overview for the query syntax. List of field names that are searchable can be determined using above GET api.&quot;,&#10;        &quot;operationId&quot; : &quot;perform-search&quot;,&#10;        &quot;parameters&quot; : [ {&#10;          &quot;description&quot; : &quot;Version of the dataset.&quot;,&#10;          &quot;required&quot; : true,&#10;          &quot;schema&quot; : {&#10;            &quot;type&quot; : &quot;string&quot;,&#10;            &quot;default&quot; : &quot;v1&quot;&#10;          },&#10;          &quot;in&quot; : &quot;path&quot;,&#10;          &quot;name&quot; : &quot;version&quot;&#10;        }, {&#10;          &quot;description&quot; : &quot;Name of the dataset. In this case, the default value is oa_citations&quot;,&#10;          &quot;required&quot; : true,&#10;          &quot;schema&quot; : {&#10;            &quot;type&quot; : &quot;string&quot;,&#10;            &quot;default&quot; : &quot;oa_citations&quot;&#10;          },&#10;          &quot;in&quot; : &quot;path&quot;,&#10;          &quot;name&quot; : &quot;dataset&quot;&#10;        } ],&#10;        &quot;requestBody&quot; : {&#10;          &quot;content&quot; : {&#10;            &quot;application/x-www-form-urlencoded&quot; : {&#10;              &quot;schema&quot; : {&#10;                &quot;properties&quot; : {&#10;                  &quot;criteria&quot; : {&#10;                    &quot;description&quot; : &quot;Uses Lucene Query Syntax in the format of propertyName:value, propertyName:[num1 TO num2] and date range format: propertyName:[yyyyMMdd TO yyyyMMdd]. In the response please see the 'docs' element which has the list of record objects. Each record structure would consist of all the fields and their corresponding values.&quot;,&#10;                    &quot;type&quot; : &quot;string&quot;,&#10;                    &quot;default&quot; : &quot;*:*&quot;&#10;                  },&#10;                  &quot;start&quot; : {&#10;                    &quot;description&quot; : &quot;Starting record number. Default value is 0.&quot;,&#10;                    &quot;type&quot; : &quot;integer&quot;,&#10;                    &quot;default&quot; : 0&#10;                  },&#10;                  &quot;rows&quot; : {&#10;                    &quot;description&quot; : &quot;Specify number of rows to be returned. If you run the search with default values, in the response you will see 'numFound' attribute which will tell the number of records available in the dataset.&quot;,&#10;                    &quot;type&quot; : &quot;integer&quot;,&#10;                    &quot;default&quot; : 100&#10;                  }&#10;                },&#10;                &quot;type&quot; : &quot;object&quot;,&#10;                &quot;required&quot; : [ &quot;criteria&quot; ]&#10;              }&#10;            }&#10;          }&#10;        },&#10;        &quot;responses&quot; : {&#10;          &quot;200&quot; : {&#10;            &quot;description&quot; : &quot;successful operation&quot;,&#10;            &quot;content&quot; : {&#10;              &quot;application/json&quot; : {&#10;                &quot;schema&quot; : {&#10;                  &quot;type&quot; : &quot;array&quot;,&#10;                  &quot;items&quot; : {&#10;                    &quot;type&quot; : &quot;object&quot;,&#10;                    &quot;additionalProperties&quot; : {&#10;                      &quot;type&quot; : &quot;object&quot;&#10;                    }&#10;                  }&#10;                }&#10;              }&#10;            }&#10;          },&#10;          &quot;404&quot; : {&#10;            &quot;description&quot; : &quot;No matching record found for the given criteria.&quot;&#10;          }&#10;        }&#10;      }&#10;    }&#10;  },&#10;  &quot;components&quot; : {&#10;    &quot;schemas&quot; : {&#10;      &quot;dataSetList&quot; : {&#10;        &quot;properties&quot; : {&#10;          &quot;total&quot; : {&#10;            &quot;type&quot; : &quot;integer&quot;&#10;          },&#10;          &quot;apis&quot; : {&#10;            &quot;type&quot; : &quot;array&quot;,&#10;            &quot;items&quot; : {&#10;              &quot;properties&quot; : {&#10;                &quot;apiKey&quot; : {&#10;                  &quot;description&quot; : &quot;To be used as a dataset parameter value&quot;,&#10;                  &quot;type&quot; : &quot;string&quot;&#10;                },&#10;                &quot;apiVersionNumber&quot; : {&#10;                  &quot;description&quot; : &quot;To be used as a version parameter value&quot;,&#10;                  &quot;type&quot; : &quot;string&quot;&#10;                },&#10;                &quot;apiUrl&quot; : {&#10;                  &quot;description&quot; : &quot;The URL describing the dataset's fields&quot;,&#10;                  &quot;format&quot; : &quot;uriref&quot;,&#10;                  &quot;type&quot; : &quot;string&quot;&#10;                },&#10;                &quot;apiDocumentationUrl&quot; : {&#10;                  &quot;description&quot; : &quot;A URL to the API console for each API&quot;,&#10;                  &quot;format&quot; : &quot;uriref&quot;,&#10;                  &quot;type&quot; : &quot;string&quot;&#10;                }&#10;              },&#10;              &quot;type&quot; : &quot;object&quot;&#10;            }&#10;          }&#10;        },&#10;        &quot;type&quot; : &quot;object&quot;&#10;      }&#10;    }&#10;  }&#10;}&gt; but was: &lt;{&#10;  &quot;openapi&quot; : &quot;3.0.1&quot;,&#10;  &quot;info&quot; : {&#10;    &quot;contact&quot; : {&#10;      &quot;email&quot; : &quot;developer@uspto.gov&quot;,&#10;      &quot;name&quot; : &quot;Open Data Portal&quot;,&#10;      &quot;url&quot; : &quot;https://developer.uspto.gov&quot;&#10;    },&#10;    &quot;description&quot; : &quot;The Data Set API (DSAPI) allows the public users to discover and search USPTO exported data sets. This is a generic API that allows USPTO users to make any CSV based data files searchable through API. With the help of GET call, it returns the list of data fields that are searchable. With the help of POST call, data can be fetched based on the filters on the field names. Please note that POST call is used to search the actual data. The reason for the POST call is that it allows users to specify any complex search criteria without worry about the GET size limitations as well as encoding of the input parameters.&quot;,&#10;    &quot;title&quot; : &quot;USPTO Data Set API&quot;,&#10;    &quot;version&quot; : &quot;1.0.0&quot;&#10;  },&#10;  &quot;servers&quot; : [ {&#10;    &quot;url&quot; : &quot;{scheme}://developer.uspto.gov/ds-api&quot;,&#10;    &quot;variables&quot; : {&#10;      &quot;scheme&quot; : {&#10;        &quot;description&quot; : &quot;The Data Set API is accessible via https and http&quot;,&#10;        &quot;default&quot; : &quot;https&quot;,&#10;        &quot;enum&quot; : [ &quot;https&quot;, &quot;http&quot; ]&#10;      }&#10;    }&#10;  } ],&#10;  &quot;tags&quot; : [ {&#10;    &quot;name&quot; : &quot;metadata&quot;,&#10;    &quot;description&quot; : &quot;Find out about the data sets&quot;&#10;  }, {&#10;    &quot;name&quot; : &quot;search&quot;,&#10;    &quot;description&quot; : &quot;Search a data set&quot;&#10;  } ],&#10;  &quot;paths&quot; : {&#10;    &quot;/{dataset}/{version}/records&quot; : {&#10;      &quot;post&quot; : {&#10;        &quot;tags&quot; : [ &quot;search&quot; ],&#10;        &quot;summary&quot; : &quot;Provides search capability for the data set with the given search criteria.&quot;,&#10;        &quot;description&quot; : &quot;This API is based on Solr/Lucene Search. The data is indexed using SOLR. This GET API returns the list of all the searchable field names that are in the Solr Index. Please see the 'fields' attribute which returns an array of field names. Each field or a combination of fields can be searched using the Solr/Lucene Syntax. Please refer https://lucene.apache.org/core/3_6_2/queryparsersyntax.html#Overview for the query syntax. List of field names that are searchable can be determined using above GET api.&quot;,&#10;        &quot;operationId&quot; : &quot;perform-search&quot;,&#10;        &quot;parameters&quot; : [ {&#10;          &quot;description&quot; : &quot;Version of the dataset.&quot;,&#10;          &quot;required&quot; : true,&#10;          &quot;schema&quot; : {&#10;            &quot;type&quot; : &quot;string&quot;,&#10;            &quot;default&quot; : &quot;v1&quot;&#10;          },&#10;          &quot;in&quot; : &quot;path&quot;,&#10;          &quot;name&quot; : &quot;version&quot;&#10;        }, {&#10;          &quot;description&quot; : &quot;Name of the dataset. In this case, the default value is oa_citations&quot;,&#10;          &quot;required&quot; : true,&#10;          &quot;schema&quot; : {&#10;            &quot;type&quot; : &quot;string&quot;,&#10;            &quot;default&quot; : &quot;oa_citations&quot;&#10;          },&#10;          &quot;in&quot; : &quot;path&quot;,&#10;          &quot;name&quot; : &quot;dataset&quot;&#10;        } ],&#10;        &quot;requestBody&quot; : {&#10;          &quot;content&quot; : {&#10;            &quot;application/x-www-form-urlencoded&quot; : {&#10;              &quot;schema&quot; : {&#10;                &quot;properties&quot; : {&#10;                  &quot;criteria&quot; : {&#10;                    &quot;description&quot; : &quot;Uses Lucene Query Syntax in the format of propertyName:value, propertyName:[num1 TO num2] and date range format: propertyName:[yyyyMMdd TO yyyyMMdd]. In the response please see the 'docs' element which has the list of record objects. Each record structure would consist of all the fields and their corresponding values.&quot;,&#10;                    &quot;type&quot; : &quot;string&quot;,&#10;                    &quot;default&quot; : &quot;*:*&quot;&#10;                  },&#10;                  &quot;start&quot; : {&#10;                    &quot;description&quot; : &quot;Starting record number. Default value is 0.&quot;,&#10;                    &quot;type&quot; : &quot;integer&quot;,&#10;                    &quot;default&quot; : 0&#10;                  },&#10;                  &quot;rows&quot; : {&#10;                    &quot;description&quot; : &quot;Specify number of rows to be returned. If you run the search with default values, in the response you will see 'numFound' attribute which will tell the number of records available in the dataset.&quot;,&#10;                    &quot;type&quot; : &quot;integer&quot;,&#10;                    &quot;default&quot; : 100&#10;                  }&#10;                },&#10;                &quot;type&quot; : &quot;object&quot;,&#10;                &quot;required&quot; : [ &quot;criteria&quot; ]&#10;              }&#10;            }&#10;          }&#10;        },&#10;        &quot;responses&quot; : {&#10;          &quot;200&quot; : {&#10;            &quot;description&quot; : &quot;successful operation&quot;,&#10;            &quot;content&quot; : {&#10;              &quot;application/json&quot; : {&#10;                &quot;schema&quot; : {&#10;                  &quot;type&quot; : &quot;array&quot;,&#10;                  &quot;items&quot; : {&#10;                    &quot;type&quot; : &quot;object&quot;,&#10;                    &quot;additionalProperties&quot; : false&#10;                  }&#10;                }&#10;              }&#10;            }&#10;          },&#10;          &quot;404&quot; : {&#10;            &quot;description&quot; : &quot;No matching record found for the given criteria.&quot;&#10;          }&#10;        }&#10;      }&#10;    },&#10;    &quot;/{dataset}/{version}/fields&quot; : {&#10;      &quot;get&quot; : {&#10;        &quot;tags&quot; : [ &quot;metadata&quot; ],&#10;        &quot;summary&quot; : &quot;Provides the general information about the API and the list of fields that can be used to query the dataset.&quot;,&#10;        &quot;description&quot; : &quot;This GET API returns the list of all the searchable field names that are in the oa_citations. Please see the 'fields' attribute which returns an array of field names. Each field or a combination of fields can be searched using the syntax options shown below.&quot;,&#10;        &quot;operationId&quot; : &quot;list-searchable-fields&quot;,&#10;        &quot;parameters&quot; : [ {&#10;          &quot;description&quot; : &quot;Name of the dataset.&quot;,&#10;          &quot;example&quot; : &quot;oa_citations&quot;,&#10;          &quot;required&quot; : true,&#10;          &quot;schema&quot; : {&#10;            &quot;type&quot; : &quot;string&quot;&#10;          },&#10;          &quot;in&quot; : &quot;path&quot;,&#10;          &quot;name&quot; : &quot;dataset&quot;&#10;        }, {&#10;          &quot;description&quot; : &quot;Version of the dataset.&quot;,&#10;          &quot;example&quot; : &quot;v1&quot;,&#10;          &quot;required&quot; : true,&#10;          &quot;schema&quot; : {&#10;            &quot;type&quot; : &quot;string&quot;&#10;          },&#10;          &quot;in&quot; : &quot;path&quot;,&#10;          &quot;name&quot; : &quot;version&quot;&#10;        } ],&#10;        &quot;responses&quot; : {&#10;          &quot;200&quot; : {&#10;            &quot;description&quot; : &quot;The dataset API for the given version is found and it is accessible to consume.&quot;,&#10;            &quot;content&quot; : {&#10;              &quot;application/json&quot; : {&#10;                &quot;schema&quot; : {&#10;                  &quot;type&quot; : &quot;string&quot;&#10;                }&#10;              }&#10;            }&#10;          },&#10;          &quot;404&quot; : {&#10;            &quot;description&quot; : &quot;The combination of dataset name and version is not found in the system or it is not published yet to be consumed by public.&quot;,&#10;            &quot;content&quot; : {&#10;              &quot;application/json&quot; : {&#10;                &quot;schema&quot; : {&#10;                  &quot;type&quot; : &quot;string&quot;&#10;                }&#10;              }&#10;            }&#10;          }&#10;        }&#10;      }&#10;    },&#10;    &quot;/&quot; : {&#10;      &quot;get&quot; : {&#10;        &quot;tags&quot; : [ &quot;metadata&quot; ],&#10;        &quot;summary&quot; : &quot;List available data sets&quot;,&#10;        &quot;operationId&quot; : &quot;list-data-sets&quot;,&#10;        &quot;responses&quot; : {&#10;          &quot;200&quot; : {&#10;            &quot;description&quot; : &quot;Returns a list of data sets&quot;,&#10;            &quot;content&quot; : {&#10;              &quot;application/json&quot; : {&#10;                &quot;example&quot; : {&#10;                  &quot;total&quot; : 2,&#10;                  &quot;apis&quot; : [ {&#10;                    &quot;apiKey&quot; : &quot;oa_citations&quot;,&#10;                    &quot;apiVersionNumber&quot; : &quot;v1&quot;,&#10;                    &quot;apiUrl&quot; : &quot;https://developer.uspto.gov/ds-api/oa_citations/v1/fields&quot;,&#10;                    &quot;apiDocumentationUrl&quot; : &quot;https://developer.uspto.gov/ds-api-docs/index.html?url=https://developer.uspto.gov/ds-api/swagger/docs/oa_citations.json&quot;&#10;                  }, {&#10;                    &quot;apiKey&quot; : &quot;cancer_moonshot&quot;,&#10;                    &quot;apiVersionNumber&quot; : &quot;v1&quot;,&#10;                    &quot;apiUrl&quot; : &quot;https://developer.uspto.gov/ds-api/cancer_moonshot/v1/fields&quot;,&#10;                    &quot;apiDocumentationUrl&quot; : &quot;https://developer.uspto.gov/ds-api-docs/index.html?url=https://developer.uspto.gov/ds-api/swagger/docs/cancer_moonshot.json&quot;&#10;                  } ]&#10;                },&#10;                &quot;schema&quot; : { }&#10;              }&#10;            }&#10;          }&#10;        }&#10;      }&#10;    }&#10;  },&#10;  &quot;components&quot; : {&#10;    &quot;schemas&quot; : {&#10;      &quot;dataSetList&quot; : {&#10;        &quot;properties&quot; : {&#10;          &quot;total&quot; : {&#10;            &quot;type&quot; : &quot;integer&quot;&#10;          },&#10;          &quot;apis&quot; : {&#10;            &quot;type&quot; : &quot;array&quot;,&#10;            &quot;items&quot; : {&#10;              &quot;properties&quot; : {&#10;                &quot;apiKey&quot; : {&#10;                  &quot;description&quot; : &quot;To be used as a dataset parameter value&quot;,&#10;                  &quot;type&quot; : &quot;string&quot;&#10;                },&#10;                &quot;apiUrl&quot; : {&#10;                  &quot;description&quot; : &quot;The URL describing the dataset's fields&quot;,&#10;                  &quot;format&quot; : &quot;uriref&quot;,&#10;                  &quot;type&quot; : &quot;string&quot;&#10;                },&#10;                &quot;apiDocumentationUrl&quot; : {&#10;                  &quot;description&quot; : &quot;A URL to the API console for each API&quot;,&#10;                  &quot;format&quot; : &quot;uriref&quot;,&#10;                  &quot;type&quot; : &quot;string&quot;&#10;                },&#10;                &quot;apiVersionNumber&quot; : {&#10;                  &quot;description&quot; : &quot;To be used as a version parameter value&quot;,&#10;                  &quot;type&quot; : &quot;string&quot;&#10;                }&#10;              },&#10;              &quot;type&quot; : &quot;object&quot;&#10;            }&#10;          }&#10;        },&#10;        &quot;type&quot; : &quot;object&quot;&#10;      }&#10;    }&#10;  }&#10;}&gt;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: JSONs for uspto.json are different:
 [ {
-  &quot;op&quot; : &quot;add&quot;,
-  &quot;path&quot; : &quot;/paths/~1streams/post/parameters/0/schema&quot;,
+  &quot;op&quot; : &quot;replace&quot;,
+  &quot;path&quot; : &quot;/paths/~1{dataset}~1{version}~1records/post/responses/200/content/application~1json/schema/items/additionalProperties&quot;,
   &quot;value&quot; : {
-    &quot;example&quot; : &quot;https://tonys-server.com&quot;,
-    &quot;format&quot; : &quot;uri&quot;,
-    &quot;type&quot; : &quot;string&quot;
-  }
-}, {
-  &quot;op&quot; : &quot;add&quot;,
-  &quot;path&quot; : &quot;/paths/~1streams/post/responses/201/content/application~1json/schema&quot;,
-  &quot;value&quot; : {
-    &quot;description&quot; : &quot;subscription information&quot;,
-    &quot;properties&quot; : {
-      &quot;subscriptionId&quot; : {
-        &quot;description&quot; : &quot;this unique identifier allows management of the subscription&quot;,
-        &quot;example&quot; : &quot;2531329f-fb09-4ef7-887e-84e648214436&quot;,
-        &quot;type&quot; : &quot;string&quot;
-      }
-    },
-    &quot;required&quot; : [ &quot;subscriptionId&quot; ]
-  }
-}, {
-  &quot;op&quot; : &quot;add&quot;,
-  &quot;path&quot; : &quot;/paths/~1streams/post/callbacks/onData/{$request.query.callbackUrl}~1data/post/requestBody/content/application~1json/schema&quot;,
-  &quot;value&quot; : {
-    &quot;properties&quot; : {
-      &quot;timestamp&quot; : {
-        &quot;format&quot; : &quot;date-time&quot;,
-        &quot;type&quot; : &quot;string&quot;
-      },
-      &quot;userData&quot; : {
-        &quot;type&quot; : &quot;string&quot;
-      }
-    },
     &quot;type&quot; : &quot;object&quot;
   }
+}, {
+  &quot;op&quot; : &quot;add&quot;,
+  &quot;path&quot; : &quot;/paths/~1/get/responses/200/content/application~1json/schema/$ref&quot;,
+  &quot;value&quot; : &quot;#/components/schemas/dataSetList&quot;
 } ] ==&gt; expected: &lt;{
-  &quot;openapi&quot; : &quot;3.0.0&quot;,
+  &quot;openapi&quot; : &quot;3.0.1&quot;,
   &quot;info&quot; : {
-    &quot;title&quot; : &quot;Callback Example&quot;,
+    &quot;contact&quot; : {
+      &quot;email&quot; : &quot;developer@uspto.gov&quot;,
+      &quot;name&quot; : &quot;Open Data Portal&quot;,
+      &quot;url&quot; : &quot;https://developer.uspto.gov&quot;
+    },
+    &quot;description&quot; : &quot;The Data Set API (DSAPI) allows the public users to discover and search USPTO exported data sets. This is a generic API that allows USPTO users to make any CSV based data files searchable through API. With the help of GET call, it returns the list of data fields that are searchable. With the help of POST call, data can be fetched based on the filters on the field names. Please note that POST call is used to search the actual data. The reason for the POST call is that it allows users to specify any complex search criteria without worry about the GET size limitations as well as encoding of the input parameters.&quot;,
+    &quot;title&quot; : &quot;USPTO Data Set API&quot;,
     &quot;version&quot; : &quot;1.0.0&quot;
   },
+  &quot;servers&quot; : [ {
+    &quot;url&quot; : &quot;{scheme}://developer.uspto.gov/ds-api&quot;,
+    &quot;variables&quot; : {
+      &quot;scheme&quot; : {
+        &quot;description&quot; : &quot;The Data Set API is accessible via https and http&quot;,
+        &quot;default&quot; : &quot;https&quot;,
+        &quot;enum&quot; : [ &quot;https&quot;, &quot;http&quot; ]
+      }
+    }
+  } ],
+  &quot;tags&quot; : [ {
+    &quot;name&quot; : &quot;metadata&quot;,
+    &quot;description&quot; : &quot;Find out about the data sets&quot;
+  }, {
+    &quot;name&quot; : &quot;search&quot;,
+    &quot;description&quot; : &quot;Search a data set&quot;
+  } ],
   &quot;paths&quot; : {
-    &quot;/streams&quot; : {
-      &quot;post&quot; : {
-        &quot;description&quot; : &quot;subscribes a client to receive out-of-band data&quot;,
-        &quot;parameters&quot; : [ {
-          &quot;description&quot; : &quot;the location where data will be sent.  Must be network accessible\nby the source server\n&quot;,
-          &quot;required&quot; : true,
-          &quot;schema&quot; : {
-            &quot;example&quot; : &quot;https://tonys-server.com&quot;,
-            &quot;format&quot; : &quot;uri&quot;,
-            &quot;type&quot; : &quot;string&quot;
-          },
-          &quot;in&quot; : &quot;query&quot;,
-          &quot;name&quot; : &quot;callbackUrl&quot;
-        } ],
+    &quot;/&quot; : {
+      &quot;get&quot; : {
+        &quot;tags&quot; : [ &quot;metadata&quot; ],
+        &quot;summary&quot; : &quot;List available data sets&quot;,
+        &quot;operationId&quot; : &quot;list-data-sets&quot;,
         &quot;responses&quot; : {
-          &quot;201&quot; : {
-            &quot;description&quot; : &quot;subscription successfully created&quot;,
+          &quot;200&quot; : {
+            &quot;description&quot; : &quot;Returns a list of data sets&quot;,
             &quot;content&quot; : {
               &quot;application/json&quot; : {
+                &quot;example&quot; : {
+                  &quot;total&quot; : 2,
+                  &quot;apis&quot; : [ {
+                    &quot;apiKey&quot; : &quot;oa_citations&quot;,
+                    &quot;apiVersionNumber&quot; : &quot;v1&quot;,
+                    &quot;apiUrl&quot; : &quot;https://developer.uspto.gov/ds-api/oa_citations/v1/fields&quot;,
+                    &quot;apiDocumentationUrl&quot; : &quot;https://developer.uspto.gov/ds-api-docs/index.html?url=https://developer.uspto.gov/ds-api/swagger/docs/oa_citations.json&quot;
+                  }, {
+                    &quot;apiKey&quot; : &quot;cancer_moonshot&quot;,
+                    &quot;apiVersionNumber&quot; : &quot;v1&quot;,
+                    &quot;apiUrl&quot; : &quot;https://developer.uspto.gov/ds-api/cancer_moonshot/v1/fields&quot;,
+                    &quot;apiDocumentationUrl&quot; : &quot;https://developer.uspto.gov/ds-api-docs/index.html?url=https://developer.uspto.gov/ds-api/swagger/docs/cancer_moonshot.json&quot;
+                  } ]
+                },
                 &quot;schema&quot; : {
-                  &quot;description&quot; : &quot;subscription information&quot;,
-                  &quot;properties&quot; : {
-                    &quot;subscriptionId&quot; : {
-                      &quot;description&quot; : &quot;this unique identifier allows management of the subscription&quot;,
-                      &quot;example&quot; : &quot;2531329f-fb09-4ef7-887e-84e648214436&quot;,
-                      &quot;type&quot; : &quot;string&quot;
-                    }
-                  },
-                  &quot;required&quot; : [ &quot;subscriptionId&quot; ]
+                  &quot;$ref&quot; : &quot;#/components/schemas/dataSetList&quot;
                 }
               }
             }
           }
-        },
-        &quot;callbacks&quot; : {
-          &quot;onData&quot; : {
-            &quot;{$request.query.callbackUrl}/data&quot; : {
-              &quot;post&quot; : {
-                &quot;requestBody&quot; : {
-                  &quot;description&quot; : &quot;subscription payload&quot;,
-                  &quot;content&quot; : {
-                    &quot;application/json&quot; : {
-                      &quot;schema&quot; : {
-                        &quot;properties&quot; : {
-                          &quot;timestamp&quot; : {
-                            &quot;format&quot; : &quot;date-time&quot;,
-                            &quot;type&quot; : &quot;string&quot;
-                          },
-                          &quot;userData&quot; : {
-                            &quot;type&quot; : &quot;string&quot;
-                          }
-                        },
-                        &quot;type&quot; : &quot;object&quot;
-                      }
-                    }
+        }
+      }
+    },
+    &quot;/{dataset}/{version}/fields&quot; : {
+      &quot;get&quot; : {
+        &quot;tags&quot; : [ &quot;metadata&quot; ],
+        &quot;summary&quot; : &quot;Provides the general information about the API and the list of fields that can be used to query the dataset.&quot;,
+        &quot;description&quot; : &quot;This GET API returns the list of all the searchable field names that are in the oa_citations. Please see the 'fields' attribute which returns an array of field names. Each field or a combination of fields can be searched using the syntax options shown below.&quot;,
+        &quot;operationId&quot; : &quot;list-searchable-fields&quot;,
+        &quot;parameters&quot; : [ {
+          &quot;description&quot; : &quot;Name of the dataset.&quot;,
+          &quot;example&quot; : &quot;oa_citations&quot;,
+          &quot;required&quot; : true,
+          &quot;schema&quot; : {
+            &quot;type&quot; : &quot;string&quot;
+          },
+          &quot;in&quot; : &quot;path&quot;,
+          &quot;name&quot; : &quot;dataset&quot;
+        }, {
+          &quot;description&quot; : &quot;Version of the dataset.&quot;,
+          &quot;example&quot; : &quot;v1&quot;,
+          &quot;required&quot; : true,
+          &quot;schema&quot; : {
+            &quot;type&quot; : &quot;string&quot;
+          },
+          &quot;in&quot; : &quot;path&quot;,
+          &quot;name&quot; : &quot;version&quot;
+        } ],
+        &quot;responses&quot; : {
+          &quot;200&quot; : {
+            &quot;description&quot; : &quot;The dataset API for the given version is found and it is accessible to consume.&quot;,
+            &quot;content&quot; : {
+              &quot;application/json&quot; : {
+                &quot;schema&quot; : {
+                  &quot;type&quot; : &quot;string&quot;
+                }
+              }
+            }
+          },
+          &quot;404&quot; : {
+            &quot;description&quot; : &quot;The combination of dataset name and version is not found in the system or it is not published yet to be consumed by public.&quot;,
+            &quot;content&quot; : {
+              &quot;application/json&quot; : {
+                &quot;schema&quot; : {
+                  &quot;type&quot; : &quot;string&quot;
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    &quot;/{dataset}/{version}/records&quot; : {
+      &quot;post&quot; : {
+        &quot;tags&quot; : [ &quot;search&quot; ],
+        &quot;summary&quot; : &quot;Provides search capability for the data set with the given search criteria.&quot;,
+        &quot;description&quot; : &quot;This API is based on Solr/Lucene Search. The data is indexed using SOLR. This GET API returns the list of all the searchable field names that are in the Solr Index. Please see the 'fields' attribute which returns an array of field names. Each field or a combination of fields can be searched using the Solr/Lucene Syntax. Please refer https://lucene.apache.org/core/3_6_2/queryparsersyntax.html#Overview for the query syntax. List of field names that are searchable can be determined using above GET api.&quot;,
+        &quot;operationId&quot; : &quot;perform-search&quot;,
+        &quot;parameters&quot; : [ {
+          &quot;description&quot; : &quot;Version of the dataset.&quot;,
+          &quot;required&quot; : true,
+          &quot;schema&quot; : {
+            &quot;type&quot; : &quot;string&quot;,
+            &quot;default&quot; : &quot;v1&quot;
+          },
+          &quot;in&quot; : &quot;path&quot;,
+          &quot;name&quot; : &quot;version&quot;
+        }, {
+          &quot;description&quot; : &quot;Name of the dataset. In this case, the default value is oa_citations&quot;,
+          &quot;required&quot; : true,
+          &quot;schema&quot; : {
+            &quot;type&quot; : &quot;string&quot;,
+            &quot;default&quot; : &quot;oa_citations&quot;
+          },
+          &quot;in&quot; : &quot;path&quot;,
+          &quot;name&quot; : &quot;dataset&quot;
+        } ],
+        &quot;requestBody&quot; : {
+          &quot;content&quot; : {
+            &quot;application/x-www-form-urlencoded&quot; : {
+              &quot;schema&quot; : {
+                &quot;properties&quot; : {
+                  &quot;criteria&quot; : {
+                    &quot;description&quot; : &quot;Uses Lucene Query Syntax in the format of propertyName:value, propertyName:[num1 TO num2] and date range format: propertyName:[yyyyMMdd TO yyyyMMdd]. In the response please see the 'docs' element which has the list of record objects. Each record structure would consist of all the fields and their corresponding values.&quot;,
+                    &quot;type&quot; : &quot;string&quot;,
+                    &quot;default&quot; : &quot;*:*&quot;
+                  },
+                  &quot;start&quot; : {
+                    &quot;description&quot; : &quot;Starting record number. Default value is 0.&quot;,
+                    &quot;type&quot; : &quot;integer&quot;,
+                    &quot;default&quot; : 0
+                  },
+                  &quot;rows&quot; : {
+                    &quot;description&quot; : &quot;Specify number of rows to be returned. If you run the search with default values, in the response you will see 'numFound' attribute which will tell the number of records available in the dataset.&quot;,
+                    &quot;type&quot; : &quot;integer&quot;,
+                    &quot;default&quot; : 100
                   }
                 },
-                &quot;responses&quot; : {
-                  &quot;202&quot; : {
-                    &quot;description&quot; : &quot;Your server implementation should return this HTTP status code\nif the data was received successfully\n&quot;
-                  },
-                  &quot;204&quot; : {
-                    &quot;description&quot; : &quot;Your server should return this HTTP status code if no longer interested\nin further updates\n&quot;
+                &quot;type&quot; : &quot;object&quot;,
+                &quot;required&quot; : [ &quot;criteria&quot; ]
+              }
+            }
+          }
+        },
+        &quot;responses&quot; : {
+          &quot;200&quot; : {
+            &quot;description&quot; : &quot;successful operation&quot;,
+            &quot;content&quot; : {
+              &quot;application/json&quot; : {
+                &quot;schema&quot; : {
+                  &quot;type&quot; : &quot;array&quot;,
+                  &quot;items&quot; : {
+                    &quot;type&quot; : &quot;object&quot;,
+                    &quot;additionalProperties&quot; : {
+                      &quot;type&quot; : &quot;object&quot;
+                    }
                   }
                 }
+              }
+            }
+          },
+          &quot;404&quot; : {
+            &quot;description&quot; : &quot;No matching record found for the given criteria.&quot;
+          }
+        }
+      }
+    }
+  },
+  &quot;components&quot; : {
+    &quot;schemas&quot; : {
+      &quot;dataSetList&quot; : {
+        &quot;properties&quot; : {
+          &quot;total&quot; : {
+            &quot;type&quot; : &quot;integer&quot;
+          },
+          &quot;apis&quot; : {
+            &quot;type&quot; : &quot;array&quot;,
+            &quot;items&quot; : {
+              &quot;properties&quot; : {
+                &quot;apiKey&quot; : {
+                  &quot;description&quot; : &quot;To be used as a dataset parameter value&quot;,
+                  &quot;type&quot; : &quot;string&quot;
+                },
+                &quot;apiVersionNumber&quot; : {
+                  &quot;description&quot; : &quot;To be used as a version parameter value&quot;,
+                  &quot;type&quot; : &quot;string&quot;
+                },
+                &quot;apiUrl&quot; : {
+                  &quot;description&quot; : &quot;The URL describing the dataset's fields&quot;,
+                  &quot;format&quot; : &quot;uriref&quot;,
+                  &quot;type&quot; : &quot;string&quot;
+                },
+                &quot;apiDocumentationUrl&quot; : {
+                  &quot;description&quot; : &quot;A URL to the API console for each API&quot;,
+                  &quot;format&quot; : &quot;uriref&quot;,
+                  &quot;type&quot; : &quot;string&quot;
+                }
+              },
+              &quot;type&quot; : &quot;object&quot;
+            }
+          }
+        },
+        &quot;type&quot; : &quot;object&quot;
+      }
+    }
+  }
+}&gt; but was: &lt;{
+  &quot;openapi&quot; : &quot;3.0.1&quot;,
+  &quot;info&quot; : {
+    &quot;contact&quot; : {
+      &quot;email&quot; : &quot;developer@uspto.gov&quot;,
+      &quot;name&quot; : &quot;Open Data Portal&quot;,
+      &quot;url&quot; : &quot;https://developer.uspto.gov&quot;
+    },
+    &quot;description&quot; : &quot;The Data Set API (DSAPI) allows the public users to discover and search USPTO exported data sets. This is a generic API that allows USPTO users to make any CSV based data files searchable through API. With the help of GET call, it returns the list of data fields that are searchable. With the help of POST call, data can be fetched based on the filters on the field names. Please note that POST call is used to search the actual data. The reason for the POST call is that it allows users to specify any complex search criteria without worry about the GET size limitations as well as encoding of the input parameters.&quot;,
+    &quot;title&quot; : &quot;USPTO Data Set API&quot;,
+    &quot;version&quot; : &quot;1.0.0&quot;
+  },
+  &quot;servers&quot; : [ {
+    &quot;url&quot; : &quot;{scheme}://developer.uspto.gov/ds-api&quot;,
+    &quot;variables&quot; : {
+      &quot;scheme&quot; : {
+        &quot;description&quot; : &quot;The Data Set API is accessible via https and http&quot;,
+        &quot;default&quot; : &quot;https&quot;,
+        &quot;enum&quot; : [ &quot;https&quot;, &quot;http&quot; ]
+      }
+    }
+  } ],
+  &quot;tags&quot; : [ {
+    &quot;name&quot; : &quot;metadata&quot;,
+    &quot;description&quot; : &quot;Find out about the data sets&quot;
+  }, {
+    &quot;name&quot; : &quot;search&quot;,
+    &quot;description&quot; : &quot;Search a data set&quot;
+  } ],
+  &quot;paths&quot; : {
+    &quot;/{dataset}/{version}/records&quot; : {
+      &quot;post&quot; : {
+        &quot;tags&quot; : [ &quot;search&quot; ],
+        &quot;summary&quot; : &quot;Provides search capability for the data set with the given search criteria.&quot;,
+        &quot;description&quot; : &quot;This API is based on Solr/Lucene Search. The data is indexed using SOLR. This GET API returns the list of all the searchable field names that are in the Solr Index. Please see the 'fields' attribute which returns an array of field names. Each field or a combination of fields can be searched using the Solr/Lucene Syntax. Please refer https://lucene.apache.org/core/3_6_2/queryparsersyntax.html#Overview for the query syntax. List of field names that are searchable can be determined using above GET api.&quot;,
+        &quot;operationId&quot; : &quot;perform-search&quot;,
+        &quot;parameters&quot; : [ {
+          &quot;description&quot; : &quot;Version of the dataset.&quot;,
+          &quot;required&quot; : true,
+          &quot;schema&quot; : {
+            &quot;type&quot; : &quot;string&quot;,
+            &quot;default&quot; : &quot;v1&quot;
+          },
+          &quot;in&quot; : &quot;path&quot;,
+          &quot;name&quot; : &quot;version&quot;
+        }, {
+          &quot;description&quot; : &quot;Name of the dataset. In this case, the default value is oa_citations&quot;,
+          &quot;required&quot; : true,
+          &quot;schema&quot; : {
+            &quot;type&quot; : &quot;string&quot;,
+            &quot;default&quot; : &quot;oa_citations&quot;
+          },
+          &quot;in&quot; : &quot;path&quot;,
+          &quot;name&quot; : &quot;dataset&quot;
+        } ],
+        &quot;requestBody&quot; : {
+          &quot;content&quot; : {
+            &quot;application/x-www-form-urlencoded&quot; : {
+              &quot;schema&quot; : {
+                &quot;properties&quot; : {
+                  &quot;criteria&quot; : {
+                    &quot;description&quot; : &quot;Uses Lucene Query Syntax in the format of propertyName:value, propertyName:[num1 TO num2] and date range format: propertyName:[yyyyMMdd TO yyyyMMdd]. In the response please see the 'docs' element which has the list of record objects. Each record structure would consist of all the fields and their corresponding values.&quot;,
+                    &quot;type&quot; : &quot;string&quot;,
+                    &quot;default&quot; : &quot;*:*&quot;
+                  },
+                  &quot;start&quot; : {
+                    &quot;description&quot; : &quot;Starting record number. Default value is 0.&quot;,
+                    &quot;type&quot; : &quot;integer&quot;,
+                    &quot;default&quot; : 0
+                  },
+                  &quot;rows&quot; : {
+                    &quot;description&quot; : &quot;Specify number of rows to be returned. If you run the search with default values, in the response you will see 'numFound' attribute which will tell the number of records available in the dataset.&quot;,
+                    &quot;type&quot; : &quot;integer&quot;,
+                    &quot;default&quot; : 100
+                  }
+                },
+                &quot;type&quot; : &quot;object&quot;,
+                &quot;required&quot; : [ &quot;criteria&quot; ]
+              }
+            }
+          }
+        },
+        &quot;responses&quot; : {
+          &quot;200&quot; : {
+            &quot;description&quot; : &quot;successful operation&quot;,
+            &quot;content&quot; : {
+              &quot;application/json&quot; : {
+                &quot;schema&quot; : {
+                  &quot;type&quot; : &quot;array&quot;,
+                  &quot;items&quot; : {
+                    &quot;type&quot; : &quot;object&quot;,
+                    &quot;additionalProperties&quot; : false
+                  }
+                }
+              }
+            }
+          },
+          &quot;404&quot; : {
+            &quot;description&quot; : &quot;No matching record found for the given criteria.&quot;
+          }
+        }
+      }
+    },
+    &quot;/{dataset}/{version}/fields&quot; : {
+      &quot;get&quot; : {
+        &quot;tags&quot; : [ &quot;metadata&quot; ],
+        &quot;summary&quot; : &quot;Provides the general information about the API and the list of fields that can be used to query the dataset.&quot;,
+        &quot;description&quot; : &quot;This GET API returns the list of all the searchable field names that are in the oa_citations. Please see the 'fields' attribute which returns an array of field names. Each field or a combination of fields can be searched using the syntax options shown below.&quot;,
+        &quot;operationId&quot; : &quot;list-searchable-fields&quot;,
+        &quot;parameters&quot; : [ {
+          &quot;description&quot; : &quot;Name of the dataset.&quot;,
+          &quot;example&quot; : &quot;oa_citations&quot;,
+          &quot;required&quot; : true,
+          &quot;schema&quot; : {
+            &quot;type&quot; : &quot;string&quot;
+          },
+          &quot;in&quot; : &quot;path&quot;,
+          &quot;name&quot; : &quot;dataset&quot;
+        }, {
+          &quot;description&quot; : &quot;Version of the dataset.&quot;,
+          &quot;example&quot; : &quot;v1&quot;,
+          &quot;required&quot; : true,
+          &quot;schema&quot; : {
+            &quot;type&quot; : &quot;string&quot;
+          },
+          &quot;in&quot; : &quot;path&quot;,
+          &quot;name&quot; : &quot;version&quot;
+        } ],
+        &quot;responses&quot; : {
+          &quot;200&quot; : {
+            &quot;description&quot; : &quot;The dataset API for the given version is found and it is accessible to consume.&quot;,
+            &quot;content&quot; : {
+              &quot;application/json&quot; : {
+                &quot;schema&quot; : {
+                  &quot;type&quot; : &quot;string&quot;
+                }
+              }
+            }
+          },
+          &quot;404&quot; : {
+            &quot;description&quot; : &quot;The combination of dataset name and version is not found in the system or it is not published yet to be consumed by public.&quot;,
+            &quot;content&quot; : {
+              &quot;application/json&quot; : {
+                &quot;schema&quot; : {
+                  &quot;type&quot; : &quot;string&quot;
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    &quot;/&quot; : {
+      &quot;get&quot; : {
+        &quot;tags&quot; : [ &quot;metadata&quot; ],
+        &quot;summary&quot; : &quot;List available data sets&quot;,
+        &quot;operationId&quot; : &quot;list-data-sets&quot;,
+        &quot;responses&quot; : {
+          &quot;200&quot; : {
+            &quot;description&quot; : &quot;Returns a list of data sets&quot;,
+            &quot;content&quot; : {
+              &quot;application/json&quot; : {
+                &quot;example&quot; : {
+                  &quot;total&quot; : 2,
+                  &quot;apis&quot; : [ {
+                    &quot;apiKey&quot; : &quot;oa_citations&quot;,
+                    &quot;apiVersionNumber&quot; : &quot;v1&quot;,
+                    &quot;apiUrl&quot; : &quot;https://developer.uspto.gov/ds-api/oa_citations/v1/fields&quot;,
+                    &quot;apiDocumentationUrl&quot; : &quot;https://developer.uspto.gov/ds-api-docs/index.html?url=https://developer.uspto.gov/ds-api/swagger/docs/oa_citations.json&quot;
+                  }, {
+                    &quot;apiKey&quot; : &quot;cancer_moonshot&quot;,
+                    &quot;apiVersionNumber&quot; : &quot;v1&quot;,
+                    &quot;apiUrl&quot; : &quot;https://developer.uspto.gov/ds-api/cancer_moonshot/v1/fields&quot;,
+                    &quot;apiDocumentationUrl&quot; : &quot;https://developer.uspto.gov/ds-api-docs/index.html?url=https://developer.uspto.gov/ds-api/swagger/docs/cancer_moonshot.json&quot;
+                  } ]
+                },
+                &quot;schema&quot; : { }
               }
             }
           }
         }
       }
     }
-  }
-}&gt; but was: &lt;{
-  &quot;openapi&quot; : &quot;3.0.0&quot;,
-  &quot;info&quot; : {
-    &quot;title&quot; : &quot;Callback Example&quot;,
-    &quot;version&quot; : &quot;1.0.0&quot;
   },
-  &quot;paths&quot; : {
-    &quot;/streams&quot; : {
-      &quot;post&quot; : {
-        &quot;description&quot; : &quot;subscribes a client to receive out-of-band data&quot;,
-        &quot;parameters&quot; : [ {
-          &quot;description&quot; : &quot;the location where data will be sent.  Must be network accessible\nby the source server\n&quot;,
-          &quot;required&quot; : true,
-          &quot;in&quot; : &quot;query&quot;,
-          &quot;name&quot; : &quot;callbackUrl&quot;
-        } ],
-        &quot;responses&quot; : {
-          &quot;201&quot; : {
-            &quot;description&quot; : &quot;subscription successfully created&quot;,
-            &quot;content&quot; : {
-              &quot;application/json&quot; : { }
+  &quot;components&quot; : {
+    &quot;schemas&quot; : {
+      &quot;dataSetList&quot; : {
+        &quot;properties&quot; : {
+          &quot;total&quot; : {
+            &quot;type&quot; : &quot;integer&quot;
+          },
+          &quot;apis&quot; : {
+            &quot;type&quot; : &quot;array&quot;,
+            &quot;items&quot; : {
+              &quot;properties&quot; : {
+                &quot;apiKey&quot; : {
+                  &quot;description&quot; : &quot;To be used as a dataset parameter value&quot;,
+                  &quot;type&quot; : &quot;string&quot;
+                },
+                &quot;apiUrl&quot; : {
+                  &quot;description&quot; : &quot;The URL describing the dataset's fields&quot;,
+                  &quot;format&quot; : &quot;uriref&quot;,
+                  &quot;type&quot; : &quot;string&quot;
+                },
+                &quot;apiDocumentationUrl&quot; : {
+                  &quot;description&quot; : &quot;A URL to the API console for each API&quot;,
+                  &quot;format&quot; : &quot;uriref&quot;,
+                  &quot;type&quot; : &quot;string&quot;
+                },
+                &quot;apiVersionNumber&quot; : {
+                  &quot;description&quot; : &quot;To be used as a version parameter value&quot;,
+                  &quot;type&quot; : &quot;string&quot;
+                }
+              },
+              &quot;type&quot; : &quot;object&quot;
             }
           }
         },
-        &quot;callbacks&quot; : {
-          &quot;onData&quot; : {
-            &quot;{$request.query.callbackUrl}/data&quot; : {
-              &quot;post&quot; : {
-                &quot;requestBody&quot; : {
-                  &quot;description&quot; : &quot;subscription payload&quot;,
-                  &quot;content&quot; : {
-                    &quot;application/json&quot; : { }
-                  }
-                },
-                &quot;responses&quot; : {
-                  &quot;202&quot; : {
-                    &quot;description&quot; : &quot;Your server implementation should return this HTTP status code\nif the data was received successfully\n&quot;
-                  },
-                  &quot;204&quot; : {
-                    &quot;description&quot; : &quot;Your server should return this HTTP status code if no longer interested\nin further updates\n&quot;
-                  }
-                }
-              }
-            }
-          }
-        }
+        &quot;type&quot; : &quot;object&quot;
       }
     }
   }
@@ -173,8 +466,8 @@
 	at org.junit.jupiter.api.AssertionUtils.failNotEqual(AssertionUtils.java:62)
 	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
 	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1135)
-	at openapi.OpenAPIMain_test.compareJson(OpenAPIMain_test.java:87)
-	at openapi.OpenAPIMain_test.test(OpenAPIMain_test.java:78)
+	at openapi.OpenAPIMain_test.compareJson(OpenAPIMain_test.java:92)
+	at openapi.OpenAPIMain_test.test(OpenAPIMain_test.java:79)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -206,7 +499,7 @@
 	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:126)
 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:84)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
 	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38)
 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:143)
 	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
@@ -216,7 +509,7 @@
 	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:126)
 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:84)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1540)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
 	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38)
 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:143)
 	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
@@ -264,10 +557,10 @@
 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
 	at org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:56)
-	at java.base/java.lang.Thread.run(Thread.java:834)
+	at java.base/java.lang.Thread.run(Thread.java:829)
 </failure>
   </testcase>
-  <system-out><![CDATA[Loading expression DSL file 'callback-example.json'.
+  <system-out><![CDATA[Loading expression DSL file 'uspto.json'.
 true
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>

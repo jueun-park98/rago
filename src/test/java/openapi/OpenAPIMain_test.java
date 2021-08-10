@@ -44,11 +44,11 @@ public class OpenAPIMain_test {
         OpenApi3 api3;
         ValidationResults results = new ValidationResults();
 
-        String fileName = "callback-example.json";
+        String fileName = "uspto.json";
 
         Path path = Paths.get(fileName);
 
-        FileWriter writer = new FileWriter("./gen-api-ex/callback-example_generated.json");
+        FileWriter writer = new FileWriter("./gen-api-ex/" + fileName);
 
         URL expUrl = OpenAPIMain_test.class.getClassLoader().getResource(fileName);
         File file = null;
@@ -61,21 +61,26 @@ public class OpenAPIMain_test {
             throw new FileNotFoundException("Could not load JSON file " + fileName);
         }
 
+        // parsed openAPI object with openapi4j
         OpenApi3 api = new OpenApi3Parser().parse(expUrl, new ArrayList<>(), true);
         System.out.println("Loading expression DSL file '" + fileName + "'.");
 
+        // openAPI object is integrated in JastAdd grammar
         openApi = OpenAPIObject.parseOpenAPI(api);
 
+        // composed openAPI object, it is expected to be equivalent to parsed source object
         api3 = OpenAPIObject.composeOpenAPI(openApi);
 
+        // check, if the composed openAPI object is valid
         results = OpenApi3Validator.instance().validate(api3);
-
         System.out.println(results.isValid());
 
+        // compare if api (source object) is equivalent to api3 (generated object)
+        compareJson(api3.toNode(), api.toNode(), Paths.get(fileName));
+
+        // save the generated object
         writer.write(api3.toNode().toPrettyString());
         writer.close();
-
-        compareJson(api3.toNode(), api.toNode(), Paths.get("api-with-examples.json"));
     }
 
     protected void compareJson(JsonNode expectedNode, JsonNode actualNode, Path path) throws IOException {

@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.*;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:49
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:49
  * @astdecl SecuritySchemeObjectTuple : SecuritySchemesTuple ::= <Name:String> SecuritySchemeObject;
  * @production SecuritySchemeObjectTuple : {@link SecuritySchemesTuple} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">{@link SecuritySchemeObject}</span>;
 
