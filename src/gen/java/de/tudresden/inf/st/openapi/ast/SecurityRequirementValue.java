@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.*;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:171
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:171
  * @astdecl SecurityRequirementValue : ASTNode ::= <Value:String>;
  * @production SecurityRequirementValue : {@link ASTNode} ::= <span class="component">&lt;Value:String&gt;</span>;
 

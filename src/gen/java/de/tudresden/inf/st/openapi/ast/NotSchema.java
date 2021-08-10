@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.*;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:139
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:139
  * @astdecl NotSchema : ASTNode ::= SchemaObject;
  * @production NotSchema : {@link ASTNode} ::= <span class="component">{@link SchemaObject}</span>;
 

@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.*;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:55
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:55
  * @astdecl CallbackObjectTuple : CallbacksTuple ::= <Name:String> CallbackObject;
  * @production CallbackObjectTuple : {@link CallbacksTuple} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">{@link CallbackObject}</span>;
 

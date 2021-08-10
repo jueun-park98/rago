@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.*;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:100
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:100
  * @astdecl MediaTypeObject : ASTNode ::= [SchemaObject] <Example:Object> ExamplesTuple* EncodingTuple*;
  * @production MediaTypeObject : {@link ASTNode} ::= <span class="component">[{@link SchemaObject}]</span> <span class="component">&lt;Example:Object&gt;</span> <span class="component">{@link ExamplesTuple}*</span> <span class="component">{@link EncodingTuple}*</span>;
 
@@ -15,7 +15,7 @@ import java.util.*;
 public class MediaTypeObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:329
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:329
    */
   public static MediaType composeMediaType (MediaTypeObject mediaTypeObject){
         MediaType mediaType = new MediaType();
@@ -41,7 +41,7 @@ public class MediaTypeObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:392
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:392
    */
   public static MediaTypeObject parseMediaType(MediaType mediaType){
         MediaTypeObject mediaTypeObject = new MediaTypeObject();

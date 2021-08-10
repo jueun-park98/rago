@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.*;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:160
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:160
  * @astdecl Password : ASTNode ::= OAuthFlowObject;
  * @production Password : {@link ASTNode} ::= <span class="component">{@link OAuthFlowObject}</span>;
 

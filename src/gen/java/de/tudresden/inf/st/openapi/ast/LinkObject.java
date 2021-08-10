@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.*;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:125
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:125
  * @astdecl LinkObject : ASTNode ::= <OperationRef:String> <OperationID:String> LinkParameterTuple* <LinkRequestBody:Object> <Description:String> [ServerObject];
  * @production LinkObject : {@link ASTNode} ::= <span class="component">&lt;OperationRef:String&gt;</span> <span class="component">&lt;OperationID:String&gt;</span> <span class="component">{@link LinkParameterTuple}*</span> <span class="component">&lt;LinkRequestBody:Object&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">[{@link ServerObject}]</span>;
 
@@ -15,7 +15,7 @@ import java.util.*;
 public class LinkObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:425
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:425
    */
   public static Link composeLink (LinkObject linkObject){
         Link link = new Link();
@@ -39,7 +39,7 @@ public class LinkObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:476
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:476
    */
   public static LinkObject parseLink(Link link){
         LinkObject linkObject = new LinkObject();

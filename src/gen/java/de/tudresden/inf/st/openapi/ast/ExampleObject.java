@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.*;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:122
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:122
  * @astdecl ExampleObject : ASTNode ::= <Summary:String> <Description:String> <Value:Object> <ExternalValue:String>;
  * @production ExampleObject : {@link ASTNode} ::= <span class="component">&lt;Summary:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;Value:Object&gt;</span> <span class="component">&lt;ExternalValue:String&gt;</span>;
 
@@ -15,7 +15,7 @@ import java.util.*;
 public class ExampleObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:410
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:410
    */
   public static Example composeExample (ExampleObject exampleObject){
         Example example = new Example();
@@ -33,7 +33,7 @@ public class ExampleObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:461
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:461
    */
   public static ExampleObject parseExample(Example example){
         ExampleObject exampleObject = new ExampleObject();

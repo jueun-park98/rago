@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.*;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:162
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:162
  * @astdecl AuthorizationCode : ASTNode ::= OAuthFlowObject;
  * @production AuthorizationCode : {@link ASTNode} ::= <span class="component">{@link OAuthFlowObject}</span>;
 

@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.*;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:2
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:2
  * @astdecl OpenAPIObject : ASTNode ::= <OpenAPI:String> InfoObject ServerObject* PathsObject* [ComponentsObject] SecurityRequirementObject* TagObject* [ExternalDocumentationObject];
  * @production OpenAPIObject : {@link ASTNode} ::= <span class="component">&lt;OpenAPI:String&gt;</span> <span class="component">{@link InfoObject}</span> <span class="component">{@link ServerObject}*</span> <span class="component">{@link PathsObject}*</span> <span class="component">[{@link ComponentsObject}]</span> <span class="component">{@link SecurityRequirementObject}*</span> <span class="component">{@link TagObject}*</span> <span class="component">[{@link ExternalDocumentationObject}]</span>;
 
@@ -15,7 +15,7 @@ import java.util.*;
 public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:10
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:10
    */
   public static OpenApi3 composeOpenAPI (OpenAPIObject openAPIObject){
         OpenApi3 api3 = new OpenApi3();
@@ -56,7 +56,7 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:3
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:3
    */
   public static OpenAPIObject parseOpenAPI(OpenApi3 api) throws IOException, ResolutionException, ValidationException {
         OpenAPIObject openapi = new OpenAPIObject();

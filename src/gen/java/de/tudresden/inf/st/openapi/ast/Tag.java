@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.*;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:78
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:78
  * @astdecl Tag : ASTNode ::= <Tag:String>;
  * @production Tag : {@link ASTNode} ::= <span class="component">&lt;Tag:String&gt;</span>;
 

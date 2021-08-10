@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.*;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:91
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:91
  * @astdecl SchemaObject : Schema ::= [AdditionalProperties] <AdditionalPropertiesAllowed:Object> <DefaultValue:Object> <Description:String> <DeprecatedBoolean:Object> [DiscriminatorObject] EnumObj* <Example:Object> <ExclusiveMaximum:Object> <ExclusiveMinimum:Object> [ExternalDocumentationObject] <Format:String> [ItemsSchema] <Maximum:Object> <Minimum:Object> <MaxItems:Object> <MinItems:Object> <MaxLength:Object> <MinLength:Object> <MaxProperties:Object> <MinProperties:Object> <MultipleOf:Object> [NotSchema] <Nullable:Object> <Pattern:String> PropertyItem* RequiredField* AllOfSchema* AnyOfSchema* OneOfSchema* <ReadOnly:Object> <WriteOnly:Object> <Type:String> <Title:String> <UniqueItems:Object> [XmlObject];
  * @production SchemaObject : {@link Schema} ::= <span class="component">[{@link AdditionalProperties}]</span> <span class="component">&lt;AdditionalPropertiesAllowed:Object&gt;</span> <span class="component">&lt;DefaultValue:Object&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;DeprecatedBoolean:Object&gt;</span> <span class="component">[{@link DiscriminatorObject}]</span> <span class="component">{@link EnumObj}*</span> <span class="component">&lt;Example:Object&gt;</span> <span class="component">&lt;ExclusiveMaximum:Object&gt;</span> <span class="component">&lt;ExclusiveMinimum:Object&gt;</span> <span class="component">[{@link ExternalDocumentationObject}]</span> <span class="component">&lt;Format:String&gt;</span> <span class="component">[{@link ItemsSchema}]</span> <span class="component">&lt;Maximum:Object&gt;</span> <span class="component">&lt;Minimum:Object&gt;</span> <span class="component">&lt;MaxItems:Object&gt;</span> <span class="component">&lt;MinItems:Object&gt;</span> <span class="component">&lt;MaxLength:Object&gt;</span> <span class="component">&lt;MinLength:Object&gt;</span> <span class="component">&lt;MaxProperties:Object&gt;</span> <span class="component">&lt;MinProperties:Object&gt;</span> <span class="component">&lt;MultipleOf:Object&gt;</span> <span class="component">[{@link NotSchema}]</span> <span class="component">&lt;Nullable:Object&gt;</span> <span class="component">&lt;Pattern:String&gt;</span> <span class="component">{@link PropertyItem}*</span> <span class="component">{@link RequiredField}*</span> <span class="component">{@link AllOfSchema}*</span> <span class="component">{@link AnyOfSchema}*</span> <span class="component">{@link OneOfSchema}*</span> <span class="component">&lt;ReadOnly:Object&gt;</span> <span class="component">&lt;WriteOnly:Object&gt;</span> <span class="component">&lt;Type:String&gt;</span> <span class="component">&lt;Title:String&gt;</span> <span class="component">&lt;UniqueItems:Object&gt;</span> <span class="component">[{@link XmlObject}]</span>;
 
@@ -15,7 +15,7 @@ import java.util.*;
 public class SchemaObject extends Schema implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:490
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:490
    */
   public static org.openapi4j.parser.model.v3.Schema composeSchema (SchemaObject schemaObject) {
         org.openapi4j.parser.model.v3.Schema schema = new org.openapi4j.parser.model.v3.Schema();
@@ -107,7 +107,7 @@ public class SchemaObject extends Schema implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:537
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:537
    */
   public static SchemaObject parseSchema (org.openapi4j.parser.model.v3.Schema schema) {
         SchemaObject schemaObject = new SchemaObject();

@@ -33,7 +33,7 @@ public class OpenAPIMain_test {
         OpenAPIObject openApi;
         OpenApi3 api3;
         ValidationResults results = new ValidationResults();
-        String fileName = "richard_mueller4-MatchinitAPI-1-swagger.json";
+        String fileName = "uspto.json";
         FileWriter writer = new FileWriter("./gen-api-ex/" + fileName);
 
         URL expUrl = OpenAPIMain_test.class.getClassLoader().getResource(fileName);
@@ -58,8 +58,10 @@ public class OpenAPIMain_test {
         api3 = OpenAPIObject.composeOpenAPI(openApi);
 
         // check, if the composed openAPI object is valid
+        results = OpenApi3Validator.instance().validate(api);
+        System.out.println("Is the source object valid? : " + results.isValid());
         results = OpenApi3Validator.instance().validate(api3);
-        System.out.println(results.isValid());
+        System.out.println("Is the generated object valid? : " + results.isValid());
 
         // compare if api (source object) is equivalent to api3 (generated object)
         compareJson(api3.toNode(), api.toNode(), Paths.get(fileName));

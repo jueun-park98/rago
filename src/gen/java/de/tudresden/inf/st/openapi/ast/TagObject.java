@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.*;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:132
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:132
  * @astdecl TagObject : ASTNode ::= <Name:String> <Description:String> [ExternalDocumentationObject];
  * @production TagObject : {@link ASTNode} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">[{@link ExternalDocumentationObject}]</span>;
 
@@ -15,7 +15,7 @@ import java.util.*;
 public class TagObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:477
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:477
    */
   public static org.openapi4j.parser.model.v3.Tag composeTag (TagObject tagObject){
         org.openapi4j.parser.model.v3.Tag tag = new org.openapi4j.parser.model.v3.Tag();
@@ -31,7 +31,7 @@ public class TagObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:524
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:524
    */
   public static TagObject parseTag(org.openapi4j.parser.model.v3.Tag tag){
         TagObject tagObject = new TagObject();

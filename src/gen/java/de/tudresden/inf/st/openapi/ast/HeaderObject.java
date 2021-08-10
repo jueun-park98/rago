@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.*;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:129
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:129
  * @astdecl HeaderObject : ASTNode ::= <Description:String> <Required:boolean> <DeprecatedBoolean:Object> <AllowEmptyValue:Object> <Style:String> <Explode:Object> <AllowReserved:Object> [Schema] <Example:Object> ExamplesTuple* ContentTuple*;
  * @production HeaderObject : {@link ASTNode} ::= <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;Required:boolean&gt;</span> <span class="component">&lt;DeprecatedBoolean:Object&gt;</span> <span class="component">&lt;AllowEmptyValue:Object&gt;</span> <span class="component">&lt;Style:String&gt;</span> <span class="component">&lt;Explode:Object&gt;</span> <span class="component">&lt;AllowReserved:Object&gt;</span> <span class="component">[{@link Schema}]</span> <span class="component">&lt;Example:Object&gt;</span> <span class="component">{@link ExamplesTuple}*</span> <span class="component">{@link ContentTuple}*</span>;
 
@@ -15,7 +15,7 @@ import java.util.*;
 public class HeaderObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:446
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:446
    */
   public static Header composeHeader (HeaderObject headerObject){
         Header header = new Header();
@@ -49,7 +49,7 @@ public class HeaderObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:495
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:495
    */
   public static HeaderObject parseHeader(Header header){
         HeaderObject headerObject = new HeaderObject();
