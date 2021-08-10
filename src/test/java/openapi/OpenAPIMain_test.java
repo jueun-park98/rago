@@ -38,7 +38,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class OpenAPIMain_test {
 
     @Test
-    /** main-method, calls the set of methods to test the OpenAPI-Generator with JastAdd **/
     public void test() throws IOException, ResolutionException, ValidationException, EncodeException {
         OpenAPIObject openApi;
         OpenApi3 api3;
