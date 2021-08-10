@@ -49,7 +49,7 @@ public class HeaderObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:493
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:495
    */
   public static HeaderObject parseHeader(Header header){
         HeaderObject headerObject = new HeaderObject();

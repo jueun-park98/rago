@@ -33,7 +33,7 @@ public class OpenAPIMain_test {
         OpenAPIObject openApi;
         OpenApi3 api3;
         ValidationResults results = new ValidationResults();
-        String fileName = "uspto.json";
+        String fileName = "richard_mueller4-MatchinitAPI-1-swagger.json";
         FileWriter writer = new FileWriter("./gen-api-ex/" + fileName);
 
         URL expUrl = OpenAPIMain_test.class.getClassLoader().getResource(fileName);

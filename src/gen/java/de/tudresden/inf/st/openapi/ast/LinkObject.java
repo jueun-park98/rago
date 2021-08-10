@@ -39,7 +39,7 @@ public class LinkObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:474
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:476
    */
   public static LinkObject parseLink(Link link){
         LinkObject linkObject = new LinkObject();

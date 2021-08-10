@@ -44,7 +44,7 @@ public class ResponseObject extends HTTPStatusCode implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:427
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:429
    */
   public static ResponseObject parseResponse(Response response){
         ResponseObject responseObject = new ResponseObject();

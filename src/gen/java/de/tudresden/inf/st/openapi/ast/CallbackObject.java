@@ -31,7 +31,7 @@ public class CallbackObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:448
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:450
    */
   public static CallbackObject parseCallback(Callback callback){
         CallbackObject callbackObject = new CallbackObject();

@@ -37,7 +37,7 @@ public class EncodingObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:409
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:411
    */
   public static EncodingObject parseEncoding(EncodingProperty encodingProperty){
         EncodingObject encodingObject = new EncodingObject();

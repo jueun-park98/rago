@@ -38,8 +38,10 @@ public class RequestBodyObject extends RequestBody implements Cloneable {
   public static RequestBodyObject parseRequestBody(org.openapi4j.parser.model.v3.RequestBody requestBody){
         RequestBodyObject requestBodyObject = new RequestBodyObject();
 
-        for( String key : requestBody.getContentMediaTypes().keySet() )
+        if( requestBody.getContentMediaTypes() != null ) {
+        for (String key : requestBody.getContentMediaTypes().keySet())
         requestBodyObject.addContentTuple(new ContentObjectTuple(key, MediaTypeObject.parseMediaType(requestBody.getContentMediaType(key))));
+        }
         if( requestBody.getDescription() != null )
         requestBodyObject.setDescription(requestBody.getDescription());
         if( requestBody.getRequired() != null )
