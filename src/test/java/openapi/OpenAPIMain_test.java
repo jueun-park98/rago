@@ -1,7 +1,6 @@
 package openapi;
 
 import com.flipkart.zjsonpatch.JsonDiff;
-import de.tudresden.inf.st.openapi.ast.Enum;
 import de.tudresden.inf.st.openapi.ast.*;
 import org.junit.jupiter.api.Assertions;
 import org.openapi4j.core.exception.EncodeException;
@@ -9,26 +8,18 @@ import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.core.validation.ValidationResults;
 import org.openapi4j.parser.OpenApi3Parser;
-import org.openapi4j.parser.model.v3.RequestBody;
-import org.openapi4j.parser.model.v3.Tag;
 import org.openapi4j.parser.model.v3.*;
 import org.openapi4j.parser.validation.v3.OpenApi3Validator;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 import org.opentest4j.TestAbortedException;
@@ -42,11 +33,7 @@ public class OpenAPIMain_test {
         OpenAPIObject openApi;
         OpenApi3 api3;
         ValidationResults results = new ValidationResults();
-
         String fileName = "uspto.json";
-
-        Path path = Paths.get(fileName);
-
         FileWriter writer = new FileWriter("./gen-api-ex/" + fileName);
 
         URL expUrl = OpenAPIMain_test.class.getClassLoader().getResource(fileName);
