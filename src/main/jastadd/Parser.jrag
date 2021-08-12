@@ -106,30 +106,54 @@ public static ComponentsObject ComponentsObject.parseComponents(Components compo
         if( components.getSchemas() != null ){
         JastAddList<SchemasTuple> schemasTuples = new JastAddList<>();
         for( String key : components.getSchemas().keySet() ){
-        SchemaObjectTuple schemaObjectTuple = new SchemaObjectTuple();
-        schemaObjectTuple.setName( key );
-        schemaObjectTuple.setSchemaObject( SchemaObject.parseSchema(components.getSchema(key)) );
-        schemasTuples.add(schemaObjectTuple);
+        if( components.getSchema(key).isRef() ){
+        SchemaReferenceTuple schema = new SchemaReferenceTuple();
+        schema.setName(key);
+        schema.setRef(components.getSchema(key).getRef());
+        schemasTuples.add(schema);
+        }
+        else {
+        SchemaObjectTuple schema = new SchemaObjectTuple();
+        schema.setName(key);
+        schema.setSchemaObject(SchemaObject.parseSchema(components.getSchema(key)));
+        schemasTuples.add(schema);
+        }
         }
         componentsObject.setSchemasTupleList(schemasTuples);
         }
         if( components.getResponses() != null ){
         JastAddList<ResponsesTuple> responsesTuples = new JastAddList<>();
         for( String key : components.getResponses().keySet() ){
-        ResponseObjectTuple responseObjectTuple = new ResponseObjectTuple();
-        responseObjectTuple.setName( key );
-        responseObjectTuple.setResponseObject( ResponseObject.parseResponse(components.getResponse(key)) );
-        responsesTuples.add(responseObjectTuple);
+        if( components.getResponse(key).isRef() ){
+        ResponseReferenceTuple response = new ResponseReferenceTuple();
+        response.setName(key);
+        response.setRef(components.getResponse(key).getRef());
+        responsesTuples.add(response);
+        }
+        else {
+        ResponseObjectTuple response = new ResponseObjectTuple();
+        response.setName(key);
+        response.setResponseObject(ResponseObject.parseResponse(components.getResponse(key)));
+        responsesTuples.add(response);
+        }
         }
         componentsObject.setResponsesTupleList(responsesTuples);
         }
         if( components.getParameters() != null ){
         JastAddList<ParameterTuple> parameterTuples = new JastAddList<>();
         for( String key : components.getParameters().keySet() ){
-        ParameterObjectTuple parameterObjectTuple = new ParameterObjectTuple();
-        parameterObjectTuple.setName( key );
-        parameterObjectTuple.setParameterObject( ParameterObject.parseParameter(components.getParameter(key)) );
-        parameterTuples.add(parameterObjectTuple);
+        if( components.getParameter(key).isRef() ){
+        ParameterReferenceTuple parameter = new ParameterReferenceTuple();
+        parameter.setName(key);
+        parameter.setRef(components.getParameter(key).getRef());
+        parameterTuples.add(parameter);
+        }
+        else {
+        ParameterObjectTuple parameter = new ParameterObjectTuple();
+        parameter.setName(key);
+        parameter.setParameterObject(ParameterObject.parseParameter(components.getParameter(key)));
+        parameterTuples.add(parameter);
+        }
         }
         componentsObject.setParameterTupleList(parameterTuples);
         }
@@ -146,50 +170,90 @@ public static ComponentsObject ComponentsObject.parseComponents(Components compo
         if( components.getRequestBodies() != null ){
         JastAddList<RequestBodiesTuple> requestBodiesTuples = new JastAddList<>();
         for( String key : components.getRequestBodies().keySet() ){
-        RequestBodyObjectTuple requestBodyObjectTuple = new RequestBodyObjectTuple();
-        requestBodyObjectTuple.setName( key );
-        requestBodyObjectTuple.setRequestBodyObject( RequestBodyObject.parseRequestBody(components.getRequestBody(key)) );
-        requestBodiesTuples.add(requestBodyObjectTuple);
+        if( components.getRequestBody(key).isRef() ){
+        RequestBodyReferenceTuple requestBody = new RequestBodyReferenceTuple();
+        requestBody.setName(key);
+        requestBody.setRef(components.getRequestBody(key).getRef());
+        requestBodiesTuples.add(requestBody);
+        }
+        else {
+        RequestBodyObjectTuple requestBody = new RequestBodyObjectTuple();
+        requestBody.setName(key);
+        requestBody.setRequestBodyObject(RequestBodyObject.parseRequestBody(components.getRequestBody(key)));
+        requestBodiesTuples.add(requestBody);
+        }
         }
         componentsObject.setRequestBodiesTupleList(requestBodiesTuples);
         }
         if( components.getHeaders() != null ){
         JastAddList<HeadersTuple> headersTuples = new JastAddList<>();
         for( String key : components.getHeaders().keySet() ){
-        HeaderObjectTuple headerObjectTuple = new HeaderObjectTuple();
-        headerObjectTuple.setName( key );
-        headerObjectTuple.setHeaderObject( HeaderObject.parseHeader(components.getHeader(key)) );
-        headersTuples.add(headerObjectTuple);
+        if( components.getHeader(key).isRef() ){
+        HeaderReferenceTuple header = new HeaderReferenceTuple();
+        header.setName(key);
+        header.setRef(components.getHeader(key).getRef());
+        headersTuples.add(header);
+        }
+        else {
+        HeaderObjectTuple header = new HeaderObjectTuple();
+        header.setName(key);
+        header.setHeaderObject(HeaderObject.parseHeader(components.getHeader(key)));
+        headersTuples.add(header);
+        }
         }
         componentsObject.setHeadersTupleList(headersTuples);
         }
         if( components.getSecuritySchemes() != null ){
         JastAddList<SecuritySchemesTuple> securitySchemesTuples = new JastAddList<>();
         for( String key : components.getSecuritySchemes().keySet() ){
-        SecuritySchemeObjectTuple securitySchemeObjectTuple = new SecuritySchemeObjectTuple();
-        securitySchemeObjectTuple.setName( key );
-        securitySchemeObjectTuple.setSecuritySchemeObject( SecuritySchemeObject.parseSecurityScheme(components.getSecurityScheme(key)) );
-        securitySchemesTuples.add(securitySchemeObjectTuple);
+        if( components.getSecurityScheme(key).isRef() ){
+        SecuritySchemeReferenceTuple securityScheme = new SecuritySchemeReferenceTuple();
+        securityScheme.setName(key);
+        securityScheme.setRef(components.getSecurityScheme(key).getRef());
+        securitySchemesTuples.add(securityScheme);
+        }
+        else {
+        SecuritySchemeObjectTuple securityScheme = new SecuritySchemeObjectTuple();
+        securityScheme.setName(key);
+        securityScheme.setSecuritySchemeObject(SecuritySchemeObject.parseSecurityScheme(components.getSecurityScheme(key)));
+        securitySchemesTuples.add(securityScheme);
+        }
         }
         componentsObject.setSecuritySchemesTupleList(securitySchemesTuples);
         }
         if( components.getLinks() != null ){
         JastAddList<LinksTuple> linksTuples = new JastAddList<>();
         for( String key : components.getLinks().keySet() ){
-        LinkObjectTuple linkObjectTuple = new LinkObjectTuple();
-        linkObjectTuple.setName( key );
-        linkObjectTuple.setLinkObject( LinkObject.parseLink(components.getLink(key)) );
-        linksTuples.add(linkObjectTuple);
+        if( components.getLink(key).isRef() ){
+        LinkReferenceTuple link = new LinkReferenceTuple();
+        link.setName(key);
+        link.setRef(components.getLink(key).getRef());
+        linksTuples.add(link);
+        }
+        else {
+        LinkObjectTuple link = new LinkObjectTuple();
+        link.setName(key);
+        link.setLinkObject(LinkObject.parseLink(components.getLink(key)));
+        linksTuples.add(link);
+        }
         }
         componentsObject.setLinksTupleList(linksTuples);
         }
         if( components.getCallbacks() != null ){
         JastAddList<CallbacksTuple> callbacksTuples = new JastAddList<>();
         for( String key : components.getCallbacks().keySet() ){
-        CallbackObjectTuple callbackObjectTuple = new CallbackObjectTuple();
-        callbackObjectTuple.setName( key );
-        callbackObjectTuple.setCallbackObject( CallbackObject.parseCallback(components.getCallback(key)) );
-        callbacksTuples.add(callbackObjectTuple);
+        if( components.getCallback(key).isRef() ){
+        CallbackReferenceTuple callback = new CallbackReferenceTuple();
+        callback.setName(key);
+        callback.setRef(components.getLink(key).getRef());
+        callbacksTuples.add(callback);
+        }
+        else {
+        CallbackObjectTuple callback = new CallbackObjectTuple();
+        callback.setName(key);
+        callback.setCallbackObject(CallbackObject.parseCallback(components.getCallback(key)));
+        callbacksTuples.add(callback);
+        }
         }
         componentsObject.setCallbacksTupleList(callbacksTuples);
         }

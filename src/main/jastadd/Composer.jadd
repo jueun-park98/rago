@@ -657,7 +657,7 @@ public static OAuthFlow OAuthFlowObject.composeOAuthFlow (OAuthFlowObject oAuthF
         return oAuthFlow;
         }
 
-public static SecurityRequirement SecurityRequirementObject.composeSecurityRequiremnet (SecurityRequirementObject securityRequirementObject){
+public static SecurityRequirement SecurityRequirementObject.composeSecurityRequirement (SecurityRequirementObject securityRequirementObject){
         SecurityRequirement securityRequirement = new SecurityRequirement();
 
         if( securityRequirementObject.getNumSecurityRequirementTuple() != 0 ){
