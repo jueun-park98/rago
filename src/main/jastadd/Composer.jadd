@@ -30,7 +30,7 @@ aspect Composer {
         if( openAPIObject.getNumSecurityRequirementObject() != 0 ){
         List<SecurityRequirement> securityRequirements = new ArrayList<>();
         for( SecurityRequirementObject s : openAPIObject.getSecurityRequirementObjects() )
-        securityRequirements.add( SecurityRequirementObject.composeSecurityRequiremnet( s ) );
+        securityRequirements.add( SecurityRequirementObject.composeSecurityRequirement( s ) );
         api3.setSecurityRequirements(securityRequirements);
         }
         if( openAPIObject.getNumTagObject() != 0 ){
@@ -252,7 +252,7 @@ public static Operation OperationObject.composeOperation (OperationObject operat
         //    operation.setDeprecated( (boolean) operationObject.getDeprecatedBoolean().getDeprecatedBoolean() );
         if( operationObject.getNumSecurityRequirementObject() != 0 ){
         for( SecurityRequirementObject s : operationObject.getSecurityRequirementObjects() )
-        operation.addSecurityRequirement( SecurityRequirementObject.composeSecurityRequiremnet(s) );
+        operation.addSecurityRequirement( SecurityRequirementObject.composeSecurityRequirement(s) );
         }
         if( operationObject.getNumServerObject() != 0 ){
         for( ServerObject s : operationObject.getServerObjects() )

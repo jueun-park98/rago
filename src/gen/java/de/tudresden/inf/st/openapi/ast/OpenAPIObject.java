@@ -40,7 +40,7 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
         if( openAPIObject.getNumSecurityRequirementObject() != 0 ){
         List<SecurityRequirement> securityRequirements = new ArrayList<>();
         for( SecurityRequirementObject s : openAPIObject.getSecurityRequirementObjects() )
-        securityRequirements.add( SecurityRequirementObject.composeSecurityRequiremnet( s ) );
+        securityRequirements.add( SecurityRequirementObject.composeSecurityRequirement( s ) );
         api3.setSecurityRequirements(securityRequirements);
         }
         if( openAPIObject.getNumTagObject() != 0 ){

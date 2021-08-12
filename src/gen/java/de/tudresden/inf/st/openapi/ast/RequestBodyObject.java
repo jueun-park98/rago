@@ -33,7 +33,7 @@ public class RequestBodyObject extends RequestBody implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:377
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:441
    */
   public static RequestBodyObject parseRequestBody(org.openapi4j.parser.model.v3.RequestBody requestBody){
         RequestBodyObject requestBodyObject = new RequestBodyObject();

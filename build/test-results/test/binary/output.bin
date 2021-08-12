@@ -1,3 +1,9 @@
-+Loading expression DSL file 'uspto.json'.
+7Loading expression DSL file 'api-with-examples.json'.
+$Is the source object valid? : true
+'Is the generated object valid? : true
+6Loading expression DSL file 'callback-example.json'.
+$Is the source object valid? : true
+'Is the generated object valid? : true
+2Loading expression DSL file 'link-example.json'.
 $Is the source object valid? : true
 'Is the generated object valid? : true

@@ -31,7 +31,7 @@ public class TagObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:524
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:588
    */
   public static TagObject parseTag(org.openapi4j.parser.model.v3.Tag tag){
         TagObject tagObject = new TagObject();

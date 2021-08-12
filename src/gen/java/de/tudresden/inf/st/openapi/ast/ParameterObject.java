@@ -57,7 +57,7 @@ public class ParameterObject extends Param implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:341
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:405
    */
   public static ParameterObject parseParameter(Parameter parameter){
         ParameterObject parameterObject = new ParameterObject();

@@ -15,7 +15,7 @@ import java.util.*;
 public class PathsObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:200
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:264
    */
   public static PathsObject parsePaths(OpenApi3 api3){
         PathsObject pathsObject = new PathsObject();

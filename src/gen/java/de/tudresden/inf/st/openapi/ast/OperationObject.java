@@ -54,7 +54,7 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
         //    operation.setDeprecated( (boolean) operationObject.getDeprecatedBoolean().getDeprecatedBoolean() );
         if( operationObject.getNumSecurityRequirementObject() != 0 ){
         for( SecurityRequirementObject s : operationObject.getSecurityRequirementObjects() )
-        operation.addSecurityRequirement( SecurityRequirementObject.composeSecurityRequiremnet(s) );
+        operation.addSecurityRequirement( SecurityRequirementObject.composeSecurityRequirement(s) );
         }
         if( operationObject.getNumServerObject() != 0 ){
         for( ServerObject s : operationObject.getServerObjects() )
@@ -65,7 +65,7 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:272
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:336
    */
   public static OperationObject parseOperation(Operation operation){
         OperationObject operationObject = new OperationObject();

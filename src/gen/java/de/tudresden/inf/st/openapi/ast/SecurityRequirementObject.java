@@ -17,7 +17,7 @@ public class SecurityRequirementObject extends ASTNode<ASTNode> implements Clone
    * @aspect Composer
    * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:660
    */
-  public static SecurityRequirement composeSecurityRequiremnet (SecurityRequirementObject securityRequirementObject){
+  public static SecurityRequirement composeSecurityRequirement (SecurityRequirementObject securityRequirementObject){
         SecurityRequirement securityRequirement = new SecurityRequirement();
 
         if( securityRequirementObject.getNumSecurityRequirementTuple() != 0 ){
@@ -35,7 +35,7 @@ public class SecurityRequirementObject extends ASTNode<ASTNode> implements Clone
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:745
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:809
    */
   public static SecurityRequirementObject parseSecurityRequirement(SecurityRequirement securityRequirement){
         SecurityRequirementObject securityRequirementObject = new SecurityRequirementObject();

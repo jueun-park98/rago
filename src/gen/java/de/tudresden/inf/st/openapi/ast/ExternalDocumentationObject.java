@@ -28,7 +28,7 @@ public class ExternalDocumentationObject extends ASTNode<ASTNode> implements Clo
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:331
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:395
    */
   public static ExternalDocumentationObject parseExternalDocs(ExternalDocs externalDocs){
         ExternalDocumentationObject externalDocumentationObject = new ExternalDocumentationObject();
