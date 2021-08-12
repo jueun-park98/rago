@@ -3,19 +3,21 @@ package de.tudresden.inf.st.openapi.ast;
 import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
+import org.openapi4j.core.model.reference.Reference;
 import java.io.IOException;
 import java.util.*;
+import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:80
- * @astdecl RequestBodyObject : RequestBody ::= <Description:String> ContentTuple* <Required:Object>;
- * @production RequestBodyObject : {@link RequestBody} ::= <span class="component">&lt;Description:String&gt;</span> <span class="component">{@link ContentTuple}*</span> <span class="component">&lt;Required:Object&gt;</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:77
+ * @astdecl RequestBodyObject : ASTNode ::= <Description:String> ContentTuple* <Required:Boolean> <Ref:String>;
+ * @production RequestBodyObject : {@link ASTNode} ::= <span class="component">&lt;Description:String&gt;</span> <span class="component">{@link ContentTuple}*</span> <span class="component">&lt;Required:Boolean&gt;</span> <span class="component">&lt;Ref:String&gt;</span>;
 
  */
-public class RequestBodyObject extends RequestBody implements Cloneable {
+public class RequestBodyObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:314
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:383
    */
   public static org.openapi4j.parser.model.v3.RequestBody composeRequestBody (RequestBodyObject requestBodyObject){
         org.openapi4j.parser.model.v3.RequestBody requestBody = new org.openapi4j.parser.model.v3.RequestBody();
@@ -27,13 +29,15 @@ public class RequestBodyObject extends RequestBody implements Cloneable {
         if( !requestBodyObject.getDescription().isEmpty() )
         requestBody.setDescription(requestBodyObject.getDescription());
         if( requestBodyObject.getRequired() != null )
-        requestBody.setRequired((boolean)requestBodyObject.getRequired());
+        requestBody.setRequired(requestBodyObject.getRequired());
+        if( !requestBodyObject.getRef().isEmpty() )
+            requestBody.setRef(requestBodyObject.getRef());
 
         return requestBody;
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:441
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:453
    */
   public static RequestBodyObject parseRequestBody(org.openapi4j.parser.model.v3.RequestBody requestBody){
         RequestBodyObject requestBodyObject = new RequestBodyObject();
@@ -46,6 +50,8 @@ public class RequestBodyObject extends RequestBody implements Cloneable {
         requestBodyObject.setDescription(requestBody.getDescription());
         if( requestBody.getRequired() != null )
         requestBodyObject.setRequired( requestBody.getRequired() );
+        if( requestBody.isRef() )
+            requestBodyObject.setRef(requestBody.getRef());
 
         return requestBodyObject;
         }
@@ -70,49 +76,50 @@ public class RequestBodyObject extends RequestBody implements Cloneable {
    * @declaredat ASTNode:14
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Description", "ContentTuple", "Required"},
-    type = {"String", "JastAddList<ContentTuple>", "Object"},
-    kind = {"Token", "List", "Token"}
+    name = {"Description", "ContentTuple", "Required", "Ref"},
+    type = {"String", "JastAddList<ContentTuple>", "Boolean", "String"},
+    kind = {"Token", "List", "Token", "Token"}
   )
-  public RequestBodyObject(String p0, JastAddList<ContentTuple> p1, Object p2) {
+  public RequestBodyObject(String p0, JastAddList<ContentTuple> p1, Boolean p2, String p3) {
     setDescription(p0);
     setChild(p1, 0);
     setRequired(p2);
+    setRef(p3);
   }
   /** @apilevel low-level 
-   * @declaredat ASTNode:25
+   * @declaredat ASTNode:26
    */
   protected int numChildren() {
     return 1;
   }
   /**
    * @apilevel internal
-   * @declaredat ASTNode:31
+   * @declaredat ASTNode:32
    */
   public boolean mayHaveRewrite() {
     return false;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:35
+   * @declaredat ASTNode:36
    */
   public void flushAttrCache() {
     super.flushAttrCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:39
+   * @declaredat ASTNode:40
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:43
+   * @declaredat ASTNode:44
    */
   public RequestBodyObject clone() throws CloneNotSupportedException {
     RequestBodyObject node = (RequestBodyObject) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:48
+   * @declaredat ASTNode:49
    */
   public RequestBodyObject copy() {
     try {
@@ -132,7 +139,7 @@ public class RequestBodyObject extends RequestBody implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:67
+   * @declaredat ASTNode:68
    */
   @Deprecated
   public RequestBodyObject fullCopy() {
@@ -143,7 +150,7 @@ public class RequestBodyObject extends RequestBody implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:77
+   * @declaredat ASTNode:78
    */
   public RequestBodyObject treeCopyNoTransform() {
     RequestBodyObject tree = (RequestBodyObject) copy();
@@ -164,7 +171,7 @@ public class RequestBodyObject extends RequestBody implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:97
+   * @declaredat ASTNode:98
    */
   public RequestBodyObject treeCopy() {
     RequestBodyObject tree = (RequestBodyObject) copy();
@@ -180,10 +187,10 @@ public class RequestBodyObject extends RequestBody implements Cloneable {
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:111
+   * @declaredat ASTNode:112
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node) && (tokenString_Description == ((RequestBodyObject) node).tokenString_Description) && (tokenObject_Required == ((RequestBodyObject) node).tokenObject_Required);    
+    return super.is$Equal(node) && (tokenString_Description == ((RequestBodyObject) node).tokenString_Description) && (tokenBoolean_Required == ((RequestBodyObject) node).tokenBoolean_Required) && (tokenString_Ref == ((RequestBodyObject) node).tokenString_Ref);    
   }
   /**
    * Replaces the lexeme Description.
@@ -320,20 +327,40 @@ public class RequestBodyObject extends RequestBody implements Cloneable {
    * @param value The new value for the lexeme Required.
    * @apilevel high-level
    */
-  public void setRequired(Object value) {
-    tokenObject_Required = value;
+  public void setRequired(Boolean value) {
+    tokenBoolean_Required = value;
   }
   /** @apilevel internal 
    */
-  protected Object tokenObject_Required;
+  protected Boolean tokenBoolean_Required;
   /**
    * Retrieves the value for the lexeme Required.
    * @return The value for the lexeme Required.
    * @apilevel high-level
    */
   @ASTNodeAnnotation.Token(name="Required")
-  public Object getRequired() {
-    return tokenObject_Required;
+  public Boolean getRequired() {
+    return tokenBoolean_Required;
+  }
+  /**
+   * Replaces the lexeme Ref.
+   * @param value The new value for the lexeme Ref.
+   * @apilevel high-level
+   */
+  public void setRef(String value) {
+    tokenString_Ref = value;
+  }
+  /** @apilevel internal 
+   */
+  protected String tokenString_Ref;
+  /**
+   * Retrieves the value for the lexeme Ref.
+   * @return The value for the lexeme Ref.
+   * @apilevel high-level
+   */
+  @ASTNodeAnnotation.Token(name="Ref")
+  public String getRef() {
+    return tokenString_Ref != null ? tokenString_Ref : "";
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

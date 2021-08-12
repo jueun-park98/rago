@@ -3,8 +3,10 @@ package de.tudresden.inf.st.openapi.ast;
 import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
+import org.openapi4j.core.model.reference.Reference;
 import java.io.IOException;
 import java.util.*;
+import java.net.URL;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:5
@@ -15,27 +17,48 @@ import java.util.*;
 public class ComponentsObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:124
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:126
    */
   public static Components composeComponents (ComponentsObject componentsObject){
         Components components = new Components();
 
         if( componentsObject.getNumSchemasTuple() != 0 ){
         Map<String, org.openapi4j.parser.model.v3.Schema> schemas = new HashMap<>();
-        for( SchemasTuple t : componentsObject.getSchemasTuples() )
-        schemas.put(((SchemaObjectTuple)t).getName(), SchemaObject.composeSchema(((SchemaObjectTuple)t).getSchemaObject()) );
+        for( SchemasTuple t : componentsObject.getSchemasTuples() ){
+        if( t instanceof SchemaReferenceTuple ){
+        org.openapi4j.parser.model.v3.Schema schema = new org.openapi4j.parser.model.v3.Schema();
+        schema.setRef(((SchemaReferenceTuple) t).getRef());
+        schemas.put(((SchemaReferenceTuple) t).getName(), schema);
+        }
+        else
+        schemas.put(((SchemaObjectTuple)t).getName(), SchemaObject.composeSchema(((SchemaObjectTuple)t).getSchemaObject()));
+        }
         components.setSchemas(schemas);
         }
         if( componentsObject.getNumResponsesTuple() != 0 ){
         Map<String, Response> responses = new HashMap<>();
-        for( ResponsesTuple t : componentsObject.getResponsesTuples() )
+        for( ResponsesTuple t : componentsObject.getResponsesTuples() ){
+        if( t instanceof ResponseReferenceTuple ){
+        Response response = new Response();
+        response.setRef(((ResponseReferenceTuple) t).getRef());
+        responses.put(((ResponseReferenceTuple) t).getName(), response);
+        }
+        else
         responses.put(((ResponseObjectTuple)t).getName(), ResponseObject.composeResponse(((ResponseObjectTuple)t).getResponseObject()));
+        }
         components.setResponses(responses);
         }
         if( componentsObject.getNumParameterTuple() != 0 ){
         Map<String, Parameter> parameters = new HashMap<>();
-        for( ParameterTuple t : componentsObject.getParameterTuples() )
-        parameters.put(((ParameterObjectTuple)t).getName(), ParameterObject.composeParameter(((ParameterObjectTuple) t).getParameterObject()));
+        for( ParameterTuple t : componentsObject.getParameterTuples() ){
+        if( t instanceof ParameterReferenceTuple ){
+        Parameter parameter = new Parameter();
+        parameter.setRef(((ParameterReferenceTuple) t).getRef());
+        parameters.put(((ParameterReferenceTuple) t).getName(), parameter);
+        }
+        else
+        parameters.put(((ParameterObjectTuple)t).getName(), ParameterObject.composeParameter(((ParameterObjectTuple)t).getParameterObject()));
+        }
         components.setParameters(parameters);
         }
         if( componentsObject.getNumExamplesTuple() != 0 ){
@@ -46,32 +69,67 @@ public class ComponentsObject extends ASTNode<ASTNode> implements Cloneable {
         }
         if( componentsObject.getNumRequestBodiesTuple() != 0 ){
         Map<String, org.openapi4j.parser.model.v3.RequestBody> requestBodies = new HashMap<>();
-        for( RequestBodiesTuple t : componentsObject.getRequestBodiesTuples() )
+        for( RequestBodiesTuple t : componentsObject.getRequestBodiesTuples() ){
+        if( t instanceof RequestBodyReferenceTuple ){
+        org.openapi4j.parser.model.v3.RequestBody requestBody = new org.openapi4j.parser.model.v3.RequestBody();
+        requestBody.setRef(((RequestBodyReferenceTuple) t).getRef());
+        requestBodies.put(((RequestBodyReferenceTuple) t).getName(), requestBody);
+        }
+        else
         requestBodies.put(((RequestBodyObjectTuple)t).getName(), RequestBodyObject.composeRequestBody(((RequestBodyObjectTuple)t).getRequestBodyObject()));
+        }
         components.setRequestBodies(requestBodies);
         }
         if( componentsObject.getNumHeadersTuple() != 0 ){
         Map<String, Header> headers = new HashMap<>();
-        for( HeadersTuple t : componentsObject.getHeadersTuples() )
+        for( HeadersTuple t : componentsObject.getHeadersTuples() ){
+        if( t instanceof HeaderReferenceTuple ){
+        Header header = new Header();
+        header.setRef(((HeaderReferenceTuple) t).getRef());
+        headers.put(((HeaderReferenceTuple) t).getName(), header);
+        }
+        else
         headers.put(((HeaderObjectTuple)t).getName(), HeaderObject.composeHeader(((HeaderObjectTuple)t).getHeaderObject()));
+        }
         components.setHeaders(headers);
         }
         if( componentsObject.getNumSecuritySchemesTuple() != 0 ){
         Map<String, SecurityScheme> securitySchemes = new HashMap<>();
-        for( SecuritySchemesTuple t : componentsObject.getSecuritySchemesTuples() )
+        for( SecuritySchemesTuple t : componentsObject.getSecuritySchemesTuples() ){
+        if( t instanceof SecuritySchemeReferenceTuple ){
+        SecurityScheme securityScheme = new SecurityScheme();
+        securityScheme.setRef(((SecuritySchemeReferenceTuple) t).getRef());
+        securitySchemes.put(((SecuritySchemeReferenceTuple) t).getName(), securityScheme);
+        }
+        else
         securitySchemes.put(((SecuritySchemeObjectTuple)t).getName(), SecuritySchemeObject.composeSecurityScheme(((SecuritySchemeObjectTuple)t).getSecuritySchemeObject()));
+        }
         components.setSecuritySchemes(securitySchemes);
         }
         if( componentsObject.getNumLinksTuple() != 0 ){
         Map<String, Link> links = new HashMap<>();
-        for( LinksTuple t : componentsObject.getLinksTuples() )
+        for( LinksTuple t : componentsObject.getLinksTuples() ){
+        if( t instanceof LinkReferenceTuple ){
+        Link link = new Link();
+        link.setRef(((LinkReferenceTuple) t).getRef());
+        links.put(((LinkReferenceTuple) t).getName(), link);
+        }
+        else
         links.put(((LinkObjectTuple)t).getName(), LinkObject.composeLink(((LinkObjectTuple)t).getLinkObject()));
+        }
         components.setLinks(links);
         }
         if( componentsObject.getNumCallbacksTuple() != 0 ){
         Map<String, Callback> callbacks = new HashMap<>();
-        for( CallbacksTuple t : componentsObject.getCallbacksTuples() )
+        for( CallbacksTuple t : componentsObject.getCallbacksTuples() ){
+        if( t instanceof CallbackReferenceTuple ){
+        Callback callback = new Callback();
+        callback.setRef(((CallbackReferenceTuple) t).getRef());
+        callbacks.put(((CallbackReferenceTuple) t).getName(), callback);
+        }
+        else
         callbacks.put(((CallbackObjectTuple)t).getName(), CallbackObject.composeCallback(((CallbackObjectTuple)t).getCallbackObject()));
+        }
         components.setCallbacks(callbacks);
         }
 

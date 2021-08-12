@@ -3,11 +3,13 @@ package de.tudresden.inf.st.openapi.ast;
 import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
+import org.openapi4j.core.model.reference.Reference;
 import java.io.IOException;
 import java.util.*;
+import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:118
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:112
  * @astdecl CallbackObject : ASTNode ::= Expression*;
  * @production CallbackObject : {@link ASTNode} ::= <span class="component">{@link Expression}*</span>;
 
@@ -15,7 +17,7 @@ import java.util.*;
 public class CallbackObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:397
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:471
    */
   public static Callback composeCallback (CallbackObject callbackObject){
         Callback callback = new Callback();
@@ -31,7 +33,7 @@ public class CallbackObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:514
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:531
    */
   public static CallbackObject parseCallback(Callback callback){
         CallbackObject callbackObject = new CallbackObject();

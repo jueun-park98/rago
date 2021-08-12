@@ -3,8 +3,10 @@ package de.tudresden.inf.st.openapi.ast;
 import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
+import org.openapi4j.core.model.reference.Reference;
 import java.io.IOException;
 import java.util.*;
+import java.net.URL;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:2
@@ -15,7 +17,7 @@ import java.util.*;
 public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:10
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:12
    */
   public static OpenApi3 composeOpenAPI (OpenAPIObject openAPIObject){
         OpenApi3 api3 = new OpenApi3();

@@ -3,11 +3,13 @@ package de.tudresden.inf.st.openapi.ast;
 import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
+import org.openapi4j.core.model.reference.Reference;
 import java.io.IOException;
 import java.util.*;
+import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:100
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:94
  * @astdecl MediaTypeObject : ASTNode ::= [SchemaObject] <Example:Object> ExamplesTuple* EncodingTuple*;
  * @production MediaTypeObject : {@link ASTNode} ::= <span class="component">[{@link SchemaObject}]</span> <span class="component">&lt;Example:Object&gt;</span> <span class="component">{@link ExamplesTuple}*</span> <span class="component">{@link EncodingTuple}*</span>;
 
@@ -15,13 +17,16 @@ import java.util.*;
 public class MediaTypeObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:329
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:400
    */
   public static MediaType composeMediaType (MediaTypeObject mediaTypeObject){
         MediaType mediaType = new MediaType();
 
-        if( mediaTypeObject.getSchemaObject() != null )
-        mediaType.setSchema( SchemaObject.composeSchema(mediaTypeObject.getSchemaObject()) );
+        if( mediaTypeObject.getSchemaObject() != null ) {
+        Schema schema = new Schema();
+        schema = SchemaObject.composeSchema(mediaTypeObject.getSchemaObject());
+        mediaType.setSchema(schema);
+        }
         if( mediaTypeObject.getExample() != null )
         mediaType.setExample( mediaTypeObject.getExample() );
         if( mediaTypeObject.getNumExamplesTuple() != 0 ){
@@ -41,13 +46,16 @@ public class MediaTypeObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:456
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:470
    */
   public static MediaTypeObject parseMediaType(MediaType mediaType){
         MediaTypeObject mediaTypeObject = new MediaTypeObject();
 
-        if( mediaType.getSchema() != null )
-        mediaTypeObject.setSchemaObject(SchemaObject.parseSchema(mediaType.getSchema()));
+        if( mediaType.getSchema() != null ) {
+        SchemaObject schema = new SchemaObject();
+        schema = SchemaObject.parseSchema(mediaType.getSchema());
+        mediaTypeObject.setSchemaObject(schema);
+        }
         if( mediaType.getExample() != null )
         mediaTypeObject.setExample( mediaType.getExample() );
         if( mediaType.getExamples() != null ){

@@ -57,7 +57,7 @@ CallbackReferenceTuple:CallbacksTuple ::= <Name> <Ref>;
 
 //Paths Object
 //PathsObject ::= <Ref> PathItemObject;
-PathItemObject ::= <Ref> <Summary> <Description> [Get] [Put] [Post] [Delete] [Options] [Head] [Patch] [Trace] ServerObject* Param*;
+PathItemObject ::= <Ref> <Summary> <Description> [Get] [Put] [Post] [Delete] [Options] [Head] [Patch] [Trace] ServerObject* ParameterObject*;
 
 //Path Item Object
 //PathItemObject ::= <Summary> <Description> [Get] [Put] [Post] [Delete] [Options] [Head] [Patch] [Trace] Server* Parameter*;
@@ -69,26 +69,20 @@ Options ::= OperationObject;
 Head ::= OperationObject;
 Patch ::= OperationObject;
 Trace ::= OperationObject;
-abstract Param;
-ParameterReference:Param ::= <Name> <Ref>;
-ParameterObject:Param ::= <Name> <In> <Description> <Required:boolean> <DeprecatedBoolean:Object> <AllowEmptyValue:Object> <Style> <Explode:Object> <AllowReserved:Object> [SchemaObject] <Example:Object> ExamplesTuple* ContentTuple*;
+ParameterObject ::= <Name> <In> <Description> <Required:Boolean> <DeprecatedBoolean:Boolean> <AllowEmptyValue:Boolean> <Style> <Explode:Boolean> <AllowReserved:Boolean> [SchemaObject] <Example:Object> ExamplesTuple* ContentTuple* <Ref>;
 
 //Operation Object
-OperationObject ::= Tag* <Summary> <Description> [ExternalDocumentationObject] <OperationID> Param* [RequestBody] ResponsesObject CallbacksTuple* [DeprecatedBoolean] SecurityRequirementObject* ServerObject*;
+OperationObject ::= Tag* <Summary> <Description> [ExternalDocumentationObject] <OperationID> ParameterObject* [RequestBodyObject] ResponsesObject CallbacksTuple* [DeprecatedBoolean] SecurityRequirementObject* ServerObject*;
 Tag ::= <Tag:String>;
-abstract RequestBody;
-RequestBodyObject:RequestBody ::= <Description> ContentTuple* <Required:Object>;
-RequestBodyReference:RequestBody ::= <Ref>;
-DeprecatedBoolean ::= <DeprecatedBoolean:Object>;
+RequestBodyObject ::= <Description> ContentTuple* <Required:Boolean> <Ref>;
+DeprecatedBoolean ::= <DeprecatedBoolean:Boolean>;
 
 //External Documentation Object
 //ExternalDocumentationObject ::= <Description:Object> <Url>;
 
 //Parameter Object
 //ParameterObject ::= Name In <Description:Object> <Required> [Deprecated] <AllowEmptyValue:Object> <Style:Object> <Explode:Object> <AllowReserved:Object> [Schema] <Example:Object> ExamplesTuple* ContentTuple*;
-abstract Schema;
-SchemaReference:Schema ::= <Name> <Ref>;
-SchemaObject:Schema ::= [AdditionalProperties] <AdditionalPropertiesAllowed:Object> <DefaultValue:Object> <Description> <DeprecatedBoolean:Object> [DiscriminatorObject] EnumObj* <Example:Object> <ExclusiveMaximum:Object> <ExclusiveMinimum:Object> [ExternalDocumentationObject] <Format> [ItemsSchema] <Maximum:Object> <Minimum:Object> <MaxItems:Object> <MinItems:Object> <MaxLength:Object> <MinLength:Object> <MaxProperties:Object> <MinProperties:Object> <MultipleOf:Object> [NotSchema] <Nullable:Object> <Pattern> PropertyItem* RequiredField* AllOfSchema* AnyOfSchema* OneOfSchema* <ReadOnly:Object> <WriteOnly:Object> <Type> <Title> <UniqueItems:Object> [XmlObject];
+SchemaObject ::= [AdditionalProperties] <AdditionalPropertiesAllowed:Object> <DefaultValue:Object> <Description> <DeprecatedBoolean:Object> [DiscriminatorObject] EnumObj* <Example:Object> <ExclusiveMaximum:Object> <ExclusiveMinimum:Object> [ExternalDocumentationObject] <Format> [ItemsSchema] <Maximum:Object> <Minimum:Object> <MaxItems:Object> <MinItems:Object> <MaxLength:Object> <MinLength:Object> <MaxProperties:Object> <MinProperties:Object> <MultipleOf:Object> [NotSchema] <Nullable:Object> <Pattern> PropertyItem* RequiredField* AllOfSchema* AnyOfSchema* OneOfSchema* <ReadOnly:Object> <WriteOnly:Object> <Type> <Title> <UniqueItems:Object> [XmlObject] <Ref>;
 abstract ContentTuple;
 ContentObjectTuple:ContentTuple ::= <Name> MediaTypeObject;
 ContentReferenceTuple:ContentTuple ::= <Name> <Ref>;
@@ -126,7 +120,7 @@ LinkObject ::= <OperationRef> <OperationID> LinkParameterTuple* <LinkRequestBody
 LinkParameterTuple ::= <LinkParameterKey> <LinkParameterValue>;
 
 //Header Object
-HeaderObject ::= <Description> <Required:boolean> <DeprecatedBoolean:Object> <AllowEmptyValue:Object> <Style> <Explode:Object> <AllowReserved:Object> [Schema] <Example:Object> ExamplesTuple* ContentTuple*;
+HeaderObject ::= <Description> <Required:boolean> <DeprecatedBoolean:Object> <AllowEmptyValue:Object> <Style> <Explode:Object> <AllowReserved:Object> [SchemaObject] <Example:Object> ExamplesTuple* ContentTuple*;
 
 //Tag Object
 TagObject ::= <Name> <Description> [ExternalDocumentationObject];

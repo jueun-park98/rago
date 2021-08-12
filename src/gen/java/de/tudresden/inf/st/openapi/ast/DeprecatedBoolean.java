@@ -3,13 +3,15 @@ package de.tudresden.inf.st.openapi.ast;
 import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
+import org.openapi4j.core.model.reference.Reference;
 import java.io.IOException;
 import java.util.*;
+import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:82
- * @astdecl DeprecatedBoolean : ASTNode ::= <DeprecatedBoolean:Object>;
- * @production DeprecatedBoolean : {@link ASTNode} ::= <span class="component">&lt;DeprecatedBoolean:Object&gt;</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:78
+ * @astdecl DeprecatedBoolean : ASTNode ::= <DeprecatedBoolean:Boolean>;
+ * @production DeprecatedBoolean : {@link ASTNode} ::= <span class="component">&lt;DeprecatedBoolean:Boolean&gt;</span>;
 
  */
 public class DeprecatedBoolean extends ASTNode<ASTNode> implements Cloneable {
@@ -33,10 +35,10 @@ public class DeprecatedBoolean extends ASTNode<ASTNode> implements Cloneable {
    */
   @ASTNodeAnnotation.Constructor(
     name = {"DeprecatedBoolean"},
-    type = {"Object"},
+    type = {"Boolean"},
     kind = {"Token"}
   )
-  public DeprecatedBoolean(Object p0) {
+  public DeprecatedBoolean(Boolean p0) {
     setDeprecatedBoolean(p0);
   }
   /** @apilevel low-level 
@@ -143,27 +145,27 @@ public class DeprecatedBoolean extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:107
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node) && (tokenObject_DeprecatedBoolean == ((DeprecatedBoolean) node).tokenObject_DeprecatedBoolean);    
+    return super.is$Equal(node) && (tokenBoolean_DeprecatedBoolean == ((DeprecatedBoolean) node).tokenBoolean_DeprecatedBoolean);    
   }
   /**
    * Replaces the lexeme DeprecatedBoolean.
    * @param value The new value for the lexeme DeprecatedBoolean.
    * @apilevel high-level
    */
-  public void setDeprecatedBoolean(Object value) {
-    tokenObject_DeprecatedBoolean = value;
+  public void setDeprecatedBoolean(Boolean value) {
+    tokenBoolean_DeprecatedBoolean = value;
   }
   /** @apilevel internal 
    */
-  protected Object tokenObject_DeprecatedBoolean;
+  protected Boolean tokenBoolean_DeprecatedBoolean;
   /**
    * Retrieves the value for the lexeme DeprecatedBoolean.
    * @return The value for the lexeme DeprecatedBoolean.
    * @apilevel high-level
    */
   @ASTNodeAnnotation.Token(name="DeprecatedBoolean")
-  public Object getDeprecatedBoolean() {
-    return tokenObject_DeprecatedBoolean;
+  public Boolean getDeprecatedBoolean() {
+    return tokenBoolean_DeprecatedBoolean;
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

@@ -29,11 +29,11 @@ public abstract class AbsRefOpenApiSchema<M extends OpenApiSchema<M>> extends Ab
     return ref != null;
   }
 
-  protected void setRef(String ref) {
+  public void setRef(String ref) {
     this.ref = ref;
   }
 
-  protected void setCanonicalRef(String canonicalRef) {
+  public void setCanonicalRef(String canonicalRef) {
     this.canonicalRef = canonicalRef;
   }
 

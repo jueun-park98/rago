@@ -3,11 +3,13 @@ package de.tudresden.inf.st.openapi.ast;
 import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
+import org.openapi4j.core.model.reference.Reference;
 import java.io.IOException;
 import java.util.*;
+import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:111
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:105
  * @astdecl ResponseObject : HTTPStatusCode ::= <Name:String> <Description:String> HeadersTuple* ContentTuple* LinksTuple*;
  * @production ResponseObject : {@link HTTPStatusCode} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">{@link HeadersTuple}*</span> <span class="component">{@link ContentTuple}*</span> <span class="component">{@link LinksTuple}*</span>;
 
@@ -15,7 +17,7 @@ import java.util.*;
 public class ResponseObject extends HTTPStatusCode implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:371
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:445
    */
   public static Response composeResponse (ResponseObject responseObject){
         Response response = new Response();
@@ -44,7 +46,7 @@ public class ResponseObject extends HTTPStatusCode implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:493
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:510
    */
   public static ResponseObject parseResponse(Response response){
         ResponseObject responseObject = new ResponseObject();

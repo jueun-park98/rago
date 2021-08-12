@@ -3,11 +3,13 @@ package de.tudresden.inf.st.openapi.ast;
 import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
+import org.openapi4j.core.model.reference.Reference;
 import java.io.IOException;
 import java.util.*;
+import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:170
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:164
  * @astdecl SecurityRequirementTuple : ASTNode ::= <Name:String> SecurityRequirementValue*;
  * @production SecurityRequirementTuple : {@link ASTNode} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">{@link SecurityRequirementValue}*</span>;
 

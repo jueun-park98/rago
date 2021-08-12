@@ -32,7 +32,7 @@ public class OpenAPIMain {
         OpenApi3 api3;
         ValidationResults results = new ValidationResults();
 
-        String fileName = "callback-example.json";
+        String fileName = "link-example.json";
         FileWriter writer = new FileWriter("./gen-api-ex/callback-example_generated.json");
 
         URL expUrl = OpenAPIMain.class.getClassLoader().getResource(fileName);
@@ -58,8 +58,12 @@ public class OpenAPIMain {
         System.out.println(results.isValid());
         System.out.println(api.toNode().equals(api3.toNode()));
 
-        writer.write(api3.toNode().toPrettyString());
-        writer.close();
+        if( api.getPath("/2.0/repositories/{username}").getGet().getResponse("200").getContentMediaType("application/json").getSchema() != null )
+            System.out.println(api.getPath("/2.0/repositories/{username}").getGet().getResponse("200").getContentMediaType("application/json").getSchema().getItemsSchema().getRef());
+
+
+        //writer.write(api3.toNode().toPrettyString());
+        //writer.close();
 
         if (args.length > 0) {
             fileName = args[0];

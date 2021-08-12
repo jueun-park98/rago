@@ -3,19 +3,21 @@ package de.tudresden.inf.st.openapi.ast;
 import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
+import org.openapi4j.core.model.reference.Reference;
 import java.io.IOException;
 import java.util.*;
+import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:74
- * @astdecl ParameterObject : Param ::= <Name:String> <In:String> <Description:String> <Required:boolean> <DeprecatedBoolean:Object> <AllowEmptyValue:Object> <Style:String> <Explode:Object> <AllowReserved:Object> [SchemaObject] <Example:Object> ExamplesTuple* ContentTuple*;
- * @production ParameterObject : {@link Param} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;In:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;Required:boolean&gt;</span> <span class="component">&lt;DeprecatedBoolean:Object&gt;</span> <span class="component">&lt;AllowEmptyValue:Object&gt;</span> <span class="component">&lt;Style:String&gt;</span> <span class="component">&lt;Explode:Object&gt;</span> <span class="component">&lt;AllowReserved:Object&gt;</span> <span class="component">[{@link SchemaObject}]</span> <span class="component">&lt;Example:Object&gt;</span> <span class="component">{@link ExamplesTuple}*</span> <span class="component">{@link ContentTuple}*</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:72
+ * @astdecl ParameterObject : ASTNode ::= <Name:String> <In:String> <Description:String> <Required:Boolean> <DeprecatedBoolean:Boolean> <AllowEmptyValue:Boolean> <Style:String> <Explode:Boolean> <AllowReserved:Boolean> [SchemaObject] <Example:Object> ExamplesTuple* ContentTuple* <Ref:String>;
+ * @production ParameterObject : {@link ASTNode} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;In:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;Required:Boolean&gt;</span> <span class="component">&lt;DeprecatedBoolean:Boolean&gt;</span> <span class="component">&lt;AllowEmptyValue:Boolean&gt;</span> <span class="component">&lt;Style:String&gt;</span> <span class="component">&lt;Explode:Boolean&gt;</span> <span class="component">&lt;AllowReserved:Boolean&gt;</span> <span class="component">[{@link SchemaObject}]</span> <span class="component">&lt;Example:Object&gt;</span> <span class="component">{@link ExamplesTuple}*</span> <span class="component">{@link ContentTuple}*</span> <span class="component">&lt;Ref:String&gt;</span>;
 
  */
-public class ParameterObject extends Param implements Cloneable {
+public class ParameterObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:275
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:340
    */
   public static Parameter composeParameter (ParameterObject parameterObject){
         Parameter parameter = new Parameter();
@@ -27,17 +29,21 @@ public class ParameterObject extends Param implements Cloneable {
         if( !parameterObject.getDescription().isEmpty() )
         parameter.setDescription( parameterObject.getDescription() );
         if( parameterObject.getDeprecatedBoolean() != null )
-        parameter.setDeprecated( (boolean) parameterObject.getDeprecatedBoolean() );
+        parameter.setDeprecated( parameterObject.getDeprecatedBoolean() );
         if( parameterObject.getStyle() != null )
         parameter.setStyle( parameter.getStyle() );
         if( parameterObject.getAllowReserved() != null )
-        parameter.setAllowReserved( (boolean) parameterObject.getAllowReserved() );
+        parameter.setAllowReserved( parameterObject.getAllowReserved() );
         if( parameterObject.getExplode() != null )
-        parameter.setExplode( (boolean) parameterObject.getExplode() );
+        parameter.setExplode( parameterObject.getExplode() );
         if( parameterObject.getAllowReserved() != null )
-        parameter.setAllowReserved( (boolean) parameterObject.getAllowReserved() );
-        if( parameterObject.getSchemaObject() != null )
-        parameter.setSchema( SchemaObject.composeSchema(parameterObject.getSchemaObject()) );
+        parameter.setAllowReserved( parameterObject.getAllowReserved() );
+        if( parameterObject.getSchemaObject() != null ){
+        Schema schema = new Schema();
+        schema = SchemaObject.composeSchema(parameterObject.getSchemaObject());
+        if( !parameterObject.getRef().isEmpty() )
+        schema.setRef(parameterObject.getRef());
+        parameter.setSchema(schema);}
         if( parameterObject.getExample() != null )
         parameter.setExample( parameterObject.getExample() );
         if( parameterObject.getNumExamplesTuple() != 0 ){
@@ -57,7 +63,7 @@ public class ParameterObject extends Param implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:405
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:412
    */
   public static ParameterObject parseParameter(Parameter parameter){
         ParameterObject parameterObject = new ParameterObject();
@@ -79,8 +85,13 @@ public class ParameterObject extends Param implements Cloneable {
         parameterObject.setExplode( parameter.getExplode() );
         if( parameter.getAllowReserved() != null )
         parameterObject.setAllowReserved( parameter.getAllowReserved() );
-        if( parameter.getSchema() != null )
-        parameterObject.setSchemaObject(SchemaObject.parseSchema(parameter.getSchema()));
+        if( parameter.getSchema() != null ){
+        SchemaObject schema = new SchemaObject();
+        schema = SchemaObject.parseSchema(parameter.getSchema());
+        if( parameter.getSchema().isRef() )
+        schema.setRef(parameter.getSchema().getRef());
+        parameterObject.setSchemaObject(schema);
+        }
         if( parameter.getExample() != null )
         parameterObject.setExample( parameter.getExample() );
         if( parameter.getExamples() != null ){
@@ -117,11 +128,11 @@ public class ParameterObject extends Param implements Cloneable {
    * @declaredat ASTNode:16
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Name", "In", "Description", "Required", "DeprecatedBoolean", "AllowEmptyValue", "Style", "Explode", "AllowReserved", "SchemaObject", "Example", "ExamplesTuple", "ContentTuple"},
-    type = {"String", "String", "String", "boolean", "Object", "Object", "String", "Object", "Object", "Opt<SchemaObject>", "Object", "JastAddList<ExamplesTuple>", "JastAddList<ContentTuple>"},
-    kind = {"Token", "Token", "Token", "Token", "Token", "Token", "Token", "Token", "Token", "Opt", "Token", "List", "List"}
+    name = {"Name", "In", "Description", "Required", "DeprecatedBoolean", "AllowEmptyValue", "Style", "Explode", "AllowReserved", "SchemaObject", "Example", "ExamplesTuple", "ContentTuple", "Ref"},
+    type = {"String", "String", "String", "Boolean", "Boolean", "Boolean", "String", "Boolean", "Boolean", "Opt<SchemaObject>", "Object", "JastAddList<ExamplesTuple>", "JastAddList<ContentTuple>", "String"},
+    kind = {"Token", "Token", "Token", "Token", "Token", "Token", "Token", "Token", "Token", "Opt", "Token", "List", "List", "Token"}
   )
-  public ParameterObject(String p0, String p1, String p2, boolean p3, Object p4, Object p5, String p6, Object p7, Object p8, Opt<SchemaObject> p9, Object p10, JastAddList<ExamplesTuple> p11, JastAddList<ContentTuple> p12) {
+  public ParameterObject(String p0, String p1, String p2, Boolean p3, Boolean p4, Boolean p5, String p6, Boolean p7, Boolean p8, Opt<SchemaObject> p9, Object p10, JastAddList<ExamplesTuple> p11, JastAddList<ContentTuple> p12, String p13) {
     setName(p0);
     setIn(p1);
     setDescription(p2);
@@ -135,41 +146,42 @@ public class ParameterObject extends Param implements Cloneable {
     setExample(p10);
     setChild(p11, 1);
     setChild(p12, 2);
+    setRef(p13);
   }
   /** @apilevel low-level 
-   * @declaredat ASTNode:37
+   * @declaredat ASTNode:38
    */
   protected int numChildren() {
     return 3;
   }
   /**
    * @apilevel internal
-   * @declaredat ASTNode:43
+   * @declaredat ASTNode:44
    */
   public boolean mayHaveRewrite() {
     return false;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:47
+   * @declaredat ASTNode:48
    */
   public void flushAttrCache() {
     super.flushAttrCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:51
+   * @declaredat ASTNode:52
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:55
+   * @declaredat ASTNode:56
    */
   public ParameterObject clone() throws CloneNotSupportedException {
     ParameterObject node = (ParameterObject) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:60
+   * @declaredat ASTNode:61
    */
   public ParameterObject copy() {
     try {
@@ -189,7 +201,7 @@ public class ParameterObject extends Param implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:79
+   * @declaredat ASTNode:80
    */
   @Deprecated
   public ParameterObject fullCopy() {
@@ -200,7 +212,7 @@ public class ParameterObject extends Param implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:89
+   * @declaredat ASTNode:90
    */
   public ParameterObject treeCopyNoTransform() {
     ParameterObject tree = (ParameterObject) copy();
@@ -221,7 +233,7 @@ public class ParameterObject extends Param implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:109
+   * @declaredat ASTNode:110
    */
   public ParameterObject treeCopy() {
     ParameterObject tree = (ParameterObject) copy();
@@ -237,10 +249,10 @@ public class ParameterObject extends Param implements Cloneable {
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:123
+   * @declaredat ASTNode:124
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node) && (tokenString_Name == ((ParameterObject) node).tokenString_Name) && (tokenString_In == ((ParameterObject) node).tokenString_In) && (tokenString_Description == ((ParameterObject) node).tokenString_Description) && (tokenboolean_Required == ((ParameterObject) node).tokenboolean_Required) && (tokenObject_DeprecatedBoolean == ((ParameterObject) node).tokenObject_DeprecatedBoolean) && (tokenObject_AllowEmptyValue == ((ParameterObject) node).tokenObject_AllowEmptyValue) && (tokenString_Style == ((ParameterObject) node).tokenString_Style) && (tokenObject_Explode == ((ParameterObject) node).tokenObject_Explode) && (tokenObject_AllowReserved == ((ParameterObject) node).tokenObject_AllowReserved) && (tokenObject_Example == ((ParameterObject) node).tokenObject_Example);    
+    return super.is$Equal(node) && (tokenString_Name == ((ParameterObject) node).tokenString_Name) && (tokenString_In == ((ParameterObject) node).tokenString_In) && (tokenString_Description == ((ParameterObject) node).tokenString_Description) && (tokenBoolean_Required == ((ParameterObject) node).tokenBoolean_Required) && (tokenBoolean_DeprecatedBoolean == ((ParameterObject) node).tokenBoolean_DeprecatedBoolean) && (tokenBoolean_AllowEmptyValue == ((ParameterObject) node).tokenBoolean_AllowEmptyValue) && (tokenString_Style == ((ParameterObject) node).tokenString_Style) && (tokenBoolean_Explode == ((ParameterObject) node).tokenBoolean_Explode) && (tokenBoolean_AllowReserved == ((ParameterObject) node).tokenBoolean_AllowReserved) && (tokenObject_Example == ((ParameterObject) node).tokenObject_Example) && (tokenString_Ref == ((ParameterObject) node).tokenString_Ref);    
   }
   /**
    * Replaces the lexeme Name.
@@ -307,60 +319,60 @@ public class ParameterObject extends Param implements Cloneable {
    * @param value The new value for the lexeme Required.
    * @apilevel high-level
    */
-  public void setRequired(boolean value) {
-    tokenboolean_Required = value;
+  public void setRequired(Boolean value) {
+    tokenBoolean_Required = value;
   }
   /** @apilevel internal 
    */
-  protected boolean tokenboolean_Required;
+  protected Boolean tokenBoolean_Required;
   /**
    * Retrieves the value for the lexeme Required.
    * @return The value for the lexeme Required.
    * @apilevel high-level
    */
   @ASTNodeAnnotation.Token(name="Required")
-  public boolean getRequired() {
-    return tokenboolean_Required;
+  public Boolean getRequired() {
+    return tokenBoolean_Required;
   }
   /**
    * Replaces the lexeme DeprecatedBoolean.
    * @param value The new value for the lexeme DeprecatedBoolean.
    * @apilevel high-level
    */
-  public void setDeprecatedBoolean(Object value) {
-    tokenObject_DeprecatedBoolean = value;
+  public void setDeprecatedBoolean(Boolean value) {
+    tokenBoolean_DeprecatedBoolean = value;
   }
   /** @apilevel internal 
    */
-  protected Object tokenObject_DeprecatedBoolean;
+  protected Boolean tokenBoolean_DeprecatedBoolean;
   /**
    * Retrieves the value for the lexeme DeprecatedBoolean.
    * @return The value for the lexeme DeprecatedBoolean.
    * @apilevel high-level
    */
   @ASTNodeAnnotation.Token(name="DeprecatedBoolean")
-  public Object getDeprecatedBoolean() {
-    return tokenObject_DeprecatedBoolean;
+  public Boolean getDeprecatedBoolean() {
+    return tokenBoolean_DeprecatedBoolean;
   }
   /**
    * Replaces the lexeme AllowEmptyValue.
    * @param value The new value for the lexeme AllowEmptyValue.
    * @apilevel high-level
    */
-  public void setAllowEmptyValue(Object value) {
-    tokenObject_AllowEmptyValue = value;
+  public void setAllowEmptyValue(Boolean value) {
+    tokenBoolean_AllowEmptyValue = value;
   }
   /** @apilevel internal 
    */
-  protected Object tokenObject_AllowEmptyValue;
+  protected Boolean tokenBoolean_AllowEmptyValue;
   /**
    * Retrieves the value for the lexeme AllowEmptyValue.
    * @return The value for the lexeme AllowEmptyValue.
    * @apilevel high-level
    */
   @ASTNodeAnnotation.Token(name="AllowEmptyValue")
-  public Object getAllowEmptyValue() {
-    return tokenObject_AllowEmptyValue;
+  public Boolean getAllowEmptyValue() {
+    return tokenBoolean_AllowEmptyValue;
   }
   /**
    * Replaces the lexeme Style.
@@ -387,40 +399,40 @@ public class ParameterObject extends Param implements Cloneable {
    * @param value The new value for the lexeme Explode.
    * @apilevel high-level
    */
-  public void setExplode(Object value) {
-    tokenObject_Explode = value;
+  public void setExplode(Boolean value) {
+    tokenBoolean_Explode = value;
   }
   /** @apilevel internal 
    */
-  protected Object tokenObject_Explode;
+  protected Boolean tokenBoolean_Explode;
   /**
    * Retrieves the value for the lexeme Explode.
    * @return The value for the lexeme Explode.
    * @apilevel high-level
    */
   @ASTNodeAnnotation.Token(name="Explode")
-  public Object getExplode() {
-    return tokenObject_Explode;
+  public Boolean getExplode() {
+    return tokenBoolean_Explode;
   }
   /**
    * Replaces the lexeme AllowReserved.
    * @param value The new value for the lexeme AllowReserved.
    * @apilevel high-level
    */
-  public void setAllowReserved(Object value) {
-    tokenObject_AllowReserved = value;
+  public void setAllowReserved(Boolean value) {
+    tokenBoolean_AllowReserved = value;
   }
   /** @apilevel internal 
    */
-  protected Object tokenObject_AllowReserved;
+  protected Boolean tokenBoolean_AllowReserved;
   /**
    * Retrieves the value for the lexeme AllowReserved.
    * @return The value for the lexeme AllowReserved.
    * @apilevel high-level
    */
   @ASTNodeAnnotation.Token(name="AllowReserved")
-  public Object getAllowReserved() {
-    return tokenObject_AllowReserved;
+  public Boolean getAllowReserved() {
+    return tokenBoolean_AllowReserved;
   }
   /**
    * Replaces the optional node for the SchemaObject child. This is the <code>Opt</code>
@@ -712,6 +724,26 @@ public class ParameterObject extends Param implements Cloneable {
    */
   public JastAddList<ContentTuple> getContentTuplesNoTransform() {
     return getContentTupleListNoTransform();
+  }
+  /**
+   * Replaces the lexeme Ref.
+   * @param value The new value for the lexeme Ref.
+   * @apilevel high-level
+   */
+  public void setRef(String value) {
+    tokenString_Ref = value;
+  }
+  /** @apilevel internal 
+   */
+  protected String tokenString_Ref;
+  /**
+   * Retrieves the value for the lexeme Ref.
+   * @return The value for the lexeme Ref.
+   * @apilevel high-level
+   */
+  @ASTNodeAnnotation.Token(name="Ref")
+  public String getRef() {
+    return tokenString_Ref != null ? tokenString_Ref : "";
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

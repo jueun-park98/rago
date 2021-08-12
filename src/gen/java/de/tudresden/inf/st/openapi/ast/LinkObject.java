@@ -3,11 +3,13 @@ package de.tudresden.inf.st.openapi.ast;
 import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
+import org.openapi4j.core.model.reference.Reference;
 import java.io.IOException;
 import java.util.*;
+import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:125
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:119
  * @astdecl LinkObject : ASTNode ::= <OperationRef:String> <OperationID:String> LinkParameterTuple* <LinkRequestBody:Object> <Description:String> [ServerObject];
  * @production LinkObject : {@link ASTNode} ::= <span class="component">&lt;OperationRef:String&gt;</span> <span class="component">&lt;OperationID:String&gt;</span> <span class="component">{@link LinkParameterTuple}*</span> <span class="component">&lt;LinkRequestBody:Object&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">[{@link ServerObject}]</span>;
 
@@ -15,14 +17,14 @@ import java.util.*;
 public class LinkObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:425
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:499
    */
   public static Link composeLink (LinkObject linkObject){
         Link link = new Link();
 
-        if( linkObject.getOperationRef() != null )
+        if( linkObject.getOperationRef().isEmpty() )
         link.setOperationRef( linkObject.getOperationRef() );
-        if( linkObject.getOperationID() != null )
+        if( linkObject.getOperationID().isEmpty() )
         link.setOperationId( linkObject.getOperationID() );
         if( linkObject.getNumLinkParameterTuple() != 0 ){
         Map<String, String> parameters = new HashMap<>();
@@ -39,7 +41,7 @@ public class LinkObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:540
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:557
    */
   public static LinkObject parseLink(Link link){
         LinkObject linkObject = new LinkObject();

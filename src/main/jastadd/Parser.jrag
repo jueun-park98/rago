@@ -326,8 +326,15 @@ public static PathItemObject PathItemObject.parsePath(Path path){
         pathItemObject.addServerObject( ServerObject.parseServer(s));
         }
         if( path.getParameters() != null ){
-        for(Parameter p : path.getParameters())
-        pathItemObject.addParam( ParameterObject.parseParameter(p));
+        for(Parameter p : path.getParameters()){
+        if( p.isRef() ) {
+        ParameterObject parameterObject = new ParameterObject();
+        parameterObject.setRef(p.getRef());
+        pathItemObject.addParameterObject(parameterObject);
+        }
+        else
+        pathItemObject.addParameterObject(ParameterObject.parseParameter(p));
+        }
         }
 
         return pathItemObject;
@@ -357,10 +364,10 @@ public static OperationObject OperationObject.parseOperation(Operation operation
         operationObject.setOperationID( operation.getOperationId() );
         if( operation.getParameters() != null ){
         for( Parameter p : operation.getParameters() )
-        operationObject.addParam(ParameterObject.parseParameter(p));
+        operationObject.addParameterObject(ParameterObject.parseParameter(p));
         }
         if( operation.getRequestBody() != null )
-        operationObject.setRequestBody( RequestBodyObject.parseRequestBody( operation.getRequestBody() ) );
+        operationObject.setRequestBodyObject( RequestBodyObject.parseRequestBody( operation.getRequestBody() ) );
         if( operation.getResponses() != null ){
         ResponsesObject responsesObject = new ResponsesObject();
         for( String key : operation.getResponses().keySet()){
@@ -422,8 +429,13 @@ public static ParameterObject ParameterObject.parseParameter(Parameter parameter
         parameterObject.setExplode( parameter.getExplode() );
         if( parameter.getAllowReserved() != null )
         parameterObject.setAllowReserved( parameter.getAllowReserved() );
-        if( parameter.getSchema() != null )
-        parameterObject.setSchemaObject(SchemaObject.parseSchema(parameter.getSchema()));
+        if( parameter.getSchema() != null ){
+        SchemaObject schema = new SchemaObject();
+        schema = SchemaObject.parseSchema(parameter.getSchema());
+        if( parameter.getSchema().isRef() )
+        schema.setRef(parameter.getSchema().getRef());
+        parameterObject.setSchemaObject(schema);
+        }
         if( parameter.getExample() != null )
         parameterObject.setExample( parameter.getExample() );
         if( parameter.getExamples() != null ){
@@ -449,6 +461,8 @@ public static RequestBodyObject RequestBodyObject.parseRequestBody(org.openapi4j
         requestBodyObject.setDescription(requestBody.getDescription());
         if( requestBody.getRequired() != null )
         requestBodyObject.setRequired( requestBody.getRequired() );
+        if( requestBody.isRef() )
+            requestBodyObject.setRef(requestBody.getRef());
 
         return requestBodyObject;
         }
@@ -456,8 +470,11 @@ public static RequestBodyObject RequestBodyObject.parseRequestBody(org.openapi4j
 public static MediaTypeObject MediaTypeObject.parseMediaType(MediaType mediaType){
         MediaTypeObject mediaTypeObject = new MediaTypeObject();
 
-        if( mediaType.getSchema() != null )
-        mediaTypeObject.setSchemaObject(SchemaObject.parseSchema(mediaType.getSchema()));
+        if( mediaType.getSchema() != null ) {
+        SchemaObject schema = new SchemaObject();
+        schema = SchemaObject.parseSchema(mediaType.getSchema());
+        mediaTypeObject.setSchemaObject(schema);
+        }
         if( mediaType.getExample() != null )
         mediaTypeObject.setExample( mediaType.getExample() );
         if( mediaType.getExamples() != null ){
@@ -821,5 +838,4 @@ public static SecurityRequirementObject SecurityRequirementObject.parseSecurityR
 
         return securityRequirementObject;
         }
-
 }

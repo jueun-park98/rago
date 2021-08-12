@@ -3,11 +3,13 @@ package de.tudresden.inf.st.openapi.ast;
 import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
+import org.openapi4j.core.model.reference.Reference;
 import java.io.IOException;
 import java.util.*;
+import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:151
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:145
  * @astdecl XmlObject : ASTNode ::= <Name:String> <Namespace:String> <Prefix:String> <Attribute:Object> <Wrapped:Object>;
  * @production XmlObject : {@link ASTNode} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;Namespace:String&gt;</span> <span class="component">&lt;Prefix:String&gt;</span> <span class="component">&lt;Attribute:Object&gt;</span> <span class="component">&lt;Wrapped:Object&gt;</span>;
 
@@ -15,7 +17,7 @@ import java.util.*;
 public class XmlObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:594
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:668
    */
   public static Xml composeXml (XmlObject xmlObject) {
         Xml xml = new Xml();
@@ -35,7 +37,7 @@ public class XmlObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:734
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:751
    */
   public static XmlObject parseXml (Xml xml) {
         XmlObject xmlObject = new XmlObject();

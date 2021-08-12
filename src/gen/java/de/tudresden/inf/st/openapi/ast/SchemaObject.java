@@ -3,19 +3,21 @@ package de.tudresden.inf.st.openapi.ast;
 import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
+import org.openapi4j.core.model.reference.Reference;
 import java.io.IOException;
 import java.util.*;
+import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:91
- * @astdecl SchemaObject : Schema ::= [AdditionalProperties] <AdditionalPropertiesAllowed:Object> <DefaultValue:Object> <Description:String> <DeprecatedBoolean:Object> [DiscriminatorObject] EnumObj* <Example:Object> <ExclusiveMaximum:Object> <ExclusiveMinimum:Object> [ExternalDocumentationObject] <Format:String> [ItemsSchema] <Maximum:Object> <Minimum:Object> <MaxItems:Object> <MinItems:Object> <MaxLength:Object> <MinLength:Object> <MaxProperties:Object> <MinProperties:Object> <MultipleOf:Object> [NotSchema] <Nullable:Object> <Pattern:String> PropertyItem* RequiredField* AllOfSchema* AnyOfSchema* OneOfSchema* <ReadOnly:Object> <WriteOnly:Object> <Type:String> <Title:String> <UniqueItems:Object> [XmlObject];
- * @production SchemaObject : {@link Schema} ::= <span class="component">[{@link AdditionalProperties}]</span> <span class="component">&lt;AdditionalPropertiesAllowed:Object&gt;</span> <span class="component">&lt;DefaultValue:Object&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;DeprecatedBoolean:Object&gt;</span> <span class="component">[{@link DiscriminatorObject}]</span> <span class="component">{@link EnumObj}*</span> <span class="component">&lt;Example:Object&gt;</span> <span class="component">&lt;ExclusiveMaximum:Object&gt;</span> <span class="component">&lt;ExclusiveMinimum:Object&gt;</span> <span class="component">[{@link ExternalDocumentationObject}]</span> <span class="component">&lt;Format:String&gt;</span> <span class="component">[{@link ItemsSchema}]</span> <span class="component">&lt;Maximum:Object&gt;</span> <span class="component">&lt;Minimum:Object&gt;</span> <span class="component">&lt;MaxItems:Object&gt;</span> <span class="component">&lt;MinItems:Object&gt;</span> <span class="component">&lt;MaxLength:Object&gt;</span> <span class="component">&lt;MinLength:Object&gt;</span> <span class="component">&lt;MaxProperties:Object&gt;</span> <span class="component">&lt;MinProperties:Object&gt;</span> <span class="component">&lt;MultipleOf:Object&gt;</span> <span class="component">[{@link NotSchema}]</span> <span class="component">&lt;Nullable:Object&gt;</span> <span class="component">&lt;Pattern:String&gt;</span> <span class="component">{@link PropertyItem}*</span> <span class="component">{@link RequiredField}*</span> <span class="component">{@link AllOfSchema}*</span> <span class="component">{@link AnyOfSchema}*</span> <span class="component">{@link OneOfSchema}*</span> <span class="component">&lt;ReadOnly:Object&gt;</span> <span class="component">&lt;WriteOnly:Object&gt;</span> <span class="component">&lt;Type:String&gt;</span> <span class="component">&lt;Title:String&gt;</span> <span class="component">&lt;UniqueItems:Object&gt;</span> <span class="component">[{@link XmlObject}]</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:85
+ * @astdecl SchemaObject : ASTNode ::= [AdditionalProperties] <AdditionalPropertiesAllowed:Object> <DefaultValue:Object> <Description:String> <DeprecatedBoolean:Object> [DiscriminatorObject] EnumObj* <Example:Object> <ExclusiveMaximum:Object> <ExclusiveMinimum:Object> [ExternalDocumentationObject] <Format:String> [ItemsSchema] <Maximum:Object> <Minimum:Object> <MaxItems:Object> <MinItems:Object> <MaxLength:Object> <MinLength:Object> <MaxProperties:Object> <MinProperties:Object> <MultipleOf:Object> [NotSchema] <Nullable:Object> <Pattern:String> PropertyItem* RequiredField* AllOfSchema* AnyOfSchema* OneOfSchema* <ReadOnly:Object> <WriteOnly:Object> <Type:String> <Title:String> <UniqueItems:Object> [XmlObject] <Ref:String>;
+ * @production SchemaObject : {@link ASTNode} ::= <span class="component">[{@link AdditionalProperties}]</span> <span class="component">&lt;AdditionalPropertiesAllowed:Object&gt;</span> <span class="component">&lt;DefaultValue:Object&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;DeprecatedBoolean:Object&gt;</span> <span class="component">[{@link DiscriminatorObject}]</span> <span class="component">{@link EnumObj}*</span> <span class="component">&lt;Example:Object&gt;</span> <span class="component">&lt;ExclusiveMaximum:Object&gt;</span> <span class="component">&lt;ExclusiveMinimum:Object&gt;</span> <span class="component">[{@link ExternalDocumentationObject}]</span> <span class="component">&lt;Format:String&gt;</span> <span class="component">[{@link ItemsSchema}]</span> <span class="component">&lt;Maximum:Object&gt;</span> <span class="component">&lt;Minimum:Object&gt;</span> <span class="component">&lt;MaxItems:Object&gt;</span> <span class="component">&lt;MinItems:Object&gt;</span> <span class="component">&lt;MaxLength:Object&gt;</span> <span class="component">&lt;MinLength:Object&gt;</span> <span class="component">&lt;MaxProperties:Object&gt;</span> <span class="component">&lt;MinProperties:Object&gt;</span> <span class="component">&lt;MultipleOf:Object&gt;</span> <span class="component">[{@link NotSchema}]</span> <span class="component">&lt;Nullable:Object&gt;</span> <span class="component">&lt;Pattern:String&gt;</span> <span class="component">{@link PropertyItem}*</span> <span class="component">{@link RequiredField}*</span> <span class="component">{@link AllOfSchema}*</span> <span class="component">{@link AnyOfSchema}*</span> <span class="component">{@link OneOfSchema}*</span> <span class="component">&lt;ReadOnly:Object&gt;</span> <span class="component">&lt;WriteOnly:Object&gt;</span> <span class="component">&lt;Type:String&gt;</span> <span class="component">&lt;Title:String&gt;</span> <span class="component">&lt;UniqueItems:Object&gt;</span> <span class="component">[{@link XmlObject}]</span> <span class="component">&lt;Ref:String&gt;</span>;
 
  */
-public class SchemaObject extends Schema implements Cloneable {
+public class SchemaObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:490
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:564
    */
   public static org.openapi4j.parser.model.v3.Schema composeSchema (SchemaObject schemaObject) {
         org.openapi4j.parser.model.v3.Schema schema = new org.openapi4j.parser.model.v3.Schema();
@@ -107,7 +109,7 @@ public class SchemaObject extends Schema implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:601
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:618
    */
   public static SchemaObject parseSchema (org.openapi4j.parser.model.v3.Schema schema) {
         SchemaObject schemaObject = new SchemaObject();
@@ -256,11 +258,11 @@ public class SchemaObject extends Schema implements Cloneable {
    * @declaredat ASTNode:25
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"AdditionalProperties", "AdditionalPropertiesAllowed", "DefaultValue", "Description", "DeprecatedBoolean", "DiscriminatorObject", "EnumObj", "Example", "ExclusiveMaximum", "ExclusiveMinimum", "ExternalDocumentationObject", "Format", "ItemsSchema", "Maximum", "Minimum", "MaxItems", "MinItems", "MaxLength", "MinLength", "MaxProperties", "MinProperties", "MultipleOf", "NotSchema", "Nullable", "Pattern", "PropertyItem", "RequiredField", "AllOfSchema", "AnyOfSchema", "OneOfSchema", "ReadOnly", "WriteOnly", "Type", "Title", "UniqueItems", "XmlObject"},
-    type = {"Opt<AdditionalProperties>", "Object", "Object", "String", "Object", "Opt<DiscriminatorObject>", "JastAddList<EnumObj>", "Object", "Object", "Object", "Opt<ExternalDocumentationObject>", "String", "Opt<ItemsSchema>", "Object", "Object", "Object", "Object", "Object", "Object", "Object", "Object", "Object", "Opt<NotSchema>", "Object", "String", "JastAddList<PropertyItem>", "JastAddList<RequiredField>", "JastAddList<AllOfSchema>", "JastAddList<AnyOfSchema>", "JastAddList<OneOfSchema>", "Object", "Object", "String", "String", "Object", "Opt<XmlObject>"},
-    kind = {"Opt", "Token", "Token", "Token", "Token", "Opt", "List", "Token", "Token", "Token", "Opt", "Token", "Opt", "Token", "Token", "Token", "Token", "Token", "Token", "Token", "Token", "Token", "Opt", "Token", "Token", "List", "List", "List", "List", "List", "Token", "Token", "Token", "Token", "Token", "Opt"}
+    name = {"AdditionalProperties", "AdditionalPropertiesAllowed", "DefaultValue", "Description", "DeprecatedBoolean", "DiscriminatorObject", "EnumObj", "Example", "ExclusiveMaximum", "ExclusiveMinimum", "ExternalDocumentationObject", "Format", "ItemsSchema", "Maximum", "Minimum", "MaxItems", "MinItems", "MaxLength", "MinLength", "MaxProperties", "MinProperties", "MultipleOf", "NotSchema", "Nullable", "Pattern", "PropertyItem", "RequiredField", "AllOfSchema", "AnyOfSchema", "OneOfSchema", "ReadOnly", "WriteOnly", "Type", "Title", "UniqueItems", "XmlObject", "Ref"},
+    type = {"Opt<AdditionalProperties>", "Object", "Object", "String", "Object", "Opt<DiscriminatorObject>", "JastAddList<EnumObj>", "Object", "Object", "Object", "Opt<ExternalDocumentationObject>", "String", "Opt<ItemsSchema>", "Object", "Object", "Object", "Object", "Object", "Object", "Object", "Object", "Object", "Opt<NotSchema>", "Object", "String", "JastAddList<PropertyItem>", "JastAddList<RequiredField>", "JastAddList<AllOfSchema>", "JastAddList<AnyOfSchema>", "JastAddList<OneOfSchema>", "Object", "Object", "String", "String", "Object", "Opt<XmlObject>", "String"},
+    kind = {"Opt", "Token", "Token", "Token", "Token", "Opt", "List", "Token", "Token", "Token", "Opt", "Token", "Opt", "Token", "Token", "Token", "Token", "Token", "Token", "Token", "Token", "Token", "Opt", "Token", "Token", "List", "List", "List", "List", "List", "Token", "Token", "Token", "Token", "Token", "Opt", "Token"}
   )
-  public SchemaObject(Opt<AdditionalProperties> p0, Object p1, Object p2, String p3, Object p4, Opt<DiscriminatorObject> p5, JastAddList<EnumObj> p6, Object p7, Object p8, Object p9, Opt<ExternalDocumentationObject> p10, String p11, Opt<ItemsSchema> p12, Object p13, Object p14, Object p15, Object p16, Object p17, Object p18, Object p19, Object p20, Object p21, Opt<NotSchema> p22, Object p23, String p24, JastAddList<PropertyItem> p25, JastAddList<RequiredField> p26, JastAddList<AllOfSchema> p27, JastAddList<AnyOfSchema> p28, JastAddList<OneOfSchema> p29, Object p30, Object p31, String p32, String p33, Object p34, Opt<XmlObject> p35) {
+  public SchemaObject(Opt<AdditionalProperties> p0, Object p1, Object p2, String p3, Object p4, Opt<DiscriminatorObject> p5, JastAddList<EnumObj> p6, Object p7, Object p8, Object p9, Opt<ExternalDocumentationObject> p10, String p11, Opt<ItemsSchema> p12, Object p13, Object p14, Object p15, Object p16, Object p17, Object p18, Object p19, Object p20, Object p21, Opt<NotSchema> p22, Object p23, String p24, JastAddList<PropertyItem> p25, JastAddList<RequiredField> p26, JastAddList<AllOfSchema> p27, JastAddList<AnyOfSchema> p28, JastAddList<OneOfSchema> p29, Object p30, Object p31, String p32, String p33, Object p34, Opt<XmlObject> p35, String p36) {
     setChild(p0, 0);
     setAdditionalPropertiesAllowed(p1);
     setDefaultValue(p2);
@@ -297,41 +299,42 @@ public class SchemaObject extends Schema implements Cloneable {
     setTitle(p33);
     setUniqueItems(p34);
     setChild(p35, 11);
+    setRef(p36);
   }
   /** @apilevel low-level 
-   * @declaredat ASTNode:69
+   * @declaredat ASTNode:70
    */
   protected int numChildren() {
     return 12;
   }
   /**
    * @apilevel internal
-   * @declaredat ASTNode:75
+   * @declaredat ASTNode:76
    */
   public boolean mayHaveRewrite() {
     return false;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:79
+   * @declaredat ASTNode:80
    */
   public void flushAttrCache() {
     super.flushAttrCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:83
+   * @declaredat ASTNode:84
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:87
+   * @declaredat ASTNode:88
    */
   public SchemaObject clone() throws CloneNotSupportedException {
     SchemaObject node = (SchemaObject) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:92
+   * @declaredat ASTNode:93
    */
   public SchemaObject copy() {
     try {
@@ -351,7 +354,7 @@ public class SchemaObject extends Schema implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:111
+   * @declaredat ASTNode:112
    */
   @Deprecated
   public SchemaObject fullCopy() {
@@ -362,7 +365,7 @@ public class SchemaObject extends Schema implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:121
+   * @declaredat ASTNode:122
    */
   public SchemaObject treeCopyNoTransform() {
     SchemaObject tree = (SchemaObject) copy();
@@ -383,7 +386,7 @@ public class SchemaObject extends Schema implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:141
+   * @declaredat ASTNode:142
    */
   public SchemaObject treeCopy() {
     SchemaObject tree = (SchemaObject) copy();
@@ -399,10 +402,10 @@ public class SchemaObject extends Schema implements Cloneable {
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:155
+   * @declaredat ASTNode:156
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node) && (tokenObject_AdditionalPropertiesAllowed == ((SchemaObject) node).tokenObject_AdditionalPropertiesAllowed) && (tokenObject_DefaultValue == ((SchemaObject) node).tokenObject_DefaultValue) && (tokenString_Description == ((SchemaObject) node).tokenString_Description) && (tokenObject_DeprecatedBoolean == ((SchemaObject) node).tokenObject_DeprecatedBoolean) && (tokenObject_Example == ((SchemaObject) node).tokenObject_Example) && (tokenObject_ExclusiveMaximum == ((SchemaObject) node).tokenObject_ExclusiveMaximum) && (tokenObject_ExclusiveMinimum == ((SchemaObject) node).tokenObject_ExclusiveMinimum) && (tokenString_Format == ((SchemaObject) node).tokenString_Format) && (tokenObject_Maximum == ((SchemaObject) node).tokenObject_Maximum) && (tokenObject_Minimum == ((SchemaObject) node).tokenObject_Minimum) && (tokenObject_MaxItems == ((SchemaObject) node).tokenObject_MaxItems) && (tokenObject_MinItems == ((SchemaObject) node).tokenObject_MinItems) && (tokenObject_MaxLength == ((SchemaObject) node).tokenObject_MaxLength) && (tokenObject_MinLength == ((SchemaObject) node).tokenObject_MinLength) && (tokenObject_MaxProperties == ((SchemaObject) node).tokenObject_MaxProperties) && (tokenObject_MinProperties == ((SchemaObject) node).tokenObject_MinProperties) && (tokenObject_MultipleOf == ((SchemaObject) node).tokenObject_MultipleOf) && (tokenObject_Nullable == ((SchemaObject) node).tokenObject_Nullable) && (tokenString_Pattern == ((SchemaObject) node).tokenString_Pattern) && (tokenObject_ReadOnly == ((SchemaObject) node).tokenObject_ReadOnly) && (tokenObject_WriteOnly == ((SchemaObject) node).tokenObject_WriteOnly) && (tokenString_Type == ((SchemaObject) node).tokenString_Type) && (tokenString_Title == ((SchemaObject) node).tokenString_Title) && (tokenObject_UniqueItems == ((SchemaObject) node).tokenObject_UniqueItems);    
+    return super.is$Equal(node) && (tokenObject_AdditionalPropertiesAllowed == ((SchemaObject) node).tokenObject_AdditionalPropertiesAllowed) && (tokenObject_DefaultValue == ((SchemaObject) node).tokenObject_DefaultValue) && (tokenString_Description == ((SchemaObject) node).tokenString_Description) && (tokenObject_DeprecatedBoolean == ((SchemaObject) node).tokenObject_DeprecatedBoolean) && (tokenObject_Example == ((SchemaObject) node).tokenObject_Example) && (tokenObject_ExclusiveMaximum == ((SchemaObject) node).tokenObject_ExclusiveMaximum) && (tokenObject_ExclusiveMinimum == ((SchemaObject) node).tokenObject_ExclusiveMinimum) && (tokenString_Format == ((SchemaObject) node).tokenString_Format) && (tokenObject_Maximum == ((SchemaObject) node).tokenObject_Maximum) && (tokenObject_Minimum == ((SchemaObject) node).tokenObject_Minimum) && (tokenObject_MaxItems == ((SchemaObject) node).tokenObject_MaxItems) && (tokenObject_MinItems == ((SchemaObject) node).tokenObject_MinItems) && (tokenObject_MaxLength == ((SchemaObject) node).tokenObject_MaxLength) && (tokenObject_MinLength == ((SchemaObject) node).tokenObject_MinLength) && (tokenObject_MaxProperties == ((SchemaObject) node).tokenObject_MaxProperties) && (tokenObject_MinProperties == ((SchemaObject) node).tokenObject_MinProperties) && (tokenObject_MultipleOf == ((SchemaObject) node).tokenObject_MultipleOf) && (tokenObject_Nullable == ((SchemaObject) node).tokenObject_Nullable) && (tokenString_Pattern == ((SchemaObject) node).tokenString_Pattern) && (tokenObject_ReadOnly == ((SchemaObject) node).tokenObject_ReadOnly) && (tokenObject_WriteOnly == ((SchemaObject) node).tokenObject_WriteOnly) && (tokenString_Type == ((SchemaObject) node).tokenString_Type) && (tokenString_Title == ((SchemaObject) node).tokenString_Title) && (tokenObject_UniqueItems == ((SchemaObject) node).tokenObject_UniqueItems) && (tokenString_Ref == ((SchemaObject) node).tokenString_Ref);    
   }
   /**
    * Replaces the optional node for the AdditionalProperties child. This is the <code>Opt</code>
@@ -1849,6 +1852,26 @@ public class SchemaObject extends Schema implements Cloneable {
    */
   public Opt<XmlObject> getXmlObjectOptNoTransform() {
     return (Opt<XmlObject>) getChildNoTransform(11);
+  }
+  /**
+   * Replaces the lexeme Ref.
+   * @param value The new value for the lexeme Ref.
+   * @apilevel high-level
+   */
+  public void setRef(String value) {
+    tokenString_Ref = value;
+  }
+  /** @apilevel internal 
+   */
+  protected String tokenString_Ref;
+  /**
+   * Retrieves the value for the lexeme Ref.
+   * @return The value for the lexeme Ref.
+   * @apilevel high-level
+   */
+  @ASTNodeAnnotation.Token(name="Ref")
+  public String getRef() {
+    return tokenString_Ref != null ? tokenString_Ref : "";
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

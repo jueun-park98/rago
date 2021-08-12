@@ -3,19 +3,21 @@ package de.tudresden.inf.st.openapi.ast;
 import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
+import org.openapi4j.core.model.reference.Reference;
 import java.io.IOException;
 import java.util.*;
+import java.net.URL;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:60
- * @astdecl PathItemObject : ASTNode ::= <Ref:String> <Summary:String> <Description:String> [Get] [Put] [Post] [Delete] [Options] [Head] [Patch] [Trace] ServerObject* Param*;
- * @production PathItemObject : {@link ASTNode} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;Summary:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">[{@link Get}]</span> <span class="component">[{@link Put}]</span> <span class="component">[{@link Post}]</span> <span class="component">[{@link Delete}]</span> <span class="component">[{@link Options}]</span> <span class="component">[{@link Head}]</span> <span class="component">[{@link Patch}]</span> <span class="component">[{@link Trace}]</span> <span class="component">{@link ServerObject}*</span> <span class="component">{@link Param}*</span>;
+ * @astdecl PathItemObject : ASTNode ::= <Ref:String> <Summary:String> <Description:String> [Get] [Put] [Post] [Delete] [Options] [Head] [Patch] [Trace] ServerObject* ParameterObject*;
+ * @production PathItemObject : {@link ASTNode} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;Summary:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">[{@link Get}]</span> <span class="component">[{@link Put}]</span> <span class="component">[{@link Post}]</span> <span class="component">[{@link Delete}]</span> <span class="component">[{@link Options}]</span> <span class="component">[{@link Head}]</span> <span class="component">[{@link Patch}]</span> <span class="component">[{@link Trace}]</span> <span class="component">{@link ServerObject}*</span> <span class="component">{@link ParameterObject}*</span>;
 
  */
 public class PathItemObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:185
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:243
    */
   public static Path composePath (PathItemObject pathItemObject){
         Path path = new Path();
@@ -42,9 +44,9 @@ public class PathItemObject extends ASTNode<ASTNode> implements Cloneable {
         for( ServerObject s : pathItemObject.getServerObjects() )
         path.addServer( ServerObject.composeServer(s) );
         }
-        if( pathItemObject.getNumParam() != 0 ){
-        for( Param p : pathItemObject.getParams() )
-        path.addParameter( ParameterObject.composeParameter((ParameterObject) p) );
+        if( pathItemObject.getNumParameterObject() != 0 ){
+        for( ParameterObject p : pathItemObject.getParameterObjects() )
+        path.addParameter( ParameterObject.composeParameter(p) );
         }
 
         return path;
@@ -107,8 +109,15 @@ public class PathItemObject extends ASTNode<ASTNode> implements Cloneable {
         pathItemObject.addServerObject( ServerObject.parseServer(s));
         }
         if( path.getParameters() != null ){
-        for(Parameter p : path.getParameters())
-        pathItemObject.addParam( ParameterObject.parseParameter(p));
+        for(Parameter p : path.getParameters()){
+        if( p.isRef() ) {
+        ParameterObject parameterObject = new ParameterObject();
+        parameterObject.setRef(p.getRef());
+        pathItemObject.addParameterObject(parameterObject);
+        }
+        else
+        pathItemObject.addParameterObject(ParameterObject.parseParameter(p));
+        }
         }
 
         return pathItemObject;
@@ -143,11 +152,11 @@ public class PathItemObject extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:23
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Ref", "Summary", "Description", "Get", "Put", "Post", "Delete", "Options", "Head", "Patch", "Trace", "ServerObject", "Param"},
-    type = {"String", "String", "String", "Opt<Get>", "Opt<Put>", "Opt<Post>", "Opt<Delete>", "Opt<Options>", "Opt<Head>", "Opt<Patch>", "Opt<Trace>", "JastAddList<ServerObject>", "JastAddList<Param>"},
+    name = {"Ref", "Summary", "Description", "Get", "Put", "Post", "Delete", "Options", "Head", "Patch", "Trace", "ServerObject", "ParameterObject"},
+    type = {"String", "String", "String", "Opt<Get>", "Opt<Put>", "Opt<Post>", "Opt<Delete>", "Opt<Options>", "Opt<Head>", "Opt<Patch>", "Opt<Trace>", "JastAddList<ServerObject>", "JastAddList<ParameterObject>"},
     kind = {"Token", "Token", "Token", "Opt", "Opt", "Opt", "Opt", "Opt", "Opt", "Opt", "Opt", "List", "List"}
   )
-  public PathItemObject(String p0, String p1, String p2, Opt<Get> p3, Opt<Put> p4, Opt<Post> p5, Opt<Delete> p6, Opt<Options> p7, Opt<Head> p8, Opt<Patch> p9, Opt<Trace> p10, JastAddList<ServerObject> p11, JastAddList<Param> p12) {
+  public PathItemObject(String p0, String p1, String p2, Opt<Get> p3, Opt<Put> p4, Opt<Post> p5, Opt<Delete> p6, Opt<Options> p7, Opt<Head> p8, Opt<Patch> p9, Opt<Trace> p10, JastAddList<ServerObject> p11, JastAddList<ParameterObject> p12) {
     setRef(p0);
     setSummary(p1);
     setDescription(p2);
@@ -847,114 +856,114 @@ public class PathItemObject extends ASTNode<ASTNode> implements Cloneable {
     return getServerObjectListNoTransform();
   }
   /**
-   * Replaces the Param list.
-   * @param list The new list node to be used as the Param list.
+   * Replaces the ParameterObject list.
+   * @param list The new list node to be used as the ParameterObject list.
    * @apilevel high-level
    */
-  public void setParamList(JastAddList<Param> list) {
+  public void setParameterObjectList(JastAddList<ParameterObject> list) {
     setChild(list, 9);
   }
   /**
-   * Retrieves the number of children in the Param list.
-   * @return Number of children in the Param list.
+   * Retrieves the number of children in the ParameterObject list.
+   * @return Number of children in the ParameterObject list.
    * @apilevel high-level
    */
-  public int getNumParam() {
-    return getParamList().getNumChild();
+  public int getNumParameterObject() {
+    return getParameterObjectList().getNumChild();
   }
   /**
-   * Retrieves the number of children in the Param list.
+   * Retrieves the number of children in the ParameterObject list.
    * Calling this method will not trigger rewrites.
-   * @return Number of children in the Param list.
+   * @return Number of children in the ParameterObject list.
    * @apilevel low-level
    */
-  public int getNumParamNoTransform() {
-    return getParamListNoTransform().getNumChildNoTransform();
+  public int getNumParameterObjectNoTransform() {
+    return getParameterObjectListNoTransform().getNumChildNoTransform();
   }
   /**
-   * Retrieves the element at index {@code i} in the Param list.
+   * Retrieves the element at index {@code i} in the ParameterObject list.
    * @param i Index of the element to return.
-   * @return The element at position {@code i} in the Param list.
+   * @return The element at position {@code i} in the ParameterObject list.
    * @apilevel high-level
    */
-  public Param getParam(int i) {
-    return (Param) getParamList().getChild(i);
+  public ParameterObject getParameterObject(int i) {
+    return (ParameterObject) getParameterObjectList().getChild(i);
   }
   /**
-   * Check whether the Param list has any children.
+   * Check whether the ParameterObject list has any children.
    * @return {@code true} if it has at least one child, {@code false} otherwise.
    * @apilevel high-level
    */
-  public boolean hasParam() {
-    return getParamList().getNumChild() != 0;
+  public boolean hasParameterObject() {
+    return getParameterObjectList().getNumChild() != 0;
   }
   /**
-   * Append an element to the Param list.
-   * @param node The element to append to the Param list.
+   * Append an element to the ParameterObject list.
+   * @param node The element to append to the ParameterObject list.
    * @apilevel high-level
    */
-  public void addParam(Param node) {
-    JastAddList<Param> list = (parent == null) ? getParamListNoTransform() : getParamList();
+  public void addParameterObject(ParameterObject node) {
+    JastAddList<ParameterObject> list = (parent == null) ? getParameterObjectListNoTransform() : getParameterObjectList();
     list.addChild(node);
   }
   /** @apilevel low-level 
    */
-  public void addParamNoTransform(Param node) {
-    JastAddList<Param> list = getParamListNoTransform();
+  public void addParameterObjectNoTransform(ParameterObject node) {
+    JastAddList<ParameterObject> list = getParameterObjectListNoTransform();
     list.addChild(node);
   }
   /**
-   * Replaces the Param list element at index {@code i} with the new node {@code node}.
+   * Replaces the ParameterObject list element at index {@code i} with the new node {@code node}.
    * @param node The new node to replace the old list element.
    * @param i The list index of the node to be replaced.
    * @apilevel high-level
    */
-  public void setParam(Param node, int i) {
-    JastAddList<Param> list = getParamList();
+  public void setParameterObject(ParameterObject node, int i) {
+    JastAddList<ParameterObject> list = getParameterObjectList();
     list.setChild(node, i);
   }
   /**
-   * Retrieves the Param list.
-   * @return The node representing the Param list.
+   * Retrieves the ParameterObject list.
+   * @return The node representing the ParameterObject list.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.ListChild(name="Param")
-  public JastAddList<Param> getParamList() {
-    JastAddList<Param> list = (JastAddList<Param>) getChild(9);
+  @ASTNodeAnnotation.ListChild(name="ParameterObject")
+  public JastAddList<ParameterObject> getParameterObjectList() {
+    JastAddList<ParameterObject> list = (JastAddList<ParameterObject>) getChild(9);
     return list;
   }
   /**
-   * Retrieves the Param list.
+   * Retrieves the ParameterObject list.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The node representing the Param list.
+   * @return The node representing the ParameterObject list.
    * @apilevel low-level
    */
-  public JastAddList<Param> getParamListNoTransform() {
-    return (JastAddList<Param>) getChildNoTransform(9);
+  public JastAddList<ParameterObject> getParameterObjectListNoTransform() {
+    return (JastAddList<ParameterObject>) getChildNoTransform(9);
   }
   /**
-   * @return the element at index {@code i} in the Param list without
+   * @return the element at index {@code i} in the ParameterObject list without
    * triggering rewrites.
    */
-  public Param getParamNoTransform(int i) {
-    return (Param) getParamListNoTransform().getChildNoTransform(i);
+  public ParameterObject getParameterObjectNoTransform(int i) {
+    return (ParameterObject) getParameterObjectListNoTransform().getChildNoTransform(i);
   }
   /**
-   * Retrieves the Param list.
-   * @return The node representing the Param list.
+   * Retrieves the ParameterObject list.
+   * @return The node representing the ParameterObject list.
    * @apilevel high-level
    */
-  public JastAddList<Param> getParams() {
-    return getParamList();
+  public JastAddList<ParameterObject> getParameterObjects() {
+    return getParameterObjectList();
   }
   /**
-   * Retrieves the Param list.
+   * Retrieves the ParameterObject list.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The node representing the Param list.
+   * @return The node representing the ParameterObject list.
    * @apilevel low-level
    */
-  public JastAddList<Param> getParamsNoTransform() {
-    return getParamListNoTransform();
+  public JastAddList<ParameterObject> getParameterObjectsNoTransform() {
+    return getParameterObjectListNoTransform();
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

@@ -3,11 +3,13 @@ package de.tudresden.inf.st.openapi.ast;
 import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
+import org.openapi4j.core.model.reference.Reference;
 import java.io.IOException;
 import java.util.*;
+import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:147
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:141
  * @astdecl DiscriminatorObject : ASTNode ::= <PropertyName:String> MappingTuple*;
  * @production DiscriminatorObject : {@link ASTNode} ::= <span class="component">&lt;PropertyName:String&gt;</span> <span class="component">{@link MappingTuple}*</span>;
 
@@ -15,7 +17,7 @@ import java.util.*;
 public class DiscriminatorObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:579
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:653
    */
   public static Discriminator composeDiscriminator (DiscriminatorObject discriminatorObject) {
         Discriminator discriminator = new Discriminator();
@@ -33,7 +35,7 @@ public class DiscriminatorObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:717
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:734
    */
   public static DiscriminatorObject parseDiscriminator (Discriminator discriminator) {
         DiscriminatorObject discriminatorObject = new DiscriminatorObject();

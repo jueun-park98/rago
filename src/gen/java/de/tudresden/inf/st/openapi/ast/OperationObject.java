@@ -3,19 +3,21 @@ package de.tudresden.inf.st.openapi.ast;
 import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
+import org.openapi4j.core.model.reference.Reference;
 import java.io.IOException;
 import java.util.*;
+import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:77
- * @astdecl OperationObject : ASTNode ::= Tag* <Summary:String> <Description:String> [ExternalDocumentationObject] <OperationID:String> Param* [RequestBody] ResponsesObject CallbacksTuple* [DeprecatedBoolean] SecurityRequirementObject* ServerObject*;
- * @production OperationObject : {@link ASTNode} ::= <span class="component">{@link Tag}*</span> <span class="component">&lt;Summary:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">[{@link ExternalDocumentationObject}]</span> <span class="component">&lt;OperationID:String&gt;</span> <span class="component">{@link Param}*</span> <span class="component">[{@link RequestBody}]</span> <span class="component">{@link ResponsesObject}</span> <span class="component">{@link CallbacksTuple}*</span> <span class="component">[{@link DeprecatedBoolean}]</span> <span class="component">{@link SecurityRequirementObject}*</span> <span class="component">{@link ServerObject}*</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:75
+ * @astdecl OperationObject : ASTNode ::= Tag* <Summary:String> <Description:String> [ExternalDocumentationObject] <OperationID:String> ParameterObject* [RequestBodyObject] ResponsesObject CallbacksTuple* [DeprecatedBoolean] SecurityRequirementObject* ServerObject*;
+ * @production OperationObject : {@link ASTNode} ::= <span class="component">{@link Tag}*</span> <span class="component">&lt;Summary:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">[{@link ExternalDocumentationObject}]</span> <span class="component">&lt;OperationID:String&gt;</span> <span class="component">{@link ParameterObject}*</span> <span class="component">[{@link RequestBodyObject}]</span> <span class="component">{@link ResponsesObject}</span> <span class="component">{@link CallbacksTuple}*</span> <span class="component">[{@link DeprecatedBoolean}]</span> <span class="component">{@link SecurityRequirementObject}*</span> <span class="component">{@link ServerObject}*</span>;
 
  */
 public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:218
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:276
    */
   public static Operation composeOperation (OperationObject operationObject){
         Operation operation = new Operation();
@@ -32,12 +34,12 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
         operation.setExternalDocs( ExternalDocumentationObject.composeExternalDocs(operationObject.getExternalDocumentationObject()) );
         if( !operationObject.getOperationID().isEmpty() )
         operation.setOperationId( operationObject.getOperationID() );
-        if( operationObject.getNumParam() != 0 ){
-        for( Param p : operationObject.getParams() )
-        operation.addParameter( ParameterObject.composeParameter( ((ParameterObject) p) ) );
+        if( operationObject.getNumParameterObject() != 0 ){
+        for( ParameterObject p : operationObject.getParameterObjects() )
+        operation.addParameter( ParameterObject.composeParameter(p) );
         }
-        if( operationObject.hasRequestBody() )
-        operation.setRequestBody( RequestBodyObject.composeRequestBody( ((RequestBodyObject) operationObject.getRequestBody())) );
+        if( operationObject.hasRequestBodyObject() )
+        operation.setRequestBody( RequestBodyObject.composeRequestBody(operationObject.getRequestBodyObject()));
         if( operationObject.getResponsesObject().getNumHTTPStatusCode() != 0){
         Map<String, Response> responses = new HashMap<>();
         for( HTTPStatusCode h : operationObject.getResponsesObject().getHTTPStatusCodes() )
@@ -46,12 +48,19 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
         }
         if( operationObject.getNumCallbacksTuple() != 0 ){
         Map<String, Callback> callbacks = new HashMap<>();
-        for( CallbacksTuple t : operationObject.getCallbacksTuples() )
-        callbacks.put( ((CallbackObjectTuple)t).getName(), CallbackObject.composeCallback( ((CallbackObjectTuple) t).getCallbackObject()) );
+        for( CallbacksTuple t : operationObject.getCallbacksTuples() ) {
+        if( t instanceof CallbackReferenceTuple ){
+        Callback callback = new Callback();
+        callback.setRef(((CallbackReferenceTuple) t).getRef());
+        callbacks.put(((CallbackReferenceTuple) t).getName(), callback);
+        }
+        else
+        callbacks.put(((CallbackObjectTuple)t).getName(), CallbackObject.composeCallback(((CallbackObjectTuple)t).getCallbackObject()));
+        }
         operation.setCallbacks(callbacks);
         }
-        //if( operationObject.getDeprecatedBoolean() != null )
-        //    operation.setDeprecated( (boolean) operationObject.getDeprecatedBoolean().getDeprecatedBoolean() );
+        if( operationObject.getDeprecatedBoolean() != null )
+        operation.setDeprecated(operationObject.getDeprecatedBoolean().getDeprecatedBoolean());
         if( operationObject.getNumSecurityRequirementObject() != 0 ){
         for( SecurityRequirementObject s : operationObject.getSecurityRequirementObjects() )
         operation.addSecurityRequirement( SecurityRequirementObject.composeSecurityRequirement(s) );
@@ -65,7 +74,7 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:336
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:343
    */
   public static OperationObject parseOperation(Operation operation){
         OperationObject operationObject = new OperationObject();
@@ -91,10 +100,10 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
         operationObject.setOperationID( operation.getOperationId() );
         if( operation.getParameters() != null ){
         for( Parameter p : operation.getParameters() )
-        operationObject.addParam(ParameterObject.parseParameter(p));
+        operationObject.addParameterObject(ParameterObject.parseParameter(p));
         }
         if( operation.getRequestBody() != null )
-        operationObject.setRequestBody( RequestBodyObject.parseRequestBody( operation.getRequestBody() ) );
+        operationObject.setRequestBodyObject( RequestBodyObject.parseRequestBody( operation.getRequestBody() ) );
         if( operation.getResponses() != null ){
         ResponsesObject responsesObject = new ResponsesObject();
         for( String key : operation.getResponses().keySet()){
@@ -153,11 +162,11 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:21
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Tag", "Summary", "Description", "ExternalDocumentationObject", "OperationID", "Param", "RequestBody", "ResponsesObject", "CallbacksTuple", "DeprecatedBoolean", "SecurityRequirementObject", "ServerObject"},
-    type = {"JastAddList<Tag>", "String", "String", "Opt<ExternalDocumentationObject>", "String", "JastAddList<Param>", "Opt<RequestBody>", "ResponsesObject", "JastAddList<CallbacksTuple>", "Opt<DeprecatedBoolean>", "JastAddList<SecurityRequirementObject>", "JastAddList<ServerObject>"},
+    name = {"Tag", "Summary", "Description", "ExternalDocumentationObject", "OperationID", "ParameterObject", "RequestBodyObject", "ResponsesObject", "CallbacksTuple", "DeprecatedBoolean", "SecurityRequirementObject", "ServerObject"},
+    type = {"JastAddList<Tag>", "String", "String", "Opt<ExternalDocumentationObject>", "String", "JastAddList<ParameterObject>", "Opt<RequestBodyObject>", "ResponsesObject", "JastAddList<CallbacksTuple>", "Opt<DeprecatedBoolean>", "JastAddList<SecurityRequirementObject>", "JastAddList<ServerObject>"},
     kind = {"List", "Token", "Token", "Opt", "Token", "List", "Opt", "Child", "List", "Opt", "List", "List"}
   )
-  public OperationObject(JastAddList<Tag> p0, String p1, String p2, Opt<ExternalDocumentationObject> p3, String p4, JastAddList<Param> p5, Opt<RequestBody> p6, ResponsesObject p7, JastAddList<CallbacksTuple> p8, Opt<DeprecatedBoolean> p9, JastAddList<SecurityRequirementObject> p10, JastAddList<ServerObject> p11) {
+  public OperationObject(JastAddList<Tag> p0, String p1, String p2, Opt<ExternalDocumentationObject> p3, String p4, JastAddList<ParameterObject> p5, Opt<RequestBodyObject> p6, ResponsesObject p7, JastAddList<CallbacksTuple> p8, Opt<DeprecatedBoolean> p9, JastAddList<SecurityRequirementObject> p10, JastAddList<ServerObject> p11) {
     setChild(p0, 0);
     setSummary(p1);
     setDescription(p2);
@@ -499,165 +508,165 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
     return tokenString_OperationID != null ? tokenString_OperationID : "";
   }
   /**
-   * Replaces the Param list.
-   * @param list The new list node to be used as the Param list.
+   * Replaces the ParameterObject list.
+   * @param list The new list node to be used as the ParameterObject list.
    * @apilevel high-level
    */
-  public void setParamList(JastAddList<Param> list) {
+  public void setParameterObjectList(JastAddList<ParameterObject> list) {
     setChild(list, 2);
   }
   /**
-   * Retrieves the number of children in the Param list.
-   * @return Number of children in the Param list.
+   * Retrieves the number of children in the ParameterObject list.
+   * @return Number of children in the ParameterObject list.
    * @apilevel high-level
    */
-  public int getNumParam() {
-    return getParamList().getNumChild();
+  public int getNumParameterObject() {
+    return getParameterObjectList().getNumChild();
   }
   /**
-   * Retrieves the number of children in the Param list.
+   * Retrieves the number of children in the ParameterObject list.
    * Calling this method will not trigger rewrites.
-   * @return Number of children in the Param list.
+   * @return Number of children in the ParameterObject list.
    * @apilevel low-level
    */
-  public int getNumParamNoTransform() {
-    return getParamListNoTransform().getNumChildNoTransform();
+  public int getNumParameterObjectNoTransform() {
+    return getParameterObjectListNoTransform().getNumChildNoTransform();
   }
   /**
-   * Retrieves the element at index {@code i} in the Param list.
+   * Retrieves the element at index {@code i} in the ParameterObject list.
    * @param i Index of the element to return.
-   * @return The element at position {@code i} in the Param list.
+   * @return The element at position {@code i} in the ParameterObject list.
    * @apilevel high-level
    */
-  public Param getParam(int i) {
-    return (Param) getParamList().getChild(i);
+  public ParameterObject getParameterObject(int i) {
+    return (ParameterObject) getParameterObjectList().getChild(i);
   }
   /**
-   * Check whether the Param list has any children.
+   * Check whether the ParameterObject list has any children.
    * @return {@code true} if it has at least one child, {@code false} otherwise.
    * @apilevel high-level
    */
-  public boolean hasParam() {
-    return getParamList().getNumChild() != 0;
+  public boolean hasParameterObject() {
+    return getParameterObjectList().getNumChild() != 0;
   }
   /**
-   * Append an element to the Param list.
-   * @param node The element to append to the Param list.
+   * Append an element to the ParameterObject list.
+   * @param node The element to append to the ParameterObject list.
    * @apilevel high-level
    */
-  public void addParam(Param node) {
-    JastAddList<Param> list = (parent == null) ? getParamListNoTransform() : getParamList();
+  public void addParameterObject(ParameterObject node) {
+    JastAddList<ParameterObject> list = (parent == null) ? getParameterObjectListNoTransform() : getParameterObjectList();
     list.addChild(node);
   }
   /** @apilevel low-level 
    */
-  public void addParamNoTransform(Param node) {
-    JastAddList<Param> list = getParamListNoTransform();
+  public void addParameterObjectNoTransform(ParameterObject node) {
+    JastAddList<ParameterObject> list = getParameterObjectListNoTransform();
     list.addChild(node);
   }
   /**
-   * Replaces the Param list element at index {@code i} with the new node {@code node}.
+   * Replaces the ParameterObject list element at index {@code i} with the new node {@code node}.
    * @param node The new node to replace the old list element.
    * @param i The list index of the node to be replaced.
    * @apilevel high-level
    */
-  public void setParam(Param node, int i) {
-    JastAddList<Param> list = getParamList();
+  public void setParameterObject(ParameterObject node, int i) {
+    JastAddList<ParameterObject> list = getParameterObjectList();
     list.setChild(node, i);
   }
   /**
-   * Retrieves the Param list.
-   * @return The node representing the Param list.
+   * Retrieves the ParameterObject list.
+   * @return The node representing the ParameterObject list.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.ListChild(name="Param")
-  public JastAddList<Param> getParamList() {
-    JastAddList<Param> list = (JastAddList<Param>) getChild(2);
+  @ASTNodeAnnotation.ListChild(name="ParameterObject")
+  public JastAddList<ParameterObject> getParameterObjectList() {
+    JastAddList<ParameterObject> list = (JastAddList<ParameterObject>) getChild(2);
     return list;
   }
   /**
-   * Retrieves the Param list.
+   * Retrieves the ParameterObject list.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The node representing the Param list.
+   * @return The node representing the ParameterObject list.
    * @apilevel low-level
    */
-  public JastAddList<Param> getParamListNoTransform() {
-    return (JastAddList<Param>) getChildNoTransform(2);
+  public JastAddList<ParameterObject> getParameterObjectListNoTransform() {
+    return (JastAddList<ParameterObject>) getChildNoTransform(2);
   }
   /**
-   * @return the element at index {@code i} in the Param list without
+   * @return the element at index {@code i} in the ParameterObject list without
    * triggering rewrites.
    */
-  public Param getParamNoTransform(int i) {
-    return (Param) getParamListNoTransform().getChildNoTransform(i);
+  public ParameterObject getParameterObjectNoTransform(int i) {
+    return (ParameterObject) getParameterObjectListNoTransform().getChildNoTransform(i);
   }
   /**
-   * Retrieves the Param list.
-   * @return The node representing the Param list.
+   * Retrieves the ParameterObject list.
+   * @return The node representing the ParameterObject list.
    * @apilevel high-level
    */
-  public JastAddList<Param> getParams() {
-    return getParamList();
+  public JastAddList<ParameterObject> getParameterObjects() {
+    return getParameterObjectList();
   }
   /**
-   * Retrieves the Param list.
+   * Retrieves the ParameterObject list.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The node representing the Param list.
+   * @return The node representing the ParameterObject list.
    * @apilevel low-level
    */
-  public JastAddList<Param> getParamsNoTransform() {
-    return getParamListNoTransform();
+  public JastAddList<ParameterObject> getParameterObjectsNoTransform() {
+    return getParameterObjectListNoTransform();
   }
   /**
-   * Replaces the optional node for the RequestBody child. This is the <code>Opt</code>
-   * node containing the child RequestBody, not the actual child!
-   * @param opt The new node to be used as the optional node for the RequestBody child.
+   * Replaces the optional node for the RequestBodyObject child. This is the <code>Opt</code>
+   * node containing the child RequestBodyObject, not the actual child!
+   * @param opt The new node to be used as the optional node for the RequestBodyObject child.
    * @apilevel low-level
    */
-  public void setRequestBodyOpt(Opt<RequestBody> opt) {
+  public void setRequestBodyObjectOpt(Opt<RequestBodyObject> opt) {
     setChild(opt, 3);
   }
   /**
-   * Replaces the (optional) RequestBody child.
-   * @param node The new node to be used as the RequestBody child.
+   * Replaces the (optional) RequestBodyObject child.
+   * @param node The new node to be used as the RequestBodyObject child.
    * @apilevel high-level
    */
-  public void setRequestBody(RequestBody node) {
-    getRequestBodyOpt().setChild(node, 0);
+  public void setRequestBodyObject(RequestBodyObject node) {
+    getRequestBodyObjectOpt().setChild(node, 0);
   }
   /**
-   * Check whether the optional RequestBody child exists.
-   * @return {@code true} if the optional RequestBody child exists, {@code false} if it does not.
+   * Check whether the optional RequestBodyObject child exists.
+   * @return {@code true} if the optional RequestBodyObject child exists, {@code false} if it does not.
    * @apilevel high-level
    */
-  public boolean hasRequestBody() {
-    return getRequestBodyOpt().getNumChild() != 0;
+  public boolean hasRequestBodyObject() {
+    return getRequestBodyObjectOpt().getNumChild() != 0;
   }
   /**
-   * Retrieves the (optional) RequestBody child.
-   * @return The RequestBody child, if it exists. Returns {@code null} otherwise.
+   * Retrieves the (optional) RequestBodyObject child.
+   * @return The RequestBodyObject child, if it exists. Returns {@code null} otherwise.
    * @apilevel low-level
    */
-  public RequestBody getRequestBody() {
-    return (RequestBody) getRequestBodyOpt().getChild(0);
+  public RequestBodyObject getRequestBodyObject() {
+    return (RequestBodyObject) getRequestBodyObjectOpt().getChild(0);
   }
   /**
-   * Retrieves the optional node for the RequestBody child. This is the <code>Opt</code> node containing the child RequestBody, not the actual child!
-   * @return The optional node for child the RequestBody child.
+   * Retrieves the optional node for the RequestBodyObject child. This is the <code>Opt</code> node containing the child RequestBodyObject, not the actual child!
+   * @return The optional node for child the RequestBodyObject child.
    * @apilevel low-level
    */
-  @ASTNodeAnnotation.OptChild(name="RequestBody")
-  public Opt<RequestBody> getRequestBodyOpt() {
-    return (Opt<RequestBody>) getChild(3);
+  @ASTNodeAnnotation.OptChild(name="RequestBodyObject")
+  public Opt<RequestBodyObject> getRequestBodyObjectOpt() {
+    return (Opt<RequestBodyObject>) getChild(3);
   }
   /**
-   * Retrieves the optional node for child RequestBody. This is the <code>Opt</code> node containing the child RequestBody, not the actual child!
+   * Retrieves the optional node for child RequestBodyObject. This is the <code>Opt</code> node containing the child RequestBodyObject, not the actual child!
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The optional node for child RequestBody.
+   * @return The optional node for child RequestBodyObject.
    * @apilevel low-level
    */
-  public Opt<RequestBody> getRequestBodyOptNoTransform() {
-    return (Opt<RequestBody>) getChildNoTransform(3);
+  public Opt<RequestBodyObject> getRequestBodyObjectOptNoTransform() {
+    return (Opt<RequestBodyObject>) getChildNoTransform(3);
   }
   /**
    * Replaces the ResponsesObject child.
