@@ -9,7 +9,7 @@ import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:78
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:78
  * @astdecl DeprecatedBoolean : ASTNode ::= <DeprecatedBoolean:Boolean>;
  * @production DeprecatedBoolean : {@link ASTNode} ::= <span class="component">&lt;DeprecatedBoolean:Boolean&gt;</span>;
 

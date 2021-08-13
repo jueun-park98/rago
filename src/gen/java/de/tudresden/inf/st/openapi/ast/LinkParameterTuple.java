@@ -9,7 +9,7 @@ import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:120
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:120
  * @astdecl LinkParameterTuple : ASTNode ::= <LinkParameterKey:String> <LinkParameterValue:String>;
  * @production LinkParameterTuple : {@link ASTNode} ::= <span class="component">&lt;LinkParameterKey:String&gt;</span> <span class="component">&lt;LinkParameterValue:String&gt;</span>;
 

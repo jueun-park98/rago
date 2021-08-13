@@ -9,7 +9,7 @@ import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:39
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:39
  * @astdecl ExamplesTuple : ASTNode;
  * @production ExamplesTuple : {@link ASTNode};
 

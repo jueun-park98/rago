@@ -9,7 +9,7 @@ import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:160
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:160
  * @astdecl ScopesTuple : ASTNode ::= <ScopesKey:String> <ScopesValue:String>;
  * @production ScopesTuple : {@link ASTNode} ::= <span class="component">&lt;ScopesKey:String&gt;</span> <span class="component">&lt;ScopesValue:String&gt;</span>;
 

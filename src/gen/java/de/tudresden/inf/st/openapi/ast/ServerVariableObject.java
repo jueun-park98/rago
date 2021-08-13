@@ -9,7 +9,7 @@ import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:25
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:25
  * @astdecl ServerVariableObject : ASTNode ::= Enum* <Default:String> <Description:String>;
  * @production ServerVariableObject : {@link ASTNode} ::= <span class="component">{@link Enum}*</span> <span class="component">&lt;Default:String&gt;</span> <span class="component">&lt;Description:String&gt;</span>;
 
@@ -17,7 +17,7 @@ import java.net.URL;
 public class ServerVariableObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:109
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:109
    */
   public static ServerVariable composeServerVariable (ServerVariableObject serverVariableObject){
         ServerVariable serverVariable = new ServerVariable();
@@ -37,7 +37,7 @@ public class ServerVariableObject extends ASTNode<ASTNode> implements Cloneable 
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:88
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:88
    */
   public static ServerVariableObject parseServerVariable(ServerVariable serverVariable){
         ServerVariableObject serverVariableObject = new ServerVariableObject();

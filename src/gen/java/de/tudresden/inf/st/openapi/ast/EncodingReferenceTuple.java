@@ -9,7 +9,7 @@ import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:97
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:97
  * @astdecl EncodingReferenceTuple : EncodingTuple ::= <Name:String> <Ref:String>;
  * @production EncodingReferenceTuple : {@link EncodingTuple} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;Ref:String&gt;</span>;
 

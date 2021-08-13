@@ -9,7 +9,7 @@ import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:133
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:133
  * @astdecl NotSchema : ASTNode ::= SchemaObject;
  * @production NotSchema : {@link ASTNode} ::= <span class="component">{@link SchemaObject}</span>;
 

@@ -1,3 +1,2 @@
-7Loading expression DSL file 'api-with-examples.json'.
-$Is the source object valid? : true
-'Is the generated object valid? : true
+6Loading expression DSL file 'petstore-expanded.json'.
+#Is the source object valid? : true

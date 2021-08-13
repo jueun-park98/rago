@@ -9,7 +9,7 @@ import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:22
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:22
  * @astdecl ServerVariablesTuple : ASTNode ::= <Name:String> ServerVariableObject;
  * @production ServerVariablesTuple : {@link ASTNode} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">{@link ServerVariableObject}</span>;
 

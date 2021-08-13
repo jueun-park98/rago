@@ -9,7 +9,7 @@ import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:100
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:100
  * @astdecl EncodingObject : ASTNode ::= <ContentType:String> HeadersTuple* <Style:String> <Explode:Object> <AllowReserved:Object>;
  * @production EncodingObject : {@link ASTNode} ::= <span class="component">&lt;ContentType:String&gt;</span> <span class="component">{@link HeadersTuple}*</span> <span class="component">&lt;Style:String&gt;</span> <span class="component">&lt;Explode:Object&gt;</span> <span class="component">&lt;AllowReserved:Object&gt;</span>;
 
@@ -17,7 +17,7 @@ import java.net.URL;
 public class EncodingObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:426
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:426
    */
   public static EncodingProperty composeEncodingProperty (EncodingObject encodingObject){
         EncodingProperty encodingProperty = new EncodingProperty();
@@ -39,7 +39,7 @@ public class EncodingObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:492
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:492
    */
   public static EncodingObject parseEncoding(EncodingProperty encodingProperty){
         EncodingObject encodingObject = new EncodingObject();

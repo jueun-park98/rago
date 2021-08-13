@@ -9,7 +9,7 @@ import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:41
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:41
  * @astdecl ExampleReferenceTuple : ExamplesTuple ::= <Name:String> <Ref:String>;
  * @production ExampleReferenceTuple : {@link ExamplesTuple} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;Ref:String&gt;</span>;
 

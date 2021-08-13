@@ -9,7 +9,7 @@ import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:31
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:31
  * @astdecl SchemaObjectTuple : SchemasTuple ::= <Name:String> SchemaObject;
  * @production SchemaObjectTuple : {@link SchemasTuple} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">{@link SchemaObject}</span>;
 

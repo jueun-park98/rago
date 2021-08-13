@@ -9,7 +9,7 @@ import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:164
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:164
  * @astdecl SecurityRequirementTuple : ASTNode ::= <Name:String> SecurityRequirementValue*;
  * @production SecurityRequirementTuple : {@link ASTNode} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">{@link SecurityRequirementValue}*</span>;
 

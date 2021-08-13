@@ -9,7 +9,7 @@ import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:43
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:43
  * @astdecl RequestBodyObjectTuple : RequestBodiesTuple ::= <Name:String> RequestBodyObject;
  * @production RequestBodyObjectTuple : {@link RequestBodiesTuple} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">{@link RequestBodyObject}</span>;
 

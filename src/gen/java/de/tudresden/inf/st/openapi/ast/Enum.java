@@ -9,7 +9,7 @@ import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:26
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:26
  * @astdecl Enum : ASTNode ::= <EnumValue:String>;
  * @production Enum : {@link ASTNode} ::= <span class="component">&lt;EnumValue:String&gt;</span>;
 

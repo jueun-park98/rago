@@ -9,7 +9,7 @@ import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:72
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:72
  * @astdecl ParameterObject : ASTNode ::= <Name:String> <In:String> <Description:String> <Required:Boolean> <DeprecatedBoolean:Boolean> <AllowEmptyValue:Boolean> <Style:String> <Explode:Boolean> <AllowReserved:Boolean> [SchemaObject] <Example:Object> ExamplesTuple* ContentTuple* <Ref:String>;
  * @production ParameterObject : {@link ASTNode} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;In:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;Required:Boolean&gt;</span> <span class="component">&lt;DeprecatedBoolean:Boolean&gt;</span> <span class="component">&lt;AllowEmptyValue:Boolean&gt;</span> <span class="component">&lt;Style:String&gt;</span> <span class="component">&lt;Explode:Boolean&gt;</span> <span class="component">&lt;AllowReserved:Boolean&gt;</span> <span class="component">[{@link SchemaObject}]</span> <span class="component">&lt;Example:Object&gt;</span> <span class="component">{@link ExamplesTuple}*</span> <span class="component">{@link ContentTuple}*</span> <span class="component">&lt;Ref:String&gt;</span>;
 
@@ -17,7 +17,7 @@ import java.net.URL;
 public class ParameterObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:340
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:340
    */
   public static Parameter composeParameter (ParameterObject parameterObject){
         Parameter parameter = new Parameter();
@@ -63,7 +63,7 @@ public class ParameterObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:412
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:412
    */
   public static ParameterObject parseParameter(Parameter parameter){
         ParameterObject parameterObject = new ParameterObject();

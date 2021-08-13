@@ -9,7 +9,7 @@ import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:145
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:145
  * @astdecl XmlObject : ASTNode ::= <Name:String> <Namespace:String> <Prefix:String> <Attribute:Object> <Wrapped:Object>;
  * @production XmlObject : {@link ASTNode} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;Namespace:String&gt;</span> <span class="component">&lt;Prefix:String&gt;</span> <span class="component">&lt;Attribute:Object&gt;</span> <span class="component">&lt;Wrapped:Object&gt;</span>;
 
@@ -17,7 +17,7 @@ import java.net.URL;
 public class XmlObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:668
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:668
    */
   public static Xml composeXml (XmlObject xmlObject) {
         Xml xml = new Xml();
@@ -37,7 +37,7 @@ public class XmlObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:751
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:751
    */
   public static XmlObject parseXml (Xml xml) {
         XmlObject xmlObject = new XmlObject();

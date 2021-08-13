@@ -9,7 +9,7 @@ import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:113
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:113
  * @astdecl Expression : ASTNode ::= <Name:String> PathItemObject;
  * @production Expression : {@link ASTNode} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">{@link PathItemObject}</span>;
 

@@ -9,7 +9,7 @@ import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:103
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:103
  * @astdecl ResponsesObject : ASTNode ::= HTTPStatusCode*;
  * @production ResponsesObject : {@link ASTNode} ::= <span class="component">{@link HTTPStatusCode}*</span>;
 

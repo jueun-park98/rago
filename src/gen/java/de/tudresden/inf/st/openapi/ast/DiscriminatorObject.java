@@ -9,7 +9,7 @@ import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:141
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:141
  * @astdecl DiscriminatorObject : ASTNode ::= <PropertyName:String> MappingTuple*;
  * @production DiscriminatorObject : {@link ASTNode} ::= <span class="component">&lt;PropertyName:String&gt;</span> <span class="component">{@link MappingTuple}*</span>;
 
@@ -17,7 +17,7 @@ import java.net.URL;
 public class DiscriminatorObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:653
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:653
    */
   public static Discriminator composeDiscriminator (DiscriminatorObject discriminatorObject) {
         Discriminator discriminator = new Discriminator();
@@ -35,7 +35,7 @@ public class DiscriminatorObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:734
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:734
    */
   public static DiscriminatorObject parseDiscriminator (Discriminator discriminator) {
         DiscriminatorObject discriminatorObject = new DiscriminatorObject();

@@ -9,7 +9,7 @@ import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:165
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:165
  * @astdecl SecurityRequirementValue : ASTNode ::= <Value:String>;
  * @production SecurityRequirementValue : {@link ASTNode} ::= <span class="component">&lt;Value:String&gt;</span>;
 

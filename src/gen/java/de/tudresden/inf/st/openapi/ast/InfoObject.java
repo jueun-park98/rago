@@ -9,7 +9,7 @@ import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:10
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:10
  * @astdecl InfoObject : ASTNode ::= <Title:String> <Description:String> <TermsOfService:String> [ContactObject] [LicenseObject] <Version:String>;
  * @production InfoObject : {@link ASTNode} ::= <span class="component">&lt;Title:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;TermsOfService:String&gt;</span> <span class="component">[{@link ContactObject}]</span> <span class="component">[{@link LicenseObject}]</span> <span class="component">&lt;Version:String&gt;</span>;
 
@@ -17,7 +17,7 @@ import java.net.URL;
 public class InfoObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:50
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:50
    */
   public static Info composeInfo (InfoObject infoObject){
         Info info = new Info();
@@ -38,7 +38,7 @@ public class InfoObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:31
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:31
    */
   public static InfoObject parseInfo(Info info) {
         InfoObject infoObject = new InfoObject();

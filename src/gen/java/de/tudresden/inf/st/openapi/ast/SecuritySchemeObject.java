@@ -9,7 +9,7 @@ import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:148
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:148
  * @astdecl SecuritySchemeObject : ASTNode ::= <Type:String> <Description:String> <Name:String> <In:String> <Scheme:String> <BearerFormat:String> Flows <OpenIdConnectUrl:String>;
  * @production SecuritySchemeObject : {@link ASTNode} ::= <span class="component">&lt;Type:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;In:String&gt;</span> <span class="component">&lt;Scheme:String&gt;</span> <span class="component">&lt;BearerFormat:String&gt;</span> <span class="component">{@link Flows}</span> <span class="component">&lt;OpenIdConnectUrl:String&gt;</span>;
 
@@ -17,7 +17,7 @@ import java.net.URL;
 public class SecuritySchemeObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:685
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:685
    */
   public static SecurityScheme composeSecurityScheme (SecuritySchemeObject securitySchemeObject){
         SecurityScheme securityScheme = new SecurityScheme();
@@ -38,7 +38,7 @@ public class SecuritySchemeObject extends ASTNode<ASTNode> implements Cloneable 
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:768
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:768
    */
   public static SecuritySchemeObject parseSecurityScheme(SecurityScheme securityScheme){
         SecuritySchemeObject securitySchemeObject = new SecuritySchemeObject();

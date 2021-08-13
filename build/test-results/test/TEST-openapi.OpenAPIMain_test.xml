@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="openapi.OpenAPIMain_test" tests="1" skipped="0" failures="1" errors="0" timestamp="2021-08-12T20:17:26" hostname="DESKTOP-RAH69DT" time="0.25">
+<testsuite name="openapi.OpenAPIMain_test" tests="1" skipped="0" failures="1" errors="0" timestamp="2021-08-13T06:52:45" hostname="MacBook-Air-von-Jueun.local" time="0.542">
   <properties/>
-  <testcase name="test()" classname="openapi.OpenAPIMain_test" time="0.25">
-    <failure message="java.lang.NullPointerException" type="java.lang.NullPointerException">java.lang.NullPointerException
-	at openapi.OpenAPIMain_test.test(OpenAPIMain_test.java:73)
+  <testcase name="test()" classname="openapi.OpenAPIMain_test" time="0.542">
+    <failure message="OpenApi3 validation failure&#10;Validation error(s) :&#10;components.schemas.Error.required.required: Duplicated values in 'required'. (code: 101)&#10;From: components.schemas.Error.required.required&#10;" type="org.openapi4j.core.validation.ValidationException">OpenApi3 validation failure
+Validation error(s) :
+components.schemas.Error.required.required: Duplicated values in 'required'. (code: 101)
+From: components.schemas.Error.required.required
+
+	at org.openapi4j.parser.validation.v3.OpenApi3Validator.validate(OpenApi3Validator.java:28)
+	at openapi.OpenAPIMain_test.test(OpenAPIMain_test.java:71)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -96,9 +101,8 @@
 	at java.base/java.lang.Thread.run(Thread.java:829)
 </failure>
   </testcase>
-  <system-out><![CDATA[Loading expression DSL file 'api-with-examples.json'.
+  <system-out><![CDATA[Loading expression DSL file 'petstore-expanded.json'.
 Is the source object valid? : true
-Is the generated object valid? : true
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

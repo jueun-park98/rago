@@ -9,7 +9,7 @@ import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:85
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:85
  * @astdecl SchemaObject : ASTNode ::= [AdditionalProperties] <AdditionalPropertiesAllowed:Object> <DefaultValue:Object> <Description:String> <DeprecatedBoolean:Object> [DiscriminatorObject] EnumObj* <Example:Object> <ExclusiveMaximum:Object> <ExclusiveMinimum:Object> [ExternalDocumentationObject] <Format:String> [ItemsSchema] <Maximum:Object> <Minimum:Object> <MaxItems:Object> <MinItems:Object> <MaxLength:Object> <MinLength:Object> <MaxProperties:Object> <MinProperties:Object> <MultipleOf:Object> [NotSchema] <Nullable:Object> <Pattern:String> PropertyItem* RequiredField* AllOfSchema* AnyOfSchema* OneOfSchema* <ReadOnly:Object> <WriteOnly:Object> <Type:String> <Title:String> <UniqueItems:Object> [XmlObject] <Ref:String>;
  * @production SchemaObject : {@link ASTNode} ::= <span class="component">[{@link AdditionalProperties}]</span> <span class="component">&lt;AdditionalPropertiesAllowed:Object&gt;</span> <span class="component">&lt;DefaultValue:Object&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;DeprecatedBoolean:Object&gt;</span> <span class="component">[{@link DiscriminatorObject}]</span> <span class="component">{@link EnumObj}*</span> <span class="component">&lt;Example:Object&gt;</span> <span class="component">&lt;ExclusiveMaximum:Object&gt;</span> <span class="component">&lt;ExclusiveMinimum:Object&gt;</span> <span class="component">[{@link ExternalDocumentationObject}]</span> <span class="component">&lt;Format:String&gt;</span> <span class="component">[{@link ItemsSchema}]</span> <span class="component">&lt;Maximum:Object&gt;</span> <span class="component">&lt;Minimum:Object&gt;</span> <span class="component">&lt;MaxItems:Object&gt;</span> <span class="component">&lt;MinItems:Object&gt;</span> <span class="component">&lt;MaxLength:Object&gt;</span> <span class="component">&lt;MinLength:Object&gt;</span> <span class="component">&lt;MaxProperties:Object&gt;</span> <span class="component">&lt;MinProperties:Object&gt;</span> <span class="component">&lt;MultipleOf:Object&gt;</span> <span class="component">[{@link NotSchema}]</span> <span class="component">&lt;Nullable:Object&gt;</span> <span class="component">&lt;Pattern:String&gt;</span> <span class="component">{@link PropertyItem}*</span> <span class="component">{@link RequiredField}*</span> <span class="component">{@link AllOfSchema}*</span> <span class="component">{@link AnyOfSchema}*</span> <span class="component">{@link OneOfSchema}*</span> <span class="component">&lt;ReadOnly:Object&gt;</span> <span class="component">&lt;WriteOnly:Object&gt;</span> <span class="component">&lt;Type:String&gt;</span> <span class="component">&lt;Title:String&gt;</span> <span class="component">&lt;UniqueItems:Object&gt;</span> <span class="component">[{@link XmlObject}]</span> <span class="component">&lt;Ref:String&gt;</span>;
 
@@ -17,7 +17,7 @@ import java.net.URL;
 public class SchemaObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:564
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:564
    */
   public static org.openapi4j.parser.model.v3.Schema composeSchema (SchemaObject schemaObject) {
         org.openapi4j.parser.model.v3.Schema schema = new org.openapi4j.parser.model.v3.Schema();
@@ -109,7 +109,7 @@ public class SchemaObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:618
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:618
    */
   public static SchemaObject parseSchema (org.openapi4j.parser.model.v3.Schema schema) {
         SchemaObject schemaObject = new SchemaObject();

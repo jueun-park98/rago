@@ -9,7 +9,7 @@ import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:153
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:153
  * @astdecl Implicit : ASTNode ::= OAuthFlowObject;
  * @production Implicit : {@link ASTNode} ::= <span class="component">{@link OAuthFlowObject}</span>;
 

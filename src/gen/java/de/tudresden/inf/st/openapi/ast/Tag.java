@@ -9,7 +9,7 @@ import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:76
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:76
  * @astdecl Tag : ASTNode ::= <Tag:String>;
  * @production Tag : {@link ASTNode} ::= <span class="component">&lt;Tag:String&gt;</span>;
 
