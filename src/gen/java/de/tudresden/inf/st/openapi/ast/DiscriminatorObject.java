@@ -36,7 +36,7 @@ public class DiscriminatorObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:717
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:716
    */
   public static DiscriminatorObject parseDiscriminator (Discriminator discriminator) {
         DiscriminatorObject discriminatorObject = new DiscriminatorObject();

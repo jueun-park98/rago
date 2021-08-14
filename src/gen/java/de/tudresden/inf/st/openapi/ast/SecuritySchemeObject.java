@@ -39,7 +39,7 @@ public class SecuritySchemeObject extends ASTNode<ASTNode> implements Cloneable 
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:751
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:750
    */
   public static SecuritySchemeObject parseSecurityScheme(SecurityScheme securityScheme){
         SecuritySchemeObject securitySchemeObject = new SecuritySchemeObject();

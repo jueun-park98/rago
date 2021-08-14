@@ -127,7 +127,6 @@ public class SchemaObject extends ASTNode<ASTNode> implements Cloneable {
         schemaObject.setAdditionalProperties(parseSchema(schema.getAdditionalProperties()));
         if( schema.getAdditionalPropertiesAllowed() != null )
         schemaObject.setAdditionalPropertiesAllowed(schema.getAdditionalPropertiesAllowed());
-        System.out.println(schema.getAdditionalPropertiesAllowed());
         if( schema.getDefault() != null )
         schemaObject.setDefaultValue(schema.getDefault());
         if( schema.getDescription() != null )

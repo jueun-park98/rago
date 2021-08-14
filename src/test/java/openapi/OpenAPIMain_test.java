@@ -42,6 +42,8 @@ public class OpenAPIMain_test {
             filenames.add(file.getName());
 
         for( String file : filenames ){
+            String writerName = "./gen-api-ex/" + file;
+            FileWriter writer = new FileWriter(writerName);
             URL expUrl = OpenAPIMain_test.class.getClassLoader().getResource(file);
 
             /*
@@ -66,17 +68,15 @@ public class OpenAPIMain_test {
             api3 = OpenAPIObject.composeOpenAPI(openApi);
 
             // check, if the composed openAPI object is valid
-            //results = OpenApi3Validator.instance().validate(api);
-            //System.out.println("Is the source object valid? : " + results.isValid());
-            //results = OpenApi3Validator.instance().validate(api3);
-            //System.out.println("Is the generated object valid? : " + results.isValid());
+
+            System.out.println(api.toNode().equals(api3.toNode()));
 
             // compare if api (source object) is equivalent to api3 (generated object)
             compareJson(api3.toNode(), api.toNode(), Paths.get(file));
 
             // save the generated object
-            //writer.write(api3.toNode().toPrettyString());
-            //writer.close();
+            writer.write(api3.toNode().toPrettyString());
+            writer.close();
         }
     }
 
