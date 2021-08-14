@@ -4,12 +4,13 @@ import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
 import org.openapi4j.core.model.reference.Reference;
+import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:25
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:18
  * @astdecl ServerVariableObject : ASTNode ::= Enum* <Default:String> <Description:String>;
  * @production ServerVariableObject : {@link ASTNode} ::= <span class="component">{@link Enum}*</span> <span class="component">&lt;Default:String&gt;</span> <span class="component">&lt;Description:String&gt;</span>;
 
@@ -17,15 +18,15 @@ import java.net.URL;
 public class ServerVariableObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:109
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:114
    */
   public static ServerVariable composeServerVariable (ServerVariableObject serverVariableObject){
         ServerVariable serverVariable = new ServerVariable();
 
-        serverVariable.setDefault( serverVariableObject.getDefault() );
-
+        if( !serverVariableObject.getDefault().isEmpty() )
+        serverVariable.setDefault(serverVariableObject.getDefault());
         if( !serverVariableObject.getDescription().isEmpty() )
-        serverVariable.setDescription( serverVariableObject.getDescription() );
+        serverVariable.setDescription(serverVariableObject.getDescription());
         if( serverVariableObject.getNumEnum() != 0 ){
         List<String> enums = new ArrayList<>();
         for( Enum e : serverVariableObject.getEnums() )
@@ -37,15 +38,15 @@ public class ServerVariableObject extends ASTNode<ASTNode> implements Cloneable 
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:88
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:94
    */
   public static ServerVariableObject parseServerVariable(ServerVariable serverVariable){
         ServerVariableObject serverVariableObject = new ServerVariableObject();
 
-        serverVariableObject.setDefault( serverVariable.getDefault() );
-
+        if( serverVariable.getDefault() != null )
+        serverVariableObject.setDefault(serverVariable.getDefault());
         if( serverVariable.getDescription() != null )
-        serverVariableObject.setDescription( serverVariable.getDescription() );
+        serverVariableObject.setDescription(serverVariable.getDescription());
         if( serverVariable.getEnums() != null ){
         for( String e : serverVariable.getEnums() )
         serverVariableObject.addEnum(new Enum(e));

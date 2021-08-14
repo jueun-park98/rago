@@ -4,104 +4,101 @@ import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
 import org.openapi4j.core.model.reference.Reference;
+import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:72
- * @astdecl ParameterObject : ASTNode ::= <Name:String> <In:String> <Description:String> <Required:Boolean> <DeprecatedBoolean:Boolean> <AllowEmptyValue:Boolean> <Style:String> <Explode:Boolean> <AllowReserved:Boolean> [SchemaObject] <Example:Object> ExamplesTuple* ContentTuple* <Ref:String>;
- * @production ParameterObject : {@link ASTNode} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;In:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;Required:Boolean&gt;</span> <span class="component">&lt;DeprecatedBoolean:Boolean&gt;</span> <span class="component">&lt;AllowEmptyValue:Boolean&gt;</span> <span class="component">&lt;Style:String&gt;</span> <span class="component">&lt;Explode:Boolean&gt;</span> <span class="component">&lt;AllowReserved:Boolean&gt;</span> <span class="component">[{@link SchemaObject}]</span> <span class="component">&lt;Example:Object&gt;</span> <span class="component">{@link ExamplesTuple}*</span> <span class="component">{@link ContentTuple}*</span> <span class="component">&lt;Ref:String&gt;</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:56
+ * @astdecl ParameterObject : ASTNode ::= <Name:String> <In:String> <Description:String> <Required:Boolean> <DeprecatedBoolean:Boolean> <AllowEmptyValue:Boolean> <Style:String> <Explode:Boolean> <AllowReserved:Boolean> [SchemaObject] <Example:Object> ExampleTuple* ContentTuple* <Ref:String>;
+ * @production ParameterObject : {@link ASTNode} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;In:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;Required:Boolean&gt;</span> <span class="component">&lt;DeprecatedBoolean:Boolean&gt;</span> <span class="component">&lt;AllowEmptyValue:Boolean&gt;</span> <span class="component">&lt;Style:String&gt;</span> <span class="component">&lt;Explode:Boolean&gt;</span> <span class="component">&lt;AllowReserved:Boolean&gt;</span> <span class="component">[{@link SchemaObject}]</span> <span class="component">&lt;Example:Object&gt;</span> <span class="component">{@link ExampleTuple}*</span> <span class="component">{@link ContentTuple}*</span> <span class="component">&lt;Ref:String&gt;</span>;
 
  */
 public class ParameterObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:340
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:355
    */
   public static Parameter composeParameter (ParameterObject parameterObject){
         Parameter parameter = new Parameter();
 
-        parameter.setName( parameterObject.getName() );
-        parameter.setIn( parameterObject.getIn() );
-        parameter.setRequired( parameterObject.getRequired() );
-
-        if( !parameterObject.getDescription().isEmpty() )
-        parameter.setDescription( parameterObject.getDescription() );
-        if( parameterObject.getDeprecatedBoolean() != null )
-        parameter.setDeprecated( parameterObject.getDeprecatedBoolean() );
-        if( parameterObject.getStyle() != null )
-        parameter.setStyle( parameter.getStyle() );
-        if( parameterObject.getAllowReserved() != null )
-        parameter.setAllowReserved( parameterObject.getAllowReserved() );
-        if( parameterObject.getExplode() != null )
-        parameter.setExplode( parameterObject.getExplode() );
-        if( parameterObject.getAllowReserved() != null )
-        parameter.setAllowReserved( parameterObject.getAllowReserved() );
-        if( parameterObject.getSchemaObject() != null ){
-        Schema schema = new Schema();
-        schema = SchemaObject.composeSchema(parameterObject.getSchemaObject());
         if( !parameterObject.getRef().isEmpty() )
-        schema.setRef(parameterObject.getRef());
-        parameter.setSchema(schema);}
+        parameter.setRef(parameterObject.getRef());
+        if( !parameterObject.getName().isEmpty() )
+        parameter.setName(parameterObject.getName());
+        if( !parameterObject.getIn().isEmpty() )
+        parameter.setIn(parameterObject.getIn());
+        if( parameterObject.getRequired() != null )
+        parameter.setRequired(parameterObject.getRequired());
+        if( !parameterObject.getDescription().isEmpty() )
+        parameter.setDescription(parameterObject.getDescription());
+        if( parameterObject.getDeprecatedBoolean() != null )
+        parameter.setDeprecated(parameterObject.getDeprecatedBoolean());
+        if( !parameterObject.getStyle().isEmpty() )
+        parameter.setStyle(parameterObject.getStyle());
+        if( parameterObject.getAllowReserved() != null )
+        parameter.setAllowReserved(parameterObject.getAllowReserved());
+        if( parameterObject.getExplode() != null )
+        parameter.setExplode(parameterObject.getExplode());
+        if( parameterObject.getSchemaObject() != null )
+        parameter.setSchema(SchemaObject.composeSchema(parameterObject.getSchemaObject()));
         if( parameterObject.getExample() != null )
-        parameter.setExample( parameterObject.getExample() );
-        if( parameterObject.getNumExamplesTuple() != 0 ){
-        Map<String, Example> examples = new HashMap<>();
-        for( ExamplesTuple t : parameterObject.getExamplesTuples() )
-        examples.put( ((ExampleObjectTuple)t).getName(), ExampleObject.composeExample( ((ExampleObjectTuple)t).getExampleObject() ) );
-        parameter.setExamples(examples);
+        parameter.setExample(parameterObject.getExample());
+        if( parameterObject.getNumExampleTuple() != 0 ){
+        Map<String, Example> exampleMap = new HashMap<>();
+        for( ExampleTuple t : parameterObject.getExampleTuples() )
+        exampleMap.put(t.getKey(), ExampleObject.composeExample(t.getExampleObject()));
+        parameter.setExamples(exampleMap);
         }
         if( parameterObject.getNumContentTuple() != 0 ){
-        Map<String, MediaType> contents = new HashMap<>();
+        Map<String, MediaType> contentMap = new HashMap<>();
         for( ContentTuple t : parameterObject.getContentTuples() )
-        contents.put( ((ContentObjectTuple)t).getName(), MediaTypeObject.composeMediaType( ((ContentObjectTuple)t).getMediaTypeObject() ) );
-        parameter.setContentMediaTypes(contents);
+        contentMap.put(t.getKey(), MediaTypeObject.composeMediaType(t.getMediaTypeObject()));
+        parameter.setContentMediaTypes(contentMap);
         }
+        if( parameterObject.getRequired() != null )
+            parameter.setRequired(parameterObject.getRequired());
 
         return parameter;
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:412
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:392
    */
   public static ParameterObject parseParameter(Parameter parameter){
         ParameterObject parameterObject = new ParameterObject();
 
+        if( parameter.isRef() )
+        parameterObject.setRef(parameter.getRef());
+        if( parameter.getName() != null )
         parameterObject.setName(parameter.getName());
+        if( parameter.getIn() != null )
         parameterObject.setIn(parameter.getIn());
-        if( parameter.getRequired() == null )
-        parameterObject.setRequired(false);
-        else
-        parameterObject.setRequired(parameter.getRequired());
-
         if( parameter.getDescription() != null )
-        parameterObject.setDescription( parameter.getDescription() );
+        parameterObject.setDescription(parameter.getDescription());
         if( parameter.getDeprecated() != null )
-        parameterObject.setDeprecatedBoolean( parameter.getDeprecated() );
+        parameterObject.setDeprecatedBoolean(parameter.getDeprecated());
         if( parameter.getStyle() != null )
         parameterObject.setStyle( parameter.getStyle() );
         if( parameter.getExplode() != null )
         parameterObject.setExplode( parameter.getExplode() );
         if( parameter.getAllowReserved() != null )
         parameterObject.setAllowReserved( parameter.getAllowReserved() );
-        if( parameter.getSchema() != null ){
-        SchemaObject schema = new SchemaObject();
-        schema = SchemaObject.parseSchema(parameter.getSchema());
-        if( parameter.getSchema().isRef() )
-        schema.setRef(parameter.getSchema().getRef());
-        parameterObject.setSchemaObject(schema);
-        }
+        if( parameter.getSchema() != null )
+        parameterObject.setSchemaObject(SchemaObject.parseSchema(parameter.getSchema()));
         if( parameter.getExample() != null )
         parameterObject.setExample( parameter.getExample() );
         if( parameter.getExamples() != null ){
         for( String key : parameter.getExamples().keySet() )
-        parameterObject.addExamplesTuple(new ExampleObjectTuple(key, ExampleObject.parseExample(parameter.getExample(key))));
+        parameterObject.addExampleTuple(new ExampleTuple(key, ExampleObject.parseExample(parameter.getExample(key))));
         }
         if( parameter.getContentMediaTypes() != null ){
         for( String key : parameter.getContentMediaTypes().keySet() )
-        parameterObject.addContentTuple(new ContentObjectTuple(key, MediaTypeObject.parseMediaType(parameter.getContentMediaType(key))));
+        parameterObject.addContentTuple(new ContentTuple(key, MediaTypeObject.parseMediaType(parameter.getContentMediaType(key))));
         }
+        if( parameter.getRequired() != null )
+            parameterObject.setRequired(parameter.getRequired());
 
         return parameterObject;
         }
@@ -128,11 +125,11 @@ public class ParameterObject extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:16
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Name", "In", "Description", "Required", "DeprecatedBoolean", "AllowEmptyValue", "Style", "Explode", "AllowReserved", "SchemaObject", "Example", "ExamplesTuple", "ContentTuple", "Ref"},
-    type = {"String", "String", "String", "Boolean", "Boolean", "Boolean", "String", "Boolean", "Boolean", "Opt<SchemaObject>", "Object", "JastAddList<ExamplesTuple>", "JastAddList<ContentTuple>", "String"},
+    name = {"Name", "In", "Description", "Required", "DeprecatedBoolean", "AllowEmptyValue", "Style", "Explode", "AllowReserved", "SchemaObject", "Example", "ExampleTuple", "ContentTuple", "Ref"},
+    type = {"String", "String", "String", "Boolean", "Boolean", "Boolean", "String", "Boolean", "Boolean", "Opt<SchemaObject>", "Object", "JastAddList<ExampleTuple>", "JastAddList<ContentTuple>", "String"},
     kind = {"Token", "Token", "Token", "Token", "Token", "Token", "Token", "Token", "Token", "Opt", "Token", "List", "List", "Token"}
   )
-  public ParameterObject(String p0, String p1, String p2, Boolean p3, Boolean p4, Boolean p5, String p6, Boolean p7, Boolean p8, Opt<SchemaObject> p9, Object p10, JastAddList<ExamplesTuple> p11, JastAddList<ContentTuple> p12, String p13) {
+  public ParameterObject(String p0, String p1, String p2, Boolean p3, Boolean p4, Boolean p5, String p6, Boolean p7, Boolean p8, Opt<SchemaObject> p9, Object p10, JastAddList<ExampleTuple> p11, JastAddList<ContentTuple> p12, String p13) {
     setName(p0);
     setIn(p1);
     setDescription(p2);
@@ -506,114 +503,114 @@ public class ParameterObject extends ASTNode<ASTNode> implements Cloneable {
     return tokenObject_Example;
   }
   /**
-   * Replaces the ExamplesTuple list.
-   * @param list The new list node to be used as the ExamplesTuple list.
+   * Replaces the ExampleTuple list.
+   * @param list The new list node to be used as the ExampleTuple list.
    * @apilevel high-level
    */
-  public void setExamplesTupleList(JastAddList<ExamplesTuple> list) {
+  public void setExampleTupleList(JastAddList<ExampleTuple> list) {
     setChild(list, 1);
   }
   /**
-   * Retrieves the number of children in the ExamplesTuple list.
-   * @return Number of children in the ExamplesTuple list.
+   * Retrieves the number of children in the ExampleTuple list.
+   * @return Number of children in the ExampleTuple list.
    * @apilevel high-level
    */
-  public int getNumExamplesTuple() {
-    return getExamplesTupleList().getNumChild();
+  public int getNumExampleTuple() {
+    return getExampleTupleList().getNumChild();
   }
   /**
-   * Retrieves the number of children in the ExamplesTuple list.
+   * Retrieves the number of children in the ExampleTuple list.
    * Calling this method will not trigger rewrites.
-   * @return Number of children in the ExamplesTuple list.
+   * @return Number of children in the ExampleTuple list.
    * @apilevel low-level
    */
-  public int getNumExamplesTupleNoTransform() {
-    return getExamplesTupleListNoTransform().getNumChildNoTransform();
+  public int getNumExampleTupleNoTransform() {
+    return getExampleTupleListNoTransform().getNumChildNoTransform();
   }
   /**
-   * Retrieves the element at index {@code i} in the ExamplesTuple list.
+   * Retrieves the element at index {@code i} in the ExampleTuple list.
    * @param i Index of the element to return.
-   * @return The element at position {@code i} in the ExamplesTuple list.
+   * @return The element at position {@code i} in the ExampleTuple list.
    * @apilevel high-level
    */
-  public ExamplesTuple getExamplesTuple(int i) {
-    return (ExamplesTuple) getExamplesTupleList().getChild(i);
+  public ExampleTuple getExampleTuple(int i) {
+    return (ExampleTuple) getExampleTupleList().getChild(i);
   }
   /**
-   * Check whether the ExamplesTuple list has any children.
+   * Check whether the ExampleTuple list has any children.
    * @return {@code true} if it has at least one child, {@code false} otherwise.
    * @apilevel high-level
    */
-  public boolean hasExamplesTuple() {
-    return getExamplesTupleList().getNumChild() != 0;
+  public boolean hasExampleTuple() {
+    return getExampleTupleList().getNumChild() != 0;
   }
   /**
-   * Append an element to the ExamplesTuple list.
-   * @param node The element to append to the ExamplesTuple list.
+   * Append an element to the ExampleTuple list.
+   * @param node The element to append to the ExampleTuple list.
    * @apilevel high-level
    */
-  public void addExamplesTuple(ExamplesTuple node) {
-    JastAddList<ExamplesTuple> list = (parent == null) ? getExamplesTupleListNoTransform() : getExamplesTupleList();
+  public void addExampleTuple(ExampleTuple node) {
+    JastAddList<ExampleTuple> list = (parent == null) ? getExampleTupleListNoTransform() : getExampleTupleList();
     list.addChild(node);
   }
   /** @apilevel low-level 
    */
-  public void addExamplesTupleNoTransform(ExamplesTuple node) {
-    JastAddList<ExamplesTuple> list = getExamplesTupleListNoTransform();
+  public void addExampleTupleNoTransform(ExampleTuple node) {
+    JastAddList<ExampleTuple> list = getExampleTupleListNoTransform();
     list.addChild(node);
   }
   /**
-   * Replaces the ExamplesTuple list element at index {@code i} with the new node {@code node}.
+   * Replaces the ExampleTuple list element at index {@code i} with the new node {@code node}.
    * @param node The new node to replace the old list element.
    * @param i The list index of the node to be replaced.
    * @apilevel high-level
    */
-  public void setExamplesTuple(ExamplesTuple node, int i) {
-    JastAddList<ExamplesTuple> list = getExamplesTupleList();
+  public void setExampleTuple(ExampleTuple node, int i) {
+    JastAddList<ExampleTuple> list = getExampleTupleList();
     list.setChild(node, i);
   }
   /**
-   * Retrieves the ExamplesTuple list.
-   * @return The node representing the ExamplesTuple list.
+   * Retrieves the ExampleTuple list.
+   * @return The node representing the ExampleTuple list.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.ListChild(name="ExamplesTuple")
-  public JastAddList<ExamplesTuple> getExamplesTupleList() {
-    JastAddList<ExamplesTuple> list = (JastAddList<ExamplesTuple>) getChild(1);
+  @ASTNodeAnnotation.ListChild(name="ExampleTuple")
+  public JastAddList<ExampleTuple> getExampleTupleList() {
+    JastAddList<ExampleTuple> list = (JastAddList<ExampleTuple>) getChild(1);
     return list;
   }
   /**
-   * Retrieves the ExamplesTuple list.
+   * Retrieves the ExampleTuple list.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The node representing the ExamplesTuple list.
+   * @return The node representing the ExampleTuple list.
    * @apilevel low-level
    */
-  public JastAddList<ExamplesTuple> getExamplesTupleListNoTransform() {
-    return (JastAddList<ExamplesTuple>) getChildNoTransform(1);
+  public JastAddList<ExampleTuple> getExampleTupleListNoTransform() {
+    return (JastAddList<ExampleTuple>) getChildNoTransform(1);
   }
   /**
-   * @return the element at index {@code i} in the ExamplesTuple list without
+   * @return the element at index {@code i} in the ExampleTuple list without
    * triggering rewrites.
    */
-  public ExamplesTuple getExamplesTupleNoTransform(int i) {
-    return (ExamplesTuple) getExamplesTupleListNoTransform().getChildNoTransform(i);
+  public ExampleTuple getExampleTupleNoTransform(int i) {
+    return (ExampleTuple) getExampleTupleListNoTransform().getChildNoTransform(i);
   }
   /**
-   * Retrieves the ExamplesTuple list.
-   * @return The node representing the ExamplesTuple list.
+   * Retrieves the ExampleTuple list.
+   * @return The node representing the ExampleTuple list.
    * @apilevel high-level
    */
-  public JastAddList<ExamplesTuple> getExamplesTuples() {
-    return getExamplesTupleList();
+  public JastAddList<ExampleTuple> getExampleTuples() {
+    return getExampleTupleList();
   }
   /**
-   * Retrieves the ExamplesTuple list.
+   * Retrieves the ExampleTuple list.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The node representing the ExamplesTuple list.
+   * @return The node representing the ExampleTuple list.
    * @apilevel low-level
    */
-  public JastAddList<ExamplesTuple> getExamplesTuplesNoTransform() {
-    return getExamplesTupleListNoTransform();
+  public JastAddList<ExampleTuple> getExampleTuplesNoTransform() {
+    return getExampleTupleListNoTransform();
   }
   /**
    * Replaces the ContentTuple list.

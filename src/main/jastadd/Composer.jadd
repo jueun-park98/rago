@@ -2,6 +2,7 @@ import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
 import org.openapi4j.core.model.reference.Reference;
+import org.openapi4j.core.model.OAIContext;
 
 import java.io.IOException;
 import java.util.*;
@@ -9,40 +10,43 @@ import java.net.URL;
 
 aspect Composer {
 
-    public static OpenApi3 OpenAPIObject.composeOpenAPI (OpenAPIObject openAPIObject){
+    public static OpenApi3 OpenAPIObject.composeOpenAPI (OpenAPIObject openapi){
         OpenApi3 api3 = new OpenApi3();
 
-        api3.setOpenapi( openAPIObject.getOpenAPI() );
-        api3.setInfo( InfoObject.composeInfo( openAPIObject.getInfoObject() ) );
-
-        if( openAPIObject.getNumPathsObject() != 0 ){
-        Map<String, Path> paths = new HashMap<>();
-        for( PathsObject p : openAPIObject.getPathsObjects() )
-        paths.put( p.getRef(), PathItemObject.composePath(p.getPathItemObject()) );
-        api3.setPaths(paths);
-        }
-        if(openAPIObject.getNumServerObject() != 0 ){
+        if( !openapi.getOpenAPI().isEmpty() )
+        api3.setOpenapi(openapi.getOpenAPI());
+        if( openapi.hasInfoObject() )
+        api3.setInfo(InfoObject.composeInfo(openapi.getInfoObject()));
+        if( openapi.getNumServerObject() != 0 ){
         List<org.openapi4j.parser.model.v3.Server> servers = new ArrayList<>();
-        for( ServerObject s : openAPIObject.getServerObjects() )
+        for( ServerObject s : openapi.getServerObjects() )
         servers.add(ServerObject.composeServer(s));
         api3.setServers(servers);
         }
-        if( openAPIObject.hasComponentsObject() )
-        api3.setComponents( ComponentsObject.composeComponents(openAPIObject.getComponentsObject()) );
-        if( openAPIObject.getNumSecurityRequirementObject() != 0 ){
+        if( openapi.getNumPathsObject() != 0 ){
+        Map<String, Path> paths = new HashMap<>();
+        for( PathsObject p : openapi.getPathsObjects() )
+        paths.put( p.getRef(), PathItem.composePath(p.getPathItem()) );
+        api3.setPaths(paths);
+        }
+        if( openapi.hasComponentsObject() )
+        api3.setComponents( ComponentsObject.composeComponents(openapi.getComponentsObject()) );
+        if( openapi.getNumSecurityRequirementObject() != 0 ){
         List<SecurityRequirement> securityRequirements = new ArrayList<>();
-        for( SecurityRequirementObject s : openAPIObject.getSecurityRequirementObjects() )
+        for( SecurityRequirementObject s : openapi.getSecurityRequirementObjects() )
         securityRequirements.add( SecurityRequirementObject.composeSecurityRequirement( s ) );
         api3.setSecurityRequirements(securityRequirements);
         }
-        if( openAPIObject.getNumTagObject() != 0 ){
+        if( openapi.getNumTagObject() != 0 ){
         List<org.openapi4j.parser.model.v3.Tag> tags = new ArrayList<>();
-        for( TagObject t : openAPIObject.getTagObjects() )
+        for( TagObject t : openapi.getTagObjects() )
         tags.add( TagObject.composeTag(t) );
         api3.setTags( tags );
         }
-        if( openAPIObject.hasExternalDocumentationObject() )
-        api3.setExternalDocs( ExternalDocumentationObject.composeExternalDocs(openAPIObject.getExternalDocumentationObject()) );
+        if( openapi.hasExternalDocObject() )
+        api3.setExternalDocs(ExternalDocObject.composeExternalDocs(openapi.getExternalDocObject()));
+        if( openapi.getContext() != null )
+        api3.setContext(openapi.getContext());
 
         return api3;
         }
@@ -50,17 +54,18 @@ aspect Composer {
 public static Info InfoObject.composeInfo (InfoObject infoObject){
         Info info = new Info();
 
-        info.setTitle( infoObject.getTitle() );
-        info.setVersion( infoObject.getVersion() );
-
+        if( !infoObject.getTitle().isEmpty() )
+            info.setTitle(infoObject.getTitle());
+        if( !infoObject.getVersion().isEmpty() )
+            info.setVersion(infoObject.getVersion());
         if( !infoObject.getDescription().isEmpty() )
-        info.setDescription( infoObject.getDescription() );
+        info.setDescription(infoObject.getDescription());
         if( !infoObject.getTermsOfService().isEmpty() )
-        info.setTermsOfService( infoObject.getTermsOfService() );
+        info.setTermsOfService(infoObject.getTermsOfService());
         if( infoObject.hasContactObject() )
-        info.setContact( ContactObject.composeContact(infoObject.getContactObject()) );
+        info.setContact(ContactObject.composeContact(infoObject.getContactObject()));
         if( infoObject.hasLicenseObject() )
-        info.setLicense( LicenseObject.composeLicense(infoObject.getLicenseObject()) );
+        info.setLicense(LicenseObject.composeLicense(infoObject.getLicenseObject()));
 
         return info;
         }
@@ -68,11 +73,11 @@ public static Info InfoObject.composeInfo (InfoObject infoObject){
 public static Contact ContactObject.composeContact (ContactObject contactObject){
         Contact contact = new Contact();
 
-        if( contactObject.getName() != null )
+        if( !contactObject.getName().isEmpty() )
         contact.setName( contactObject.getName() );
-        if( contactObject.getUrl() != null )
+        if( !contactObject.getUrl().isEmpty() )
         contact.setUrl( contactObject.getUrl() );
-        if( contactObject.getEmail() != null )
+        if( !contactObject.getEmail().isEmpty() )
         contact.setEmail( contactObject.getEmail() );
 
         return contact;
@@ -81,9 +86,9 @@ public static Contact ContactObject.composeContact (ContactObject contactObject)
 public static License LicenseObject.composeLicense (LicenseObject licenseObject){
         License license = new License();
 
+        if( !licenseObject.getName().isEmpty() )
         license.setName( licenseObject.getName() );
-
-        if( licenseObject.getUrl() != null )
+        if( !licenseObject.getUrl().isEmpty() )
         license.setUrl( licenseObject.getUrl() );
 
         return license;
@@ -92,8 +97,8 @@ public static License LicenseObject.composeLicense (LicenseObject licenseObject)
 public static Server ServerObject.composeServer (ServerObject serverObject){
         Server server = new Server();
 
-        server.setUrl( serverObject.getUrl() );
-
+        if( !serverObject.getUrl().isEmpty() )
+        server.setUrl(serverObject.getUrl());
         if( !serverObject.getDescription().isEmpty() )
         server.setDescription( serverObject.getDescription() );
         if( serverObject.hasServerVariablesTuple() ){
@@ -109,10 +114,10 @@ public static Server ServerObject.composeServer (ServerObject serverObject){
 public static ServerVariable ServerVariableObject.composeServerVariable (ServerVariableObject serverVariableObject){
         ServerVariable serverVariable = new ServerVariable();
 
-        serverVariable.setDefault( serverVariableObject.getDefault() );
-
+        if( !serverVariableObject.getDefault().isEmpty() )
+        serverVariable.setDefault(serverVariableObject.getDefault());
         if( !serverVariableObject.getDescription().isEmpty() )
-        serverVariable.setDescription( serverVariableObject.getDescription() );
+        serverVariable.setDescription(serverVariableObject.getDescription());
         if( serverVariableObject.getNumEnum() != 0 ){
         List<String> enums = new ArrayList<>();
         for( Enum e : serverVariableObject.getEnums() )
@@ -126,147 +131,150 @@ public static ServerVariable ServerVariableObject.composeServerVariable (ServerV
 public static Components ComponentsObject.composeComponents (ComponentsObject componentsObject){
         Components components = new Components();
 
-        if( componentsObject.getNumSchemasTuple() != 0 ){
-        Map<String, org.openapi4j.parser.model.v3.Schema> schemas = new HashMap<>();
-        for( SchemasTuple t : componentsObject.getSchemasTuples() ){
-        if( t instanceof SchemaReferenceTuple ){
-        org.openapi4j.parser.model.v3.Schema schema = new org.openapi4j.parser.model.v3.Schema();
-        schema.setRef(((SchemaReferenceTuple) t).getRef());
-        schemas.put(((SchemaReferenceTuple) t).getName(), schema);
+        if( componentsObject.getNumSchemaTuple() != 0 ){
+        Map<String, org.openapi4j.parser.model.v3.Schema> schemaMap = new HashMap<>();
+        for( SchemaTuple t : componentsObject.getSchemaTuples() ){
+        if(!t.getSchemaObject().getRef().isEmpty()){
+        org.openapi4j.parser.model.v3.Schema schema=new org.openapi4j.parser.model.v3.Schema();
+        schema.setRef(t.getSchemaObject().getRef());
+        schemaMap.put(t.getKey(),schema);
         }
         else
-        schemas.put(((SchemaObjectTuple)t).getName(), SchemaObject.composeSchema(((SchemaObjectTuple)t).getSchemaObject()));
+        schemaMap.put(t.getKey(),SchemaObject.composeSchema(t.getSchemaObject()));
         }
-        components.setSchemas(schemas);
+        components.setSchemas(schemaMap);
         }
-        if( componentsObject.getNumResponsesTuple() != 0 ){
-        Map<String, Response> responses = new HashMap<>();
-        for( ResponsesTuple t : componentsObject.getResponsesTuples() ){
-        if( t instanceof ResponseReferenceTuple ){
+        if( componentsObject.getNumResponseTuple() != 0 ){
+        Map<String, Response> responseMap = new HashMap<>();
+        for( ResponseTuple t : componentsObject.getResponseTuples() ){
+        if( !t.getResponseObject().getRef().isEmpty() ){
         Response response = new Response();
-        response.setRef(((ResponseReferenceTuple) t).getRef());
-        responses.put(((ResponseReferenceTuple) t).getName(), response);
+        response.setRef(t.getResponseObject().getRef());
+        responseMap.put(t.getKey(), response);
         }
         else
-        responses.put(((ResponseObjectTuple)t).getName(), ResponseObject.composeResponse(((ResponseObjectTuple)t).getResponseObject()));
+        responseMap.put(t.getKey(), ResponseObject.composeResponse(t.getResponseObject()));
         }
-        components.setResponses(responses);
+        components.setResponses(responseMap);
         }
         if( componentsObject.getNumParameterTuple() != 0 ){
-        Map<String, Parameter> parameters = new HashMap<>();
+        Map<String, Parameter> parameterMap = new HashMap<>();
         for( ParameterTuple t : componentsObject.getParameterTuples() ){
-        if( t instanceof ParameterReferenceTuple ){
+        if( !t.getParameterObject().getRef().isEmpty() ){
         Parameter parameter = new Parameter();
-        parameter.setRef(((ParameterReferenceTuple) t).getRef());
-        parameters.put(((ParameterReferenceTuple) t).getName(), parameter);
+        parameter.setRef(t.getParameterObject().getRef());
+        parameterMap.put(t.getKey(), parameter);
         }
         else
-        parameters.put(((ParameterObjectTuple)t).getName(), ParameterObject.composeParameter(((ParameterObjectTuple)t).getParameterObject()));
+        parameterMap.put(t.getKey(), ParameterObject.composeParameter(t.getParameterObject()));
         }
-        components.setParameters(parameters);
+        components.setParameters(parameterMap);
         }
-        if( componentsObject.getNumExamplesTuple() != 0 ){
-        Map<String, Example> examples = new HashMap<>();
-        for( ExamplesTuple t : componentsObject.getExamplesTuples() )
-        examples.put(((ExampleObjectTuple)t).getName(), ExampleObject.composeExample(((ExampleObjectTuple)t).getExampleObject()));
-        components.setExamples(examples);
+        if( componentsObject.getNumExampleTuple() != 0 ){
+        Map<String, Example> exampleMap = new HashMap<>();
+        for( ExampleTuple t : componentsObject.getExampleTuples() )
+        exampleMap.put(t.getKey(), ExampleObject.composeExample(t.getExampleObject()));
+        components.setExamples(exampleMap);
         }
-        if( componentsObject.getNumRequestBodiesTuple() != 0 ){
-        Map<String, org.openapi4j.parser.model.v3.RequestBody> requestBodies = new HashMap<>();
-        for( RequestBodiesTuple t : componentsObject.getRequestBodiesTuples() ){
-        if( t instanceof RequestBodyReferenceTuple ){
-        org.openapi4j.parser.model.v3.RequestBody requestBody = new org.openapi4j.parser.model.v3.RequestBody();
-        requestBody.setRef(((RequestBodyReferenceTuple) t).getRef());
-        requestBodies.put(((RequestBodyReferenceTuple) t).getName(), requestBody);
+        if( componentsObject.getNumRequestBodyTuple() != 0 ){
+        Map<String, RequestBody> requestBodyMap = new HashMap<>();
+        for( RequestBodyTuple t : componentsObject.getRequestBodyTuples() ){
+        if( !t.getRequestBodyObject().getRef().isEmpty() ){
+        RequestBody requestBody = new RequestBody();
+        requestBody.setRef(t.getRequestBodyObject().getRef());
+        requestBodyMap.put(t.getKey(), requestBody);
         }
         else
-        requestBodies.put(((RequestBodyObjectTuple)t).getName(), RequestBodyObject.composeRequestBody(((RequestBodyObjectTuple)t).getRequestBodyObject()));
+        requestBodyMap.put(t.getKey(), RequestBodyObject.composeRequestBody(t.getRequestBodyObject()));
         }
-        components.setRequestBodies(requestBodies);
+        components.setRequestBodies(requestBodyMap);
         }
-        if( componentsObject.getNumHeadersTuple() != 0 ){
-        Map<String, Header> headers = new HashMap<>();
-        for( HeadersTuple t : componentsObject.getHeadersTuples() ){
-        if( t instanceof HeaderReferenceTuple ){
+        if( componentsObject.getNumHeaderTuple() != 0 ){
+        Map<String, Header> headerMap = new HashMap<>();
+        for( HeaderTuple t : componentsObject.getHeaderTuples() ){
+        if( !t.getHeaderObject().getRef().isEmpty() ){
         Header header = new Header();
-        header.setRef(((HeaderReferenceTuple) t).getRef());
-        headers.put(((HeaderReferenceTuple) t).getName(), header);
+        header.setRef(t.getHeaderObject().getRef());
+        headerMap.put(t.getKey(), header);
         }
         else
-        headers.put(((HeaderObjectTuple)t).getName(), HeaderObject.composeHeader(((HeaderObjectTuple)t).getHeaderObject()));
+        headerMap.put(t.getKey(), HeaderObject.composeHeader(t.getHeaderObject()));
         }
-        components.setHeaders(headers);
+        components.setHeaders(headerMap);
         }
-        if( componentsObject.getNumSecuritySchemesTuple() != 0 ){
-        Map<String, SecurityScheme> securitySchemes = new HashMap<>();
-        for( SecuritySchemesTuple t : componentsObject.getSecuritySchemesTuples() ){
-        if( t instanceof SecuritySchemeReferenceTuple ){
+        if( componentsObject.getNumSecuritySchemeTuple() != 0 ){
+        Map<String, SecurityScheme> securitySchemeMap = new HashMap<>();
+        for( SecuritySchemeTuple t : componentsObject.getSecuritySchemeTuples() ){
+        if( !t.getSecuritySchemeObject().getRef().isEmpty() ){
         SecurityScheme securityScheme = new SecurityScheme();
-        securityScheme.setRef(((SecuritySchemeReferenceTuple) t).getRef());
-        securitySchemes.put(((SecuritySchemeReferenceTuple) t).getName(), securityScheme);
+        securityScheme.setRef(t.getSecuritySchemeObject().getRef());
+        securitySchemeMap.put(t.getKey(), securityScheme);
         }
         else
-        securitySchemes.put(((SecuritySchemeObjectTuple)t).getName(), SecuritySchemeObject.composeSecurityScheme(((SecuritySchemeObjectTuple)t).getSecuritySchemeObject()));
+        securitySchemeMap.put(t.getKey(), SecuritySchemeObject.composeSecurityScheme(t.getSecuritySchemeObject()));
         }
-        components.setSecuritySchemes(securitySchemes);
+        components.setSecuritySchemes(securitySchemeMap);
         }
-        if( componentsObject.getNumLinksTuple() != 0 ){
-        Map<String, Link> links = new HashMap<>();
-        for( LinksTuple t : componentsObject.getLinksTuples() ){
-        if( t instanceof LinkReferenceTuple ){
+        if( componentsObject.getNumLinkTuple() != 0 ){
+        Map<String, Link> linkMap = new HashMap<>();
+        for( LinkTuple t : componentsObject.getLinkTuples() ){
+        if( !t.getLinkObject().getRef().isEmpty() ){
         Link link = new Link();
-        link.setRef(((LinkReferenceTuple) t).getRef());
-        links.put(((LinkReferenceTuple) t).getName(), link);
+        link.setRef(t.getLinkObject().getRef());
+        linkMap.put(t.getKey(), link);
         }
         else
-        links.put(((LinkObjectTuple)t).getName(), LinkObject.composeLink(((LinkObjectTuple)t).getLinkObject()));
+        linkMap.put(t.getKey(), LinkObject.composeLink(t.getLinkObject()));
         }
-        components.setLinks(links);
+        components.setLinks(linkMap);
         }
-        if( componentsObject.getNumCallbacksTuple() != 0 ){
-        Map<String, Callback> callbacks = new HashMap<>();
-        for( CallbacksTuple t : componentsObject.getCallbacksTuples() ){
-        if( t instanceof CallbackReferenceTuple ){
+        if( componentsObject.getNumCallbackTuple() != 0 ){
+        Map<String, Callback> callbackMap = new HashMap<>();
+        for( CallbackTuple t : componentsObject.getCallbackTuples() ){
+        if( !t.getCallbackObject().getRef().isEmpty() ){
         Callback callback = new Callback();
-        callback.setRef(((CallbackReferenceTuple) t).getRef());
-        callbacks.put(((CallbackReferenceTuple) t).getName(), callback);
+        callback.setRef(t.getCallbackObject().getRef());
+        callbackMap.put(t.getKey(), callback);
         }
         else
-        callbacks.put(((CallbackObjectTuple)t).getName(), CallbackObject.composeCallback(((CallbackObjectTuple)t).getCallbackObject()));
+        callbackMap.put(t.getKey(), CallbackObject.composeCallback(t.getCallbackObject()));
         }
-        components.setCallbacks(callbacks);
+        components.setCallbacks(callbackMap);
         }
 
         return components;
         }
 
-public static Path PathItemObject.composePath (PathItemObject pathItemObject){
+public static Path PathItem.composePath (PathItem pathItem){
         Path path = new Path();
 
-        if( !pathItemObject.getSummary().isEmpty())
-        path.setSummary(pathItemObject.getSummary());
-        if( !pathItemObject.getDescription().isEmpty() )
-        path.setDescription(pathItemObject.getDescription());
-        if( pathItemObject.hasGet() )
-        path.setGet( OperationObject.composeOperation(pathItemObject.getGet().getOperationObject()) );
-        if( pathItemObject.hasPut() )
-        path.setPut( OperationObject.composeOperation(pathItemObject.getPut().getOperationObject()) );
-        if( pathItemObject.hasPost() )
-        path.setPost( OperationObject.composeOperation(pathItemObject.getPost().getOperationObject()) );
-        if( pathItemObject.hasDelete() )
-        path.setDelete( OperationObject.composeOperation(pathItemObject.getDelete().getOperationObject()) );
-        if( pathItemObject.hasOptions() )
-        path.setOptions( OperationObject.composeOperation(pathItemObject.getOptions().getOperationObject()) );
-        if( pathItemObject.hasHead() )
-        path.setHead( OperationObject.composeOperation(pathItemObject.getHead().getOperationObject()) );
-        if( pathItemObject.hasPatch() )
-        path.setPatch( OperationObject.composeOperation(pathItemObject.getPatch().getOperationObject()) );
-        if( pathItemObject.getNumServerObject() != 0 ){
-        for( ServerObject s : pathItemObject.getServerObjects() )
+
+        if( !pathItem.getRef().isEmpty() )
+        path.setRef(pathItem.getRef());
+        if( !pathItem.getSummary().isEmpty())
+        path.setSummary(pathItem.getSummary());
+        if( !pathItem.getDescription().isEmpty() )
+        path.setDescription(pathItem.getDescription());
+        if( pathItem.hasGet() )
+        path.setGet( OperationObject.composeOperation(pathItem.getGet().getOperationObject()) );
+        if( pathItem.hasPut() )
+        path.setPut( OperationObject.composeOperation(pathItem.getPut().getOperationObject()) );
+        if( pathItem.hasPost() )
+        path.setPost( OperationObject.composeOperation(pathItem.getPost().getOperationObject()) );
+        if( pathItem.hasDelete() )
+        path.setDelete( OperationObject.composeOperation(pathItem.getDelete().getOperationObject()) );
+        if( pathItem.hasOptions() )
+        path.setOptions( OperationObject.composeOperation(pathItem.getOptions().getOperationObject()) );
+        if( pathItem.hasHead() )
+        path.setHead( OperationObject.composeOperation(pathItem.getHead().getOperationObject()) );
+        if( pathItem.hasPatch() )
+        path.setPatch( OperationObject.composeOperation(pathItem.getPatch().getOperationObject()) );
+        if( pathItem.getNumServerObject() != 0 ){
+        for( ServerObject s : pathItem.getServerObjects() )
         path.addServer( ServerObject.composeServer(s) );
         }
-        if( pathItemObject.getNumParameterObject() != 0 ){
-        for( ParameterObject p : pathItemObject.getParameterObjects() )
+        if( pathItem.getNumParameterObject() != 0 ){
+        for( ParameterObject p : pathItem.getParameterObjects() )
         path.addParameter( ParameterObject.composeParameter(p) );
         }
 
@@ -284,8 +292,8 @@ public static Operation OperationObject.composeOperation (OperationObject operat
         operation.setSummary( operationObject.getSummary() );
         if( !operationObject.getDescription().isEmpty() )
         operation.setDescription( operationObject.getDescription() );
-        if( operationObject.hasExternalDocumentationObject() )
-        operation.setExternalDocs( ExternalDocumentationObject.composeExternalDocs(operationObject.getExternalDocumentationObject()) );
+        if( operationObject.hasExternalDocObject() )
+        operation.setExternalDocs( ExternalDocObject.composeExternalDocs(operationObject.getExternalDocObject()) );
         if( !operationObject.getOperationID().isEmpty() )
         operation.setOperationId( operationObject.getOperationID() );
         if( operationObject.getNumParameterObject() != 0 ){
@@ -294,27 +302,27 @@ public static Operation OperationObject.composeOperation (OperationObject operat
         }
         if( operationObject.hasRequestBodyObject() )
         operation.setRequestBody( RequestBodyObject.composeRequestBody(operationObject.getRequestBodyObject()));
-        if( operationObject.getResponsesObject().getNumHTTPStatusCode() != 0){
-        Map<String, Response> responses = new HashMap<>();
-        for( HTTPStatusCode h : operationObject.getResponsesObject().getHTTPStatusCodes() )
-        responses.put( ((ResponseObject)h).getName(), ResponseObject.composeResponse( ((ResponseObject) h)) );
-        operation.setResponses(responses);
+        if( operationObject.getNumResponseTuple() != 0){
+        Map<String, Response> responseMap = new HashMap<>();
+        for( ResponseTuple t : operationObject.getResponseTuples() )
+        responseMap.put(t.getKey(), ResponseObject.composeResponse(t.getResponseObject()));
+        operation.setResponses(responseMap);
         }
-        if( operationObject.getNumCallbacksTuple() != 0 ){
+        if( operationObject.getNumCallbackTuple() != 0 ){
         Map<String, Callback> callbacks = new HashMap<>();
-        for( CallbacksTuple t : operationObject.getCallbacksTuples() ) {
-        if( t instanceof CallbackReferenceTuple ){
+        for( CallbackTuple t : operationObject.getCallbackTuples() ) {
+        if( !t.getCallbackObject().getRef().isEmpty() ){
         Callback callback = new Callback();
-        callback.setRef(((CallbackReferenceTuple) t).getRef());
-        callbacks.put(((CallbackReferenceTuple) t).getName(), callback);
+        callback.setRef(t.getCallbackObject().getRef());
+        callbacks.put(t.getKey(), callback);
         }
         else
-        callbacks.put(((CallbackObjectTuple)t).getName(), CallbackObject.composeCallback(((CallbackObjectTuple)t).getCallbackObject()));
-        }
+        callbacks.put(t.getKey(), CallbackObject.composeCallback(t.getCallbackObject()));
         operation.setCallbacks(callbacks);
         }
+        }
         if( operationObject.getDeprecatedBoolean() != null )
-        operation.setDeprecated(operationObject.getDeprecatedBoolean().getDeprecatedBoolean());
+        operation.setDeprecated(operationObject.getDeprecatedBoolean());
         if( operationObject.getNumSecurityRequirementObject() != 0 ){
         for( SecurityRequirementObject s : operationObject.getSecurityRequirementObjects() )
         operation.addSecurityRequirement( SecurityRequirementObject.composeSecurityRequirement(s) );
@@ -327,12 +335,19 @@ public static Operation OperationObject.composeOperation (OperationObject operat
         return operation;
         }
 
-public static ExternalDocs ExternalDocumentationObject.composeExternalDocs (ExternalDocumentationObject externalDocumentationObject){
+public static ExternalDocs ExternalDocObject.composeExternalDocs (ExternalDocObject externalDocObject){
         ExternalDocs externalDocs = new ExternalDocs();
 
-        if( !externalDocumentationObject.getDescription().isEmpty() )
-        externalDocs.getDescription();
-        externalDocs.setUrl( externalDocumentationObject.getUrl() );
+        if( !externalDocObject.getDescription().isEmpty() )
+        externalDocs.setDescription(externalDocObject.getDescription());
+        if( !externalDocObject.getUrl().isEmpty() )
+        externalDocs.setUrl(externalDocObject.getUrl());
+        if( externalDocObject.getNumExtension() != 0 ){
+        Map<String, Object> extensionMap = new HashMap<>();
+        for( Extension e : externalDocObject.getExtensions() )
+        extensionMap.put(e.getKey(), e.getValue());
+        externalDocs.setExtensions(extensionMap);
+        }
 
         return externalDocs;
         }
@@ -340,59 +355,61 @@ public static ExternalDocs ExternalDocumentationObject.composeExternalDocs (Exte
 public static Parameter ParameterObject.composeParameter (ParameterObject parameterObject){
         Parameter parameter = new Parameter();
 
-        parameter.setName( parameterObject.getName() );
-        parameter.setIn( parameterObject.getIn() );
-        parameter.setRequired( parameterObject.getRequired() );
-
-        if( !parameterObject.getDescription().isEmpty() )
-        parameter.setDescription( parameterObject.getDescription() );
-        if( parameterObject.getDeprecatedBoolean() != null )
-        parameter.setDeprecated( parameterObject.getDeprecatedBoolean() );
-        if( parameterObject.getStyle() != null )
-        parameter.setStyle( parameter.getStyle() );
-        if( parameterObject.getAllowReserved() != null )
-        parameter.setAllowReserved( parameterObject.getAllowReserved() );
-        if( parameterObject.getExplode() != null )
-        parameter.setExplode( parameterObject.getExplode() );
-        if( parameterObject.getAllowReserved() != null )
-        parameter.setAllowReserved( parameterObject.getAllowReserved() );
-        if( parameterObject.getSchemaObject() != null ){
-        Schema schema = new Schema();
-        schema = SchemaObject.composeSchema(parameterObject.getSchemaObject());
         if( !parameterObject.getRef().isEmpty() )
-        schema.setRef(parameterObject.getRef());
-        parameter.setSchema(schema);}
+        parameter.setRef(parameterObject.getRef());
+        if( !parameterObject.getName().isEmpty() )
+        parameter.setName(parameterObject.getName());
+        if( !parameterObject.getIn().isEmpty() )
+        parameter.setIn(parameterObject.getIn());
+        if( parameterObject.getRequired() != null )
+        parameter.setRequired(parameterObject.getRequired());
+        if( !parameterObject.getDescription().isEmpty() )
+        parameter.setDescription(parameterObject.getDescription());
+        if( parameterObject.getDeprecatedBoolean() != null )
+        parameter.setDeprecated(parameterObject.getDeprecatedBoolean());
+        if( !parameterObject.getStyle().isEmpty() )
+        parameter.setStyle(parameterObject.getStyle());
+        if( parameterObject.getAllowReserved() != null )
+        parameter.setAllowReserved(parameterObject.getAllowReserved());
+        if( parameterObject.getExplode() != null )
+        parameter.setExplode(parameterObject.getExplode());
+        if( parameterObject.getSchemaObject() != null )
+        parameter.setSchema(SchemaObject.composeSchema(parameterObject.getSchemaObject()));
         if( parameterObject.getExample() != null )
-        parameter.setExample( parameterObject.getExample() );
-        if( parameterObject.getNumExamplesTuple() != 0 ){
-        Map<String, Example> examples = new HashMap<>();
-        for( ExamplesTuple t : parameterObject.getExamplesTuples() )
-        examples.put( ((ExampleObjectTuple)t).getName(), ExampleObject.composeExample( ((ExampleObjectTuple)t).getExampleObject() ) );
-        parameter.setExamples(examples);
+        parameter.setExample(parameterObject.getExample());
+        if( parameterObject.getNumExampleTuple() != 0 ){
+        Map<String, Example> exampleMap = new HashMap<>();
+        for( ExampleTuple t : parameterObject.getExampleTuples() )
+        exampleMap.put(t.getKey(), ExampleObject.composeExample(t.getExampleObject()));
+        parameter.setExamples(exampleMap);
         }
         if( parameterObject.getNumContentTuple() != 0 ){
-        Map<String, MediaType> contents = new HashMap<>();
+        Map<String, MediaType> contentMap = new HashMap<>();
         for( ContentTuple t : parameterObject.getContentTuples() )
-        contents.put( ((ContentObjectTuple)t).getName(), MediaTypeObject.composeMediaType( ((ContentObjectTuple)t).getMediaTypeObject() ) );
-        parameter.setContentMediaTypes(contents);
+        contentMap.put(t.getKey(), MediaTypeObject.composeMediaType(t.getMediaTypeObject()));
+        parameter.setContentMediaTypes(contentMap);
         }
+        if( parameterObject.getRequired() != null )
+            parameter.setRequired(parameterObject.getRequired());
 
         return parameter;
         }
 
 public static org.openapi4j.parser.model.v3.RequestBody RequestBodyObject.composeRequestBody (RequestBodyObject requestBodyObject){
         org.openapi4j.parser.model.v3.RequestBody requestBody = new org.openapi4j.parser.model.v3.RequestBody();
-        Map<String, MediaType> contents = new HashMap<>();
 
-        for( ContentTuple t : requestBodyObject.getContentTuples() )
-        contents.put( ((ContentObjectTuple)t).getName(), MediaTypeObject.composeMediaType( ((ContentObjectTuple)t).getMediaTypeObject() ) );
+        if( requestBodyObject.getNumContentTuple() != 0 ){
+        Map<String, MediaType> contents = new HashMap<>();
+        for( ContentTuple t : requestBodyObject.getContentTuples())
+        contents.put(t.getKey(), MediaTypeObject.composeMediaType(t.getMediaTypeObject()));
         requestBody.setContentMediaTypes(contents);
+        }
         if( !requestBodyObject.getDescription().isEmpty() )
         requestBody.setDescription(requestBodyObject.getDescription());
         if( requestBodyObject.getRequired() != null )
         requestBody.setRequired(requestBodyObject.getRequired());
         if( !requestBodyObject.getRef().isEmpty() )
-            requestBody.setRef(requestBodyObject.getRef());
+        requestBody.setRef(requestBodyObject.getRef());
 
         return requestBody;
         }
@@ -400,24 +417,21 @@ public static org.openapi4j.parser.model.v3.RequestBody RequestBodyObject.compos
 public static MediaType MediaTypeObject.composeMediaType (MediaTypeObject mediaTypeObject){
         MediaType mediaType = new MediaType();
 
-        if( mediaTypeObject.getSchemaObject() != null ) {
-        Schema schema = new Schema();
-        schema = SchemaObject.composeSchema(mediaTypeObject.getSchemaObject());
-        mediaType.setSchema(schema);
-        }
+        if( mediaTypeObject.getSchemaObject() != null )
+        mediaType.setSchema(SchemaObject.composeSchema(mediaTypeObject.getSchemaObject()));
         if( mediaTypeObject.getExample() != null )
-        mediaType.setExample( mediaTypeObject.getExample() );
-        if( mediaTypeObject.getNumExamplesTuple() != 0 ){
-        Map<String, Example> examples = new HashMap<>();
-        for( ExamplesTuple t : mediaTypeObject.getExamplesTuples() )
-        examples.put( ((ExampleObjectTuple)t).getName(), ExampleObject.composeExample( ((ExampleObjectTuple)t).getExampleObject() ) );
-        mediaType.setExamples(examples);
+        mediaType.setExample(mediaTypeObject.getExample());
+        if( mediaTypeObject.getNumExampleTuple() != 0 ){
+        Map<String, Example> exampleMap = new HashMap<>();
+        for( ExampleTuple t : mediaTypeObject.getExampleTuples() )
+        exampleMap.put(t.getKey(), ExampleObject.composeExample(t.getExampleObject()));
+        mediaType.setExamples(exampleMap);
         }
         if( mediaTypeObject.getNumEncodingTuple() != 0 ){
-        Map<String, EncodingProperty> encodings = new HashMap<>();
+        Map<String, EncodingProperty> encodingMap = new HashMap<>();
         for( EncodingTuple t : mediaTypeObject.getEncodingTuples() )
-        encodings.put( ((EncodingObjectTuple)t).getName(), EncodingObject.composeEncodingProperty( ((EncodingObjectTuple)t).getEncodingObject() ) );
-        mediaType.setEncodings(encodings);
+        encodingMap.put(t.getKey(), EncodingObject.composeEncodingProperty(t.getEncodingObject()));
+        mediaType.setEncodings(encodingMap);
         }
 
         return mediaType;
@@ -426,18 +440,24 @@ public static MediaType MediaTypeObject.composeMediaType (MediaTypeObject mediaT
 public static EncodingProperty EncodingObject.composeEncodingProperty (EncodingObject encodingObject){
         EncodingProperty encodingProperty = new EncodingProperty();
 
-        if( encodingObject.getContentType() != null )
+        if( !encodingObject.getContentType().isEmpty() )
         encodingProperty.setContentType( encodingObject.getContentType() );
-        if( encodingObject.getNumHeadersTuple() != 0 ){
+        if( encodingObject.getNumHeaderTuple() != 0 ){
         Map<String, Header> headers = new HashMap<>();
-        for( HeadersTuple t : encodingObject.getHeadersTuples() )
-        headers.put( ((HeaderObjectTuple)t).getName(), HeaderObject.composeHeader( ((HeaderObjectTuple)t).getHeaderObject() ) );
+        for( HeaderTuple t : encodingObject.getHeaderTuples() )
+        headers.put(t.getKey(), HeaderObject.composeHeader(t.getHeaderObject()));
         encodingProperty.setHeaders(headers);
         }
-        if( encodingObject.getStyle() != null )
+        if( !encodingObject.getStyle().isEmpty() )
         encodingProperty.setStyle(encodingObject.getStyle());
         if( encodingObject.getExplode() != null )
-        encodingProperty.setExplode( (boolean) encodingObject.getExplode() );
+        encodingProperty.setExplode(encodingObject.getExplode());
+        if( encodingObject.getNumExtension() != 0 ){
+        Map<String, Object> extensionMap = new HashMap<>();
+        for( Extension e : encodingObject.getExtensions() )
+        extensionMap.put(e.getKey(), e.getValue());
+        encodingProperty.setExtensions(extensionMap);
+        }
 
         return encodingProperty;
         }
@@ -445,24 +465,27 @@ public static EncodingProperty EncodingObject.composeEncodingProperty (EncodingO
 public static Response ResponseObject.composeResponse (ResponseObject responseObject){
         Response response = new Response();
 
-        response.setDescription( responseObject.getDescription() );
-
-        if( responseObject.getNumHeadersTuple() != 0 ){
+        if( !responseObject.getRef().isEmpty() )
+        response.setRef(responseObject.getRef());
+        if( !responseObject.getDescription().isEmpty() )
+        response.setDescription(responseObject.getDescription());
+        if( responseObject.getNumHeaderTuple() != 0 ){
         Map<String, Header> headers = new HashMap<>();
-        for( HeadersTuple t : responseObject.getHeadersTuples() )
-        headers.put( ((HeaderObjectTuple)t).getName(), HeaderObject.composeHeader( ((HeaderObjectTuple)t).getHeaderObject() ) );
+        for( HeaderTuple t : responseObject.getHeaderTuples() )
+        headers.put(t.getKey(), HeaderObject.composeHeader(t.getHeaderObject()));
         response.setHeaders(headers);
         }
         if( responseObject.getNumContentTuple() != 0 ){
         Map<String, MediaType> contents = new HashMap<>();
         for( ContentTuple t : responseObject.getContentTuples() )
-        contents.put( ((ContentObjectTuple)t).getName(), MediaTypeObject.composeMediaType( ((ContentObjectTuple)t).getMediaTypeObject() ) );
+        contents.put(t.getKey(), MediaTypeObject.composeMediaType(t.getMediaTypeObject()));
         response.setContentMediaTypes(contents);
         }
-        if( responseObject.getNumLinksTuple() != 0 ){
+        if( responseObject.getNumLinkTuple() != 0 ){
         Map<String, Link> links = new HashMap<>();
-        for( LinksTuple t : responseObject.getLinksTuples() )
-        links.put( ((LinkObjectTuple)t).getName(), LinkObject.composeLink( ((LinkObjectTuple)t).getLinkObject() ) );
+        for( LinkTuple t : responseObject.getLinkTuples() )
+        links.put(t.getKey(), LinkObject.composeLink(t.getLinkObject()));
+        response.setLinks(links);
         }
 
         return response;
@@ -474,7 +497,7 @@ public static Callback CallbackObject.composeCallback (CallbackObject callbackOb
         if( callbackObject.getNumExpression() != 0 ){
         Map<String, Path> paths = new HashMap<>();
         for( Expression e : callbackObject.getExpressions() )
-        paths.put( e.getName(), PathItemObject.composePath( e.getPathItemObject() ));
+        paths.put( e.getName(), PathItem.composePath( e.getPathItem() ));
         callback.setCallbackPaths(paths);
         }
 
@@ -499,9 +522,11 @@ public static Example ExampleObject.composeExample (ExampleObject exampleObject)
 public static Link LinkObject.composeLink (LinkObject linkObject){
         Link link = new Link();
 
-        if( linkObject.getOperationRef().isEmpty() )
+        if( !linkObject.getRef().isEmpty() )
+        link.setRef(linkObject.getRef());
+        if( !linkObject.getOperationRef().isEmpty() )
         link.setOperationRef( linkObject.getOperationRef() );
-        if( linkObject.getOperationID().isEmpty() )
+        if( !linkObject.getOperationID().isEmpty() )
         link.setOperationId( linkObject.getOperationID() );
         if( linkObject.getNumLinkParameterTuple() != 0 ){
         Map<String, String> parameters = new HashMap<>();
@@ -524,26 +549,28 @@ public static Header HeaderObject.composeHeader (HeaderObject headerObject){
 
         if( !headerObject.getDescription().isEmpty() )
         header.setDescription( headerObject.getDescription() );
-        if( headerObject.getStyle() != null )
+        if( !headerObject.getStyle().isEmpty() )
         header.setStyle(headerObject.getStyle());
         if( headerObject.getExplode() != null )
-        header.setExplode((boolean)headerObject.getExplode());
+        header.setExplode(headerObject.getExplode());
         if( headerObject.getAllowReserved() != null )
-        header.setAllowReserved((boolean)headerObject.getAllowReserved());
+        header.setAllowReserved(headerObject.getAllowReserved());
         if( headerObject.getExample() != null )
         header.setExample(headerObject.getExample());
-        if( headerObject.getNumExamplesTuple() != 0 ){
+        if( headerObject.getNumExampleTuple() != 0 ){
         Map<String, Example> examples = new HashMap<>();
-        for( ExamplesTuple t : headerObject.getExamplesTuples() )
-        examples.put( ((ExampleObjectTuple)t).getName(), ExampleObject.composeExample( ((ExampleObjectTuple)t).getExampleObject() ) );
+        for( ExampleTuple t : headerObject.getExampleTuples() )
+        examples.put(t.getKey(), ExampleObject.composeExample(t.getExampleObject()));
         header.setExample(examples);
         }
         if( headerObject.getNumContentTuple() != 0 ){
         Map<String, MediaType> contents = new HashMap<>();
         for( ContentTuple t : headerObject.getContentTuples() )
-        contents.put( ((ContentObjectTuple)t).getName(), MediaTypeObject.composeMediaType( ((ContentObjectTuple)t).getMediaTypeObject() ) );
+        contents.put(t.getKey(), MediaTypeObject.composeMediaType(t.getMediaTypeObject()));
         header.setContentMediaTypes(contents);
         }
+        if( headerObject.hasSchemaObject() )
+            header.setSchema(SchemaObject.composeSchema(headerObject.getSchemaObject()));
 
         return header;
         }
@@ -555,8 +582,8 @@ public static org.openapi4j.parser.model.v3.Tag TagObject.composeTag (TagObject 
 
         if( !tagObject.getDescription().isEmpty() )
         tag.setDescription( tagObject.getDescription() );
-        if( tagObject.hasExternalDocumentationObject() )
-        tag.setExternalDocs( ExternalDocumentationObject.composeExternalDocs(tagObject.getExternalDocumentationObject()) );
+        if( tagObject.hasExternalDocObject() )
+        tag.setExternalDocs( ExternalDocObject.composeExternalDocs(tagObject.getExternalDocObject()) );
 
         return tag;
         }
@@ -564,52 +591,58 @@ public static org.openapi4j.parser.model.v3.Tag TagObject.composeTag (TagObject 
 public static org.openapi4j.parser.model.v3.Schema SchemaObject.composeSchema (SchemaObject schemaObject) {
         org.openapi4j.parser.model.v3.Schema schema = new org.openapi4j.parser.model.v3.Schema();
 
-        if( schemaObject.hasAdditionalProperties() )
-        schema.setAdditionalProperties(composeSchema(schemaObject.getAdditionalProperties().getSchemaObject()));
-        if( schemaObject.getAdditionalPropertiesAllowed() != null )
-        schema.setAdditionalPropertiesAllowed((boolean)schemaObject.getAdditionalPropertiesAllowed());
+        if( !schemaObject.getRef().isEmpty() )
+        schema.setRef(schemaObject.getRef());
+        if( schemaObject.getAdditionalProperties() != null )
+        schema.setAdditionalProperties(composeSchema(schemaObject.getAdditionalProperties()));
+        //if( schemaObject.getAdditionalPropertiesAllowed() != null )
+        //schema.setAdditionalPropertiesAllowed(schemaObject.getAdditionalPropertiesAllowed());
         if( schemaObject.getDefaultValue() != null )
         schema.setDefault(schemaObject.getDefaultValue());
         if( !schemaObject.getDescription().isEmpty() )
         schema.setDescription(schemaObject.getDescription());
         if( schemaObject.getDeprecatedBoolean() != null )
-        schema.setDeprecated((boolean)schemaObject.getDeprecatedBoolean());
+        schema.setDeprecated(schemaObject.getDeprecatedBoolean());
         if( schemaObject.hasDiscriminatorObject() )
         schema.setDiscriminator(DiscriminatorObject.composeDiscriminator(schemaObject.getDiscriminatorObject()));
+        if( schemaObject.getNumEnumObj() != 0 ){
+        for( EnumObj e : schemaObject.getEnumObjs() )
+        schema.addEnum(e.getEnumOb());
+        }
         if( schemaObject.getExample() != null )
         schema.setExample(schemaObject.getExample());
         if( schemaObject.getExclusiveMaximum() != null )
-        schema.setExclusiveMaximum((boolean)schemaObject.getExclusiveMaximum());
+        schema.setExclusiveMaximum(schemaObject.getExclusiveMaximum());
         if( schemaObject.getExclusiveMinimum() != null )
-        schema.setExclusiveMinimum((boolean)schemaObject.getExclusiveMinimum());
-        if( schemaObject.hasExternalDocumentationObject() )
-        schema.setExternalDocs(ExternalDocumentationObject.composeExternalDocs(schemaObject.getExternalDocumentationObject()));
+        schema.setExclusiveMinimum(schemaObject.getExclusiveMinimum());
+        if( schemaObject.hasExternalDocObject() )
+        schema.setExternalDocs(ExternalDocObject.composeExternalDocs(schemaObject.getExternalDocObject()));
         if( !schemaObject.getFormat().isEmpty() )
         schema.setFormat(schemaObject.getFormat());
         if( schemaObject.hasItemsSchema() )
         schema.setItemsSchema(composeSchema(schemaObject.getItemsSchema().getSchemaObject()));
         if( schemaObject.getMaximum() != null )
-        schema.setMaximum((Number) schemaObject.getMaximum());
+        schema.setMaximum(schemaObject.getMaximum());
         if( schemaObject.getMinimum() != null )
-        schema.setMinimum((Number) schemaObject.getMinimum());
+        schema.setMinimum(schemaObject.getMinimum());
         if( schemaObject.getMaxItems() != null )
-        schema.setMaxItems((Integer) schemaObject.getMaxItems());
+        schema.setMaxItems(schemaObject.getMaxItems());
         if( schemaObject.getMinItems() != null )
-        schema.setMinItems((Integer) schemaObject.getMinItems());
+        schema.setMinItems(schemaObject.getMinItems());
         if( schemaObject.getMaxLength() != null )
-        schema.setMaxLength((Integer) schemaObject.getMaxLength());
+        schema.setMaxLength(schemaObject.getMaxLength());
         if( schemaObject.getMinLength() != null )
-        schema.setMinLength((Integer) schemaObject.getMinLength());
+        schema.setMinLength(schemaObject.getMinLength());
         if( schemaObject.getMaxProperties() != null )
-        schema.setMaxProperties((Integer) schemaObject.getMaxProperties());
+        schema.setMaxProperties(schemaObject.getMaxProperties());
         if( schemaObject.getMinProperties() != null )
-        schema.setMinProperties((Integer) schemaObject.getMinProperties());
+        schema.setMinProperties(schemaObject.getMinProperties());
         if( schemaObject.getMultipleOf() != null )
-        schema.setMultipleOf((Number) schemaObject.getMultipleOf());
+        schema.setMultipleOf(schemaObject.getMultipleOf());
         if( schemaObject.hasNotSchema() )
         schema.setNotSchema(composeSchema(schemaObject.getNotSchema().getSchemaObject()));
         if( schemaObject.getNullable() != null )
-        schema.setNullable((boolean) schemaObject.getNullable());
+        schema.setNullable(schemaObject.getNullable());
         if( !schemaObject.getPattern().isEmpty() )
         schema.setPattern(schemaObject.getPattern());
         if( schemaObject.getNumPropertyItem() != 0 ){
@@ -635,15 +668,15 @@ public static org.openapi4j.parser.model.v3.Schema SchemaObject.composeSchema (S
         schema.addOneOfSchema(composeSchema(o.getSchemaObject()));
         }
         if( schemaObject.getReadOnly() != null )
-        schema.setReadOnly((boolean) schemaObject.getReadOnly());
+        schema.setReadOnly(schemaObject.getReadOnly());
         if( schemaObject.getWriteOnly() != null )
-        schema.setWriteOnly((boolean) schemaObject.getWriteOnly());
+        schema.setWriteOnly(schemaObject.getWriteOnly());
         if( !schemaObject.getType().isEmpty() )
         schema.setType(schemaObject.getType());
         if( !schemaObject.getTitle().isEmpty() )
         schema.setTitle(schemaObject.getTitle());
         if( schemaObject.getUniqueItems() != null )
-        schema.setUniqueItems((boolean) schemaObject.getUniqueItems());
+        schema.setUniqueItems(schemaObject.getUniqueItems());
         if( schemaObject.hasXmlObject() )
         schema.setXml(XmlObject.composeXml(schemaObject.getXmlObject()));
 
@@ -690,7 +723,7 @@ public static SecurityScheme SecuritySchemeObject.composeSecurityScheme (Securit
         securityScheme.setIn( securitySchemeObject.getIn() );
         securityScheme.setScheme( securitySchemeObject.getScheme() );
         securityScheme.setOpenIdConnectUrl( securitySchemeObject.getOpenIdConnectUrl() );
-        securityScheme.setFlows( OAuthFlowsObject.composeOAuthFlows( securitySchemeObject.getFlows().getOAuthFlowsObject() ) );
+        securityScheme.setFlows( OAuthFlowsObject.composeOAuthFlows( securitySchemeObject.getOAuthFlowsObject() ) );
 
         if( !securitySchemeObject.getDescription().isEmpty() )
         securityScheme.setDescription( securitySchemeObject.getDescription() );

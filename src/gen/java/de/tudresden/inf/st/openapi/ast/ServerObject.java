@@ -4,12 +4,13 @@ import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
 import org.openapi4j.core.model.reference.Reference;
+import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:4
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:14
  * @astdecl ServerObject : ASTNode ::= <Url:String> <Description:String> ServerVariablesTuple*;
  * @production ServerObject : {@link ASTNode} ::= <span class="component">&lt;Url:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">{@link ServerVariablesTuple}*</span>;
 
@@ -17,13 +18,13 @@ import java.net.URL;
 public class ServerObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:92
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:97
    */
   public static Server composeServer (ServerObject serverObject){
         Server server = new Server();
 
-        server.setUrl( serverObject.getUrl() );
-
+        if( !serverObject.getUrl().isEmpty() )
+        server.setUrl(serverObject.getUrl());
         if( !serverObject.getDescription().isEmpty() )
         server.setDescription( serverObject.getDescription() );
         if( serverObject.hasServerVariablesTuple() ){
@@ -37,15 +38,15 @@ public class ServerObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:73
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:79
    */
   public static ServerObject parseServer(Server server){
         ServerObject serverObject = new ServerObject();
 
-        serverObject.setUrl( server.getUrl() );
-
+        if( server.getUrl() != null )
+        serverObject.setUrl(server.getUrl());
         if( server.getDescription() != null )
-        serverObject.setDescription( server.getDescription() );
+        serverObject.setDescription(server.getDescription());
         if( server.getVariables() != null ){
         for (String key : server.getVariables().keySet())
         serverObject.addServerVariablesTuple(new ServerVariablesTuple(key, ServerVariableObject.parseServerVariable(server.getVariable(key))));

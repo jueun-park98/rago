@@ -4,27 +4,30 @@ import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
 import org.openapi4j.core.model.reference.Reference;
+import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:119
- * @astdecl LinkObject : ASTNode ::= <OperationRef:String> <OperationID:String> LinkParameterTuple* <LinkRequestBody:Object> <Description:String> [ServerObject];
- * @production LinkObject : {@link ASTNode} ::= <span class="component">&lt;OperationRef:String&gt;</span> <span class="component">&lt;OperationID:String&gt;</span> <span class="component">{@link LinkParameterTuple}*</span> <span class="component">&lt;LinkRequestBody:Object&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">[{@link ServerObject}]</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:81
+ * @astdecl LinkObject : ASTNode ::= <OperationRef:String> <OperationID:String> LinkParameterTuple* HeaderTuple* <Description:String> [ServerObject] <Ref:String>;
+ * @production LinkObject : {@link ASTNode} ::= <span class="component">&lt;OperationRef:String&gt;</span> <span class="component">&lt;OperationID:String&gt;</span> <span class="component">{@link LinkParameterTuple}*</span> <span class="component">{@link HeaderTuple}*</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">[{@link ServerObject}]</span> <span class="component">&lt;Ref:String&gt;</span>;
 
  */
 public class LinkObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:499
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:522
    */
   public static Link composeLink (LinkObject linkObject){
         Link link = new Link();
 
-        if( linkObject.getOperationRef().isEmpty() )
+        if( !linkObject.getRef().isEmpty() )
+        link.setRef(linkObject.getRef());
+        if( !linkObject.getOperationRef().isEmpty() )
         link.setOperationRef( linkObject.getOperationRef() );
-        if( linkObject.getOperationID().isEmpty() )
+        if( !linkObject.getOperationID().isEmpty() )
         link.setOperationId( linkObject.getOperationID() );
         if( linkObject.getNumLinkParameterTuple() != 0 ){
         Map<String, String> parameters = new HashMap<>();
@@ -41,11 +44,13 @@ public class LinkObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:557
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:535
    */
   public static LinkObject parseLink(Link link){
         LinkObject linkObject = new LinkObject();
 
+        if( link.isRef() )
+        linkObject.setRef(link.getRef());
         if( link.getOperationRef() != null )
         linkObject.setOperationRef( link.getOperationRef() );
         if( link.getOperationId() != null )
@@ -75,60 +80,62 @@ public class LinkObject extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:10
    */
   public void init$Children() {
-    children = new ASTNode[2];
+    children = new ASTNode[3];
     setChild(new JastAddList(), 0);
-    setChild(new Opt(), 1);
+    setChild(new JastAddList(), 1);
+    setChild(new Opt(), 2);
   }
   /**
-   * @declaredat ASTNode:15
+   * @declaredat ASTNode:16
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"OperationRef", "OperationID", "LinkParameterTuple", "LinkRequestBody", "Description", "ServerObject"},
-    type = {"String", "String", "JastAddList<LinkParameterTuple>", "Object", "String", "Opt<ServerObject>"},
-    kind = {"Token", "Token", "List", "Token", "Token", "Opt"}
+    name = {"OperationRef", "OperationID", "LinkParameterTuple", "HeaderTuple", "Description", "ServerObject", "Ref"},
+    type = {"String", "String", "JastAddList<LinkParameterTuple>", "JastAddList<HeaderTuple>", "String", "Opt<ServerObject>", "String"},
+    kind = {"Token", "Token", "List", "List", "Token", "Opt", "Token"}
   )
-  public LinkObject(String p0, String p1, JastAddList<LinkParameterTuple> p2, Object p3, String p4, Opt<ServerObject> p5) {
+  public LinkObject(String p0, String p1, JastAddList<LinkParameterTuple> p2, JastAddList<HeaderTuple> p3, String p4, Opt<ServerObject> p5, String p6) {
     setOperationRef(p0);
     setOperationID(p1);
     setChild(p2, 0);
-    setLinkRequestBody(p3);
+    setChild(p3, 1);
     setDescription(p4);
-    setChild(p5, 1);
+    setChild(p5, 2);
+    setRef(p6);
   }
   /** @apilevel low-level 
-   * @declaredat ASTNode:29
+   * @declaredat ASTNode:31
    */
   protected int numChildren() {
-    return 2;
+    return 3;
   }
   /**
    * @apilevel internal
-   * @declaredat ASTNode:35
+   * @declaredat ASTNode:37
    */
   public boolean mayHaveRewrite() {
     return false;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:39
+   * @declaredat ASTNode:41
    */
   public void flushAttrCache() {
     super.flushAttrCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:43
+   * @declaredat ASTNode:45
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:47
+   * @declaredat ASTNode:49
    */
   public LinkObject clone() throws CloneNotSupportedException {
     LinkObject node = (LinkObject) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:52
+   * @declaredat ASTNode:54
    */
   public LinkObject copy() {
     try {
@@ -148,7 +155,7 @@ public class LinkObject extends ASTNode<ASTNode> implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:71
+   * @declaredat ASTNode:73
    */
   @Deprecated
   public LinkObject fullCopy() {
@@ -159,7 +166,7 @@ public class LinkObject extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:81
+   * @declaredat ASTNode:83
    */
   public LinkObject treeCopyNoTransform() {
     LinkObject tree = (LinkObject) copy();
@@ -180,7 +187,7 @@ public class LinkObject extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:101
+   * @declaredat ASTNode:103
    */
   public LinkObject treeCopy() {
     LinkObject tree = (LinkObject) copy();
@@ -196,10 +203,10 @@ public class LinkObject extends ASTNode<ASTNode> implements Cloneable {
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:115
+   * @declaredat ASTNode:117
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node) && (tokenString_OperationRef == ((LinkObject) node).tokenString_OperationRef) && (tokenString_OperationID == ((LinkObject) node).tokenString_OperationID) && (tokenObject_LinkRequestBody == ((LinkObject) node).tokenObject_LinkRequestBody) && (tokenString_Description == ((LinkObject) node).tokenString_Description);    
+    return super.is$Equal(node) && (tokenString_OperationRef == ((LinkObject) node).tokenString_OperationRef) && (tokenString_OperationID == ((LinkObject) node).tokenString_OperationID) && (tokenString_Description == ((LinkObject) node).tokenString_Description) && (tokenString_Ref == ((LinkObject) node).tokenString_Ref);    
   }
   /**
    * Replaces the lexeme OperationRef.
@@ -352,24 +359,114 @@ public class LinkObject extends ASTNode<ASTNode> implements Cloneable {
     return getLinkParameterTupleListNoTransform();
   }
   /**
-   * Replaces the lexeme LinkRequestBody.
-   * @param value The new value for the lexeme LinkRequestBody.
+   * Replaces the HeaderTuple list.
+   * @param list The new list node to be used as the HeaderTuple list.
    * @apilevel high-level
    */
-  public void setLinkRequestBody(Object value) {
-    tokenObject_LinkRequestBody = value;
+  public void setHeaderTupleList(JastAddList<HeaderTuple> list) {
+    setChild(list, 1);
   }
-  /** @apilevel internal 
-   */
-  protected Object tokenObject_LinkRequestBody;
   /**
-   * Retrieves the value for the lexeme LinkRequestBody.
-   * @return The value for the lexeme LinkRequestBody.
+   * Retrieves the number of children in the HeaderTuple list.
+   * @return Number of children in the HeaderTuple list.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Token(name="LinkRequestBody")
-  public Object getLinkRequestBody() {
-    return tokenObject_LinkRequestBody;
+  public int getNumHeaderTuple() {
+    return getHeaderTupleList().getNumChild();
+  }
+  /**
+   * Retrieves the number of children in the HeaderTuple list.
+   * Calling this method will not trigger rewrites.
+   * @return Number of children in the HeaderTuple list.
+   * @apilevel low-level
+   */
+  public int getNumHeaderTupleNoTransform() {
+    return getHeaderTupleListNoTransform().getNumChildNoTransform();
+  }
+  /**
+   * Retrieves the element at index {@code i} in the HeaderTuple list.
+   * @param i Index of the element to return.
+   * @return The element at position {@code i} in the HeaderTuple list.
+   * @apilevel high-level
+   */
+  public HeaderTuple getHeaderTuple(int i) {
+    return (HeaderTuple) getHeaderTupleList().getChild(i);
+  }
+  /**
+   * Check whether the HeaderTuple list has any children.
+   * @return {@code true} if it has at least one child, {@code false} otherwise.
+   * @apilevel high-level
+   */
+  public boolean hasHeaderTuple() {
+    return getHeaderTupleList().getNumChild() != 0;
+  }
+  /**
+   * Append an element to the HeaderTuple list.
+   * @param node The element to append to the HeaderTuple list.
+   * @apilevel high-level
+   */
+  public void addHeaderTuple(HeaderTuple node) {
+    JastAddList<HeaderTuple> list = (parent == null) ? getHeaderTupleListNoTransform() : getHeaderTupleList();
+    list.addChild(node);
+  }
+  /** @apilevel low-level 
+   */
+  public void addHeaderTupleNoTransform(HeaderTuple node) {
+    JastAddList<HeaderTuple> list = getHeaderTupleListNoTransform();
+    list.addChild(node);
+  }
+  /**
+   * Replaces the HeaderTuple list element at index {@code i} with the new node {@code node}.
+   * @param node The new node to replace the old list element.
+   * @param i The list index of the node to be replaced.
+   * @apilevel high-level
+   */
+  public void setHeaderTuple(HeaderTuple node, int i) {
+    JastAddList<HeaderTuple> list = getHeaderTupleList();
+    list.setChild(node, i);
+  }
+  /**
+   * Retrieves the HeaderTuple list.
+   * @return The node representing the HeaderTuple list.
+   * @apilevel high-level
+   */
+  @ASTNodeAnnotation.ListChild(name="HeaderTuple")
+  public JastAddList<HeaderTuple> getHeaderTupleList() {
+    JastAddList<HeaderTuple> list = (JastAddList<HeaderTuple>) getChild(1);
+    return list;
+  }
+  /**
+   * Retrieves the HeaderTuple list.
+   * <p><em>This method does not invoke AST transformations.</em></p>
+   * @return The node representing the HeaderTuple list.
+   * @apilevel low-level
+   */
+  public JastAddList<HeaderTuple> getHeaderTupleListNoTransform() {
+    return (JastAddList<HeaderTuple>) getChildNoTransform(1);
+  }
+  /**
+   * @return the element at index {@code i} in the HeaderTuple list without
+   * triggering rewrites.
+   */
+  public HeaderTuple getHeaderTupleNoTransform(int i) {
+    return (HeaderTuple) getHeaderTupleListNoTransform().getChildNoTransform(i);
+  }
+  /**
+   * Retrieves the HeaderTuple list.
+   * @return The node representing the HeaderTuple list.
+   * @apilevel high-level
+   */
+  public JastAddList<HeaderTuple> getHeaderTuples() {
+    return getHeaderTupleList();
+  }
+  /**
+   * Retrieves the HeaderTuple list.
+   * <p><em>This method does not invoke AST transformations.</em></p>
+   * @return The node representing the HeaderTuple list.
+   * @apilevel low-level
+   */
+  public JastAddList<HeaderTuple> getHeaderTuplesNoTransform() {
+    return getHeaderTupleListNoTransform();
   }
   /**
    * Replaces the lexeme Description.
@@ -398,7 +495,7 @@ public class LinkObject extends ASTNode<ASTNode> implements Cloneable {
    * @apilevel low-level
    */
   public void setServerObjectOpt(Opt<ServerObject> opt) {
-    setChild(opt, 1);
+    setChild(opt, 2);
   }
   /**
    * Replaces the (optional) ServerObject child.
@@ -431,7 +528,7 @@ public class LinkObject extends ASTNode<ASTNode> implements Cloneable {
    */
   @ASTNodeAnnotation.OptChild(name="ServerObject")
   public Opt<ServerObject> getServerObjectOpt() {
-    return (Opt<ServerObject>) getChild(1);
+    return (Opt<ServerObject>) getChild(2);
   }
   /**
    * Retrieves the optional node for child ServerObject. This is the <code>Opt</code> node containing the child ServerObject, not the actual child!
@@ -440,7 +537,27 @@ public class LinkObject extends ASTNode<ASTNode> implements Cloneable {
    * @apilevel low-level
    */
   public Opt<ServerObject> getServerObjectOptNoTransform() {
-    return (Opt<ServerObject>) getChildNoTransform(1);
+    return (Opt<ServerObject>) getChildNoTransform(2);
+  }
+  /**
+   * Replaces the lexeme Ref.
+   * @param value The new value for the lexeme Ref.
+   * @apilevel high-level
+   */
+  public void setRef(String value) {
+    tokenString_Ref = value;
+  }
+  /** @apilevel internal 
+   */
+  protected String tokenString_Ref;
+  /**
+   * Retrieves the value for the lexeme Ref.
+   * @return The value for the lexeme Ref.
+   * @apilevel high-level
+   */
+  @ASTNodeAnnotation.Token(name="Ref")
+  public String getRef() {
+    return tokenString_Ref != null ? tokenString_Ref : "";
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

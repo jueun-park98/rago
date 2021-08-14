@@ -4,20 +4,21 @@ import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
 import org.openapi4j.core.model.reference.Reference;
+import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:148
- * @astdecl SecuritySchemeObject : ASTNode ::= <Type:String> <Description:String> <Name:String> <In:String> <Scheme:String> <BearerFormat:String> Flows <OpenIdConnectUrl:String>;
- * @production SecuritySchemeObject : {@link ASTNode} ::= <span class="component">&lt;Type:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;In:String&gt;</span> <span class="component">&lt;Scheme:String&gt;</span> <span class="component">&lt;BearerFormat:String&gt;</span> <span class="component">{@link Flows}</span> <span class="component">&lt;OpenIdConnectUrl:String&gt;</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:110
+ * @astdecl SecuritySchemeObject : ASTNode ::= <Type:String> <Description:String> <Name:String> <In:String> <Scheme:String> <BearerFormat:String> OAuthFlowsObject <OpenIdConnectUrl:String> <Ref:String>;
+ * @production SecuritySchemeObject : {@link ASTNode} ::= <span class="component">&lt;Type:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;In:String&gt;</span> <span class="component">&lt;Scheme:String&gt;</span> <span class="component">&lt;BearerFormat:String&gt;</span> <span class="component">{@link OAuthFlowsObject}</span> <span class="component">&lt;OpenIdConnectUrl:String&gt;</span> <span class="component">&lt;Ref:String&gt;</span>;
 
  */
 public class SecuritySchemeObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:685
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:718
    */
   public static SecurityScheme composeSecurityScheme (SecuritySchemeObject securitySchemeObject){
         SecurityScheme securityScheme = new SecurityScheme();
@@ -27,7 +28,7 @@ public class SecuritySchemeObject extends ASTNode<ASTNode> implements Cloneable 
         securityScheme.setIn( securitySchemeObject.getIn() );
         securityScheme.setScheme( securitySchemeObject.getScheme() );
         securityScheme.setOpenIdConnectUrl( securitySchemeObject.getOpenIdConnectUrl() );
-        securityScheme.setFlows( OAuthFlowsObject.composeOAuthFlows( securitySchemeObject.getFlows().getOAuthFlowsObject() ) );
+        securityScheme.setFlows( OAuthFlowsObject.composeOAuthFlows( securitySchemeObject.getOAuthFlowsObject() ) );
 
         if( !securitySchemeObject.getDescription().isEmpty() )
         securityScheme.setDescription( securitySchemeObject.getDescription() );
@@ -38,19 +39,17 @@ public class SecuritySchemeObject extends ASTNode<ASTNode> implements Cloneable 
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:768
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:751
    */
   public static SecuritySchemeObject parseSecurityScheme(SecurityScheme securityScheme){
         SecuritySchemeObject securitySchemeObject = new SecuritySchemeObject();
-        Flows flows = new Flows();
 
         securitySchemeObject.setType( securityScheme.getType() );
         securitySchemeObject.setName( securityScheme.getName() );
         securitySchemeObject.setIn( securityScheme.getIn() );
         securitySchemeObject.setScheme( securityScheme.getScheme() );
         securitySchemeObject.setOpenIdConnectUrl( securityScheme.getOpenIdConnectUrl() );
-        flows.setOAuthFlowsObject( OAuthFlowsObject.parseOAuthFlows(securityScheme.getFlows()) );
-        securitySchemeObject.setFlows( flows );
+        securitySchemeObject.setOAuthFlowsObject( OAuthFlowsObject.parseOAuthFlows(securityScheme.getFlows()) );
 
         if( securityScheme.getDescription() != null )
         securitySchemeObject.setDescription( securityScheme.getDescription() );
@@ -79,11 +78,11 @@ public class SecuritySchemeObject extends ASTNode<ASTNode> implements Cloneable 
    * @declaredat ASTNode:13
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Type", "Description", "Name", "In", "Scheme", "BearerFormat", "Flows", "OpenIdConnectUrl"},
-    type = {"String", "String", "String", "String", "String", "String", "Flows", "String"},
-    kind = {"Token", "Token", "Token", "Token", "Token", "Token", "Child", "Token"}
+    name = {"Type", "Description", "Name", "In", "Scheme", "BearerFormat", "OAuthFlowsObject", "OpenIdConnectUrl", "Ref"},
+    type = {"String", "String", "String", "String", "String", "String", "OAuthFlowsObject", "String", "String"},
+    kind = {"Token", "Token", "Token", "Token", "Token", "Token", "Child", "Token", "Token"}
   )
-  public SecuritySchemeObject(String p0, String p1, String p2, String p3, String p4, String p5, Flows p6, String p7) {
+  public SecuritySchemeObject(String p0, String p1, String p2, String p3, String p4, String p5, OAuthFlowsObject p6, String p7, String p8) {
     setType(p0);
     setDescription(p1);
     setName(p2);
@@ -92,41 +91,42 @@ public class SecuritySchemeObject extends ASTNode<ASTNode> implements Cloneable 
     setBearerFormat(p5);
     setChild(p6, 0);
     setOpenIdConnectUrl(p7);
+    setRef(p8);
   }
   /** @apilevel low-level 
-   * @declaredat ASTNode:29
+   * @declaredat ASTNode:30
    */
   protected int numChildren() {
     return 1;
   }
   /**
    * @apilevel internal
-   * @declaredat ASTNode:35
+   * @declaredat ASTNode:36
    */
   public boolean mayHaveRewrite() {
     return false;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:39
+   * @declaredat ASTNode:40
    */
   public void flushAttrCache() {
     super.flushAttrCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:43
+   * @declaredat ASTNode:44
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:47
+   * @declaredat ASTNode:48
    */
   public SecuritySchemeObject clone() throws CloneNotSupportedException {
     SecuritySchemeObject node = (SecuritySchemeObject) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:52
+   * @declaredat ASTNode:53
    */
   public SecuritySchemeObject copy() {
     try {
@@ -146,7 +146,7 @@ public class SecuritySchemeObject extends ASTNode<ASTNode> implements Cloneable 
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:71
+   * @declaredat ASTNode:72
    */
   @Deprecated
   public SecuritySchemeObject fullCopy() {
@@ -157,7 +157,7 @@ public class SecuritySchemeObject extends ASTNode<ASTNode> implements Cloneable 
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:81
+   * @declaredat ASTNode:82
    */
   public SecuritySchemeObject treeCopyNoTransform() {
     SecuritySchemeObject tree = (SecuritySchemeObject) copy();
@@ -178,7 +178,7 @@ public class SecuritySchemeObject extends ASTNode<ASTNode> implements Cloneable 
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:101
+   * @declaredat ASTNode:102
    */
   public SecuritySchemeObject treeCopy() {
     SecuritySchemeObject tree = (SecuritySchemeObject) copy();
@@ -194,10 +194,10 @@ public class SecuritySchemeObject extends ASTNode<ASTNode> implements Cloneable 
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:115
+   * @declaredat ASTNode:116
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node) && (tokenString_Type == ((SecuritySchemeObject) node).tokenString_Type) && (tokenString_Description == ((SecuritySchemeObject) node).tokenString_Description) && (tokenString_Name == ((SecuritySchemeObject) node).tokenString_Name) && (tokenString_In == ((SecuritySchemeObject) node).tokenString_In) && (tokenString_Scheme == ((SecuritySchemeObject) node).tokenString_Scheme) && (tokenString_BearerFormat == ((SecuritySchemeObject) node).tokenString_BearerFormat) && (tokenString_OpenIdConnectUrl == ((SecuritySchemeObject) node).tokenString_OpenIdConnectUrl);    
+    return super.is$Equal(node) && (tokenString_Type == ((SecuritySchemeObject) node).tokenString_Type) && (tokenString_Description == ((SecuritySchemeObject) node).tokenString_Description) && (tokenString_Name == ((SecuritySchemeObject) node).tokenString_Name) && (tokenString_In == ((SecuritySchemeObject) node).tokenString_In) && (tokenString_Scheme == ((SecuritySchemeObject) node).tokenString_Scheme) && (tokenString_BearerFormat == ((SecuritySchemeObject) node).tokenString_BearerFormat) && (tokenString_OpenIdConnectUrl == ((SecuritySchemeObject) node).tokenString_OpenIdConnectUrl) && (tokenString_Ref == ((SecuritySchemeObject) node).tokenString_Ref);    
   }
   /**
    * Replaces the lexeme Type.
@@ -320,30 +320,30 @@ public class SecuritySchemeObject extends ASTNode<ASTNode> implements Cloneable 
     return tokenString_BearerFormat != null ? tokenString_BearerFormat : "";
   }
   /**
-   * Replaces the Flows child.
-   * @param node The new node to replace the Flows child.
+   * Replaces the OAuthFlowsObject child.
+   * @param node The new node to replace the OAuthFlowsObject child.
    * @apilevel high-level
    */
-  public void setFlows(Flows node) {
+  public void setOAuthFlowsObject(OAuthFlowsObject node) {
     setChild(node, 0);
   }
   /**
-   * Retrieves the Flows child.
-   * @return The current node used as the Flows child.
+   * Retrieves the OAuthFlowsObject child.
+   * @return The current node used as the OAuthFlowsObject child.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Child(name="Flows")
-  public Flows getFlows() {
-    return (Flows) getChild(0);
+  @ASTNodeAnnotation.Child(name="OAuthFlowsObject")
+  public OAuthFlowsObject getOAuthFlowsObject() {
+    return (OAuthFlowsObject) getChild(0);
   }
   /**
-   * Retrieves the Flows child.
+   * Retrieves the OAuthFlowsObject child.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The current node used as the Flows child.
+   * @return The current node used as the OAuthFlowsObject child.
    * @apilevel low-level
    */
-  public Flows getFlowsNoTransform() {
-    return (Flows) getChildNoTransform(0);
+  public OAuthFlowsObject getOAuthFlowsObjectNoTransform() {
+    return (OAuthFlowsObject) getChildNoTransform(0);
   }
   /**
    * Replaces the lexeme OpenIdConnectUrl.
@@ -364,6 +364,26 @@ public class SecuritySchemeObject extends ASTNode<ASTNode> implements Cloneable 
   @ASTNodeAnnotation.Token(name="OpenIdConnectUrl")
   public String getOpenIdConnectUrl() {
     return tokenString_OpenIdConnectUrl != null ? tokenString_OpenIdConnectUrl : "";
+  }
+  /**
+   * Replaces the lexeme Ref.
+   * @param value The new value for the lexeme Ref.
+   * @apilevel high-level
+   */
+  public void setRef(String value) {
+    tokenString_Ref = value;
+  }
+  /** @apilevel internal 
+   */
+  protected String tokenString_Ref;
+  /**
+   * Retrieves the value for the lexeme Ref.
+   * @return The value for the lexeme Ref.
+   * @apilevel high-level
+   */
+  @ASTNodeAnnotation.Token(name="Ref")
+  public String getRef() {
+    return tokenString_Ref != null ? tokenString_Ref : "";
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

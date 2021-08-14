@@ -4,12 +4,13 @@ import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
 import org.openapi4j.core.model.reference.Reference;
+import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:160
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:121
  * @astdecl ScopesTuple : ASTNode ::= <ScopesKey:String> <ScopesValue:String>;
  * @production ScopesTuple : {@link ASTNode} ::= <span class="component">&lt;ScopesKey:String&gt;</span> <span class="component">&lt;ScopesValue:String&gt;</span>;
 

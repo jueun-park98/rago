@@ -4,20 +4,21 @@ import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
 import org.openapi4j.core.model.reference.Reference;
+import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:126
- * @astdecl TagObject : ASTNode ::= <Name:String> <Description:String> [ExternalDocumentationObject];
- * @production TagObject : {@link ASTNode} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">[{@link ExternalDocumentationObject}]</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:88
+ * @astdecl TagObject : ASTNode ::= <Name:String> <Description:String> [ExternalDocObject];
+ * @production TagObject : {@link ASTNode} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">[{@link ExternalDocObject}]</span>;
 
  */
 public class TagObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:551
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:578
    */
   public static org.openapi4j.parser.model.v3.Tag composeTag (TagObject tagObject){
         org.openapi4j.parser.model.v3.Tag tag = new org.openapi4j.parser.model.v3.Tag();
@@ -26,14 +27,14 @@ public class TagObject extends ASTNode<ASTNode> implements Cloneable {
 
         if( !tagObject.getDescription().isEmpty() )
         tag.setDescription( tagObject.getDescription() );
-        if( tagObject.hasExternalDocumentationObject() )
-        tag.setExternalDocs( ExternalDocumentationObject.composeExternalDocs(tagObject.getExternalDocumentationObject()) );
+        if( tagObject.hasExternalDocObject() )
+        tag.setExternalDocs( ExternalDocObject.composeExternalDocs(tagObject.getExternalDocObject()) );
 
         return tag;
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:605
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:587
    */
   public static TagObject parseTag(org.openapi4j.parser.model.v3.Tag tag){
         TagObject tagObject = new TagObject();
@@ -43,7 +44,7 @@ public class TagObject extends ASTNode<ASTNode> implements Cloneable {
         if( tag.getDescription() != null )
         tagObject.setDescription( tag.getDescription() );
         if( tag.getExternalDocs() != null )
-        tagObject.setExternalDocumentationObject( ExternalDocumentationObject.parseExternalDocs(tag.getExternalDocs()) );
+        tagObject.setExternalDocObject( ExternalDocObject.parseExternalDocs(tag.getExternalDocs()) );
 
         return tagObject;
         }
@@ -68,11 +69,11 @@ public class TagObject extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:14
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Name", "Description", "ExternalDocumentationObject"},
-    type = {"String", "String", "Opt<ExternalDocumentationObject>"},
+    name = {"Name", "Description", "ExternalDocObject"},
+    type = {"String", "String", "Opt<ExternalDocObject>"},
     kind = {"Token", "Token", "Opt"}
   )
-  public TagObject(String p0, String p1, Opt<ExternalDocumentationObject> p2) {
+  public TagObject(String p0, String p1, Opt<ExternalDocObject> p2) {
     setName(p0);
     setDescription(p1);
     setChild(p2, 0);
@@ -224,55 +225,55 @@ public class TagObject extends ASTNode<ASTNode> implements Cloneable {
     return tokenString_Description != null ? tokenString_Description : "";
   }
   /**
-   * Replaces the optional node for the ExternalDocumentationObject child. This is the <code>Opt</code>
-   * node containing the child ExternalDocumentationObject, not the actual child!
-   * @param opt The new node to be used as the optional node for the ExternalDocumentationObject child.
+   * Replaces the optional node for the ExternalDocObject child. This is the <code>Opt</code>
+   * node containing the child ExternalDocObject, not the actual child!
+   * @param opt The new node to be used as the optional node for the ExternalDocObject child.
    * @apilevel low-level
    */
-  public void setExternalDocumentationObjectOpt(Opt<ExternalDocumentationObject> opt) {
+  public void setExternalDocObjectOpt(Opt<ExternalDocObject> opt) {
     setChild(opt, 0);
   }
   /**
-   * Replaces the (optional) ExternalDocumentationObject child.
-   * @param node The new node to be used as the ExternalDocumentationObject child.
+   * Replaces the (optional) ExternalDocObject child.
+   * @param node The new node to be used as the ExternalDocObject child.
    * @apilevel high-level
    */
-  public void setExternalDocumentationObject(ExternalDocumentationObject node) {
-    getExternalDocumentationObjectOpt().setChild(node, 0);
+  public void setExternalDocObject(ExternalDocObject node) {
+    getExternalDocObjectOpt().setChild(node, 0);
   }
   /**
-   * Check whether the optional ExternalDocumentationObject child exists.
-   * @return {@code true} if the optional ExternalDocumentationObject child exists, {@code false} if it does not.
+   * Check whether the optional ExternalDocObject child exists.
+   * @return {@code true} if the optional ExternalDocObject child exists, {@code false} if it does not.
    * @apilevel high-level
    */
-  public boolean hasExternalDocumentationObject() {
-    return getExternalDocumentationObjectOpt().getNumChild() != 0;
+  public boolean hasExternalDocObject() {
+    return getExternalDocObjectOpt().getNumChild() != 0;
   }
   /**
-   * Retrieves the (optional) ExternalDocumentationObject child.
-   * @return The ExternalDocumentationObject child, if it exists. Returns {@code null} otherwise.
+   * Retrieves the (optional) ExternalDocObject child.
+   * @return The ExternalDocObject child, if it exists. Returns {@code null} otherwise.
    * @apilevel low-level
    */
-  public ExternalDocumentationObject getExternalDocumentationObject() {
-    return (ExternalDocumentationObject) getExternalDocumentationObjectOpt().getChild(0);
+  public ExternalDocObject getExternalDocObject() {
+    return (ExternalDocObject) getExternalDocObjectOpt().getChild(0);
   }
   /**
-   * Retrieves the optional node for the ExternalDocumentationObject child. This is the <code>Opt</code> node containing the child ExternalDocumentationObject, not the actual child!
-   * @return The optional node for child the ExternalDocumentationObject child.
+   * Retrieves the optional node for the ExternalDocObject child. This is the <code>Opt</code> node containing the child ExternalDocObject, not the actual child!
+   * @return The optional node for child the ExternalDocObject child.
    * @apilevel low-level
    */
-  @ASTNodeAnnotation.OptChild(name="ExternalDocumentationObject")
-  public Opt<ExternalDocumentationObject> getExternalDocumentationObjectOpt() {
-    return (Opt<ExternalDocumentationObject>) getChild(0);
+  @ASTNodeAnnotation.OptChild(name="ExternalDocObject")
+  public Opt<ExternalDocObject> getExternalDocObjectOpt() {
+    return (Opt<ExternalDocObject>) getChild(0);
   }
   /**
-   * Retrieves the optional node for child ExternalDocumentationObject. This is the <code>Opt</code> node containing the child ExternalDocumentationObject, not the actual child!
+   * Retrieves the optional node for child ExternalDocObject. This is the <code>Opt</code> node containing the child ExternalDocObject, not the actual child!
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The optional node for child ExternalDocumentationObject.
+   * @return The optional node for child ExternalDocObject.
    * @apilevel low-level
    */
-  public Opt<ExternalDocumentationObject> getExternalDocumentationObjectOptNoTransform() {
-    return (Opt<ExternalDocumentationObject>) getChildNoTransform(0);
+  public Opt<ExternalDocObject> getExternalDocObjectOptNoTransform() {
+    return (Opt<ExternalDocObject>) getChildNoTransform(0);
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

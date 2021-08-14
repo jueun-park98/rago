@@ -4,67 +4,62 @@ import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
 import org.openapi4j.core.model.reference.Reference;
+import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:94
- * @astdecl MediaTypeObject : ASTNode ::= [SchemaObject] <Example:Object> ExamplesTuple* EncodingTuple*;
- * @production MediaTypeObject : {@link ASTNode} ::= <span class="component">[{@link SchemaObject}]</span> <span class="component">&lt;Example:Object&gt;</span> <span class="component">{@link ExamplesTuple}*</span> <span class="component">{@link EncodingTuple}*</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:63
+ * @astdecl MediaTypeObject : ASTNode ::= [SchemaObject] <Example:Object> ExampleTuple* EncodingTuple*;
+ * @production MediaTypeObject : {@link ASTNode} ::= <span class="component">[{@link SchemaObject}]</span> <span class="component">&lt;Example:Object&gt;</span> <span class="component">{@link ExampleTuple}*</span> <span class="component">{@link EncodingTuple}*</span>;
 
  */
 public class MediaTypeObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:400
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:417
    */
   public static MediaType composeMediaType (MediaTypeObject mediaTypeObject){
         MediaType mediaType = new MediaType();
 
-        if( mediaTypeObject.getSchemaObject() != null ) {
-        Schema schema = new Schema();
-        schema = SchemaObject.composeSchema(mediaTypeObject.getSchemaObject());
-        mediaType.setSchema(schema);
-        }
+        if( mediaTypeObject.getSchemaObject() != null )
+        mediaType.setSchema(SchemaObject.composeSchema(mediaTypeObject.getSchemaObject()));
         if( mediaTypeObject.getExample() != null )
-        mediaType.setExample( mediaTypeObject.getExample() );
-        if( mediaTypeObject.getNumExamplesTuple() != 0 ){
-        Map<String, Example> examples = new HashMap<>();
-        for( ExamplesTuple t : mediaTypeObject.getExamplesTuples() )
-        examples.put( ((ExampleObjectTuple)t).getName(), ExampleObject.composeExample( ((ExampleObjectTuple)t).getExampleObject() ) );
-        mediaType.setExamples(examples);
+        mediaType.setExample(mediaTypeObject.getExample());
+        if( mediaTypeObject.getNumExampleTuple() != 0 ){
+        Map<String, Example> exampleMap = new HashMap<>();
+        for( ExampleTuple t : mediaTypeObject.getExampleTuples() )
+        exampleMap.put(t.getKey(), ExampleObject.composeExample(t.getExampleObject()));
+        mediaType.setExamples(exampleMap);
         }
         if( mediaTypeObject.getNumEncodingTuple() != 0 ){
-        Map<String, EncodingProperty> encodings = new HashMap<>();
+        Map<String, EncodingProperty> encodingMap = new HashMap<>();
         for( EncodingTuple t : mediaTypeObject.getEncodingTuples() )
-        encodings.put( ((EncodingObjectTuple)t).getName(), EncodingObject.composeEncodingProperty( ((EncodingObjectTuple)t).getEncodingObject() ) );
-        mediaType.setEncodings(encodings);
+        encodingMap.put(t.getKey(), EncodingObject.composeEncodingProperty(t.getEncodingObject()));
+        mediaType.setEncodings(encodingMap);
         }
 
         return mediaType;
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:470
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:446
    */
   public static MediaTypeObject parseMediaType(MediaType mediaType){
         MediaTypeObject mediaTypeObject = new MediaTypeObject();
 
-        if( mediaType.getSchema() != null ) {
-        SchemaObject schema = new SchemaObject();
-        schema = SchemaObject.parseSchema(mediaType.getSchema());
-        mediaTypeObject.setSchemaObject(schema);
-        }
+        if( mediaType.getSchema() != null )
+        mediaTypeObject.setSchemaObject(SchemaObject.parseSchema(mediaType.getSchema()));
         if( mediaType.getExample() != null )
-        mediaTypeObject.setExample( mediaType.getExample() );
+        mediaTypeObject.setExample(mediaType.getExample());
         if( mediaType.getExamples() != null ){
         for( String key : mediaType.getExamples().keySet() )
-        mediaTypeObject.addExamplesTuple(new ExampleObjectTuple(key, ExampleObject.parseExample(mediaType.getExample(key))));
+        mediaTypeObject.addExampleTuple(new ExampleTuple(key, ExampleObject.parseExample(mediaType.getExample(key))));
         }
         if( mediaType.getEncodings() != null ){
         for( String key : mediaType.getEncodings().keySet() )
-        mediaTypeObject.addEncodingTuple(new EncodingObjectTuple(key, EncodingObject.parseEncoding(mediaType.getEncoding(key))));
+        mediaTypeObject.addEncodingTuple(new EncodingTuple(key, EncodingObject.parseEncoding(mediaType.getEncoding(key))));
         }
 
         return mediaTypeObject;
@@ -92,11 +87,11 @@ public class MediaTypeObject extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:16
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"SchemaObject", "Example", "ExamplesTuple", "EncodingTuple"},
-    type = {"Opt<SchemaObject>", "Object", "JastAddList<ExamplesTuple>", "JastAddList<EncodingTuple>"},
+    name = {"SchemaObject", "Example", "ExampleTuple", "EncodingTuple"},
+    type = {"Opt<SchemaObject>", "Object", "JastAddList<ExampleTuple>", "JastAddList<EncodingTuple>"},
     kind = {"Opt", "Token", "List", "List"}
   )
-  public MediaTypeObject(Opt<SchemaObject> p0, Object p1, JastAddList<ExamplesTuple> p2, JastAddList<EncodingTuple> p3) {
+  public MediaTypeObject(Opt<SchemaObject> p0, Object p1, JastAddList<ExampleTuple> p2, JastAddList<EncodingTuple> p3) {
     setChild(p0, 0);
     setExample(p1);
     setChild(p2, 1);
@@ -280,114 +275,114 @@ public class MediaTypeObject extends ASTNode<ASTNode> implements Cloneable {
     return tokenObject_Example;
   }
   /**
-   * Replaces the ExamplesTuple list.
-   * @param list The new list node to be used as the ExamplesTuple list.
+   * Replaces the ExampleTuple list.
+   * @param list The new list node to be used as the ExampleTuple list.
    * @apilevel high-level
    */
-  public void setExamplesTupleList(JastAddList<ExamplesTuple> list) {
+  public void setExampleTupleList(JastAddList<ExampleTuple> list) {
     setChild(list, 1);
   }
   /**
-   * Retrieves the number of children in the ExamplesTuple list.
-   * @return Number of children in the ExamplesTuple list.
+   * Retrieves the number of children in the ExampleTuple list.
+   * @return Number of children in the ExampleTuple list.
    * @apilevel high-level
    */
-  public int getNumExamplesTuple() {
-    return getExamplesTupleList().getNumChild();
+  public int getNumExampleTuple() {
+    return getExampleTupleList().getNumChild();
   }
   /**
-   * Retrieves the number of children in the ExamplesTuple list.
+   * Retrieves the number of children in the ExampleTuple list.
    * Calling this method will not trigger rewrites.
-   * @return Number of children in the ExamplesTuple list.
+   * @return Number of children in the ExampleTuple list.
    * @apilevel low-level
    */
-  public int getNumExamplesTupleNoTransform() {
-    return getExamplesTupleListNoTransform().getNumChildNoTransform();
+  public int getNumExampleTupleNoTransform() {
+    return getExampleTupleListNoTransform().getNumChildNoTransform();
   }
   /**
-   * Retrieves the element at index {@code i} in the ExamplesTuple list.
+   * Retrieves the element at index {@code i} in the ExampleTuple list.
    * @param i Index of the element to return.
-   * @return The element at position {@code i} in the ExamplesTuple list.
+   * @return The element at position {@code i} in the ExampleTuple list.
    * @apilevel high-level
    */
-  public ExamplesTuple getExamplesTuple(int i) {
-    return (ExamplesTuple) getExamplesTupleList().getChild(i);
+  public ExampleTuple getExampleTuple(int i) {
+    return (ExampleTuple) getExampleTupleList().getChild(i);
   }
   /**
-   * Check whether the ExamplesTuple list has any children.
+   * Check whether the ExampleTuple list has any children.
    * @return {@code true} if it has at least one child, {@code false} otherwise.
    * @apilevel high-level
    */
-  public boolean hasExamplesTuple() {
-    return getExamplesTupleList().getNumChild() != 0;
+  public boolean hasExampleTuple() {
+    return getExampleTupleList().getNumChild() != 0;
   }
   /**
-   * Append an element to the ExamplesTuple list.
-   * @param node The element to append to the ExamplesTuple list.
+   * Append an element to the ExampleTuple list.
+   * @param node The element to append to the ExampleTuple list.
    * @apilevel high-level
    */
-  public void addExamplesTuple(ExamplesTuple node) {
-    JastAddList<ExamplesTuple> list = (parent == null) ? getExamplesTupleListNoTransform() : getExamplesTupleList();
+  public void addExampleTuple(ExampleTuple node) {
+    JastAddList<ExampleTuple> list = (parent == null) ? getExampleTupleListNoTransform() : getExampleTupleList();
     list.addChild(node);
   }
   /** @apilevel low-level 
    */
-  public void addExamplesTupleNoTransform(ExamplesTuple node) {
-    JastAddList<ExamplesTuple> list = getExamplesTupleListNoTransform();
+  public void addExampleTupleNoTransform(ExampleTuple node) {
+    JastAddList<ExampleTuple> list = getExampleTupleListNoTransform();
     list.addChild(node);
   }
   /**
-   * Replaces the ExamplesTuple list element at index {@code i} with the new node {@code node}.
+   * Replaces the ExampleTuple list element at index {@code i} with the new node {@code node}.
    * @param node The new node to replace the old list element.
    * @param i The list index of the node to be replaced.
    * @apilevel high-level
    */
-  public void setExamplesTuple(ExamplesTuple node, int i) {
-    JastAddList<ExamplesTuple> list = getExamplesTupleList();
+  public void setExampleTuple(ExampleTuple node, int i) {
+    JastAddList<ExampleTuple> list = getExampleTupleList();
     list.setChild(node, i);
   }
   /**
-   * Retrieves the ExamplesTuple list.
-   * @return The node representing the ExamplesTuple list.
+   * Retrieves the ExampleTuple list.
+   * @return The node representing the ExampleTuple list.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.ListChild(name="ExamplesTuple")
-  public JastAddList<ExamplesTuple> getExamplesTupleList() {
-    JastAddList<ExamplesTuple> list = (JastAddList<ExamplesTuple>) getChild(1);
+  @ASTNodeAnnotation.ListChild(name="ExampleTuple")
+  public JastAddList<ExampleTuple> getExampleTupleList() {
+    JastAddList<ExampleTuple> list = (JastAddList<ExampleTuple>) getChild(1);
     return list;
   }
   /**
-   * Retrieves the ExamplesTuple list.
+   * Retrieves the ExampleTuple list.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The node representing the ExamplesTuple list.
+   * @return The node representing the ExampleTuple list.
    * @apilevel low-level
    */
-  public JastAddList<ExamplesTuple> getExamplesTupleListNoTransform() {
-    return (JastAddList<ExamplesTuple>) getChildNoTransform(1);
+  public JastAddList<ExampleTuple> getExampleTupleListNoTransform() {
+    return (JastAddList<ExampleTuple>) getChildNoTransform(1);
   }
   /**
-   * @return the element at index {@code i} in the ExamplesTuple list without
+   * @return the element at index {@code i} in the ExampleTuple list without
    * triggering rewrites.
    */
-  public ExamplesTuple getExamplesTupleNoTransform(int i) {
-    return (ExamplesTuple) getExamplesTupleListNoTransform().getChildNoTransform(i);
+  public ExampleTuple getExampleTupleNoTransform(int i) {
+    return (ExampleTuple) getExampleTupleListNoTransform().getChildNoTransform(i);
   }
   /**
-   * Retrieves the ExamplesTuple list.
-   * @return The node representing the ExamplesTuple list.
+   * Retrieves the ExampleTuple list.
+   * @return The node representing the ExampleTuple list.
    * @apilevel high-level
    */
-  public JastAddList<ExamplesTuple> getExamplesTuples() {
-    return getExamplesTupleList();
+  public JastAddList<ExampleTuple> getExampleTuples() {
+    return getExampleTupleList();
   }
   /**
-   * Retrieves the ExamplesTuple list.
+   * Retrieves the ExampleTuple list.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The node representing the ExamplesTuple list.
+   * @return The node representing the ExampleTuple list.
    * @apilevel low-level
    */
-  public JastAddList<ExamplesTuple> getExamplesTuplesNoTransform() {
-    return getExamplesTupleListNoTransform();
+  public JastAddList<ExampleTuple> getExampleTuplesNoTransform() {
+    return getExampleTupleListNoTransform();
   }
   /**
    * Replaces the EncodingTuple list.

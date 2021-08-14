@@ -4,20 +4,21 @@ import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
 import org.openapi4j.core.model.reference.Reference;
+import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:159
- * @astdecl OAuthFlowObject : ASTNode ::= <AuthorizationUrl:String> <TokenUrl:String> <RefreshUrl:String> ScopesTuple*;
- * @production OAuthFlowObject : {@link ASTNode} ::= <span class="component">&lt;AuthorizationUrl:String&gt;</span> <span class="component">&lt;TokenUrl:String&gt;</span> <span class="component">&lt;RefreshUrl:String&gt;</span> <span class="component">{@link ScopesTuple}*</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:120
+ * @astdecl OAuthFlowObject : ASTNode ::= <AuthorizationUrl:String> <TokenUrl:String> <RefreshUrl:String> ScopesTuple* <Configuration:String>;
+ * @production OAuthFlowObject : {@link ASTNode} ::= <span class="component">&lt;AuthorizationUrl:String&gt;</span> <span class="component">&lt;TokenUrl:String&gt;</span> <span class="component">&lt;RefreshUrl:String&gt;</span> <span class="component">{@link ScopesTuple}*</span> <span class="component">&lt;Configuration:String&gt;</span>;
 
  */
 public class OAuthFlowObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:718
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:751
    */
   public static OAuthFlow composeOAuthFlow (OAuthFlowObject oAuthFlowObject){
         OAuthFlow oAuthFlow = new OAuthFlow();
@@ -36,7 +37,7 @@ public class OAuthFlowObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:812
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:793
    */
   public static OAuthFlowObject parseOAuthFlow(OAuthFlow oAuthFlow){
         OAuthFlowObject oAuthFlowObject = new OAuthFlowObject();
@@ -72,50 +73,51 @@ public class OAuthFlowObject extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:14
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"AuthorizationUrl", "TokenUrl", "RefreshUrl", "ScopesTuple"},
-    type = {"String", "String", "String", "JastAddList<ScopesTuple>"},
-    kind = {"Token", "Token", "Token", "List"}
+    name = {"AuthorizationUrl", "TokenUrl", "RefreshUrl", "ScopesTuple", "Configuration"},
+    type = {"String", "String", "String", "JastAddList<ScopesTuple>", "String"},
+    kind = {"Token", "Token", "Token", "List", "Token"}
   )
-  public OAuthFlowObject(String p0, String p1, String p2, JastAddList<ScopesTuple> p3) {
+  public OAuthFlowObject(String p0, String p1, String p2, JastAddList<ScopesTuple> p3, String p4) {
     setAuthorizationUrl(p0);
     setTokenUrl(p1);
     setRefreshUrl(p2);
     setChild(p3, 0);
+    setConfiguration(p4);
   }
   /** @apilevel low-level 
-   * @declaredat ASTNode:26
+   * @declaredat ASTNode:27
    */
   protected int numChildren() {
     return 1;
   }
   /**
    * @apilevel internal
-   * @declaredat ASTNode:32
+   * @declaredat ASTNode:33
    */
   public boolean mayHaveRewrite() {
     return false;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:36
+   * @declaredat ASTNode:37
    */
   public void flushAttrCache() {
     super.flushAttrCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:40
+   * @declaredat ASTNode:41
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:44
+   * @declaredat ASTNode:45
    */
   public OAuthFlowObject clone() throws CloneNotSupportedException {
     OAuthFlowObject node = (OAuthFlowObject) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:49
+   * @declaredat ASTNode:50
    */
   public OAuthFlowObject copy() {
     try {
@@ -135,7 +137,7 @@ public class OAuthFlowObject extends ASTNode<ASTNode> implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:68
+   * @declaredat ASTNode:69
    */
   @Deprecated
   public OAuthFlowObject fullCopy() {
@@ -146,7 +148,7 @@ public class OAuthFlowObject extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:78
+   * @declaredat ASTNode:79
    */
   public OAuthFlowObject treeCopyNoTransform() {
     OAuthFlowObject tree = (OAuthFlowObject) copy();
@@ -167,7 +169,7 @@ public class OAuthFlowObject extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:98
+   * @declaredat ASTNode:99
    */
   public OAuthFlowObject treeCopy() {
     OAuthFlowObject tree = (OAuthFlowObject) copy();
@@ -183,10 +185,10 @@ public class OAuthFlowObject extends ASTNode<ASTNode> implements Cloneable {
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:112
+   * @declaredat ASTNode:113
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node) && (tokenString_AuthorizationUrl == ((OAuthFlowObject) node).tokenString_AuthorizationUrl) && (tokenString_TokenUrl == ((OAuthFlowObject) node).tokenString_TokenUrl) && (tokenString_RefreshUrl == ((OAuthFlowObject) node).tokenString_RefreshUrl);    
+    return super.is$Equal(node) && (tokenString_AuthorizationUrl == ((OAuthFlowObject) node).tokenString_AuthorizationUrl) && (tokenString_TokenUrl == ((OAuthFlowObject) node).tokenString_TokenUrl) && (tokenString_RefreshUrl == ((OAuthFlowObject) node).tokenString_RefreshUrl) && (tokenString_Configuration == ((OAuthFlowObject) node).tokenString_Configuration);    
   }
   /**
    * Replaces the lexeme AuthorizationUrl.
@@ -357,6 +359,26 @@ public class OAuthFlowObject extends ASTNode<ASTNode> implements Cloneable {
    */
   public JastAddList<ScopesTuple> getScopesTuplesNoTransform() {
     return getScopesTupleListNoTransform();
+  }
+  /**
+   * Replaces the lexeme Configuration.
+   * @param value The new value for the lexeme Configuration.
+   * @apilevel high-level
+   */
+  public void setConfiguration(String value) {
+    tokenString_Configuration = value;
+  }
+  /** @apilevel internal 
+   */
+  protected String tokenString_Configuration;
+  /**
+   * Retrieves the value for the lexeme Configuration.
+   * @return The value for the lexeme Configuration.
+   * @apilevel high-level
+   */
+  @ASTNodeAnnotation.Token(name="Configuration")
+  public String getConfiguration() {
+    return tokenString_Configuration != null ? tokenString_Configuration : "";
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

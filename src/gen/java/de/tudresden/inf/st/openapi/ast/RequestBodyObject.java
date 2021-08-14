@@ -4,12 +4,13 @@ import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
 import org.openapi4j.core.model.reference.Reference;
+import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:77
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:60
  * @astdecl RequestBodyObject : ASTNode ::= <Description:String> ContentTuple* <Required:Boolean> <Ref:String>;
  * @production RequestBodyObject : {@link ASTNode} ::= <span class="component">&lt;Description:String&gt;</span> <span class="component">{@link ContentTuple}*</span> <span class="component">&lt;Required:Boolean&gt;</span> <span class="component">&lt;Ref:String&gt;</span>;
 
@@ -17,41 +18,43 @@ import java.net.URL;
 public class RequestBodyObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:383
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:398
    */
   public static org.openapi4j.parser.model.v3.RequestBody composeRequestBody (RequestBodyObject requestBodyObject){
         org.openapi4j.parser.model.v3.RequestBody requestBody = new org.openapi4j.parser.model.v3.RequestBody();
-        Map<String, MediaType> contents = new HashMap<>();
 
-        for( ContentTuple t : requestBodyObject.getContentTuples() )
-        contents.put( ((ContentObjectTuple)t).getName(), MediaTypeObject.composeMediaType( ((ContentObjectTuple)t).getMediaTypeObject() ) );
+        if( requestBodyObject.getNumContentTuple() != 0 ){
+        Map<String, MediaType> contents = new HashMap<>();
+        for( ContentTuple t : requestBodyObject.getContentTuples())
+        contents.put(t.getKey(), MediaTypeObject.composeMediaType(t.getMediaTypeObject()));
         requestBody.setContentMediaTypes(contents);
+        }
         if( !requestBodyObject.getDescription().isEmpty() )
         requestBody.setDescription(requestBodyObject.getDescription());
         if( requestBodyObject.getRequired() != null )
         requestBody.setRequired(requestBodyObject.getRequired());
         if( !requestBodyObject.getRef().isEmpty() )
-            requestBody.setRef(requestBodyObject.getRef());
+        requestBody.setRef(requestBodyObject.getRef());
 
         return requestBody;
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:453
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:429
    */
   public static RequestBodyObject parseRequestBody(org.openapi4j.parser.model.v3.RequestBody requestBody){
         RequestBodyObject requestBodyObject = new RequestBodyObject();
 
         if( requestBody.getContentMediaTypes() != null ) {
         for (String key : requestBody.getContentMediaTypes().keySet())
-        requestBodyObject.addContentTuple(new ContentObjectTuple(key, MediaTypeObject.parseMediaType(requestBody.getContentMediaType(key))));
+        requestBodyObject.addContentTuple(new ContentTuple(key, MediaTypeObject.parseMediaType(requestBody.getContentMediaType(key))));
         }
         if( requestBody.getDescription() != null )
         requestBodyObject.setDescription(requestBody.getDescription());
         if( requestBody.getRequired() != null )
         requestBodyObject.setRequired( requestBody.getRequired() );
         if( requestBody.isRef() )
-            requestBodyObject.setRef(requestBody.getRef());
+        requestBodyObject.setRef(requestBody.getRef());
 
         return requestBodyObject;
         }

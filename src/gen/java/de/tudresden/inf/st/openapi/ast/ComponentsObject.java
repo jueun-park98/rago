@@ -4,297 +4,289 @@ import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
 import org.openapi4j.core.model.reference.Reference;
+import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:5
- * @astdecl ComponentsObject : ASTNode ::= SchemasTuple* ResponsesTuple* ParameterTuple* ExamplesTuple* RequestBodiesTuple* HeadersTuple* SecuritySchemesTuple* LinksTuple* CallbacksTuple*;
- * @production ComponentsObject : {@link ASTNode} ::= <span class="component">{@link SchemasTuple}*</span> <span class="component">{@link ResponsesTuple}*</span> <span class="component">{@link ParameterTuple}*</span> <span class="component">{@link ExamplesTuple}*</span> <span class="component">{@link RequestBodiesTuple}*</span> <span class="component">{@link HeadersTuple}*</span> <span class="component">{@link SecuritySchemesTuple}*</span> <span class="component">{@link LinksTuple}*</span> <span class="component">{@link CallbacksTuple}*</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:22
+ * @astdecl ComponentsObject : ASTNode ::= SchemaTuple* ResponseTuple* ParameterTuple* ExampleTuple* RequestBodyTuple* HeaderTuple* SecuritySchemeTuple* LinkTuple* CallbackTuple*;
+ * @production ComponentsObject : {@link ASTNode} ::= <span class="component">{@link SchemaTuple}*</span> <span class="component">{@link ResponseTuple}*</span> <span class="component">{@link ParameterTuple}*</span> <span class="component">{@link ExampleTuple}*</span> <span class="component">{@link RequestBodyTuple}*</span> <span class="component">{@link HeaderTuple}*</span> <span class="component">{@link SecuritySchemeTuple}*</span> <span class="component">{@link LinkTuple}*</span> <span class="component">{@link CallbackTuple}*</span>;
 
  */
 public class ComponentsObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:126
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:131
    */
   public static Components composeComponents (ComponentsObject componentsObject){
         Components components = new Components();
 
-        if( componentsObject.getNumSchemasTuple() != 0 ){
-        Map<String, org.openapi4j.parser.model.v3.Schema> schemas = new HashMap<>();
-        for( SchemasTuple t : componentsObject.getSchemasTuples() ){
-        if( t instanceof SchemaReferenceTuple ){
-        org.openapi4j.parser.model.v3.Schema schema = new org.openapi4j.parser.model.v3.Schema();
-        schema.setRef(((SchemaReferenceTuple) t).getRef());
-        schemas.put(((SchemaReferenceTuple) t).getName(), schema);
+        if( componentsObject.getNumSchemaTuple() != 0 ){
+        Map<String, org.openapi4j.parser.model.v3.Schema> schemaMap = new HashMap<>();
+        for( SchemaTuple t : componentsObject.getSchemaTuples() ){
+        if(!t.getSchemaObject().getRef().isEmpty()){
+        org.openapi4j.parser.model.v3.Schema schema=new org.openapi4j.parser.model.v3.Schema();
+        schema.setRef(t.getSchemaObject().getRef());
+        schemaMap.put(t.getKey(),schema);
         }
         else
-        schemas.put(((SchemaObjectTuple)t).getName(), SchemaObject.composeSchema(((SchemaObjectTuple)t).getSchemaObject()));
+        schemaMap.put(t.getKey(),SchemaObject.composeSchema(t.getSchemaObject()));
         }
-        components.setSchemas(schemas);
+        components.setSchemas(schemaMap);
         }
-        if( componentsObject.getNumResponsesTuple() != 0 ){
-        Map<String, Response> responses = new HashMap<>();
-        for( ResponsesTuple t : componentsObject.getResponsesTuples() ){
-        if( t instanceof ResponseReferenceTuple ){
+        if( componentsObject.getNumResponseTuple() != 0 ){
+        Map<String, Response> responseMap = new HashMap<>();
+        for( ResponseTuple t : componentsObject.getResponseTuples() ){
+        if( !t.getResponseObject().getRef().isEmpty() ){
         Response response = new Response();
-        response.setRef(((ResponseReferenceTuple) t).getRef());
-        responses.put(((ResponseReferenceTuple) t).getName(), response);
+        response.setRef(t.getResponseObject().getRef());
+        responseMap.put(t.getKey(), response);
         }
         else
-        responses.put(((ResponseObjectTuple)t).getName(), ResponseObject.composeResponse(((ResponseObjectTuple)t).getResponseObject()));
+        responseMap.put(t.getKey(), ResponseObject.composeResponse(t.getResponseObject()));
         }
-        components.setResponses(responses);
+        components.setResponses(responseMap);
         }
         if( componentsObject.getNumParameterTuple() != 0 ){
-        Map<String, Parameter> parameters = new HashMap<>();
+        Map<String, Parameter> parameterMap = new HashMap<>();
         for( ParameterTuple t : componentsObject.getParameterTuples() ){
-        if( t instanceof ParameterReferenceTuple ){
+        if( !t.getParameterObject().getRef().isEmpty() ){
         Parameter parameter = new Parameter();
-        parameter.setRef(((ParameterReferenceTuple) t).getRef());
-        parameters.put(((ParameterReferenceTuple) t).getName(), parameter);
+        parameter.setRef(t.getParameterObject().getRef());
+        parameterMap.put(t.getKey(), parameter);
         }
         else
-        parameters.put(((ParameterObjectTuple)t).getName(), ParameterObject.composeParameter(((ParameterObjectTuple)t).getParameterObject()));
+        parameterMap.put(t.getKey(), ParameterObject.composeParameter(t.getParameterObject()));
         }
-        components.setParameters(parameters);
+        components.setParameters(parameterMap);
         }
-        if( componentsObject.getNumExamplesTuple() != 0 ){
-        Map<String, Example> examples = new HashMap<>();
-        for( ExamplesTuple t : componentsObject.getExamplesTuples() )
-        examples.put(((ExampleObjectTuple)t).getName(), ExampleObject.composeExample(((ExampleObjectTuple)t).getExampleObject()));
-        components.setExamples(examples);
+        if( componentsObject.getNumExampleTuple() != 0 ){
+        Map<String, Example> exampleMap = new HashMap<>();
+        for( ExampleTuple t : componentsObject.getExampleTuples() )
+        exampleMap.put(t.getKey(), ExampleObject.composeExample(t.getExampleObject()));
+        components.setExamples(exampleMap);
         }
-        if( componentsObject.getNumRequestBodiesTuple() != 0 ){
-        Map<String, org.openapi4j.parser.model.v3.RequestBody> requestBodies = new HashMap<>();
-        for( RequestBodiesTuple t : componentsObject.getRequestBodiesTuples() ){
-        if( t instanceof RequestBodyReferenceTuple ){
-        org.openapi4j.parser.model.v3.RequestBody requestBody = new org.openapi4j.parser.model.v3.RequestBody();
-        requestBody.setRef(((RequestBodyReferenceTuple) t).getRef());
-        requestBodies.put(((RequestBodyReferenceTuple) t).getName(), requestBody);
+        if( componentsObject.getNumRequestBodyTuple() != 0 ){
+        Map<String, RequestBody> requestBodyMap = new HashMap<>();
+        for( RequestBodyTuple t : componentsObject.getRequestBodyTuples() ){
+        if( !t.getRequestBodyObject().getRef().isEmpty() ){
+        RequestBody requestBody = new RequestBody();
+        requestBody.setRef(t.getRequestBodyObject().getRef());
+        requestBodyMap.put(t.getKey(), requestBody);
         }
         else
-        requestBodies.put(((RequestBodyObjectTuple)t).getName(), RequestBodyObject.composeRequestBody(((RequestBodyObjectTuple)t).getRequestBodyObject()));
+        requestBodyMap.put(t.getKey(), RequestBodyObject.composeRequestBody(t.getRequestBodyObject()));
         }
-        components.setRequestBodies(requestBodies);
+        components.setRequestBodies(requestBodyMap);
         }
-        if( componentsObject.getNumHeadersTuple() != 0 ){
-        Map<String, Header> headers = new HashMap<>();
-        for( HeadersTuple t : componentsObject.getHeadersTuples() ){
-        if( t instanceof HeaderReferenceTuple ){
+        if( componentsObject.getNumHeaderTuple() != 0 ){
+        Map<String, Header> headerMap = new HashMap<>();
+        for( HeaderTuple t : componentsObject.getHeaderTuples() ){
+        if( !t.getHeaderObject().getRef().isEmpty() ){
         Header header = new Header();
-        header.setRef(((HeaderReferenceTuple) t).getRef());
-        headers.put(((HeaderReferenceTuple) t).getName(), header);
+        header.setRef(t.getHeaderObject().getRef());
+        headerMap.put(t.getKey(), header);
         }
         else
-        headers.put(((HeaderObjectTuple)t).getName(), HeaderObject.composeHeader(((HeaderObjectTuple)t).getHeaderObject()));
+        headerMap.put(t.getKey(), HeaderObject.composeHeader(t.getHeaderObject()));
         }
-        components.setHeaders(headers);
+        components.setHeaders(headerMap);
         }
-        if( componentsObject.getNumSecuritySchemesTuple() != 0 ){
-        Map<String, SecurityScheme> securitySchemes = new HashMap<>();
-        for( SecuritySchemesTuple t : componentsObject.getSecuritySchemesTuples() ){
-        if( t instanceof SecuritySchemeReferenceTuple ){
+        if( componentsObject.getNumSecuritySchemeTuple() != 0 ){
+        Map<String, SecurityScheme> securitySchemeMap = new HashMap<>();
+        for( SecuritySchemeTuple t : componentsObject.getSecuritySchemeTuples() ){
+        if( !t.getSecuritySchemeObject().getRef().isEmpty() ){
         SecurityScheme securityScheme = new SecurityScheme();
-        securityScheme.setRef(((SecuritySchemeReferenceTuple) t).getRef());
-        securitySchemes.put(((SecuritySchemeReferenceTuple) t).getName(), securityScheme);
+        securityScheme.setRef(t.getSecuritySchemeObject().getRef());
+        securitySchemeMap.put(t.getKey(), securityScheme);
         }
         else
-        securitySchemes.put(((SecuritySchemeObjectTuple)t).getName(), SecuritySchemeObject.composeSecurityScheme(((SecuritySchemeObjectTuple)t).getSecuritySchemeObject()));
+        securitySchemeMap.put(t.getKey(), SecuritySchemeObject.composeSecurityScheme(t.getSecuritySchemeObject()));
         }
-        components.setSecuritySchemes(securitySchemes);
+        components.setSecuritySchemes(securitySchemeMap);
         }
-        if( componentsObject.getNumLinksTuple() != 0 ){
-        Map<String, Link> links = new HashMap<>();
-        for( LinksTuple t : componentsObject.getLinksTuples() ){
-        if( t instanceof LinkReferenceTuple ){
+        if( componentsObject.getNumLinkTuple() != 0 ){
+        Map<String, Link> linkMap = new HashMap<>();
+        for( LinkTuple t : componentsObject.getLinkTuples() ){
+        if( !t.getLinkObject().getRef().isEmpty() ){
         Link link = new Link();
-        link.setRef(((LinkReferenceTuple) t).getRef());
-        links.put(((LinkReferenceTuple) t).getName(), link);
+        link.setRef(t.getLinkObject().getRef());
+        linkMap.put(t.getKey(), link);
         }
         else
-        links.put(((LinkObjectTuple)t).getName(), LinkObject.composeLink(((LinkObjectTuple)t).getLinkObject()));
+        linkMap.put(t.getKey(), LinkObject.composeLink(t.getLinkObject()));
         }
-        components.setLinks(links);
+        components.setLinks(linkMap);
         }
-        if( componentsObject.getNumCallbacksTuple() != 0 ){
-        Map<String, Callback> callbacks = new HashMap<>();
-        for( CallbacksTuple t : componentsObject.getCallbacksTuples() ){
-        if( t instanceof CallbackReferenceTuple ){
+        if( componentsObject.getNumCallbackTuple() != 0 ){
+        Map<String, Callback> callbackMap = new HashMap<>();
+        for( CallbackTuple t : componentsObject.getCallbackTuples() ){
+        if( !t.getCallbackObject().getRef().isEmpty() ){
         Callback callback = new Callback();
-        callback.setRef(((CallbackReferenceTuple) t).getRef());
-        callbacks.put(((CallbackReferenceTuple) t).getName(), callback);
+        callback.setRef(t.getCallbackObject().getRef());
+        callbackMap.put(t.getKey(), callback);
         }
         else
-        callbacks.put(((CallbackObjectTuple)t).getName(), CallbackObject.composeCallback(((CallbackObjectTuple)t).getCallbackObject()));
+        callbackMap.put(t.getKey(), CallbackObject.composeCallback(t.getCallbackObject()));
         }
-        components.setCallbacks(callbacks);
+        components.setCallbacks(callbackMap);
         }
 
         return components;
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:103
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:109
    */
   public static ComponentsObject parseComponents(Components components){
         ComponentsObject componentsObject = new ComponentsObject();
 
         if( components.getSchemas() != null ){
-        JastAddList<SchemasTuple> schemasTuples = new JastAddList<>();
         for( String key : components.getSchemas().keySet() ){
+        SchemaTuple schemaTuple = new SchemaTuple();
         if( components.getSchema(key).isRef() ){
-        SchemaReferenceTuple schema = new SchemaReferenceTuple();
-        schema.setName(key);
-        schema.setRef(components.getSchema(key).getRef());
-        schemasTuples.add(schema);
+        SchemaObject schemaObject = new SchemaObject();
+        schemaObject.setRef(components.getSchema(key).getRef());
+        schemaTuple.setKey(key);
+        schemaTuple.setSchemaObject(schemaObject);
+        componentsObject.addSchemaTuple(schemaTuple);
         }
-        else {
-        SchemaObjectTuple schema = new SchemaObjectTuple();
-        schema.setName(key);
-        schema.setSchemaObject(SchemaObject.parseSchema(components.getSchema(key)));
-        schemasTuples.add(schema);
+        else{
+        schemaTuple.setKey(key);
+        schemaTuple.setSchemaObject(SchemaObject.parseSchema(components.getSchema(key)));
+        componentsObject.addSchemaTuple(schemaTuple);
         }
         }
-        componentsObject.setSchemasTupleList(schemasTuples);
         }
         if( components.getResponses() != null ){
-        JastAddList<ResponsesTuple> responsesTuples = new JastAddList<>();
         for( String key : components.getResponses().keySet() ){
+        ResponseTuple responseTuple = new ResponseTuple();
         if( components.getResponse(key).isRef() ){
-        ResponseReferenceTuple response = new ResponseReferenceTuple();
-        response.setName(key);
-        response.setRef(components.getResponse(key).getRef());
-        responsesTuples.add(response);
+        ResponseObject responseObject = new ResponseObject();
+        responseObject.setRef(components.getResponse(key).getRef());
+        responseTuple.setKey(key);
+        responseTuple.setResponseObject(responseObject);
+        componentsObject.addResponseTuple(responseTuple);
         }
-        else {
-        ResponseObjectTuple response = new ResponseObjectTuple();
-        response.setName(key);
-        response.setResponseObject(ResponseObject.parseResponse(components.getResponse(key)));
-        responsesTuples.add(response);
+        else{
+        responseTuple.setKey(key);
+        responseTuple.setResponseObject(ResponseObject.parseResponse(components.getResponse(key)));
+        componentsObject.addResponseTuple(responseTuple);
         }
         }
-        componentsObject.setResponsesTupleList(responsesTuples);
         }
         if( components.getParameters() != null ){
-        JastAddList<ParameterTuple> parameterTuples = new JastAddList<>();
         for( String key : components.getParameters().keySet() ){
+        ParameterTuple parameterTuple = new ParameterTuple();
         if( components.getParameter(key).isRef() ){
-        ParameterReferenceTuple parameter = new ParameterReferenceTuple();
-        parameter.setName(key);
-        parameter.setRef(components.getParameter(key).getRef());
-        parameterTuples.add(parameter);
+        ParameterObject parameterObject = new ParameterObject();
+        parameterObject.setRef(components.getParameter(key).getRef());
+        parameterTuple.setKey(key);
+        parameterTuple.setParameterObject(parameterObject);
+        componentsObject.addParameterTuple(parameterTuple);
         }
-        else {
-        ParameterObjectTuple parameter = new ParameterObjectTuple();
-        parameter.setName(key);
-        parameter.setParameterObject(ParameterObject.parseParameter(components.getParameter(key)));
-        parameterTuples.add(parameter);
+        else{
+        parameterTuple.setKey(key);
+        parameterTuple.setParameterObject(ParameterObject.parseParameter(components.getParameter(key)));
+        componentsObject.addParameterTuple(parameterTuple);
         }
         }
-        componentsObject.setParameterTupleList(parameterTuples);
         }
         if( components.getExamples() != null ){
-        JastAddList<ExamplesTuple> examplesTuples = new JastAddList<>();
         for( String key : components.getExamples().keySet() ){
-        ExampleObjectTuple exampleObjectTuple = new ExampleObjectTuple();
-        exampleObjectTuple.setName( key );
-        exampleObjectTuple.setExampleObject( ExampleObject.parseExample(components.getExample(key)) );
-        examplesTuples.add(exampleObjectTuple);
+        ExampleTuple exampleTuple = new ExampleTuple();
+        ExampleObject exampleObject = new ExampleObject();
+        exampleTuple.setKey(key);
+        exampleTuple.setExampleObject(ExampleObject.parseExample(components.getExample(key)));
+        componentsObject.addExampleTuple(exampleTuple);
         }
-        componentsObject.setExamplesTupleList(examplesTuples);
         }
         if( components.getRequestBodies() != null ){
-        JastAddList<RequestBodiesTuple> requestBodiesTuples = new JastAddList<>();
         for( String key : components.getRequestBodies().keySet() ){
+        RequestBodyTuple requestBodyTuple = new RequestBodyTuple();
         if( components.getRequestBody(key).isRef() ){
-        RequestBodyReferenceTuple requestBody = new RequestBodyReferenceTuple();
-        requestBody.setName(key);
-        requestBody.setRef(components.getRequestBody(key).getRef());
-        requestBodiesTuples.add(requestBody);
+        RequestBodyObject requestBodyObject = new RequestBodyObject();
+        requestBodyObject.setRef(components.getRequestBody(key).getRef());
+        requestBodyTuple.setKey(key);
+        requestBodyTuple.setRequestBodyObject(requestBodyObject);
+        componentsObject.addRequestBodyTuple(requestBodyTuple);
         }
-        else {
-        RequestBodyObjectTuple requestBody = new RequestBodyObjectTuple();
-        requestBody.setName(key);
-        requestBody.setRequestBodyObject(RequestBodyObject.parseRequestBody(components.getRequestBody(key)));
-        requestBodiesTuples.add(requestBody);
+        else{
+        requestBodyTuple.setKey(key);
+        requestBodyTuple.setRequestBodyObject(RequestBodyObject.parseRequestBody(components.getRequestBody(key)));
+        componentsObject.addRequestBodyTuple(requestBodyTuple);
         }
         }
-        componentsObject.setRequestBodiesTupleList(requestBodiesTuples);
         }
         if( components.getHeaders() != null ){
-        JastAddList<HeadersTuple> headersTuples = new JastAddList<>();
         for( String key : components.getHeaders().keySet() ){
+        HeaderTuple headerTuple = new HeaderTuple();
         if( components.getHeader(key).isRef() ){
-        HeaderReferenceTuple header = new HeaderReferenceTuple();
-        header.setName(key);
-        header.setRef(components.getHeader(key).getRef());
-        headersTuples.add(header);
+        HeaderObject headerObject = new HeaderObject();
+        headerObject.setRef(components.getHeader(key).getRef());
+        headerTuple.setKey(key);
+        headerTuple.setHeaderObject(headerObject);
+        componentsObject.addHeaderTuple(headerTuple);
         }
-        else {
-        HeaderObjectTuple header = new HeaderObjectTuple();
-        header.setName(key);
-        header.setHeaderObject(HeaderObject.parseHeader(components.getHeader(key)));
-        headersTuples.add(header);
+        else{
+        headerTuple.setKey(key);
+        headerTuple.setHeaderObject(HeaderObject.parseHeader(components.getHeader(key)));
+        componentsObject.addHeaderTuple(headerTuple);
         }
         }
-        componentsObject.setHeadersTupleList(headersTuples);
         }
         if( components.getSecuritySchemes() != null ){
-        JastAddList<SecuritySchemesTuple> securitySchemesTuples = new JastAddList<>();
         for( String key : components.getSecuritySchemes().keySet() ){
+        SecuritySchemeTuple securitySchemeTuple = new SecuritySchemeTuple();
         if( components.getSecurityScheme(key).isRef() ){
-        SecuritySchemeReferenceTuple securityScheme = new SecuritySchemeReferenceTuple();
-        securityScheme.setName(key);
-        securityScheme.setRef(components.getSecurityScheme(key).getRef());
-        securitySchemesTuples.add(securityScheme);
+        SecuritySchemeObject securitySchemeObject = new SecuritySchemeObject();
+        securitySchemeObject.setRef(components.getSecurityScheme(key).getRef());
+        securitySchemeTuple.setKey(key);
+        securitySchemeTuple.setSecuritySchemeObject(securitySchemeObject);
+        componentsObject.addSecuritySchemeTuple(securitySchemeTuple);
         }
-        else {
-        SecuritySchemeObjectTuple securityScheme = new SecuritySchemeObjectTuple();
-        securityScheme.setName(key);
-        securityScheme.setSecuritySchemeObject(SecuritySchemeObject.parseSecurityScheme(components.getSecurityScheme(key)));
-        securitySchemesTuples.add(securityScheme);
+        else{
+        securitySchemeTuple.setKey(key);
+        securitySchemeTuple.setSecuritySchemeObject(SecuritySchemeObject.parseSecurityScheme(components.getSecurityScheme(key)));
+        componentsObject.addSecuritySchemeTuple(securitySchemeTuple);
         }
         }
-        componentsObject.setSecuritySchemesTupleList(securitySchemesTuples);
         }
         if( components.getLinks() != null ){
-        JastAddList<LinksTuple> linksTuples = new JastAddList<>();
         for( String key : components.getLinks().keySet() ){
+        LinkTuple linkTuple = new LinkTuple();
         if( components.getLink(key).isRef() ){
-        LinkReferenceTuple link = new LinkReferenceTuple();
-        link.setName(key);
-        link.setRef(components.getLink(key).getRef());
-        linksTuples.add(link);
+        LinkObject linkObject = new LinkObject();
+        linkObject.setRef(components.getLink(key).getRef());
+        linkTuple.setKey(key);
+        linkTuple.setLinkObject(linkObject);
+        componentsObject.addLinkTuple(linkTuple);
         }
-        else {
-        LinkObjectTuple link = new LinkObjectTuple();
-        link.setName(key);
-        link.setLinkObject(LinkObject.parseLink(components.getLink(key)));
-        linksTuples.add(link);
+        else{
+        linkTuple.setKey(key);
+        linkTuple.setLinkObject(LinkObject.parseLink(components.getLink(key)));
+        componentsObject.addLinkTuple(linkTuple);
         }
         }
-        componentsObject.setLinksTupleList(linksTuples);
         }
         if( components.getCallbacks() != null ){
-        JastAddList<CallbacksTuple> callbacksTuples = new JastAddList<>();
         for( String key : components.getCallbacks().keySet() ){
+        CallbackTuple callbackTuple = new CallbackTuple();
         if( components.getCallback(key).isRef() ){
-        CallbackReferenceTuple callback = new CallbackReferenceTuple();
-        callback.setName(key);
-        callback.setRef(components.getLink(key).getRef());
-        callbacksTuples.add(callback);
+        CallbackObject callbackObject = new CallbackObject();
+        callbackObject.setRef(components.getCallback(key).getRef());
+        callbackTuple.setKey(key);
+        callbackTuple.setCallbackObject(callbackObject);
+        componentsObject.addCallbackTuple(callbackTuple);
         }
-        else {
-        CallbackObjectTuple callback = new CallbackObjectTuple();
-        callback.setName(key);
-        callback.setCallbackObject(CallbackObject.parseCallback(components.getCallback(key)));
-        callbacksTuples.add(callback);
+        else{
+        callbackTuple.setKey(key);
+        callbackTuple.setCallbackObject(CallbackObject.parseCallback(components.getCallback(key)));
+        componentsObject.addCallbackTuple(callbackTuple);
         }
         }
-        componentsObject.setCallbacksTupleList(callbacksTuples);
         }
 
         return componentsObject;
@@ -328,11 +320,11 @@ public class ComponentsObject extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:22
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"SchemasTuple", "ResponsesTuple", "ParameterTuple", "ExamplesTuple", "RequestBodiesTuple", "HeadersTuple", "SecuritySchemesTuple", "LinksTuple", "CallbacksTuple"},
-    type = {"JastAddList<SchemasTuple>", "JastAddList<ResponsesTuple>", "JastAddList<ParameterTuple>", "JastAddList<ExamplesTuple>", "JastAddList<RequestBodiesTuple>", "JastAddList<HeadersTuple>", "JastAddList<SecuritySchemesTuple>", "JastAddList<LinksTuple>", "JastAddList<CallbacksTuple>"},
+    name = {"SchemaTuple", "ResponseTuple", "ParameterTuple", "ExampleTuple", "RequestBodyTuple", "HeaderTuple", "SecuritySchemeTuple", "LinkTuple", "CallbackTuple"},
+    type = {"JastAddList<SchemaTuple>", "JastAddList<ResponseTuple>", "JastAddList<ParameterTuple>", "JastAddList<ExampleTuple>", "JastAddList<RequestBodyTuple>", "JastAddList<HeaderTuple>", "JastAddList<SecuritySchemeTuple>", "JastAddList<LinkTuple>", "JastAddList<CallbackTuple>"},
     kind = {"List", "List", "List", "List", "List", "List", "List", "List", "List"}
   )
-  public ComponentsObject(JastAddList<SchemasTuple> p0, JastAddList<ResponsesTuple> p1, JastAddList<ParameterTuple> p2, JastAddList<ExamplesTuple> p3, JastAddList<RequestBodiesTuple> p4, JastAddList<HeadersTuple> p5, JastAddList<SecuritySchemesTuple> p6, JastAddList<LinksTuple> p7, JastAddList<CallbacksTuple> p8) {
+  public ComponentsObject(JastAddList<SchemaTuple> p0, JastAddList<ResponseTuple> p1, JastAddList<ParameterTuple> p2, JastAddList<ExampleTuple> p3, JastAddList<RequestBodyTuple> p4, JastAddList<HeaderTuple> p5, JastAddList<SecuritySchemeTuple> p6, JastAddList<LinkTuple> p7, JastAddList<CallbackTuple> p8) {
     setChild(p0, 0);
     setChild(p1, 1);
     setChild(p2, 2);
@@ -450,224 +442,224 @@ public class ComponentsObject extends ASTNode<ASTNode> implements Cloneable {
     return super.is$Equal(node);    
   }
   /**
-   * Replaces the SchemasTuple list.
-   * @param list The new list node to be used as the SchemasTuple list.
+   * Replaces the SchemaTuple list.
+   * @param list The new list node to be used as the SchemaTuple list.
    * @apilevel high-level
    */
-  public void setSchemasTupleList(JastAddList<SchemasTuple> list) {
+  public void setSchemaTupleList(JastAddList<SchemaTuple> list) {
     setChild(list, 0);
   }
   /**
-   * Retrieves the number of children in the SchemasTuple list.
-   * @return Number of children in the SchemasTuple list.
+   * Retrieves the number of children in the SchemaTuple list.
+   * @return Number of children in the SchemaTuple list.
    * @apilevel high-level
    */
-  public int getNumSchemasTuple() {
-    return getSchemasTupleList().getNumChild();
+  public int getNumSchemaTuple() {
+    return getSchemaTupleList().getNumChild();
   }
   /**
-   * Retrieves the number of children in the SchemasTuple list.
+   * Retrieves the number of children in the SchemaTuple list.
    * Calling this method will not trigger rewrites.
-   * @return Number of children in the SchemasTuple list.
+   * @return Number of children in the SchemaTuple list.
    * @apilevel low-level
    */
-  public int getNumSchemasTupleNoTransform() {
-    return getSchemasTupleListNoTransform().getNumChildNoTransform();
+  public int getNumSchemaTupleNoTransform() {
+    return getSchemaTupleListNoTransform().getNumChildNoTransform();
   }
   /**
-   * Retrieves the element at index {@code i} in the SchemasTuple list.
+   * Retrieves the element at index {@code i} in the SchemaTuple list.
    * @param i Index of the element to return.
-   * @return The element at position {@code i} in the SchemasTuple list.
+   * @return The element at position {@code i} in the SchemaTuple list.
    * @apilevel high-level
    */
-  public SchemasTuple getSchemasTuple(int i) {
-    return (SchemasTuple) getSchemasTupleList().getChild(i);
+  public SchemaTuple getSchemaTuple(int i) {
+    return (SchemaTuple) getSchemaTupleList().getChild(i);
   }
   /**
-   * Check whether the SchemasTuple list has any children.
+   * Check whether the SchemaTuple list has any children.
    * @return {@code true} if it has at least one child, {@code false} otherwise.
    * @apilevel high-level
    */
-  public boolean hasSchemasTuple() {
-    return getSchemasTupleList().getNumChild() != 0;
+  public boolean hasSchemaTuple() {
+    return getSchemaTupleList().getNumChild() != 0;
   }
   /**
-   * Append an element to the SchemasTuple list.
-   * @param node The element to append to the SchemasTuple list.
+   * Append an element to the SchemaTuple list.
+   * @param node The element to append to the SchemaTuple list.
    * @apilevel high-level
    */
-  public void addSchemasTuple(SchemasTuple node) {
-    JastAddList<SchemasTuple> list = (parent == null) ? getSchemasTupleListNoTransform() : getSchemasTupleList();
+  public void addSchemaTuple(SchemaTuple node) {
+    JastAddList<SchemaTuple> list = (parent == null) ? getSchemaTupleListNoTransform() : getSchemaTupleList();
     list.addChild(node);
   }
   /** @apilevel low-level 
    */
-  public void addSchemasTupleNoTransform(SchemasTuple node) {
-    JastAddList<SchemasTuple> list = getSchemasTupleListNoTransform();
+  public void addSchemaTupleNoTransform(SchemaTuple node) {
+    JastAddList<SchemaTuple> list = getSchemaTupleListNoTransform();
     list.addChild(node);
   }
   /**
-   * Replaces the SchemasTuple list element at index {@code i} with the new node {@code node}.
+   * Replaces the SchemaTuple list element at index {@code i} with the new node {@code node}.
    * @param node The new node to replace the old list element.
    * @param i The list index of the node to be replaced.
    * @apilevel high-level
    */
-  public void setSchemasTuple(SchemasTuple node, int i) {
-    JastAddList<SchemasTuple> list = getSchemasTupleList();
+  public void setSchemaTuple(SchemaTuple node, int i) {
+    JastAddList<SchemaTuple> list = getSchemaTupleList();
     list.setChild(node, i);
   }
   /**
-   * Retrieves the SchemasTuple list.
-   * @return The node representing the SchemasTuple list.
+   * Retrieves the SchemaTuple list.
+   * @return The node representing the SchemaTuple list.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.ListChild(name="SchemasTuple")
-  public JastAddList<SchemasTuple> getSchemasTupleList() {
-    JastAddList<SchemasTuple> list = (JastAddList<SchemasTuple>) getChild(0);
+  @ASTNodeAnnotation.ListChild(name="SchemaTuple")
+  public JastAddList<SchemaTuple> getSchemaTupleList() {
+    JastAddList<SchemaTuple> list = (JastAddList<SchemaTuple>) getChild(0);
     return list;
   }
   /**
-   * Retrieves the SchemasTuple list.
+   * Retrieves the SchemaTuple list.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The node representing the SchemasTuple list.
+   * @return The node representing the SchemaTuple list.
    * @apilevel low-level
    */
-  public JastAddList<SchemasTuple> getSchemasTupleListNoTransform() {
-    return (JastAddList<SchemasTuple>) getChildNoTransform(0);
+  public JastAddList<SchemaTuple> getSchemaTupleListNoTransform() {
+    return (JastAddList<SchemaTuple>) getChildNoTransform(0);
   }
   /**
-   * @return the element at index {@code i} in the SchemasTuple list without
+   * @return the element at index {@code i} in the SchemaTuple list without
    * triggering rewrites.
    */
-  public SchemasTuple getSchemasTupleNoTransform(int i) {
-    return (SchemasTuple) getSchemasTupleListNoTransform().getChildNoTransform(i);
+  public SchemaTuple getSchemaTupleNoTransform(int i) {
+    return (SchemaTuple) getSchemaTupleListNoTransform().getChildNoTransform(i);
   }
   /**
-   * Retrieves the SchemasTuple list.
-   * @return The node representing the SchemasTuple list.
+   * Retrieves the SchemaTuple list.
+   * @return The node representing the SchemaTuple list.
    * @apilevel high-level
    */
-  public JastAddList<SchemasTuple> getSchemasTuples() {
-    return getSchemasTupleList();
+  public JastAddList<SchemaTuple> getSchemaTuples() {
+    return getSchemaTupleList();
   }
   /**
-   * Retrieves the SchemasTuple list.
+   * Retrieves the SchemaTuple list.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The node representing the SchemasTuple list.
+   * @return The node representing the SchemaTuple list.
    * @apilevel low-level
    */
-  public JastAddList<SchemasTuple> getSchemasTuplesNoTransform() {
-    return getSchemasTupleListNoTransform();
+  public JastAddList<SchemaTuple> getSchemaTuplesNoTransform() {
+    return getSchemaTupleListNoTransform();
   }
   /**
-   * Replaces the ResponsesTuple list.
-   * @param list The new list node to be used as the ResponsesTuple list.
+   * Replaces the ResponseTuple list.
+   * @param list The new list node to be used as the ResponseTuple list.
    * @apilevel high-level
    */
-  public void setResponsesTupleList(JastAddList<ResponsesTuple> list) {
+  public void setResponseTupleList(JastAddList<ResponseTuple> list) {
     setChild(list, 1);
   }
   /**
-   * Retrieves the number of children in the ResponsesTuple list.
-   * @return Number of children in the ResponsesTuple list.
+   * Retrieves the number of children in the ResponseTuple list.
+   * @return Number of children in the ResponseTuple list.
    * @apilevel high-level
    */
-  public int getNumResponsesTuple() {
-    return getResponsesTupleList().getNumChild();
+  public int getNumResponseTuple() {
+    return getResponseTupleList().getNumChild();
   }
   /**
-   * Retrieves the number of children in the ResponsesTuple list.
+   * Retrieves the number of children in the ResponseTuple list.
    * Calling this method will not trigger rewrites.
-   * @return Number of children in the ResponsesTuple list.
+   * @return Number of children in the ResponseTuple list.
    * @apilevel low-level
    */
-  public int getNumResponsesTupleNoTransform() {
-    return getResponsesTupleListNoTransform().getNumChildNoTransform();
+  public int getNumResponseTupleNoTransform() {
+    return getResponseTupleListNoTransform().getNumChildNoTransform();
   }
   /**
-   * Retrieves the element at index {@code i} in the ResponsesTuple list.
+   * Retrieves the element at index {@code i} in the ResponseTuple list.
    * @param i Index of the element to return.
-   * @return The element at position {@code i} in the ResponsesTuple list.
+   * @return The element at position {@code i} in the ResponseTuple list.
    * @apilevel high-level
    */
-  public ResponsesTuple getResponsesTuple(int i) {
-    return (ResponsesTuple) getResponsesTupleList().getChild(i);
+  public ResponseTuple getResponseTuple(int i) {
+    return (ResponseTuple) getResponseTupleList().getChild(i);
   }
   /**
-   * Check whether the ResponsesTuple list has any children.
+   * Check whether the ResponseTuple list has any children.
    * @return {@code true} if it has at least one child, {@code false} otherwise.
    * @apilevel high-level
    */
-  public boolean hasResponsesTuple() {
-    return getResponsesTupleList().getNumChild() != 0;
+  public boolean hasResponseTuple() {
+    return getResponseTupleList().getNumChild() != 0;
   }
   /**
-   * Append an element to the ResponsesTuple list.
-   * @param node The element to append to the ResponsesTuple list.
+   * Append an element to the ResponseTuple list.
+   * @param node The element to append to the ResponseTuple list.
    * @apilevel high-level
    */
-  public void addResponsesTuple(ResponsesTuple node) {
-    JastAddList<ResponsesTuple> list = (parent == null) ? getResponsesTupleListNoTransform() : getResponsesTupleList();
+  public void addResponseTuple(ResponseTuple node) {
+    JastAddList<ResponseTuple> list = (parent == null) ? getResponseTupleListNoTransform() : getResponseTupleList();
     list.addChild(node);
   }
   /** @apilevel low-level 
    */
-  public void addResponsesTupleNoTransform(ResponsesTuple node) {
-    JastAddList<ResponsesTuple> list = getResponsesTupleListNoTransform();
+  public void addResponseTupleNoTransform(ResponseTuple node) {
+    JastAddList<ResponseTuple> list = getResponseTupleListNoTransform();
     list.addChild(node);
   }
   /**
-   * Replaces the ResponsesTuple list element at index {@code i} with the new node {@code node}.
+   * Replaces the ResponseTuple list element at index {@code i} with the new node {@code node}.
    * @param node The new node to replace the old list element.
    * @param i The list index of the node to be replaced.
    * @apilevel high-level
    */
-  public void setResponsesTuple(ResponsesTuple node, int i) {
-    JastAddList<ResponsesTuple> list = getResponsesTupleList();
+  public void setResponseTuple(ResponseTuple node, int i) {
+    JastAddList<ResponseTuple> list = getResponseTupleList();
     list.setChild(node, i);
   }
   /**
-   * Retrieves the ResponsesTuple list.
-   * @return The node representing the ResponsesTuple list.
+   * Retrieves the ResponseTuple list.
+   * @return The node representing the ResponseTuple list.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.ListChild(name="ResponsesTuple")
-  public JastAddList<ResponsesTuple> getResponsesTupleList() {
-    JastAddList<ResponsesTuple> list = (JastAddList<ResponsesTuple>) getChild(1);
+  @ASTNodeAnnotation.ListChild(name="ResponseTuple")
+  public JastAddList<ResponseTuple> getResponseTupleList() {
+    JastAddList<ResponseTuple> list = (JastAddList<ResponseTuple>) getChild(1);
     return list;
   }
   /**
-   * Retrieves the ResponsesTuple list.
+   * Retrieves the ResponseTuple list.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The node representing the ResponsesTuple list.
+   * @return The node representing the ResponseTuple list.
    * @apilevel low-level
    */
-  public JastAddList<ResponsesTuple> getResponsesTupleListNoTransform() {
-    return (JastAddList<ResponsesTuple>) getChildNoTransform(1);
+  public JastAddList<ResponseTuple> getResponseTupleListNoTransform() {
+    return (JastAddList<ResponseTuple>) getChildNoTransform(1);
   }
   /**
-   * @return the element at index {@code i} in the ResponsesTuple list without
+   * @return the element at index {@code i} in the ResponseTuple list without
    * triggering rewrites.
    */
-  public ResponsesTuple getResponsesTupleNoTransform(int i) {
-    return (ResponsesTuple) getResponsesTupleListNoTransform().getChildNoTransform(i);
+  public ResponseTuple getResponseTupleNoTransform(int i) {
+    return (ResponseTuple) getResponseTupleListNoTransform().getChildNoTransform(i);
   }
   /**
-   * Retrieves the ResponsesTuple list.
-   * @return The node representing the ResponsesTuple list.
+   * Retrieves the ResponseTuple list.
+   * @return The node representing the ResponseTuple list.
    * @apilevel high-level
    */
-  public JastAddList<ResponsesTuple> getResponsesTuples() {
-    return getResponsesTupleList();
+  public JastAddList<ResponseTuple> getResponseTuples() {
+    return getResponseTupleList();
   }
   /**
-   * Retrieves the ResponsesTuple list.
+   * Retrieves the ResponseTuple list.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The node representing the ResponsesTuple list.
+   * @return The node representing the ResponseTuple list.
    * @apilevel low-level
    */
-  public JastAddList<ResponsesTuple> getResponsesTuplesNoTransform() {
-    return getResponsesTupleListNoTransform();
+  public JastAddList<ResponseTuple> getResponseTuplesNoTransform() {
+    return getResponseTupleListNoTransform();
   }
   /**
    * Replaces the ParameterTuple list.
@@ -780,664 +772,664 @@ public class ComponentsObject extends ASTNode<ASTNode> implements Cloneable {
     return getParameterTupleListNoTransform();
   }
   /**
-   * Replaces the ExamplesTuple list.
-   * @param list The new list node to be used as the ExamplesTuple list.
+   * Replaces the ExampleTuple list.
+   * @param list The new list node to be used as the ExampleTuple list.
    * @apilevel high-level
    */
-  public void setExamplesTupleList(JastAddList<ExamplesTuple> list) {
+  public void setExampleTupleList(JastAddList<ExampleTuple> list) {
     setChild(list, 3);
   }
   /**
-   * Retrieves the number of children in the ExamplesTuple list.
-   * @return Number of children in the ExamplesTuple list.
+   * Retrieves the number of children in the ExampleTuple list.
+   * @return Number of children in the ExampleTuple list.
    * @apilevel high-level
    */
-  public int getNumExamplesTuple() {
-    return getExamplesTupleList().getNumChild();
+  public int getNumExampleTuple() {
+    return getExampleTupleList().getNumChild();
   }
   /**
-   * Retrieves the number of children in the ExamplesTuple list.
+   * Retrieves the number of children in the ExampleTuple list.
    * Calling this method will not trigger rewrites.
-   * @return Number of children in the ExamplesTuple list.
+   * @return Number of children in the ExampleTuple list.
    * @apilevel low-level
    */
-  public int getNumExamplesTupleNoTransform() {
-    return getExamplesTupleListNoTransform().getNumChildNoTransform();
+  public int getNumExampleTupleNoTransform() {
+    return getExampleTupleListNoTransform().getNumChildNoTransform();
   }
   /**
-   * Retrieves the element at index {@code i} in the ExamplesTuple list.
+   * Retrieves the element at index {@code i} in the ExampleTuple list.
    * @param i Index of the element to return.
-   * @return The element at position {@code i} in the ExamplesTuple list.
+   * @return The element at position {@code i} in the ExampleTuple list.
    * @apilevel high-level
    */
-  public ExamplesTuple getExamplesTuple(int i) {
-    return (ExamplesTuple) getExamplesTupleList().getChild(i);
+  public ExampleTuple getExampleTuple(int i) {
+    return (ExampleTuple) getExampleTupleList().getChild(i);
   }
   /**
-   * Check whether the ExamplesTuple list has any children.
+   * Check whether the ExampleTuple list has any children.
    * @return {@code true} if it has at least one child, {@code false} otherwise.
    * @apilevel high-level
    */
-  public boolean hasExamplesTuple() {
-    return getExamplesTupleList().getNumChild() != 0;
+  public boolean hasExampleTuple() {
+    return getExampleTupleList().getNumChild() != 0;
   }
   /**
-   * Append an element to the ExamplesTuple list.
-   * @param node The element to append to the ExamplesTuple list.
+   * Append an element to the ExampleTuple list.
+   * @param node The element to append to the ExampleTuple list.
    * @apilevel high-level
    */
-  public void addExamplesTuple(ExamplesTuple node) {
-    JastAddList<ExamplesTuple> list = (parent == null) ? getExamplesTupleListNoTransform() : getExamplesTupleList();
+  public void addExampleTuple(ExampleTuple node) {
+    JastAddList<ExampleTuple> list = (parent == null) ? getExampleTupleListNoTransform() : getExampleTupleList();
     list.addChild(node);
   }
   /** @apilevel low-level 
    */
-  public void addExamplesTupleNoTransform(ExamplesTuple node) {
-    JastAddList<ExamplesTuple> list = getExamplesTupleListNoTransform();
+  public void addExampleTupleNoTransform(ExampleTuple node) {
+    JastAddList<ExampleTuple> list = getExampleTupleListNoTransform();
     list.addChild(node);
   }
   /**
-   * Replaces the ExamplesTuple list element at index {@code i} with the new node {@code node}.
+   * Replaces the ExampleTuple list element at index {@code i} with the new node {@code node}.
    * @param node The new node to replace the old list element.
    * @param i The list index of the node to be replaced.
    * @apilevel high-level
    */
-  public void setExamplesTuple(ExamplesTuple node, int i) {
-    JastAddList<ExamplesTuple> list = getExamplesTupleList();
+  public void setExampleTuple(ExampleTuple node, int i) {
+    JastAddList<ExampleTuple> list = getExampleTupleList();
     list.setChild(node, i);
   }
   /**
-   * Retrieves the ExamplesTuple list.
-   * @return The node representing the ExamplesTuple list.
+   * Retrieves the ExampleTuple list.
+   * @return The node representing the ExampleTuple list.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.ListChild(name="ExamplesTuple")
-  public JastAddList<ExamplesTuple> getExamplesTupleList() {
-    JastAddList<ExamplesTuple> list = (JastAddList<ExamplesTuple>) getChild(3);
+  @ASTNodeAnnotation.ListChild(name="ExampleTuple")
+  public JastAddList<ExampleTuple> getExampleTupleList() {
+    JastAddList<ExampleTuple> list = (JastAddList<ExampleTuple>) getChild(3);
     return list;
   }
   /**
-   * Retrieves the ExamplesTuple list.
+   * Retrieves the ExampleTuple list.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The node representing the ExamplesTuple list.
+   * @return The node representing the ExampleTuple list.
    * @apilevel low-level
    */
-  public JastAddList<ExamplesTuple> getExamplesTupleListNoTransform() {
-    return (JastAddList<ExamplesTuple>) getChildNoTransform(3);
+  public JastAddList<ExampleTuple> getExampleTupleListNoTransform() {
+    return (JastAddList<ExampleTuple>) getChildNoTransform(3);
   }
   /**
-   * @return the element at index {@code i} in the ExamplesTuple list without
+   * @return the element at index {@code i} in the ExampleTuple list without
    * triggering rewrites.
    */
-  public ExamplesTuple getExamplesTupleNoTransform(int i) {
-    return (ExamplesTuple) getExamplesTupleListNoTransform().getChildNoTransform(i);
+  public ExampleTuple getExampleTupleNoTransform(int i) {
+    return (ExampleTuple) getExampleTupleListNoTransform().getChildNoTransform(i);
   }
   /**
-   * Retrieves the ExamplesTuple list.
-   * @return The node representing the ExamplesTuple list.
+   * Retrieves the ExampleTuple list.
+   * @return The node representing the ExampleTuple list.
    * @apilevel high-level
    */
-  public JastAddList<ExamplesTuple> getExamplesTuples() {
-    return getExamplesTupleList();
+  public JastAddList<ExampleTuple> getExampleTuples() {
+    return getExampleTupleList();
   }
   /**
-   * Retrieves the ExamplesTuple list.
+   * Retrieves the ExampleTuple list.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The node representing the ExamplesTuple list.
+   * @return The node representing the ExampleTuple list.
    * @apilevel low-level
    */
-  public JastAddList<ExamplesTuple> getExamplesTuplesNoTransform() {
-    return getExamplesTupleListNoTransform();
+  public JastAddList<ExampleTuple> getExampleTuplesNoTransform() {
+    return getExampleTupleListNoTransform();
   }
   /**
-   * Replaces the RequestBodiesTuple list.
-   * @param list The new list node to be used as the RequestBodiesTuple list.
+   * Replaces the RequestBodyTuple list.
+   * @param list The new list node to be used as the RequestBodyTuple list.
    * @apilevel high-level
    */
-  public void setRequestBodiesTupleList(JastAddList<RequestBodiesTuple> list) {
+  public void setRequestBodyTupleList(JastAddList<RequestBodyTuple> list) {
     setChild(list, 4);
   }
   /**
-   * Retrieves the number of children in the RequestBodiesTuple list.
-   * @return Number of children in the RequestBodiesTuple list.
+   * Retrieves the number of children in the RequestBodyTuple list.
+   * @return Number of children in the RequestBodyTuple list.
    * @apilevel high-level
    */
-  public int getNumRequestBodiesTuple() {
-    return getRequestBodiesTupleList().getNumChild();
+  public int getNumRequestBodyTuple() {
+    return getRequestBodyTupleList().getNumChild();
   }
   /**
-   * Retrieves the number of children in the RequestBodiesTuple list.
+   * Retrieves the number of children in the RequestBodyTuple list.
    * Calling this method will not trigger rewrites.
-   * @return Number of children in the RequestBodiesTuple list.
+   * @return Number of children in the RequestBodyTuple list.
    * @apilevel low-level
    */
-  public int getNumRequestBodiesTupleNoTransform() {
-    return getRequestBodiesTupleListNoTransform().getNumChildNoTransform();
+  public int getNumRequestBodyTupleNoTransform() {
+    return getRequestBodyTupleListNoTransform().getNumChildNoTransform();
   }
   /**
-   * Retrieves the element at index {@code i} in the RequestBodiesTuple list.
+   * Retrieves the element at index {@code i} in the RequestBodyTuple list.
    * @param i Index of the element to return.
-   * @return The element at position {@code i} in the RequestBodiesTuple list.
+   * @return The element at position {@code i} in the RequestBodyTuple list.
    * @apilevel high-level
    */
-  public RequestBodiesTuple getRequestBodiesTuple(int i) {
-    return (RequestBodiesTuple) getRequestBodiesTupleList().getChild(i);
+  public RequestBodyTuple getRequestBodyTuple(int i) {
+    return (RequestBodyTuple) getRequestBodyTupleList().getChild(i);
   }
   /**
-   * Check whether the RequestBodiesTuple list has any children.
+   * Check whether the RequestBodyTuple list has any children.
    * @return {@code true} if it has at least one child, {@code false} otherwise.
    * @apilevel high-level
    */
-  public boolean hasRequestBodiesTuple() {
-    return getRequestBodiesTupleList().getNumChild() != 0;
+  public boolean hasRequestBodyTuple() {
+    return getRequestBodyTupleList().getNumChild() != 0;
   }
   /**
-   * Append an element to the RequestBodiesTuple list.
-   * @param node The element to append to the RequestBodiesTuple list.
+   * Append an element to the RequestBodyTuple list.
+   * @param node The element to append to the RequestBodyTuple list.
    * @apilevel high-level
    */
-  public void addRequestBodiesTuple(RequestBodiesTuple node) {
-    JastAddList<RequestBodiesTuple> list = (parent == null) ? getRequestBodiesTupleListNoTransform() : getRequestBodiesTupleList();
+  public void addRequestBodyTuple(RequestBodyTuple node) {
+    JastAddList<RequestBodyTuple> list = (parent == null) ? getRequestBodyTupleListNoTransform() : getRequestBodyTupleList();
     list.addChild(node);
   }
   /** @apilevel low-level 
    */
-  public void addRequestBodiesTupleNoTransform(RequestBodiesTuple node) {
-    JastAddList<RequestBodiesTuple> list = getRequestBodiesTupleListNoTransform();
+  public void addRequestBodyTupleNoTransform(RequestBodyTuple node) {
+    JastAddList<RequestBodyTuple> list = getRequestBodyTupleListNoTransform();
     list.addChild(node);
   }
   /**
-   * Replaces the RequestBodiesTuple list element at index {@code i} with the new node {@code node}.
+   * Replaces the RequestBodyTuple list element at index {@code i} with the new node {@code node}.
    * @param node The new node to replace the old list element.
    * @param i The list index of the node to be replaced.
    * @apilevel high-level
    */
-  public void setRequestBodiesTuple(RequestBodiesTuple node, int i) {
-    JastAddList<RequestBodiesTuple> list = getRequestBodiesTupleList();
+  public void setRequestBodyTuple(RequestBodyTuple node, int i) {
+    JastAddList<RequestBodyTuple> list = getRequestBodyTupleList();
     list.setChild(node, i);
   }
   /**
-   * Retrieves the RequestBodiesTuple list.
-   * @return The node representing the RequestBodiesTuple list.
+   * Retrieves the RequestBodyTuple list.
+   * @return The node representing the RequestBodyTuple list.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.ListChild(name="RequestBodiesTuple")
-  public JastAddList<RequestBodiesTuple> getRequestBodiesTupleList() {
-    JastAddList<RequestBodiesTuple> list = (JastAddList<RequestBodiesTuple>) getChild(4);
+  @ASTNodeAnnotation.ListChild(name="RequestBodyTuple")
+  public JastAddList<RequestBodyTuple> getRequestBodyTupleList() {
+    JastAddList<RequestBodyTuple> list = (JastAddList<RequestBodyTuple>) getChild(4);
     return list;
   }
   /**
-   * Retrieves the RequestBodiesTuple list.
+   * Retrieves the RequestBodyTuple list.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The node representing the RequestBodiesTuple list.
+   * @return The node representing the RequestBodyTuple list.
    * @apilevel low-level
    */
-  public JastAddList<RequestBodiesTuple> getRequestBodiesTupleListNoTransform() {
-    return (JastAddList<RequestBodiesTuple>) getChildNoTransform(4);
+  public JastAddList<RequestBodyTuple> getRequestBodyTupleListNoTransform() {
+    return (JastAddList<RequestBodyTuple>) getChildNoTransform(4);
   }
   /**
-   * @return the element at index {@code i} in the RequestBodiesTuple list without
+   * @return the element at index {@code i} in the RequestBodyTuple list without
    * triggering rewrites.
    */
-  public RequestBodiesTuple getRequestBodiesTupleNoTransform(int i) {
-    return (RequestBodiesTuple) getRequestBodiesTupleListNoTransform().getChildNoTransform(i);
+  public RequestBodyTuple getRequestBodyTupleNoTransform(int i) {
+    return (RequestBodyTuple) getRequestBodyTupleListNoTransform().getChildNoTransform(i);
   }
   /**
-   * Retrieves the RequestBodiesTuple list.
-   * @return The node representing the RequestBodiesTuple list.
+   * Retrieves the RequestBodyTuple list.
+   * @return The node representing the RequestBodyTuple list.
    * @apilevel high-level
    */
-  public JastAddList<RequestBodiesTuple> getRequestBodiesTuples() {
-    return getRequestBodiesTupleList();
+  public JastAddList<RequestBodyTuple> getRequestBodyTuples() {
+    return getRequestBodyTupleList();
   }
   /**
-   * Retrieves the RequestBodiesTuple list.
+   * Retrieves the RequestBodyTuple list.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The node representing the RequestBodiesTuple list.
+   * @return The node representing the RequestBodyTuple list.
    * @apilevel low-level
    */
-  public JastAddList<RequestBodiesTuple> getRequestBodiesTuplesNoTransform() {
-    return getRequestBodiesTupleListNoTransform();
+  public JastAddList<RequestBodyTuple> getRequestBodyTuplesNoTransform() {
+    return getRequestBodyTupleListNoTransform();
   }
   /**
-   * Replaces the HeadersTuple list.
-   * @param list The new list node to be used as the HeadersTuple list.
+   * Replaces the HeaderTuple list.
+   * @param list The new list node to be used as the HeaderTuple list.
    * @apilevel high-level
    */
-  public void setHeadersTupleList(JastAddList<HeadersTuple> list) {
+  public void setHeaderTupleList(JastAddList<HeaderTuple> list) {
     setChild(list, 5);
   }
   /**
-   * Retrieves the number of children in the HeadersTuple list.
-   * @return Number of children in the HeadersTuple list.
+   * Retrieves the number of children in the HeaderTuple list.
+   * @return Number of children in the HeaderTuple list.
    * @apilevel high-level
    */
-  public int getNumHeadersTuple() {
-    return getHeadersTupleList().getNumChild();
+  public int getNumHeaderTuple() {
+    return getHeaderTupleList().getNumChild();
   }
   /**
-   * Retrieves the number of children in the HeadersTuple list.
+   * Retrieves the number of children in the HeaderTuple list.
    * Calling this method will not trigger rewrites.
-   * @return Number of children in the HeadersTuple list.
+   * @return Number of children in the HeaderTuple list.
    * @apilevel low-level
    */
-  public int getNumHeadersTupleNoTransform() {
-    return getHeadersTupleListNoTransform().getNumChildNoTransform();
+  public int getNumHeaderTupleNoTransform() {
+    return getHeaderTupleListNoTransform().getNumChildNoTransform();
   }
   /**
-   * Retrieves the element at index {@code i} in the HeadersTuple list.
+   * Retrieves the element at index {@code i} in the HeaderTuple list.
    * @param i Index of the element to return.
-   * @return The element at position {@code i} in the HeadersTuple list.
+   * @return The element at position {@code i} in the HeaderTuple list.
    * @apilevel high-level
    */
-  public HeadersTuple getHeadersTuple(int i) {
-    return (HeadersTuple) getHeadersTupleList().getChild(i);
+  public HeaderTuple getHeaderTuple(int i) {
+    return (HeaderTuple) getHeaderTupleList().getChild(i);
   }
   /**
-   * Check whether the HeadersTuple list has any children.
+   * Check whether the HeaderTuple list has any children.
    * @return {@code true} if it has at least one child, {@code false} otherwise.
    * @apilevel high-level
    */
-  public boolean hasHeadersTuple() {
-    return getHeadersTupleList().getNumChild() != 0;
+  public boolean hasHeaderTuple() {
+    return getHeaderTupleList().getNumChild() != 0;
   }
   /**
-   * Append an element to the HeadersTuple list.
-   * @param node The element to append to the HeadersTuple list.
+   * Append an element to the HeaderTuple list.
+   * @param node The element to append to the HeaderTuple list.
    * @apilevel high-level
    */
-  public void addHeadersTuple(HeadersTuple node) {
-    JastAddList<HeadersTuple> list = (parent == null) ? getHeadersTupleListNoTransform() : getHeadersTupleList();
+  public void addHeaderTuple(HeaderTuple node) {
+    JastAddList<HeaderTuple> list = (parent == null) ? getHeaderTupleListNoTransform() : getHeaderTupleList();
     list.addChild(node);
   }
   /** @apilevel low-level 
    */
-  public void addHeadersTupleNoTransform(HeadersTuple node) {
-    JastAddList<HeadersTuple> list = getHeadersTupleListNoTransform();
+  public void addHeaderTupleNoTransform(HeaderTuple node) {
+    JastAddList<HeaderTuple> list = getHeaderTupleListNoTransform();
     list.addChild(node);
   }
   /**
-   * Replaces the HeadersTuple list element at index {@code i} with the new node {@code node}.
+   * Replaces the HeaderTuple list element at index {@code i} with the new node {@code node}.
    * @param node The new node to replace the old list element.
    * @param i The list index of the node to be replaced.
    * @apilevel high-level
    */
-  public void setHeadersTuple(HeadersTuple node, int i) {
-    JastAddList<HeadersTuple> list = getHeadersTupleList();
+  public void setHeaderTuple(HeaderTuple node, int i) {
+    JastAddList<HeaderTuple> list = getHeaderTupleList();
     list.setChild(node, i);
   }
   /**
-   * Retrieves the HeadersTuple list.
-   * @return The node representing the HeadersTuple list.
+   * Retrieves the HeaderTuple list.
+   * @return The node representing the HeaderTuple list.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.ListChild(name="HeadersTuple")
-  public JastAddList<HeadersTuple> getHeadersTupleList() {
-    JastAddList<HeadersTuple> list = (JastAddList<HeadersTuple>) getChild(5);
+  @ASTNodeAnnotation.ListChild(name="HeaderTuple")
+  public JastAddList<HeaderTuple> getHeaderTupleList() {
+    JastAddList<HeaderTuple> list = (JastAddList<HeaderTuple>) getChild(5);
     return list;
   }
   /**
-   * Retrieves the HeadersTuple list.
+   * Retrieves the HeaderTuple list.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The node representing the HeadersTuple list.
+   * @return The node representing the HeaderTuple list.
    * @apilevel low-level
    */
-  public JastAddList<HeadersTuple> getHeadersTupleListNoTransform() {
-    return (JastAddList<HeadersTuple>) getChildNoTransform(5);
+  public JastAddList<HeaderTuple> getHeaderTupleListNoTransform() {
+    return (JastAddList<HeaderTuple>) getChildNoTransform(5);
   }
   /**
-   * @return the element at index {@code i} in the HeadersTuple list without
+   * @return the element at index {@code i} in the HeaderTuple list without
    * triggering rewrites.
    */
-  public HeadersTuple getHeadersTupleNoTransform(int i) {
-    return (HeadersTuple) getHeadersTupleListNoTransform().getChildNoTransform(i);
+  public HeaderTuple getHeaderTupleNoTransform(int i) {
+    return (HeaderTuple) getHeaderTupleListNoTransform().getChildNoTransform(i);
   }
   /**
-   * Retrieves the HeadersTuple list.
-   * @return The node representing the HeadersTuple list.
+   * Retrieves the HeaderTuple list.
+   * @return The node representing the HeaderTuple list.
    * @apilevel high-level
    */
-  public JastAddList<HeadersTuple> getHeadersTuples() {
-    return getHeadersTupleList();
+  public JastAddList<HeaderTuple> getHeaderTuples() {
+    return getHeaderTupleList();
   }
   /**
-   * Retrieves the HeadersTuple list.
+   * Retrieves the HeaderTuple list.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The node representing the HeadersTuple list.
+   * @return The node representing the HeaderTuple list.
    * @apilevel low-level
    */
-  public JastAddList<HeadersTuple> getHeadersTuplesNoTransform() {
-    return getHeadersTupleListNoTransform();
+  public JastAddList<HeaderTuple> getHeaderTuplesNoTransform() {
+    return getHeaderTupleListNoTransform();
   }
   /**
-   * Replaces the SecuritySchemesTuple list.
-   * @param list The new list node to be used as the SecuritySchemesTuple list.
+   * Replaces the SecuritySchemeTuple list.
+   * @param list The new list node to be used as the SecuritySchemeTuple list.
    * @apilevel high-level
    */
-  public void setSecuritySchemesTupleList(JastAddList<SecuritySchemesTuple> list) {
+  public void setSecuritySchemeTupleList(JastAddList<SecuritySchemeTuple> list) {
     setChild(list, 6);
   }
   /**
-   * Retrieves the number of children in the SecuritySchemesTuple list.
-   * @return Number of children in the SecuritySchemesTuple list.
+   * Retrieves the number of children in the SecuritySchemeTuple list.
+   * @return Number of children in the SecuritySchemeTuple list.
    * @apilevel high-level
    */
-  public int getNumSecuritySchemesTuple() {
-    return getSecuritySchemesTupleList().getNumChild();
+  public int getNumSecuritySchemeTuple() {
+    return getSecuritySchemeTupleList().getNumChild();
   }
   /**
-   * Retrieves the number of children in the SecuritySchemesTuple list.
+   * Retrieves the number of children in the SecuritySchemeTuple list.
    * Calling this method will not trigger rewrites.
-   * @return Number of children in the SecuritySchemesTuple list.
+   * @return Number of children in the SecuritySchemeTuple list.
    * @apilevel low-level
    */
-  public int getNumSecuritySchemesTupleNoTransform() {
-    return getSecuritySchemesTupleListNoTransform().getNumChildNoTransform();
+  public int getNumSecuritySchemeTupleNoTransform() {
+    return getSecuritySchemeTupleListNoTransform().getNumChildNoTransform();
   }
   /**
-   * Retrieves the element at index {@code i} in the SecuritySchemesTuple list.
+   * Retrieves the element at index {@code i} in the SecuritySchemeTuple list.
    * @param i Index of the element to return.
-   * @return The element at position {@code i} in the SecuritySchemesTuple list.
+   * @return The element at position {@code i} in the SecuritySchemeTuple list.
    * @apilevel high-level
    */
-  public SecuritySchemesTuple getSecuritySchemesTuple(int i) {
-    return (SecuritySchemesTuple) getSecuritySchemesTupleList().getChild(i);
+  public SecuritySchemeTuple getSecuritySchemeTuple(int i) {
+    return (SecuritySchemeTuple) getSecuritySchemeTupleList().getChild(i);
   }
   /**
-   * Check whether the SecuritySchemesTuple list has any children.
+   * Check whether the SecuritySchemeTuple list has any children.
    * @return {@code true} if it has at least one child, {@code false} otherwise.
    * @apilevel high-level
    */
-  public boolean hasSecuritySchemesTuple() {
-    return getSecuritySchemesTupleList().getNumChild() != 0;
+  public boolean hasSecuritySchemeTuple() {
+    return getSecuritySchemeTupleList().getNumChild() != 0;
   }
   /**
-   * Append an element to the SecuritySchemesTuple list.
-   * @param node The element to append to the SecuritySchemesTuple list.
+   * Append an element to the SecuritySchemeTuple list.
+   * @param node The element to append to the SecuritySchemeTuple list.
    * @apilevel high-level
    */
-  public void addSecuritySchemesTuple(SecuritySchemesTuple node) {
-    JastAddList<SecuritySchemesTuple> list = (parent == null) ? getSecuritySchemesTupleListNoTransform() : getSecuritySchemesTupleList();
+  public void addSecuritySchemeTuple(SecuritySchemeTuple node) {
+    JastAddList<SecuritySchemeTuple> list = (parent == null) ? getSecuritySchemeTupleListNoTransform() : getSecuritySchemeTupleList();
     list.addChild(node);
   }
   /** @apilevel low-level 
    */
-  public void addSecuritySchemesTupleNoTransform(SecuritySchemesTuple node) {
-    JastAddList<SecuritySchemesTuple> list = getSecuritySchemesTupleListNoTransform();
+  public void addSecuritySchemeTupleNoTransform(SecuritySchemeTuple node) {
+    JastAddList<SecuritySchemeTuple> list = getSecuritySchemeTupleListNoTransform();
     list.addChild(node);
   }
   /**
-   * Replaces the SecuritySchemesTuple list element at index {@code i} with the new node {@code node}.
+   * Replaces the SecuritySchemeTuple list element at index {@code i} with the new node {@code node}.
    * @param node The new node to replace the old list element.
    * @param i The list index of the node to be replaced.
    * @apilevel high-level
    */
-  public void setSecuritySchemesTuple(SecuritySchemesTuple node, int i) {
-    JastAddList<SecuritySchemesTuple> list = getSecuritySchemesTupleList();
+  public void setSecuritySchemeTuple(SecuritySchemeTuple node, int i) {
+    JastAddList<SecuritySchemeTuple> list = getSecuritySchemeTupleList();
     list.setChild(node, i);
   }
   /**
-   * Retrieves the SecuritySchemesTuple list.
-   * @return The node representing the SecuritySchemesTuple list.
+   * Retrieves the SecuritySchemeTuple list.
+   * @return The node representing the SecuritySchemeTuple list.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.ListChild(name="SecuritySchemesTuple")
-  public JastAddList<SecuritySchemesTuple> getSecuritySchemesTupleList() {
-    JastAddList<SecuritySchemesTuple> list = (JastAddList<SecuritySchemesTuple>) getChild(6);
+  @ASTNodeAnnotation.ListChild(name="SecuritySchemeTuple")
+  public JastAddList<SecuritySchemeTuple> getSecuritySchemeTupleList() {
+    JastAddList<SecuritySchemeTuple> list = (JastAddList<SecuritySchemeTuple>) getChild(6);
     return list;
   }
   /**
-   * Retrieves the SecuritySchemesTuple list.
+   * Retrieves the SecuritySchemeTuple list.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The node representing the SecuritySchemesTuple list.
+   * @return The node representing the SecuritySchemeTuple list.
    * @apilevel low-level
    */
-  public JastAddList<SecuritySchemesTuple> getSecuritySchemesTupleListNoTransform() {
-    return (JastAddList<SecuritySchemesTuple>) getChildNoTransform(6);
+  public JastAddList<SecuritySchemeTuple> getSecuritySchemeTupleListNoTransform() {
+    return (JastAddList<SecuritySchemeTuple>) getChildNoTransform(6);
   }
   /**
-   * @return the element at index {@code i} in the SecuritySchemesTuple list without
+   * @return the element at index {@code i} in the SecuritySchemeTuple list without
    * triggering rewrites.
    */
-  public SecuritySchemesTuple getSecuritySchemesTupleNoTransform(int i) {
-    return (SecuritySchemesTuple) getSecuritySchemesTupleListNoTransform().getChildNoTransform(i);
+  public SecuritySchemeTuple getSecuritySchemeTupleNoTransform(int i) {
+    return (SecuritySchemeTuple) getSecuritySchemeTupleListNoTransform().getChildNoTransform(i);
   }
   /**
-   * Retrieves the SecuritySchemesTuple list.
-   * @return The node representing the SecuritySchemesTuple list.
+   * Retrieves the SecuritySchemeTuple list.
+   * @return The node representing the SecuritySchemeTuple list.
    * @apilevel high-level
    */
-  public JastAddList<SecuritySchemesTuple> getSecuritySchemesTuples() {
-    return getSecuritySchemesTupleList();
+  public JastAddList<SecuritySchemeTuple> getSecuritySchemeTuples() {
+    return getSecuritySchemeTupleList();
   }
   /**
-   * Retrieves the SecuritySchemesTuple list.
+   * Retrieves the SecuritySchemeTuple list.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The node representing the SecuritySchemesTuple list.
+   * @return The node representing the SecuritySchemeTuple list.
    * @apilevel low-level
    */
-  public JastAddList<SecuritySchemesTuple> getSecuritySchemesTuplesNoTransform() {
-    return getSecuritySchemesTupleListNoTransform();
+  public JastAddList<SecuritySchemeTuple> getSecuritySchemeTuplesNoTransform() {
+    return getSecuritySchemeTupleListNoTransform();
   }
   /**
-   * Replaces the LinksTuple list.
-   * @param list The new list node to be used as the LinksTuple list.
+   * Replaces the LinkTuple list.
+   * @param list The new list node to be used as the LinkTuple list.
    * @apilevel high-level
    */
-  public void setLinksTupleList(JastAddList<LinksTuple> list) {
+  public void setLinkTupleList(JastAddList<LinkTuple> list) {
     setChild(list, 7);
   }
   /**
-   * Retrieves the number of children in the LinksTuple list.
-   * @return Number of children in the LinksTuple list.
+   * Retrieves the number of children in the LinkTuple list.
+   * @return Number of children in the LinkTuple list.
    * @apilevel high-level
    */
-  public int getNumLinksTuple() {
-    return getLinksTupleList().getNumChild();
+  public int getNumLinkTuple() {
+    return getLinkTupleList().getNumChild();
   }
   /**
-   * Retrieves the number of children in the LinksTuple list.
+   * Retrieves the number of children in the LinkTuple list.
    * Calling this method will not trigger rewrites.
-   * @return Number of children in the LinksTuple list.
+   * @return Number of children in the LinkTuple list.
    * @apilevel low-level
    */
-  public int getNumLinksTupleNoTransform() {
-    return getLinksTupleListNoTransform().getNumChildNoTransform();
+  public int getNumLinkTupleNoTransform() {
+    return getLinkTupleListNoTransform().getNumChildNoTransform();
   }
   /**
-   * Retrieves the element at index {@code i} in the LinksTuple list.
+   * Retrieves the element at index {@code i} in the LinkTuple list.
    * @param i Index of the element to return.
-   * @return The element at position {@code i} in the LinksTuple list.
+   * @return The element at position {@code i} in the LinkTuple list.
    * @apilevel high-level
    */
-  public LinksTuple getLinksTuple(int i) {
-    return (LinksTuple) getLinksTupleList().getChild(i);
+  public LinkTuple getLinkTuple(int i) {
+    return (LinkTuple) getLinkTupleList().getChild(i);
   }
   /**
-   * Check whether the LinksTuple list has any children.
+   * Check whether the LinkTuple list has any children.
    * @return {@code true} if it has at least one child, {@code false} otherwise.
    * @apilevel high-level
    */
-  public boolean hasLinksTuple() {
-    return getLinksTupleList().getNumChild() != 0;
+  public boolean hasLinkTuple() {
+    return getLinkTupleList().getNumChild() != 0;
   }
   /**
-   * Append an element to the LinksTuple list.
-   * @param node The element to append to the LinksTuple list.
+   * Append an element to the LinkTuple list.
+   * @param node The element to append to the LinkTuple list.
    * @apilevel high-level
    */
-  public void addLinksTuple(LinksTuple node) {
-    JastAddList<LinksTuple> list = (parent == null) ? getLinksTupleListNoTransform() : getLinksTupleList();
+  public void addLinkTuple(LinkTuple node) {
+    JastAddList<LinkTuple> list = (parent == null) ? getLinkTupleListNoTransform() : getLinkTupleList();
     list.addChild(node);
   }
   /** @apilevel low-level 
    */
-  public void addLinksTupleNoTransform(LinksTuple node) {
-    JastAddList<LinksTuple> list = getLinksTupleListNoTransform();
+  public void addLinkTupleNoTransform(LinkTuple node) {
+    JastAddList<LinkTuple> list = getLinkTupleListNoTransform();
     list.addChild(node);
   }
   /**
-   * Replaces the LinksTuple list element at index {@code i} with the new node {@code node}.
+   * Replaces the LinkTuple list element at index {@code i} with the new node {@code node}.
    * @param node The new node to replace the old list element.
    * @param i The list index of the node to be replaced.
    * @apilevel high-level
    */
-  public void setLinksTuple(LinksTuple node, int i) {
-    JastAddList<LinksTuple> list = getLinksTupleList();
+  public void setLinkTuple(LinkTuple node, int i) {
+    JastAddList<LinkTuple> list = getLinkTupleList();
     list.setChild(node, i);
   }
   /**
-   * Retrieves the LinksTuple list.
-   * @return The node representing the LinksTuple list.
+   * Retrieves the LinkTuple list.
+   * @return The node representing the LinkTuple list.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.ListChild(name="LinksTuple")
-  public JastAddList<LinksTuple> getLinksTupleList() {
-    JastAddList<LinksTuple> list = (JastAddList<LinksTuple>) getChild(7);
+  @ASTNodeAnnotation.ListChild(name="LinkTuple")
+  public JastAddList<LinkTuple> getLinkTupleList() {
+    JastAddList<LinkTuple> list = (JastAddList<LinkTuple>) getChild(7);
     return list;
   }
   /**
-   * Retrieves the LinksTuple list.
+   * Retrieves the LinkTuple list.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The node representing the LinksTuple list.
+   * @return The node representing the LinkTuple list.
    * @apilevel low-level
    */
-  public JastAddList<LinksTuple> getLinksTupleListNoTransform() {
-    return (JastAddList<LinksTuple>) getChildNoTransform(7);
+  public JastAddList<LinkTuple> getLinkTupleListNoTransform() {
+    return (JastAddList<LinkTuple>) getChildNoTransform(7);
   }
   /**
-   * @return the element at index {@code i} in the LinksTuple list without
+   * @return the element at index {@code i} in the LinkTuple list without
    * triggering rewrites.
    */
-  public LinksTuple getLinksTupleNoTransform(int i) {
-    return (LinksTuple) getLinksTupleListNoTransform().getChildNoTransform(i);
+  public LinkTuple getLinkTupleNoTransform(int i) {
+    return (LinkTuple) getLinkTupleListNoTransform().getChildNoTransform(i);
   }
   /**
-   * Retrieves the LinksTuple list.
-   * @return The node representing the LinksTuple list.
+   * Retrieves the LinkTuple list.
+   * @return The node representing the LinkTuple list.
    * @apilevel high-level
    */
-  public JastAddList<LinksTuple> getLinksTuples() {
-    return getLinksTupleList();
+  public JastAddList<LinkTuple> getLinkTuples() {
+    return getLinkTupleList();
   }
   /**
-   * Retrieves the LinksTuple list.
+   * Retrieves the LinkTuple list.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The node representing the LinksTuple list.
+   * @return The node representing the LinkTuple list.
    * @apilevel low-level
    */
-  public JastAddList<LinksTuple> getLinksTuplesNoTransform() {
-    return getLinksTupleListNoTransform();
+  public JastAddList<LinkTuple> getLinkTuplesNoTransform() {
+    return getLinkTupleListNoTransform();
   }
   /**
-   * Replaces the CallbacksTuple list.
-   * @param list The new list node to be used as the CallbacksTuple list.
+   * Replaces the CallbackTuple list.
+   * @param list The new list node to be used as the CallbackTuple list.
    * @apilevel high-level
    */
-  public void setCallbacksTupleList(JastAddList<CallbacksTuple> list) {
+  public void setCallbackTupleList(JastAddList<CallbackTuple> list) {
     setChild(list, 8);
   }
   /**
-   * Retrieves the number of children in the CallbacksTuple list.
-   * @return Number of children in the CallbacksTuple list.
+   * Retrieves the number of children in the CallbackTuple list.
+   * @return Number of children in the CallbackTuple list.
    * @apilevel high-level
    */
-  public int getNumCallbacksTuple() {
-    return getCallbacksTupleList().getNumChild();
+  public int getNumCallbackTuple() {
+    return getCallbackTupleList().getNumChild();
   }
   /**
-   * Retrieves the number of children in the CallbacksTuple list.
+   * Retrieves the number of children in the CallbackTuple list.
    * Calling this method will not trigger rewrites.
-   * @return Number of children in the CallbacksTuple list.
+   * @return Number of children in the CallbackTuple list.
    * @apilevel low-level
    */
-  public int getNumCallbacksTupleNoTransform() {
-    return getCallbacksTupleListNoTransform().getNumChildNoTransform();
+  public int getNumCallbackTupleNoTransform() {
+    return getCallbackTupleListNoTransform().getNumChildNoTransform();
   }
   /**
-   * Retrieves the element at index {@code i} in the CallbacksTuple list.
+   * Retrieves the element at index {@code i} in the CallbackTuple list.
    * @param i Index of the element to return.
-   * @return The element at position {@code i} in the CallbacksTuple list.
+   * @return The element at position {@code i} in the CallbackTuple list.
    * @apilevel high-level
    */
-  public CallbacksTuple getCallbacksTuple(int i) {
-    return (CallbacksTuple) getCallbacksTupleList().getChild(i);
+  public CallbackTuple getCallbackTuple(int i) {
+    return (CallbackTuple) getCallbackTupleList().getChild(i);
   }
   /**
-   * Check whether the CallbacksTuple list has any children.
+   * Check whether the CallbackTuple list has any children.
    * @return {@code true} if it has at least one child, {@code false} otherwise.
    * @apilevel high-level
    */
-  public boolean hasCallbacksTuple() {
-    return getCallbacksTupleList().getNumChild() != 0;
+  public boolean hasCallbackTuple() {
+    return getCallbackTupleList().getNumChild() != 0;
   }
   /**
-   * Append an element to the CallbacksTuple list.
-   * @param node The element to append to the CallbacksTuple list.
+   * Append an element to the CallbackTuple list.
+   * @param node The element to append to the CallbackTuple list.
    * @apilevel high-level
    */
-  public void addCallbacksTuple(CallbacksTuple node) {
-    JastAddList<CallbacksTuple> list = (parent == null) ? getCallbacksTupleListNoTransform() : getCallbacksTupleList();
+  public void addCallbackTuple(CallbackTuple node) {
+    JastAddList<CallbackTuple> list = (parent == null) ? getCallbackTupleListNoTransform() : getCallbackTupleList();
     list.addChild(node);
   }
   /** @apilevel low-level 
    */
-  public void addCallbacksTupleNoTransform(CallbacksTuple node) {
-    JastAddList<CallbacksTuple> list = getCallbacksTupleListNoTransform();
+  public void addCallbackTupleNoTransform(CallbackTuple node) {
+    JastAddList<CallbackTuple> list = getCallbackTupleListNoTransform();
     list.addChild(node);
   }
   /**
-   * Replaces the CallbacksTuple list element at index {@code i} with the new node {@code node}.
+   * Replaces the CallbackTuple list element at index {@code i} with the new node {@code node}.
    * @param node The new node to replace the old list element.
    * @param i The list index of the node to be replaced.
    * @apilevel high-level
    */
-  public void setCallbacksTuple(CallbacksTuple node, int i) {
-    JastAddList<CallbacksTuple> list = getCallbacksTupleList();
+  public void setCallbackTuple(CallbackTuple node, int i) {
+    JastAddList<CallbackTuple> list = getCallbackTupleList();
     list.setChild(node, i);
   }
   /**
-   * Retrieves the CallbacksTuple list.
-   * @return The node representing the CallbacksTuple list.
+   * Retrieves the CallbackTuple list.
+   * @return The node representing the CallbackTuple list.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.ListChild(name="CallbacksTuple")
-  public JastAddList<CallbacksTuple> getCallbacksTupleList() {
-    JastAddList<CallbacksTuple> list = (JastAddList<CallbacksTuple>) getChild(8);
+  @ASTNodeAnnotation.ListChild(name="CallbackTuple")
+  public JastAddList<CallbackTuple> getCallbackTupleList() {
+    JastAddList<CallbackTuple> list = (JastAddList<CallbackTuple>) getChild(8);
     return list;
   }
   /**
-   * Retrieves the CallbacksTuple list.
+   * Retrieves the CallbackTuple list.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The node representing the CallbacksTuple list.
+   * @return The node representing the CallbackTuple list.
    * @apilevel low-level
    */
-  public JastAddList<CallbacksTuple> getCallbacksTupleListNoTransform() {
-    return (JastAddList<CallbacksTuple>) getChildNoTransform(8);
+  public JastAddList<CallbackTuple> getCallbackTupleListNoTransform() {
+    return (JastAddList<CallbackTuple>) getChildNoTransform(8);
   }
   /**
-   * @return the element at index {@code i} in the CallbacksTuple list without
+   * @return the element at index {@code i} in the CallbackTuple list without
    * triggering rewrites.
    */
-  public CallbacksTuple getCallbacksTupleNoTransform(int i) {
-    return (CallbacksTuple) getCallbacksTupleListNoTransform().getChildNoTransform(i);
+  public CallbackTuple getCallbackTupleNoTransform(int i) {
+    return (CallbackTuple) getCallbackTupleListNoTransform().getChildNoTransform(i);
   }
   /**
-   * Retrieves the CallbacksTuple list.
-   * @return The node representing the CallbacksTuple list.
+   * Retrieves the CallbackTuple list.
+   * @return The node representing the CallbackTuple list.
    * @apilevel high-level
    */
-  public JastAddList<CallbacksTuple> getCallbacksTuples() {
-    return getCallbacksTupleList();
+  public JastAddList<CallbackTuple> getCallbackTuples() {
+    return getCallbackTupleList();
   }
   /**
-   * Retrieves the CallbacksTuple list.
+   * Retrieves the CallbackTuple list.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The node representing the CallbacksTuple list.
+   * @return The node representing the CallbackTuple list.
    * @apilevel low-level
    */
-  public JastAddList<CallbacksTuple> getCallbacksTuplesNoTransform() {
-    return getCallbacksTupleListNoTransform();
+  public JastAddList<CallbackTuple> getCallbackTuplesNoTransform() {
+    return getCallbackTupleListNoTransform();
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

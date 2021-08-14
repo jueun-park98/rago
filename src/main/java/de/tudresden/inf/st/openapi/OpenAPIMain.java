@@ -33,7 +33,7 @@ public class OpenAPIMain {
         ValidationResults results = new ValidationResults();
 
         String fileName = "link-example.json";
-        FileWriter writer = new FileWriter("./gen-api-ex/callback-example_generated.json");
+        //FileWriter writer = new FileWriter("./gen-api-ex/callback-example_generated.json");
 
         URL expUrl = OpenAPIMain.class.getClassLoader().getResource(fileName);
         File file = null;
@@ -55,11 +55,8 @@ public class OpenAPIMain {
 
         results = OpenApi3Validator.instance().validate(api3);
 
-        System.out.println(results.isValid());
-        System.out.println(api.toNode().equals(api3.toNode()));
-
-        if( api.getPath("/2.0/repositories/{username}").getGet().getResponse("200").getContentMediaType("application/json").getSchema() != null )
-            System.out.println(api.getPath("/2.0/repositories/{username}").getGet().getResponse("200").getContentMediaType("application/json").getSchema().getItemsSchema().getRef());
+        if( api.getPath("/2.0/repositories/{username}").getGet().getOperationId() != null )
+            System.out.println(api.getPath("/2.0/repositories/{username}").getGet().getOperationId());
 
 
         //writer.write(api3.toNode().toPrettyString());

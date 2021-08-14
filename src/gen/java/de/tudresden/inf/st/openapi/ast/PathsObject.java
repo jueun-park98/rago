@@ -4,31 +4,18 @@ import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
 import org.openapi4j.core.model.reference.Reference;
+import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:3
- * @astdecl PathsObject : ASTNode ::= <Ref:String> PathItemObject;
- * @production PathsObject : {@link ASTNode} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">{@link PathItemObject}</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:35
+ * @astdecl PathsObject : ASTNode ::= <Ref:String> PathItem;
+ * @production PathsObject : {@link ASTNode} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">{@link PathItem}</span>;
 
  */
 public class PathsObject extends ASTNode<ASTNode> implements Cloneable {
-  /**
-   * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:264
-   */
-  public static PathsObject parsePaths(OpenApi3 api3){
-        PathsObject pathsObject = new PathsObject();
-
-        for ( String key : api3.getPaths().keySet() ){
-        pathsObject.setRef( key );
-        pathsObject.setPathItemObject( PathItemObject.parsePath(api3.getPath(key)) );
-        }
-
-        return pathsObject;
-        }
   /**
    * @declaredat ASTNode:1
    */
@@ -49,11 +36,11 @@ public class PathsObject extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:13
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Ref", "PathItemObject"},
-    type = {"String", "PathItemObject"},
+    name = {"Ref", "PathItem"},
+    type = {"String", "PathItem"},
     kind = {"Token", "Child"}
   )
-  public PathsObject(String p0, PathItemObject p1) {
+  public PathsObject(String p0, PathItem p1) {
     setRef(p0);
     setChild(p1, 0);
   }
@@ -184,30 +171,30 @@ public class PathsObject extends ASTNode<ASTNode> implements Cloneable {
     return tokenString_Ref != null ? tokenString_Ref : "";
   }
   /**
-   * Replaces the PathItemObject child.
-   * @param node The new node to replace the PathItemObject child.
+   * Replaces the PathItem child.
+   * @param node The new node to replace the PathItem child.
    * @apilevel high-level
    */
-  public void setPathItemObject(PathItemObject node) {
+  public void setPathItem(PathItem node) {
     setChild(node, 0);
   }
   /**
-   * Retrieves the PathItemObject child.
-   * @return The current node used as the PathItemObject child.
+   * Retrieves the PathItem child.
+   * @return The current node used as the PathItem child.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Child(name="PathItemObject")
-  public PathItemObject getPathItemObject() {
-    return (PathItemObject) getChild(0);
+  @ASTNodeAnnotation.Child(name="PathItem")
+  public PathItem getPathItem() {
+    return (PathItem) getChild(0);
   }
   /**
-   * Retrieves the PathItemObject child.
+   * Retrieves the PathItem child.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The current node used as the PathItemObject child.
+   * @return The current node used as the PathItem child.
    * @apilevel low-level
    */
-  public PathItemObject getPathItemObjectNoTransform() {
-    return (PathItemObject) getChildNoTransform(0);
+  public PathItem getPathItemNoTransform() {
+    return (PathItem) getChildNoTransform(0);
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

@@ -4,12 +4,13 @@ import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
 import org.openapi4j.core.model.reference.Reference;
+import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:10
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:5
  * @astdecl InfoObject : ASTNode ::= <Title:String> <Description:String> <TermsOfService:String> [ContactObject] [LicenseObject] <Version:String>;
  * @production InfoObject : {@link ASTNode} ::= <span class="component">&lt;Title:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;TermsOfService:String&gt;</span> <span class="component">[{@link ContactObject}]</span> <span class="component">[{@link LicenseObject}]</span> <span class="component">&lt;Version:String&gt;</span>;
 
@@ -17,43 +18,45 @@ import java.net.URL;
 public class InfoObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:50
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:54
    */
   public static Info composeInfo (InfoObject infoObject){
         Info info = new Info();
 
-        info.setTitle( infoObject.getTitle() );
-        info.setVersion( infoObject.getVersion() );
-
+        if( !infoObject.getTitle().isEmpty() )
+            info.setTitle(infoObject.getTitle());
+        if( !infoObject.getVersion().isEmpty() )
+            info.setVersion(infoObject.getVersion());
         if( !infoObject.getDescription().isEmpty() )
-        info.setDescription( infoObject.getDescription() );
+        info.setDescription(infoObject.getDescription());
         if( !infoObject.getTermsOfService().isEmpty() )
-        info.setTermsOfService( infoObject.getTermsOfService() );
+        info.setTermsOfService(infoObject.getTermsOfService());
         if( infoObject.hasContactObject() )
-        info.setContact( ContactObject.composeContact(infoObject.getContactObject()) );
+        info.setContact(ContactObject.composeContact(infoObject.getContactObject()));
         if( infoObject.hasLicenseObject() )
-        info.setLicense( LicenseObject.composeLicense(infoObject.getLicenseObject()) );
+        info.setLicense(LicenseObject.composeLicense(infoObject.getLicenseObject()));
 
         return info;
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:31
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:36
    */
   public static InfoObject parseInfo(Info info) {
         InfoObject infoObject = new InfoObject();
 
-        infoObject.setTitle( info.getTitle() );
-        infoObject.setVersion( info.getVersion() );
-
+        if( info.getTitle() != null )
+            infoObject.setTitle(info.getTitle());
+        if( info.getVersion() != null )
+            infoObject.setVersion(info.getVersion());
         if( info.getDescription() != null )
-        infoObject.setDescription( info.getDescription() );
+        infoObject.setDescription(info.getDescription());
         if( info.getTermsOfService() != null )
-        infoObject.setTermsOfService( info.getTermsOfService() );
+        infoObject.setTermsOfService(info.getTermsOfService());
         if( info.getContact() != null )
-        infoObject.setContactObject( ContactObject.parseContact(info.getContact()) );
+        infoObject.setContactObject(ContactObject.parseContact(info.getContact()));
         if( info.getLicense() != null )
-        infoObject.setLicenseObject( LicenseObject.parseLicense(info.getLicense()) );
+        infoObject.setLicenseObject(LicenseObject.parseLicense(info.getLicense()));
 
         return infoObject;
         }

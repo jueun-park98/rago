@@ -4,20 +4,21 @@ import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
 import org.openapi4j.core.model.reference.Reference;
+import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:123
- * @astdecl HeaderObject : ASTNode ::= <Description:String> <Required:boolean> <DeprecatedBoolean:Object> <AllowEmptyValue:Object> <Style:String> <Explode:Object> <AllowReserved:Object> [SchemaObject] <Example:Object> ExamplesTuple* ContentTuple*;
- * @production HeaderObject : {@link ASTNode} ::= <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;Required:boolean&gt;</span> <span class="component">&lt;DeprecatedBoolean:Object&gt;</span> <span class="component">&lt;AllowEmptyValue:Object&gt;</span> <span class="component">&lt;Style:String&gt;</span> <span class="component">&lt;Explode:Object&gt;</span> <span class="component">&lt;AllowReserved:Object&gt;</span> <span class="component">[{@link SchemaObject}]</span> <span class="component">&lt;Example:Object&gt;</span> <span class="component">{@link ExamplesTuple}*</span> <span class="component">{@link ContentTuple}*</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:85
+ * @astdecl HeaderObject : ASTNode ::= <Description:String> <Required:Boolean> <DeprecatedBoolean:Boolean> <AllowEmptyValue:Boolean> <Style:String> <Explode:Boolean> <AllowReserved:Boolean> [SchemaObject] <Example:Object> ExampleTuple* ContentTuple* <Ref:String>;
+ * @production HeaderObject : {@link ASTNode} ::= <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;Required:Boolean&gt;</span> <span class="component">&lt;DeprecatedBoolean:Boolean&gt;</span> <span class="component">&lt;AllowEmptyValue:Boolean&gt;</span> <span class="component">&lt;Style:String&gt;</span> <span class="component">&lt;Explode:Boolean&gt;</span> <span class="component">&lt;AllowReserved:Boolean&gt;</span> <span class="component">[{@link SchemaObject}]</span> <span class="component">&lt;Example:Object&gt;</span> <span class="component">{@link ExampleTuple}*</span> <span class="component">{@link ContentTuple}*</span> <span class="component">&lt;Ref:String&gt;</span>;
 
  */
 public class HeaderObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:520
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:545
    */
   public static Header composeHeader (HeaderObject headerObject){
         Header header = new Header();
@@ -26,32 +27,34 @@ public class HeaderObject extends ASTNode<ASTNode> implements Cloneable {
 
         if( !headerObject.getDescription().isEmpty() )
         header.setDescription( headerObject.getDescription() );
-        if( headerObject.getStyle() != null )
+        if( !headerObject.getStyle().isEmpty() )
         header.setStyle(headerObject.getStyle());
         if( headerObject.getExplode() != null )
-        header.setExplode((boolean)headerObject.getExplode());
+        header.setExplode(headerObject.getExplode());
         if( headerObject.getAllowReserved() != null )
-        header.setAllowReserved((boolean)headerObject.getAllowReserved());
+        header.setAllowReserved(headerObject.getAllowReserved());
         if( headerObject.getExample() != null )
         header.setExample(headerObject.getExample());
-        if( headerObject.getNumExamplesTuple() != 0 ){
+        if( headerObject.getNumExampleTuple() != 0 ){
         Map<String, Example> examples = new HashMap<>();
-        for( ExamplesTuple t : headerObject.getExamplesTuples() )
-        examples.put( ((ExampleObjectTuple)t).getName(), ExampleObject.composeExample( ((ExampleObjectTuple)t).getExampleObject() ) );
+        for( ExampleTuple t : headerObject.getExampleTuples() )
+        examples.put(t.getKey(), ExampleObject.composeExample(t.getExampleObject()));
         header.setExample(examples);
         }
         if( headerObject.getNumContentTuple() != 0 ){
         Map<String, MediaType> contents = new HashMap<>();
         for( ContentTuple t : headerObject.getContentTuples() )
-        contents.put( ((ContentObjectTuple)t).getName(), MediaTypeObject.composeMediaType( ((ContentObjectTuple)t).getMediaTypeObject() ) );
+        contents.put(t.getKey(), MediaTypeObject.composeMediaType(t.getMediaTypeObject()));
         header.setContentMediaTypes(contents);
         }
+        if( headerObject.hasSchemaObject() )
+            header.setSchema(SchemaObject.composeSchema(headerObject.getSchemaObject()));
 
         return header;
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:576
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:556
    */
   public static HeaderObject parseHeader(Header header){
         HeaderObject headerObject = new HeaderObject();
@@ -72,12 +75,14 @@ public class HeaderObject extends ASTNode<ASTNode> implements Cloneable {
         headerObject.setExample( header.getExample() );
         if( header.getExamples() != null ){
         for( String key : header.getExamples().keySet() )
-        headerObject.addExamplesTuple(new ExampleObjectTuple(key, ExampleObject.parseExample(header.getExample(key))));
+        headerObject.addExampleTuple(new ExampleTuple(key, ExampleObject.parseExample(header.getExample(key))));
         }
         if( header.getContentMediaTypes() != null ){
         for( String key : header.getContentMediaTypes().keySet() )
-        headerObject.addContentTuple(new ContentObjectTuple(key, MediaTypeObject.parseMediaType(header.getContentMediaType(key))));
+        headerObject.addContentTuple(new ContentTuple(key, MediaTypeObject.parseMediaType(header.getContentMediaType(key))));
         }
+        if( header.getSchema() != null )
+            headerObject.setSchemaObject(SchemaObject.parseSchema(header.getSchema()));
 
         return headerObject;
         }
@@ -104,11 +109,11 @@ public class HeaderObject extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:16
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Description", "Required", "DeprecatedBoolean", "AllowEmptyValue", "Style", "Explode", "AllowReserved", "SchemaObject", "Example", "ExamplesTuple", "ContentTuple"},
-    type = {"String", "boolean", "Object", "Object", "String", "Object", "Object", "Opt<SchemaObject>", "Object", "JastAddList<ExamplesTuple>", "JastAddList<ContentTuple>"},
-    kind = {"Token", "Token", "Token", "Token", "Token", "Token", "Token", "Opt", "Token", "List", "List"}
+    name = {"Description", "Required", "DeprecatedBoolean", "AllowEmptyValue", "Style", "Explode", "AllowReserved", "SchemaObject", "Example", "ExampleTuple", "ContentTuple", "Ref"},
+    type = {"String", "Boolean", "Boolean", "Boolean", "String", "Boolean", "Boolean", "Opt<SchemaObject>", "Object", "JastAddList<ExampleTuple>", "JastAddList<ContentTuple>", "String"},
+    kind = {"Token", "Token", "Token", "Token", "Token", "Token", "Token", "Opt", "Token", "List", "List", "Token"}
   )
-  public HeaderObject(String p0, boolean p1, Object p2, Object p3, String p4, Object p5, Object p6, Opt<SchemaObject> p7, Object p8, JastAddList<ExamplesTuple> p9, JastAddList<ContentTuple> p10) {
+  public HeaderObject(String p0, Boolean p1, Boolean p2, Boolean p3, String p4, Boolean p5, Boolean p6, Opt<SchemaObject> p7, Object p8, JastAddList<ExampleTuple> p9, JastAddList<ContentTuple> p10, String p11) {
     setDescription(p0);
     setRequired(p1);
     setDeprecatedBoolean(p2);
@@ -120,41 +125,42 @@ public class HeaderObject extends ASTNode<ASTNode> implements Cloneable {
     setExample(p8);
     setChild(p9, 1);
     setChild(p10, 2);
+    setRef(p11);
   }
   /** @apilevel low-level 
-   * @declaredat ASTNode:35
+   * @declaredat ASTNode:36
    */
   protected int numChildren() {
     return 3;
   }
   /**
    * @apilevel internal
-   * @declaredat ASTNode:41
+   * @declaredat ASTNode:42
    */
   public boolean mayHaveRewrite() {
     return false;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:45
+   * @declaredat ASTNode:46
    */
   public void flushAttrCache() {
     super.flushAttrCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:49
+   * @declaredat ASTNode:50
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:53
+   * @declaredat ASTNode:54
    */
   public HeaderObject clone() throws CloneNotSupportedException {
     HeaderObject node = (HeaderObject) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:58
+   * @declaredat ASTNode:59
    */
   public HeaderObject copy() {
     try {
@@ -174,7 +180,7 @@ public class HeaderObject extends ASTNode<ASTNode> implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:77
+   * @declaredat ASTNode:78
    */
   @Deprecated
   public HeaderObject fullCopy() {
@@ -185,7 +191,7 @@ public class HeaderObject extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:87
+   * @declaredat ASTNode:88
    */
   public HeaderObject treeCopyNoTransform() {
     HeaderObject tree = (HeaderObject) copy();
@@ -206,7 +212,7 @@ public class HeaderObject extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:107
+   * @declaredat ASTNode:108
    */
   public HeaderObject treeCopy() {
     HeaderObject tree = (HeaderObject) copy();
@@ -222,10 +228,10 @@ public class HeaderObject extends ASTNode<ASTNode> implements Cloneable {
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:121
+   * @declaredat ASTNode:122
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node) && (tokenString_Description == ((HeaderObject) node).tokenString_Description) && (tokenboolean_Required == ((HeaderObject) node).tokenboolean_Required) && (tokenObject_DeprecatedBoolean == ((HeaderObject) node).tokenObject_DeprecatedBoolean) && (tokenObject_AllowEmptyValue == ((HeaderObject) node).tokenObject_AllowEmptyValue) && (tokenString_Style == ((HeaderObject) node).tokenString_Style) && (tokenObject_Explode == ((HeaderObject) node).tokenObject_Explode) && (tokenObject_AllowReserved == ((HeaderObject) node).tokenObject_AllowReserved) && (tokenObject_Example == ((HeaderObject) node).tokenObject_Example);    
+    return super.is$Equal(node) && (tokenString_Description == ((HeaderObject) node).tokenString_Description) && (tokenBoolean_Required == ((HeaderObject) node).tokenBoolean_Required) && (tokenBoolean_DeprecatedBoolean == ((HeaderObject) node).tokenBoolean_DeprecatedBoolean) && (tokenBoolean_AllowEmptyValue == ((HeaderObject) node).tokenBoolean_AllowEmptyValue) && (tokenString_Style == ((HeaderObject) node).tokenString_Style) && (tokenBoolean_Explode == ((HeaderObject) node).tokenBoolean_Explode) && (tokenBoolean_AllowReserved == ((HeaderObject) node).tokenBoolean_AllowReserved) && (tokenObject_Example == ((HeaderObject) node).tokenObject_Example) && (tokenString_Ref == ((HeaderObject) node).tokenString_Ref);    
   }
   /**
    * Replaces the lexeme Description.
@@ -252,60 +258,60 @@ public class HeaderObject extends ASTNode<ASTNode> implements Cloneable {
    * @param value The new value for the lexeme Required.
    * @apilevel high-level
    */
-  public void setRequired(boolean value) {
-    tokenboolean_Required = value;
+  public void setRequired(Boolean value) {
+    tokenBoolean_Required = value;
   }
   /** @apilevel internal 
    */
-  protected boolean tokenboolean_Required;
+  protected Boolean tokenBoolean_Required;
   /**
    * Retrieves the value for the lexeme Required.
    * @return The value for the lexeme Required.
    * @apilevel high-level
    */
   @ASTNodeAnnotation.Token(name="Required")
-  public boolean getRequired() {
-    return tokenboolean_Required;
+  public Boolean getRequired() {
+    return tokenBoolean_Required;
   }
   /**
    * Replaces the lexeme DeprecatedBoolean.
    * @param value The new value for the lexeme DeprecatedBoolean.
    * @apilevel high-level
    */
-  public void setDeprecatedBoolean(Object value) {
-    tokenObject_DeprecatedBoolean = value;
+  public void setDeprecatedBoolean(Boolean value) {
+    tokenBoolean_DeprecatedBoolean = value;
   }
   /** @apilevel internal 
    */
-  protected Object tokenObject_DeprecatedBoolean;
+  protected Boolean tokenBoolean_DeprecatedBoolean;
   /**
    * Retrieves the value for the lexeme DeprecatedBoolean.
    * @return The value for the lexeme DeprecatedBoolean.
    * @apilevel high-level
    */
   @ASTNodeAnnotation.Token(name="DeprecatedBoolean")
-  public Object getDeprecatedBoolean() {
-    return tokenObject_DeprecatedBoolean;
+  public Boolean getDeprecatedBoolean() {
+    return tokenBoolean_DeprecatedBoolean;
   }
   /**
    * Replaces the lexeme AllowEmptyValue.
    * @param value The new value for the lexeme AllowEmptyValue.
    * @apilevel high-level
    */
-  public void setAllowEmptyValue(Object value) {
-    tokenObject_AllowEmptyValue = value;
+  public void setAllowEmptyValue(Boolean value) {
+    tokenBoolean_AllowEmptyValue = value;
   }
   /** @apilevel internal 
    */
-  protected Object tokenObject_AllowEmptyValue;
+  protected Boolean tokenBoolean_AllowEmptyValue;
   /**
    * Retrieves the value for the lexeme AllowEmptyValue.
    * @return The value for the lexeme AllowEmptyValue.
    * @apilevel high-level
    */
   @ASTNodeAnnotation.Token(name="AllowEmptyValue")
-  public Object getAllowEmptyValue() {
-    return tokenObject_AllowEmptyValue;
+  public Boolean getAllowEmptyValue() {
+    return tokenBoolean_AllowEmptyValue;
   }
   /**
    * Replaces the lexeme Style.
@@ -332,40 +338,40 @@ public class HeaderObject extends ASTNode<ASTNode> implements Cloneable {
    * @param value The new value for the lexeme Explode.
    * @apilevel high-level
    */
-  public void setExplode(Object value) {
-    tokenObject_Explode = value;
+  public void setExplode(Boolean value) {
+    tokenBoolean_Explode = value;
   }
   /** @apilevel internal 
    */
-  protected Object tokenObject_Explode;
+  protected Boolean tokenBoolean_Explode;
   /**
    * Retrieves the value for the lexeme Explode.
    * @return The value for the lexeme Explode.
    * @apilevel high-level
    */
   @ASTNodeAnnotation.Token(name="Explode")
-  public Object getExplode() {
-    return tokenObject_Explode;
+  public Boolean getExplode() {
+    return tokenBoolean_Explode;
   }
   /**
    * Replaces the lexeme AllowReserved.
    * @param value The new value for the lexeme AllowReserved.
    * @apilevel high-level
    */
-  public void setAllowReserved(Object value) {
-    tokenObject_AllowReserved = value;
+  public void setAllowReserved(Boolean value) {
+    tokenBoolean_AllowReserved = value;
   }
   /** @apilevel internal 
    */
-  protected Object tokenObject_AllowReserved;
+  protected Boolean tokenBoolean_AllowReserved;
   /**
    * Retrieves the value for the lexeme AllowReserved.
    * @return The value for the lexeme AllowReserved.
    * @apilevel high-level
    */
   @ASTNodeAnnotation.Token(name="AllowReserved")
-  public Object getAllowReserved() {
-    return tokenObject_AllowReserved;
+  public Boolean getAllowReserved() {
+    return tokenBoolean_AllowReserved;
   }
   /**
    * Replaces the optional node for the SchemaObject child. This is the <code>Opt</code>
@@ -439,114 +445,114 @@ public class HeaderObject extends ASTNode<ASTNode> implements Cloneable {
     return tokenObject_Example;
   }
   /**
-   * Replaces the ExamplesTuple list.
-   * @param list The new list node to be used as the ExamplesTuple list.
+   * Replaces the ExampleTuple list.
+   * @param list The new list node to be used as the ExampleTuple list.
    * @apilevel high-level
    */
-  public void setExamplesTupleList(JastAddList<ExamplesTuple> list) {
+  public void setExampleTupleList(JastAddList<ExampleTuple> list) {
     setChild(list, 1);
   }
   /**
-   * Retrieves the number of children in the ExamplesTuple list.
-   * @return Number of children in the ExamplesTuple list.
+   * Retrieves the number of children in the ExampleTuple list.
+   * @return Number of children in the ExampleTuple list.
    * @apilevel high-level
    */
-  public int getNumExamplesTuple() {
-    return getExamplesTupleList().getNumChild();
+  public int getNumExampleTuple() {
+    return getExampleTupleList().getNumChild();
   }
   /**
-   * Retrieves the number of children in the ExamplesTuple list.
+   * Retrieves the number of children in the ExampleTuple list.
    * Calling this method will not trigger rewrites.
-   * @return Number of children in the ExamplesTuple list.
+   * @return Number of children in the ExampleTuple list.
    * @apilevel low-level
    */
-  public int getNumExamplesTupleNoTransform() {
-    return getExamplesTupleListNoTransform().getNumChildNoTransform();
+  public int getNumExampleTupleNoTransform() {
+    return getExampleTupleListNoTransform().getNumChildNoTransform();
   }
   /**
-   * Retrieves the element at index {@code i} in the ExamplesTuple list.
+   * Retrieves the element at index {@code i} in the ExampleTuple list.
    * @param i Index of the element to return.
-   * @return The element at position {@code i} in the ExamplesTuple list.
+   * @return The element at position {@code i} in the ExampleTuple list.
    * @apilevel high-level
    */
-  public ExamplesTuple getExamplesTuple(int i) {
-    return (ExamplesTuple) getExamplesTupleList().getChild(i);
+  public ExampleTuple getExampleTuple(int i) {
+    return (ExampleTuple) getExampleTupleList().getChild(i);
   }
   /**
-   * Check whether the ExamplesTuple list has any children.
+   * Check whether the ExampleTuple list has any children.
    * @return {@code true} if it has at least one child, {@code false} otherwise.
    * @apilevel high-level
    */
-  public boolean hasExamplesTuple() {
-    return getExamplesTupleList().getNumChild() != 0;
+  public boolean hasExampleTuple() {
+    return getExampleTupleList().getNumChild() != 0;
   }
   /**
-   * Append an element to the ExamplesTuple list.
-   * @param node The element to append to the ExamplesTuple list.
+   * Append an element to the ExampleTuple list.
+   * @param node The element to append to the ExampleTuple list.
    * @apilevel high-level
    */
-  public void addExamplesTuple(ExamplesTuple node) {
-    JastAddList<ExamplesTuple> list = (parent == null) ? getExamplesTupleListNoTransform() : getExamplesTupleList();
+  public void addExampleTuple(ExampleTuple node) {
+    JastAddList<ExampleTuple> list = (parent == null) ? getExampleTupleListNoTransform() : getExampleTupleList();
     list.addChild(node);
   }
   /** @apilevel low-level 
    */
-  public void addExamplesTupleNoTransform(ExamplesTuple node) {
-    JastAddList<ExamplesTuple> list = getExamplesTupleListNoTransform();
+  public void addExampleTupleNoTransform(ExampleTuple node) {
+    JastAddList<ExampleTuple> list = getExampleTupleListNoTransform();
     list.addChild(node);
   }
   /**
-   * Replaces the ExamplesTuple list element at index {@code i} with the new node {@code node}.
+   * Replaces the ExampleTuple list element at index {@code i} with the new node {@code node}.
    * @param node The new node to replace the old list element.
    * @param i The list index of the node to be replaced.
    * @apilevel high-level
    */
-  public void setExamplesTuple(ExamplesTuple node, int i) {
-    JastAddList<ExamplesTuple> list = getExamplesTupleList();
+  public void setExampleTuple(ExampleTuple node, int i) {
+    JastAddList<ExampleTuple> list = getExampleTupleList();
     list.setChild(node, i);
   }
   /**
-   * Retrieves the ExamplesTuple list.
-   * @return The node representing the ExamplesTuple list.
+   * Retrieves the ExampleTuple list.
+   * @return The node representing the ExampleTuple list.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.ListChild(name="ExamplesTuple")
-  public JastAddList<ExamplesTuple> getExamplesTupleList() {
-    JastAddList<ExamplesTuple> list = (JastAddList<ExamplesTuple>) getChild(1);
+  @ASTNodeAnnotation.ListChild(name="ExampleTuple")
+  public JastAddList<ExampleTuple> getExampleTupleList() {
+    JastAddList<ExampleTuple> list = (JastAddList<ExampleTuple>) getChild(1);
     return list;
   }
   /**
-   * Retrieves the ExamplesTuple list.
+   * Retrieves the ExampleTuple list.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The node representing the ExamplesTuple list.
+   * @return The node representing the ExampleTuple list.
    * @apilevel low-level
    */
-  public JastAddList<ExamplesTuple> getExamplesTupleListNoTransform() {
-    return (JastAddList<ExamplesTuple>) getChildNoTransform(1);
+  public JastAddList<ExampleTuple> getExampleTupleListNoTransform() {
+    return (JastAddList<ExampleTuple>) getChildNoTransform(1);
   }
   /**
-   * @return the element at index {@code i} in the ExamplesTuple list without
+   * @return the element at index {@code i} in the ExampleTuple list without
    * triggering rewrites.
    */
-  public ExamplesTuple getExamplesTupleNoTransform(int i) {
-    return (ExamplesTuple) getExamplesTupleListNoTransform().getChildNoTransform(i);
+  public ExampleTuple getExampleTupleNoTransform(int i) {
+    return (ExampleTuple) getExampleTupleListNoTransform().getChildNoTransform(i);
   }
   /**
-   * Retrieves the ExamplesTuple list.
-   * @return The node representing the ExamplesTuple list.
+   * Retrieves the ExampleTuple list.
+   * @return The node representing the ExampleTuple list.
    * @apilevel high-level
    */
-  public JastAddList<ExamplesTuple> getExamplesTuples() {
-    return getExamplesTupleList();
+  public JastAddList<ExampleTuple> getExampleTuples() {
+    return getExampleTupleList();
   }
   /**
-   * Retrieves the ExamplesTuple list.
+   * Retrieves the ExampleTuple list.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The node representing the ExamplesTuple list.
+   * @return The node representing the ExampleTuple list.
    * @apilevel low-level
    */
-  public JastAddList<ExamplesTuple> getExamplesTuplesNoTransform() {
-    return getExamplesTupleListNoTransform();
+  public JastAddList<ExampleTuple> getExampleTuplesNoTransform() {
+    return getExampleTupleListNoTransform();
   }
   /**
    * Replaces the ContentTuple list.
@@ -657,6 +663,26 @@ public class HeaderObject extends ASTNode<ASTNode> implements Cloneable {
    */
   public JastAddList<ContentTuple> getContentTuplesNoTransform() {
     return getContentTupleListNoTransform();
+  }
+  /**
+   * Replaces the lexeme Ref.
+   * @param value The new value for the lexeme Ref.
+   * @apilevel high-level
+   */
+  public void setRef(String value) {
+    tokenString_Ref = value;
+  }
+  /** @apilevel internal 
+   */
+  protected String tokenString_Ref;
+  /**
+   * Retrieves the value for the lexeme Ref.
+   * @return The value for the lexeme Ref.
+   * @apilevel high-level
+   */
+  @ASTNodeAnnotation.Token(name="Ref")
+  public String getRef() {
+    return tokenString_Ref != null ? tokenString_Ref : "";
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

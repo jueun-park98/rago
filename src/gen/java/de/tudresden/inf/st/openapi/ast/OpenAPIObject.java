@@ -4,86 +4,95 @@ import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
 import org.openapi4j.core.model.reference.Reference;
+import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:2
- * @astdecl OpenAPIObject : ASTNode ::= <OpenAPI:String> InfoObject ServerObject* PathsObject* [ComponentsObject] SecurityRequirementObject* TagObject* [ExternalDocumentationObject];
- * @production OpenAPIObject : {@link ASTNode} ::= <span class="component">&lt;OpenAPI:String&gt;</span> <span class="component">{@link InfoObject}</span> <span class="component">{@link ServerObject}*</span> <span class="component">{@link PathsObject}*</span> <span class="component">[{@link ComponentsObject}]</span> <span class="component">{@link SecurityRequirementObject}*</span> <span class="component">{@link TagObject}*</span> <span class="component">[{@link ExternalDocumentationObject}]</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:2
+ * @astdecl OpenAPIObject : ASTNode ::= <OpenAPI:String> [InfoObject] ServerObject* PathsObject* [ComponentsObject] SecurityRequirementObject* TagObject* [ExternalDocObject] <Context:OAIContext>;
+ * @production OpenAPIObject : {@link ASTNode} ::= <span class="component">&lt;OpenAPI:String&gt;</span> <span class="component">[{@link InfoObject}]</span> <span class="component">{@link ServerObject}*</span> <span class="component">{@link PathsObject}*</span> <span class="component">[{@link ComponentsObject}]</span> <span class="component">{@link SecurityRequirementObject}*</span> <span class="component">{@link TagObject}*</span> <span class="component">[{@link ExternalDocObject}]</span> <span class="component">&lt;Context:OAIContext&gt;</span>;
 
  */
 public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:12
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:13
    */
-  public static OpenApi3 composeOpenAPI (OpenAPIObject openAPIObject){
+  public static OpenApi3 composeOpenAPI (OpenAPIObject openapi){
         OpenApi3 api3 = new OpenApi3();
 
-        api3.setOpenapi( openAPIObject.getOpenAPI() );
-        api3.setInfo( InfoObject.composeInfo( openAPIObject.getInfoObject() ) );
-
-        if( openAPIObject.getNumPathsObject() != 0 ){
-        Map<String, Path> paths = new HashMap<>();
-        for( PathsObject p : openAPIObject.getPathsObjects() )
-        paths.put( p.getRef(), PathItemObject.composePath(p.getPathItemObject()) );
-        api3.setPaths(paths);
-        }
-        if(openAPIObject.getNumServerObject() != 0 ){
+        if( !openapi.getOpenAPI().isEmpty() )
+        api3.setOpenapi(openapi.getOpenAPI());
+        if( openapi.hasInfoObject() )
+        api3.setInfo(InfoObject.composeInfo(openapi.getInfoObject()));
+        if( openapi.getNumServerObject() != 0 ){
         List<org.openapi4j.parser.model.v3.Server> servers = new ArrayList<>();
-        for( ServerObject s : openAPIObject.getServerObjects() )
+        for( ServerObject s : openapi.getServerObjects() )
         servers.add(ServerObject.composeServer(s));
         api3.setServers(servers);
         }
-        if( openAPIObject.hasComponentsObject() )
-        api3.setComponents( ComponentsObject.composeComponents(openAPIObject.getComponentsObject()) );
-        if( openAPIObject.getNumSecurityRequirementObject() != 0 ){
+        if( openapi.getNumPathsObject() != 0 ){
+        Map<String, Path> paths = new HashMap<>();
+        for( PathsObject p : openapi.getPathsObjects() )
+        paths.put( p.getRef(), PathItem.composePath(p.getPathItem()) );
+        api3.setPaths(paths);
+        }
+        if( openapi.hasComponentsObject() )
+        api3.setComponents( ComponentsObject.composeComponents(openapi.getComponentsObject()) );
+        if( openapi.getNumSecurityRequirementObject() != 0 ){
         List<SecurityRequirement> securityRequirements = new ArrayList<>();
-        for( SecurityRequirementObject s : openAPIObject.getSecurityRequirementObjects() )
+        for( SecurityRequirementObject s : openapi.getSecurityRequirementObjects() )
         securityRequirements.add( SecurityRequirementObject.composeSecurityRequirement( s ) );
         api3.setSecurityRequirements(securityRequirements);
         }
-        if( openAPIObject.getNumTagObject() != 0 ){
+        if( openapi.getNumTagObject() != 0 ){
         List<org.openapi4j.parser.model.v3.Tag> tags = new ArrayList<>();
-        for( TagObject t : openAPIObject.getTagObjects() )
+        for( TagObject t : openapi.getTagObjects() )
         tags.add( TagObject.composeTag(t) );
         api3.setTags( tags );
         }
-        if( openAPIObject.hasExternalDocumentationObject() )
-        api3.setExternalDocs( ExternalDocumentationObject.composeExternalDocs(openAPIObject.getExternalDocumentationObject()) );
+        if( openapi.hasExternalDocObject() )
+        api3.setExternalDocs(ExternalDocObject.composeExternalDocs(openapi.getExternalDocObject()));
+        if( openapi.getContext() != null )
+        api3.setContext(openapi.getContext());
 
         return api3;
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:3
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:3
    */
   public static OpenAPIObject parseOpenAPI(OpenApi3 api) throws IOException, ResolutionException, ValidationException {
         OpenAPIObject openapi = new OpenAPIObject();
 
+        if( api.getOpenapi() != null )
         openapi.setOpenAPI(api.getOpenapi());
-        openapi.setInfoObject( InfoObject.parseInfo(api.getInfo()) );
+        if( api.getInfo() != null )
+        openapi.setInfoObject(InfoObject.parseInfo(api.getInfo()));
+        if( api.getPaths() != null ){
         for( String key : api.getPaths().keySet() )
-        openapi.addPathsObject( new PathsObject( key, PathItemObject.parsePath(api.getPath(key))) );
-
-        if( api.getServers() != null ) {
+        openapi.addPathsObject(new PathsObject( key, PathItem.parsePath(api.getPath(key))));
+        }
+        if( api.getServers() != null ){
         for( Server s : api.getServers() )
-        openapi.addServerObject( ServerObject.parseServer(s) );
+        openapi.addServerObject(ServerObject.parseServer(s));
         }
         if( api.getComponents() != null )
-        openapi.setComponentsObject( ComponentsObject.parseComponents(api.getComponents()) );
+        openapi.setComponentsObject(ComponentsObject.parseComponents(api.getComponents()));
         if( api.getSecurityRequirements() != null ){
         for( SecurityRequirement s : api.getSecurityRequirements() )
-        openapi.addSecurityRequirementObject( SecurityRequirementObject.parseSecurityRequirement(s) );
+        openapi.addSecurityRequirementObject(SecurityRequirementObject.parseSecurityRequirement(s));
         }
         if( api.getTags() != null ){
         for( org.openapi4j.parser.model.v3.Tag t : api.getTags() )
-        openapi.addTagObject( TagObject.parseTag(t) );
+        openapi.addTagObject(TagObject.parseTag(t));
         }
         if( api.getExternalDocs() != null )
-        openapi.setExternalDocumentationObject( ExternalDocumentationObject.parseExternalDocs(api.getExternalDocs()) );
+        openapi.setExternalDocObject(ExternalDocObject.parseExternalDocs(api.getExternalDocs()));
+        if( api.getContext() != null )
+        openapi.setContext(api.getContext());
 
         return openapi;
         }
@@ -102,6 +111,7 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
    */
   public void init$Children() {
     children = new ASTNode[7];
+    setChild(new Opt(), 0);
     setChild(new JastAddList(), 1);
     setChild(new JastAddList(), 2);
     setChild(new Opt(), 3);
@@ -110,14 +120,14 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
     setChild(new Opt(), 6);
   }
   /**
-   * @declaredat ASTNode:19
+   * @declaredat ASTNode:20
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"OpenAPI", "InfoObject", "ServerObject", "PathsObject", "ComponentsObject", "SecurityRequirementObject", "TagObject", "ExternalDocumentationObject"},
-    type = {"String", "InfoObject", "JastAddList<ServerObject>", "JastAddList<PathsObject>", "Opt<ComponentsObject>", "JastAddList<SecurityRequirementObject>", "JastAddList<TagObject>", "Opt<ExternalDocumentationObject>"},
-    kind = {"Token", "Child", "List", "List", "Opt", "List", "List", "Opt"}
+    name = {"OpenAPI", "InfoObject", "ServerObject", "PathsObject", "ComponentsObject", "SecurityRequirementObject", "TagObject", "ExternalDocObject", "Context"},
+    type = {"String", "Opt<InfoObject>", "JastAddList<ServerObject>", "JastAddList<PathsObject>", "Opt<ComponentsObject>", "JastAddList<SecurityRequirementObject>", "JastAddList<TagObject>", "Opt<ExternalDocObject>", "OAIContext"},
+    kind = {"Token", "Opt", "List", "List", "Opt", "List", "List", "Opt", "Token"}
   )
-  public OpenAPIObject(String p0, InfoObject p1, JastAddList<ServerObject> p2, JastAddList<PathsObject> p3, Opt<ComponentsObject> p4, JastAddList<SecurityRequirementObject> p5, JastAddList<TagObject> p6, Opt<ExternalDocumentationObject> p7) {
+  public OpenAPIObject(String p0, Opt<InfoObject> p1, JastAddList<ServerObject> p2, JastAddList<PathsObject> p3, Opt<ComponentsObject> p4, JastAddList<SecurityRequirementObject> p5, JastAddList<TagObject> p6, Opt<ExternalDocObject> p7, OAIContext p8) {
     setOpenAPI(p0);
     setChild(p1, 0);
     setChild(p2, 1);
@@ -126,41 +136,42 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
     setChild(p5, 4);
     setChild(p6, 5);
     setChild(p7, 6);
+    setContext(p8);
   }
   /** @apilevel low-level 
-   * @declaredat ASTNode:35
+   * @declaredat ASTNode:37
    */
   protected int numChildren() {
     return 7;
   }
   /**
    * @apilevel internal
-   * @declaredat ASTNode:41
+   * @declaredat ASTNode:43
    */
   public boolean mayHaveRewrite() {
     return false;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:45
+   * @declaredat ASTNode:47
    */
   public void flushAttrCache() {
     super.flushAttrCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:49
+   * @declaredat ASTNode:51
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:53
+   * @declaredat ASTNode:55
    */
   public OpenAPIObject clone() throws CloneNotSupportedException {
     OpenAPIObject node = (OpenAPIObject) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:58
+   * @declaredat ASTNode:60
    */
   public OpenAPIObject copy() {
     try {
@@ -180,7 +191,7 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:77
+   * @declaredat ASTNode:79
    */
   @Deprecated
   public OpenAPIObject fullCopy() {
@@ -191,7 +202,7 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:87
+   * @declaredat ASTNode:89
    */
   public OpenAPIObject treeCopyNoTransform() {
     OpenAPIObject tree = (OpenAPIObject) copy();
@@ -212,7 +223,7 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:107
+   * @declaredat ASTNode:109
    */
   public OpenAPIObject treeCopy() {
     OpenAPIObject tree = (OpenAPIObject) copy();
@@ -228,10 +239,10 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:121
+   * @declaredat ASTNode:123
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node) && (tokenString_OpenAPI == ((OpenAPIObject) node).tokenString_OpenAPI);    
+    return super.is$Equal(node) && (tokenString_OpenAPI == ((OpenAPIObject) node).tokenString_OpenAPI) && (tokenOAIContext_Context == ((OpenAPIObject) node).tokenOAIContext_Context);    
   }
   /**
    * Replaces the lexeme OpenAPI.
@@ -254,30 +265,55 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
     return tokenString_OpenAPI != null ? tokenString_OpenAPI : "";
   }
   /**
-   * Replaces the InfoObject child.
-   * @param node The new node to replace the InfoObject child.
+   * Replaces the optional node for the InfoObject child. This is the <code>Opt</code>
+   * node containing the child InfoObject, not the actual child!
+   * @param opt The new node to be used as the optional node for the InfoObject child.
+   * @apilevel low-level
+   */
+  public void setInfoObjectOpt(Opt<InfoObject> opt) {
+    setChild(opt, 0);
+  }
+  /**
+   * Replaces the (optional) InfoObject child.
+   * @param node The new node to be used as the InfoObject child.
    * @apilevel high-level
    */
   public void setInfoObject(InfoObject node) {
-    setChild(node, 0);
+    getInfoObjectOpt().setChild(node, 0);
   }
   /**
-   * Retrieves the InfoObject child.
-   * @return The current node used as the InfoObject child.
+   * Check whether the optional InfoObject child exists.
+   * @return {@code true} if the optional InfoObject child exists, {@code false} if it does not.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Child(name="InfoObject")
-  public InfoObject getInfoObject() {
-    return (InfoObject) getChild(0);
+  public boolean hasInfoObject() {
+    return getInfoObjectOpt().getNumChild() != 0;
   }
   /**
-   * Retrieves the InfoObject child.
-   * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The current node used as the InfoObject child.
+   * Retrieves the (optional) InfoObject child.
+   * @return The InfoObject child, if it exists. Returns {@code null} otherwise.
    * @apilevel low-level
    */
-  public InfoObject getInfoObjectNoTransform() {
-    return (InfoObject) getChildNoTransform(0);
+  public InfoObject getInfoObject() {
+    return (InfoObject) getInfoObjectOpt().getChild(0);
+  }
+  /**
+   * Retrieves the optional node for the InfoObject child. This is the <code>Opt</code> node containing the child InfoObject, not the actual child!
+   * @return The optional node for child the InfoObject child.
+   * @apilevel low-level
+   */
+  @ASTNodeAnnotation.OptChild(name="InfoObject")
+  public Opt<InfoObject> getInfoObjectOpt() {
+    return (Opt<InfoObject>) getChild(0);
+  }
+  /**
+   * Retrieves the optional node for child InfoObject. This is the <code>Opt</code> node containing the child InfoObject, not the actual child!
+   * <p><em>This method does not invoke AST transformations.</em></p>
+   * @return The optional node for child InfoObject.
+   * @apilevel low-level
+   */
+  public Opt<InfoObject> getInfoObjectOptNoTransform() {
+    return (Opt<InfoObject>) getChildNoTransform(0);
   }
   /**
    * Replaces the ServerObject list.
@@ -771,55 +807,75 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
     return getTagObjectListNoTransform();
   }
   /**
-   * Replaces the optional node for the ExternalDocumentationObject child. This is the <code>Opt</code>
-   * node containing the child ExternalDocumentationObject, not the actual child!
-   * @param opt The new node to be used as the optional node for the ExternalDocumentationObject child.
+   * Replaces the optional node for the ExternalDocObject child. This is the <code>Opt</code>
+   * node containing the child ExternalDocObject, not the actual child!
+   * @param opt The new node to be used as the optional node for the ExternalDocObject child.
    * @apilevel low-level
    */
-  public void setExternalDocumentationObjectOpt(Opt<ExternalDocumentationObject> opt) {
+  public void setExternalDocObjectOpt(Opt<ExternalDocObject> opt) {
     setChild(opt, 6);
   }
   /**
-   * Replaces the (optional) ExternalDocumentationObject child.
-   * @param node The new node to be used as the ExternalDocumentationObject child.
+   * Replaces the (optional) ExternalDocObject child.
+   * @param node The new node to be used as the ExternalDocObject child.
    * @apilevel high-level
    */
-  public void setExternalDocumentationObject(ExternalDocumentationObject node) {
-    getExternalDocumentationObjectOpt().setChild(node, 0);
+  public void setExternalDocObject(ExternalDocObject node) {
+    getExternalDocObjectOpt().setChild(node, 0);
   }
   /**
-   * Check whether the optional ExternalDocumentationObject child exists.
-   * @return {@code true} if the optional ExternalDocumentationObject child exists, {@code false} if it does not.
+   * Check whether the optional ExternalDocObject child exists.
+   * @return {@code true} if the optional ExternalDocObject child exists, {@code false} if it does not.
    * @apilevel high-level
    */
-  public boolean hasExternalDocumentationObject() {
-    return getExternalDocumentationObjectOpt().getNumChild() != 0;
+  public boolean hasExternalDocObject() {
+    return getExternalDocObjectOpt().getNumChild() != 0;
   }
   /**
-   * Retrieves the (optional) ExternalDocumentationObject child.
-   * @return The ExternalDocumentationObject child, if it exists. Returns {@code null} otherwise.
+   * Retrieves the (optional) ExternalDocObject child.
+   * @return The ExternalDocObject child, if it exists. Returns {@code null} otherwise.
    * @apilevel low-level
    */
-  public ExternalDocumentationObject getExternalDocumentationObject() {
-    return (ExternalDocumentationObject) getExternalDocumentationObjectOpt().getChild(0);
+  public ExternalDocObject getExternalDocObject() {
+    return (ExternalDocObject) getExternalDocObjectOpt().getChild(0);
   }
   /**
-   * Retrieves the optional node for the ExternalDocumentationObject child. This is the <code>Opt</code> node containing the child ExternalDocumentationObject, not the actual child!
-   * @return The optional node for child the ExternalDocumentationObject child.
+   * Retrieves the optional node for the ExternalDocObject child. This is the <code>Opt</code> node containing the child ExternalDocObject, not the actual child!
+   * @return The optional node for child the ExternalDocObject child.
    * @apilevel low-level
    */
-  @ASTNodeAnnotation.OptChild(name="ExternalDocumentationObject")
-  public Opt<ExternalDocumentationObject> getExternalDocumentationObjectOpt() {
-    return (Opt<ExternalDocumentationObject>) getChild(6);
+  @ASTNodeAnnotation.OptChild(name="ExternalDocObject")
+  public Opt<ExternalDocObject> getExternalDocObjectOpt() {
+    return (Opt<ExternalDocObject>) getChild(6);
   }
   /**
-   * Retrieves the optional node for child ExternalDocumentationObject. This is the <code>Opt</code> node containing the child ExternalDocumentationObject, not the actual child!
+   * Retrieves the optional node for child ExternalDocObject. This is the <code>Opt</code> node containing the child ExternalDocObject, not the actual child!
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The optional node for child ExternalDocumentationObject.
+   * @return The optional node for child ExternalDocObject.
    * @apilevel low-level
    */
-  public Opt<ExternalDocumentationObject> getExternalDocumentationObjectOptNoTransform() {
-    return (Opt<ExternalDocumentationObject>) getChildNoTransform(6);
+  public Opt<ExternalDocObject> getExternalDocObjectOptNoTransform() {
+    return (Opt<ExternalDocObject>) getChildNoTransform(6);
+  }
+  /**
+   * Replaces the lexeme Context.
+   * @param value The new value for the lexeme Context.
+   * @apilevel high-level
+   */
+  public void setContext(OAIContext value) {
+    tokenOAIContext_Context = value;
+  }
+  /** @apilevel internal 
+   */
+  protected OAIContext tokenOAIContext_Context;
+  /**
+   * Retrieves the value for the lexeme Context.
+   * @return The value for the lexeme Context.
+   * @apilevel high-level
+   */
+  @ASTNodeAnnotation.Token(name="Context")
+  public OAIContext getContext() {
+    return tokenOAIContext_Context;
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

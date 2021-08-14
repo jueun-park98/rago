@@ -4,12 +4,13 @@ import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
 import org.openapi4j.core.model.reference.Reference;
+import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:152
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:113
  * @astdecl OAuthFlowsObject : ASTNode ::= [Implicit] [Password] [ClientCredentials] [AuthorizationCode];
  * @production OAuthFlowsObject : {@link ASTNode} ::= <span class="component">[{@link Implicit}]</span> <span class="component">[{@link Password}]</span> <span class="component">[{@link ClientCredentials}]</span> <span class="component">[{@link AuthorizationCode}]</span>;
 
@@ -17,7 +18,7 @@ import java.net.URL;
 public class OAuthFlowsObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:703
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:736
    */
   public static OAuthFlows composeOAuthFlows (OAuthFlowsObject oAuthFlowsObject){
         OAuthFlows oAuthFlows = new OAuthFlows();
@@ -35,7 +36,7 @@ public class OAuthFlowsObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:788
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:769
    */
   public static OAuthFlowsObject parseOAuthFlows(OAuthFlows oAuthFlows){
         OAuthFlowsObject oAuthFlowsObject = new OAuthFlowsObject();

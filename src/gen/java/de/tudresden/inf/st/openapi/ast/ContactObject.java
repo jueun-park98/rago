@@ -4,12 +4,13 @@ import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
 import org.openapi4j.core.model.reference.Reference;
+import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:11
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:8
  * @astdecl ContactObject : ASTNode ::= <Name:String> <Url:String> <Email:String>;
  * @production ContactObject : {@link ASTNode} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;Url:String&gt;</span> <span class="component">&lt;Email:String&gt;</span>;
 
@@ -17,23 +18,23 @@ import java.net.URL;
 public class ContactObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:68
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:73
    */
   public static Contact composeContact (ContactObject contactObject){
         Contact contact = new Contact();
 
-        if( contactObject.getName() != null )
+        if( !contactObject.getName().isEmpty() )
         contact.setName( contactObject.getName() );
-        if( contactObject.getUrl() != null )
+        if( !contactObject.getUrl().isEmpty() )
         contact.setUrl( contactObject.getUrl() );
-        if( contactObject.getEmail() != null )
+        if( !contactObject.getEmail().isEmpty() )
         contact.setEmail( contactObject.getEmail() );
 
         return contact;
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:49
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:55
    */
   public static ContactObject parseContact(Contact contact){
         ContactObject contactObject = new ContactObject();

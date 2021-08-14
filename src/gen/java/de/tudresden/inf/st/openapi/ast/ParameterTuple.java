@@ -4,17 +4,18 @@ import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
 import org.openapi4j.core.model.reference.Reference;
+import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:36
- * @astdecl ParameterTuple : ASTNode;
- * @production ParameterTuple : {@link ASTNode};
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:25
+ * @astdecl ParameterTuple : ASTNode ::= <Key:String> ParameterObject;
+ * @production ParameterTuple : {@link ASTNode} ::= <span class="component">&lt;Key:String&gt;</span> <span class="component">{@link ParameterObject}</span>;
 
  */
-public abstract class ParameterTuple extends ASTNode<ASTNode> implements Cloneable {
+public class ParameterTuple extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @declaredat ASTNode:1
    */
@@ -29,38 +30,66 @@ public abstract class ParameterTuple extends ASTNode<ASTNode> implements Cloneab
    * @declaredat ASTNode:10
    */
   public void init$Children() {
+    children = new ASTNode[1];
   }
-  /** @apilevel low-level 
+  /**
    * @declaredat ASTNode:13
    */
+  @ASTNodeAnnotation.Constructor(
+    name = {"Key", "ParameterObject"},
+    type = {"String", "ParameterObject"},
+    kind = {"Token", "Child"}
+  )
+  public ParameterTuple(String p0, ParameterObject p1) {
+    setKey(p0);
+    setChild(p1, 0);
+  }
+  /** @apilevel low-level 
+   * @declaredat ASTNode:23
+   */
   protected int numChildren() {
-    return 0;
+    return 1;
   }
   /**
    * @apilevel internal
-   * @declaredat ASTNode:19
+   * @declaredat ASTNode:29
    */
   public boolean mayHaveRewrite() {
     return false;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:23
+   * @declaredat ASTNode:33
    */
   public void flushAttrCache() {
     super.flushAttrCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:27
+   * @declaredat ASTNode:37
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:31
+   * @declaredat ASTNode:41
    */
   public ParameterTuple clone() throws CloneNotSupportedException {
     ParameterTuple node = (ParameterTuple) super.clone();
     return node;
+  }
+  /** @apilevel internal 
+   * @declaredat ASTNode:46
+   */
+  public ParameterTuple copy() {
+    try {
+      ParameterTuple node = (ParameterTuple) clone();
+      node.parent = null;
+      if (children != null) {
+        node.children = (ASTNode[]) children.clone();
+      }
+      return node;
+    } catch (CloneNotSupportedException e) {
+      throw new Error("Error: clone not supported for " + getClass().getName());
+    }
   }
   /**
    * Create a deep copy of the AST subtree at this node.
@@ -68,27 +97,105 @@ public abstract class ParameterTuple extends ASTNode<ASTNode> implements Cloneab
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:42
+   * @declaredat ASTNode:65
    */
   @Deprecated
-  public abstract ParameterTuple fullCopy();
+  public ParameterTuple fullCopy() {
+    return treeCopyNoTransform();
+  }
   /**
    * Create a deep copy of the AST subtree at this node.
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:50
+   * @declaredat ASTNode:75
    */
-  public abstract ParameterTuple treeCopyNoTransform();
+  public ParameterTuple treeCopyNoTransform() {
+    ParameterTuple tree = (ParameterTuple) copy();
+    if (children != null) {
+      for (int i = 0; i < children.length; ++i) {
+        ASTNode child = (ASTNode) children[i];
+        if (child != null) {
+          child = child.treeCopyNoTransform();
+          tree.setChild(child, i);
+        }
+      }
+    }
+    return tree;
+  }
   /**
    * Create a deep copy of the AST subtree at this node.
    * The subtree of this node is traversed to trigger rewrites before copy.
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:58
+   * @declaredat ASTNode:95
    */
-  public abstract ParameterTuple treeCopy();
+  public ParameterTuple treeCopy() {
+    ParameterTuple tree = (ParameterTuple) copy();
+    if (children != null) {
+      for (int i = 0; i < children.length; ++i) {
+        ASTNode child = (ASTNode) getChild(i);
+        if (child != null) {
+          child = child.treeCopy();
+          tree.setChild(child, i);
+        }
+      }
+    }
+    return tree;
+  }
+  /** @apilevel internal 
+   * @declaredat ASTNode:109
+   */
+  protected boolean is$Equal(ASTNode node) {
+    return super.is$Equal(node) && (tokenString_Key == ((ParameterTuple) node).tokenString_Key);    
+  }
+  /**
+   * Replaces the lexeme Key.
+   * @param value The new value for the lexeme Key.
+   * @apilevel high-level
+   */
+  public void setKey(String value) {
+    tokenString_Key = value;
+  }
+  /** @apilevel internal 
+   */
+  protected String tokenString_Key;
+  /**
+   * Retrieves the value for the lexeme Key.
+   * @return The value for the lexeme Key.
+   * @apilevel high-level
+   */
+  @ASTNodeAnnotation.Token(name="Key")
+  public String getKey() {
+    return tokenString_Key != null ? tokenString_Key : "";
+  }
+  /**
+   * Replaces the ParameterObject child.
+   * @param node The new node to replace the ParameterObject child.
+   * @apilevel high-level
+   */
+  public void setParameterObject(ParameterObject node) {
+    setChild(node, 0);
+  }
+  /**
+   * Retrieves the ParameterObject child.
+   * @return The current node used as the ParameterObject child.
+   * @apilevel high-level
+   */
+  @ASTNodeAnnotation.Child(name="ParameterObject")
+  public ParameterObject getParameterObject() {
+    return (ParameterObject) getChild(0);
+  }
+  /**
+   * Retrieves the ParameterObject child.
+   * <p><em>This method does not invoke AST transformations.</em></p>
+   * @return The current node used as the ParameterObject child.
+   * @apilevel low-level
+   */
+  public ParameterObject getParameterObjectNoTransform() {
+    return (ParameterObject) getChildNoTransform(0);
+  }
   /** @apilevel internal */
   public ASTNode rewriteTo() {
     return super.rewriteTo();

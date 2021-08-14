@@ -66,10 +66,10 @@ public class OpenAPIMain_test {
             api3 = OpenAPIObject.composeOpenAPI(openApi);
 
             // check, if the composed openAPI object is valid
-            results = OpenApi3Validator.instance().validate(api);
-            System.out.println("Is the source object valid? : " + results.isValid());
-            results = OpenApi3Validator.instance().validate(api3);
-            System.out.println("Is the generated object valid? : " + results.isValid());
+            //results = OpenApi3Validator.instance().validate(api);
+            //System.out.println("Is the source object valid? : " + results.isValid());
+            //results = OpenApi3Validator.instance().validate(api3);
+            //System.out.println("Is the generated object valid? : " + results.isValid());
 
             // compare if api (source object) is equivalent to api3 (generated object)
             compareJson(api3.toNode(), api.toNode(), Paths.get(file));

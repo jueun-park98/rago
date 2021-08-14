@@ -4,12 +4,13 @@ import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
 import org.openapi4j.core.model.reference.Reference;
+import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:12
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:11
  * @astdecl LicenseObject : ASTNode ::= <Name:String> <Url:String>;
  * @production LicenseObject : {@link ASTNode} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;Url:String&gt;</span>;
 
@@ -17,21 +18,21 @@ import java.net.URL;
 public class LicenseObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:81
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:86
    */
   public static License composeLicense (LicenseObject licenseObject){
         License license = new License();
 
+        if( !licenseObject.getName().isEmpty() )
         license.setName( licenseObject.getName() );
-
-        if( licenseObject.getUrl() != null )
+        if( !licenseObject.getUrl().isEmpty() )
         license.setUrl( licenseObject.getUrl() );
 
         return license;
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:62
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:68
    */
   public static LicenseObject parseLicense(License license){
         LicenseObject licenseObject = new LicenseObject();
