@@ -1,13 +1,21 @@
-11
+20
 3Loading expression DSL file '1password.com.yaml'.
-true
-true
 5Loading expression DSL file '1password.local.yaml'.
-true
-true
 CLoading expression DSL file '6-dot-authentiqio.appspot.com.yaml'.
-true
-true
 -Loading expression DSL file 'ably.io.yaml'.
-true
-false
+5Loading expression DSL file 'abstractapi.com.yaml'.
+/Loading expression DSL file 'adobe.com.yaml'.
+@Loading expression DSL file 'adyen.com.AccountService.3.yaml'.
+@Loading expression DSL file 'adyen.com.AccountService.4.yaml'.
+@Loading expression DSL file 'adyen.com.AccountService.5.yaml'.
+@Loading expression DSL file 'adyen.com.AccountService.6.yaml'.
+2Loading expression DSL file 'agco-ats.com.yaml'.
+MLoading expression DSL file 'amazonaws.com.accessanalyzer.2019-11-01.yaml'.
+BLoading expression DSL file 'amazonaws.com.acm.2015-12-08.yaml'.
+7Loading expression DSL file 'api-with-examples.json'.
+6Loading expression DSL file 'callback-example.json'.
+2Loading expression DSL file 'link-example.json'.
+7Loading expression DSL file 'petstore-expanded.json'.
+.Loading expression DSL file 'petstore.json'.
+MLoading expression DSL file 'richard_mueller4-MatchinitAPI-1-swagger.json'.
++Loading expression DSL file 'uspto.json'.

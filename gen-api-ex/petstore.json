@@ -12,6 +12,26 @@
   } ],
   "paths" : {
     "/pets" : {
+      "post" : {
+        "tags" : [ "pets" ],
+        "summary" : "Create a pet",
+        "operationId" : "createPets",
+        "responses" : {
+          "201" : {
+            "description" : "Null response"
+          },
+          "default" : {
+            "description" : "unexpected error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
       "get" : {
         "tags" : [ "pets" ],
         "summary" : "List all pets",
@@ -44,26 +64,6 @@
                 }
               }
             }
-          },
-          "default" : {
-            "description" : "unexpected error",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post" : {
-        "tags" : [ "pets" ],
-        "summary" : "Create a pet",
-        "operationId" : "createPets",
-        "responses" : {
-          "201" : {
-            "description" : "Null response"
           },
           "default" : {
             "description" : "unexpected error",

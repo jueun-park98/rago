@@ -11,14 +11,14 @@ import java.net.URL;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:49
- * @astdecl OperationObject : ASTNode ::= Tag* <Summary:String> <Description:String> [ExternalDocObject] <OperationID:String> ParameterObject* [RequestBodyObject] ResponseTuple* CallbackTuple* <DeprecatedBoolean:Boolean> SecurityRequirementObject* ServerObject* <Required:Boolean>;
- * @production OperationObject : {@link ASTNode} ::= <span class="component">{@link Tag}*</span> <span class="component">&lt;Summary:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">[{@link ExternalDocObject}]</span> <span class="component">&lt;OperationID:String&gt;</span> <span class="component">{@link ParameterObject}*</span> <span class="component">[{@link RequestBodyObject}]</span> <span class="component">{@link ResponseTuple}*</span> <span class="component">{@link CallbackTuple}*</span> <span class="component">&lt;DeprecatedBoolean:Boolean&gt;</span> <span class="component">{@link SecurityRequirementObject}*</span> <span class="component">{@link ServerObject}*</span> <span class="component">&lt;Required:Boolean&gt;</span>;
+ * @astdecl OperationObject : ASTNode ::= Tag* <Summary:String> <Description:String> [ExternalDocObject] <OperationID:String> ParameterObject* [RequestBodyObject] ResponseTuple* CallbackTuple* <DeprecatedBoolean:Boolean> SecurityRequirementObject* ServerObject* <Required:Boolean> Extension*;
+ * @production OperationObject : {@link ASTNode} ::= <span class="component">{@link Tag}*</span> <span class="component">&lt;Summary:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">[{@link ExternalDocObject}]</span> <span class="component">&lt;OperationID:String&gt;</span> <span class="component">{@link ParameterObject}*</span> <span class="component">[{@link RequestBodyObject}]</span> <span class="component">{@link ResponseTuple}*</span> <span class="component">{@link CallbackTuple}*</span> <span class="component">&lt;DeprecatedBoolean:Boolean&gt;</span> <span class="component">{@link SecurityRequirementObject}*</span> <span class="component">{@link ServerObject}*</span> <span class="component">&lt;Required:Boolean&gt;</span> <span class="component">{@link Extension}*</span>;
 
  */
 public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:290
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:308
    */
   public static Operation composeOperation (OperationObject operationObject){
         Operation operation = new Operation();
@@ -62,7 +62,7 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
         }
         if( operationObject.getDeprecatedBoolean() != null )
         operation.setDeprecated(operationObject.getDeprecatedBoolean());
-        if( operationObject.getNumSecurityRequirementObject() != 0 ){
+        if( operationObject.getSecurityRequirementObjects() != null ){
         for( SecurityRequirementObject s : operationObject.getSecurityRequirementObjects() )
         operation.addSecurityRequirement( SecurityRequirementObject.composeSecurityRequirement(s) );
         }
@@ -70,12 +70,18 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
         for( ServerObject s : operationObject.getServerObjects() )
         operation.addServer( ServerObject.composeServer(s) );
         }
+        if( operationObject.getNumExtension() != 0 ){
+        Map<String, Object> extensionMap = new HashMap<>();
+        for( Extension e : operationObject.getExtensions() )
+        extensionMap.put(e.getKey(), e.getValue());
+        operation.setExtensions(extensionMap);
+        }
 
         return operation;
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:334
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:346
    */
   public static OperationObject parseOperation(Operation operation){
         OperationObject operationObject = new OperationObject();
@@ -119,6 +125,10 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
         for( Server s : operation.getServers() )
         operationObject.addServerObject(ServerObject.parseServer(s));
         }
+        if( operation.getExtensions() != null ) {
+        for( String key : operation.getExtensions().keySet() )
+        operationObject.addExtension(new Extension(key, operation.getExtensions().get(key)));
+        }
 
         return operationObject;
         }
@@ -136,7 +146,7 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:10
    */
   public void init$Children() {
-    children = new ASTNode[8];
+    children = new ASTNode[9];
     setChild(new JastAddList(), 0);
     setChild(new Opt(), 1);
     setChild(new JastAddList(), 2);
@@ -145,16 +155,17 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
     setChild(new JastAddList(), 5);
     setChild(new JastAddList(), 6);
     setChild(new JastAddList(), 7);
+    setChild(new JastAddList(), 8);
   }
   /**
-   * @declaredat ASTNode:21
+   * @declaredat ASTNode:22
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Tag", "Summary", "Description", "ExternalDocObject", "OperationID", "ParameterObject", "RequestBodyObject", "ResponseTuple", "CallbackTuple", "DeprecatedBoolean", "SecurityRequirementObject", "ServerObject", "Required"},
-    type = {"JastAddList<Tag>", "String", "String", "Opt<ExternalDocObject>", "String", "JastAddList<ParameterObject>", "Opt<RequestBodyObject>", "JastAddList<ResponseTuple>", "JastAddList<CallbackTuple>", "Boolean", "JastAddList<SecurityRequirementObject>", "JastAddList<ServerObject>", "Boolean"},
-    kind = {"List", "Token", "Token", "Opt", "Token", "List", "Opt", "List", "List", "Token", "List", "List", "Token"}
+    name = {"Tag", "Summary", "Description", "ExternalDocObject", "OperationID", "ParameterObject", "RequestBodyObject", "ResponseTuple", "CallbackTuple", "DeprecatedBoolean", "SecurityRequirementObject", "ServerObject", "Required", "Extension"},
+    type = {"JastAddList<Tag>", "String", "String", "Opt<ExternalDocObject>", "String", "JastAddList<ParameterObject>", "Opt<RequestBodyObject>", "JastAddList<ResponseTuple>", "JastAddList<CallbackTuple>", "Boolean", "JastAddList<SecurityRequirementObject>", "JastAddList<ServerObject>", "Boolean", "JastAddList<Extension>"},
+    kind = {"List", "Token", "Token", "Opt", "Token", "List", "Opt", "List", "List", "Token", "List", "List", "Token", "List"}
   )
-  public OperationObject(JastAddList<Tag> p0, String p1, String p2, Opt<ExternalDocObject> p3, String p4, JastAddList<ParameterObject> p5, Opt<RequestBodyObject> p6, JastAddList<ResponseTuple> p7, JastAddList<CallbackTuple> p8, Boolean p9, JastAddList<SecurityRequirementObject> p10, JastAddList<ServerObject> p11, Boolean p12) {
+  public OperationObject(JastAddList<Tag> p0, String p1, String p2, Opt<ExternalDocObject> p3, String p4, JastAddList<ParameterObject> p5, Opt<RequestBodyObject> p6, JastAddList<ResponseTuple> p7, JastAddList<CallbackTuple> p8, Boolean p9, JastAddList<SecurityRequirementObject> p10, JastAddList<ServerObject> p11, Boolean p12, JastAddList<Extension> p13) {
     setChild(p0, 0);
     setSummary(p1);
     setDescription(p2);
@@ -168,41 +179,42 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
     setChild(p10, 6);
     setChild(p11, 7);
     setRequired(p12);
+    setChild(p13, 8);
   }
   /** @apilevel low-level 
-   * @declaredat ASTNode:42
+   * @declaredat ASTNode:44
    */
   protected int numChildren() {
-    return 8;
+    return 9;
   }
   /**
    * @apilevel internal
-   * @declaredat ASTNode:48
+   * @declaredat ASTNode:50
    */
   public boolean mayHaveRewrite() {
     return false;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:52
+   * @declaredat ASTNode:54
    */
   public void flushAttrCache() {
     super.flushAttrCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:56
+   * @declaredat ASTNode:58
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:60
+   * @declaredat ASTNode:62
    */
   public OperationObject clone() throws CloneNotSupportedException {
     OperationObject node = (OperationObject) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:65
+   * @declaredat ASTNode:67
    */
   public OperationObject copy() {
     try {
@@ -222,7 +234,7 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:84
+   * @declaredat ASTNode:86
    */
   @Deprecated
   public OperationObject fullCopy() {
@@ -233,7 +245,7 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:94
+   * @declaredat ASTNode:96
    */
   public OperationObject treeCopyNoTransform() {
     OperationObject tree = (OperationObject) copy();
@@ -254,7 +266,7 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:114
+   * @declaredat ASTNode:116
    */
   public OperationObject treeCopy() {
     OperationObject tree = (OperationObject) copy();
@@ -270,7 +282,7 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:128
+   * @declaredat ASTNode:130
    */
   protected boolean is$Equal(ASTNode node) {
     return super.is$Equal(node) && (tokenString_Summary == ((OperationObject) node).tokenString_Summary) && (tokenString_Description == ((OperationObject) node).tokenString_Description) && (tokenString_OperationID == ((OperationObject) node).tokenString_OperationID) && (tokenBoolean_DeprecatedBoolean == ((OperationObject) node).tokenBoolean_DeprecatedBoolean) && (tokenBoolean_Required == ((OperationObject) node).tokenBoolean_Required);    
@@ -1136,6 +1148,116 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
   @ASTNodeAnnotation.Token(name="Required")
   public Boolean getRequired() {
     return tokenBoolean_Required;
+  }
+  /**
+   * Replaces the Extension list.
+   * @param list The new list node to be used as the Extension list.
+   * @apilevel high-level
+   */
+  public void setExtensionList(JastAddList<Extension> list) {
+    setChild(list, 8);
+  }
+  /**
+   * Retrieves the number of children in the Extension list.
+   * @return Number of children in the Extension list.
+   * @apilevel high-level
+   */
+  public int getNumExtension() {
+    return getExtensionList().getNumChild();
+  }
+  /**
+   * Retrieves the number of children in the Extension list.
+   * Calling this method will not trigger rewrites.
+   * @return Number of children in the Extension list.
+   * @apilevel low-level
+   */
+  public int getNumExtensionNoTransform() {
+    return getExtensionListNoTransform().getNumChildNoTransform();
+  }
+  /**
+   * Retrieves the element at index {@code i} in the Extension list.
+   * @param i Index of the element to return.
+   * @return The element at position {@code i} in the Extension list.
+   * @apilevel high-level
+   */
+  public Extension getExtension(int i) {
+    return (Extension) getExtensionList().getChild(i);
+  }
+  /**
+   * Check whether the Extension list has any children.
+   * @return {@code true} if it has at least one child, {@code false} otherwise.
+   * @apilevel high-level
+   */
+  public boolean hasExtension() {
+    return getExtensionList().getNumChild() != 0;
+  }
+  /**
+   * Append an element to the Extension list.
+   * @param node The element to append to the Extension list.
+   * @apilevel high-level
+   */
+  public void addExtension(Extension node) {
+    JastAddList<Extension> list = (parent == null) ? getExtensionListNoTransform() : getExtensionList();
+    list.addChild(node);
+  }
+  /** @apilevel low-level 
+   */
+  public void addExtensionNoTransform(Extension node) {
+    JastAddList<Extension> list = getExtensionListNoTransform();
+    list.addChild(node);
+  }
+  /**
+   * Replaces the Extension list element at index {@code i} with the new node {@code node}.
+   * @param node The new node to replace the old list element.
+   * @param i The list index of the node to be replaced.
+   * @apilevel high-level
+   */
+  public void setExtension(Extension node, int i) {
+    JastAddList<Extension> list = getExtensionList();
+    list.setChild(node, i);
+  }
+  /**
+   * Retrieves the Extension list.
+   * @return The node representing the Extension list.
+   * @apilevel high-level
+   */
+  @ASTNodeAnnotation.ListChild(name="Extension")
+  public JastAddList<Extension> getExtensionList() {
+    JastAddList<Extension> list = (JastAddList<Extension>) getChild(8);
+    return list;
+  }
+  /**
+   * Retrieves the Extension list.
+   * <p><em>This method does not invoke AST transformations.</em></p>
+   * @return The node representing the Extension list.
+   * @apilevel low-level
+   */
+  public JastAddList<Extension> getExtensionListNoTransform() {
+    return (JastAddList<Extension>) getChildNoTransform(8);
+  }
+  /**
+   * @return the element at index {@code i} in the Extension list without
+   * triggering rewrites.
+   */
+  public Extension getExtensionNoTransform(int i) {
+    return (Extension) getExtensionListNoTransform().getChildNoTransform(i);
+  }
+  /**
+   * Retrieves the Extension list.
+   * @return The node representing the Extension list.
+   * @apilevel high-level
+   */
+  public JastAddList<Extension> getExtensions() {
+    return getExtensionList();
+  }
+  /**
+   * Retrieves the Extension list.
+   * <p><em>This method does not invoke AST transformations.</em></p>
+   * @return The node representing the Extension list.
+   * @apilevel low-level
+   */
+  public JastAddList<Extension> getExtensionsNoTransform() {
+    return getExtensionListNoTransform();
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

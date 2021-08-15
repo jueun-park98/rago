@@ -64,7 +64,7 @@ public class OpenAPIMain_test {
             System.out.println("Loading expression DSL file '" + file + "'.");
 
             results = OpenApi3Validator.instance().validate(api);
-            System.out.println(results.isValid());
+            //System.out.println(results.isValid());
 
             // openAPI object is integrated in JastAdd grammar
             openApi = OpenAPIObject.parseOpenAPI(api);
@@ -74,7 +74,7 @@ public class OpenAPIMain_test {
 
             // check, if the composed openAPI object is valid
 
-            System.out.println(api.toNode().equals(api3.toNode()));
+            //System.out.println(api.toNode().equals(api3.toNode()));
 
             // compare if api (source object) is equivalent to api3 (generated object)
             compareJson(api3.toNode(), api.toNode(), Paths.get(file));

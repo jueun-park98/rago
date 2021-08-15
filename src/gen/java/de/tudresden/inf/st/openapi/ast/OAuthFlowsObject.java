@@ -18,7 +18,7 @@ import java.net.URL;
 public class OAuthFlowsObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:754
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:791
    */
   public static OAuthFlows composeOAuthFlows (OAuthFlowsObject oAuthFlowsObject){
         OAuthFlows oAuthFlows = new OAuthFlows();
@@ -36,7 +36,7 @@ public class OAuthFlowsObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:781
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:807
    */
   public static OAuthFlowsObject parseOAuthFlows(OAuthFlows oAuthFlows){
         OAuthFlowsObject oAuthFlowsObject = new OAuthFlowsObject();

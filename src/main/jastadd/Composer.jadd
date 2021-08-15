@@ -47,6 +47,12 @@ aspect Composer {
         api3.setExternalDocs(ExternalDocObject.composeExternalDocs(openapi.getExternalDocObject()));
         if( openapi.getContext() != null )
         api3.setContext(openapi.getContext());
+        if( openapi.getNumExtension() != 0 ){
+        Map<String, Object> extensionMap = new HashMap<>();
+        for( Extension e : openapi.getExtensions() )
+        extensionMap.put(e.getKey(), e.getValue());
+        api3.setExtensions(extensionMap);
+        }
 
         return api3;
         }
@@ -85,6 +91,12 @@ public static Contact ContactObject.composeContact (ContactObject contactObject)
         contact.setUrl( contactObject.getUrl() );
         if( !contactObject.getEmail().isEmpty() )
         contact.setEmail( contactObject.getEmail() );
+        if( contactObject.getNumExtension() != 0 ){
+        Map<String, Object> extensions = new HashMap<>();
+        for( Extension e : contactObject.getExtensions() )
+        extensions.put(e.getKey(), e.getValue());
+        contact.setExtensions(extensions);
+        }
 
         return contact;
         }
@@ -247,6 +259,12 @@ public static Components ComponentsObject.composeComponents (ComponentsObject co
         }
         components.setCallbacks(callbackMap);
         }
+        if( componentsObject.getNumExtension() != 0 ){
+        Map<String, Object> extensions = new HashMap<>();
+        for( Extension e : componentsObject.getExtensions() )
+        extensions.put(e.getKey(), e.getValue());
+        components.setExtensions(extensions);
+        }
 
         return components;
         }
@@ -329,13 +347,19 @@ public static Operation OperationObject.composeOperation (OperationObject operat
         }
         if( operationObject.getDeprecatedBoolean() != null )
         operation.setDeprecated(operationObject.getDeprecatedBoolean());
-        if( operationObject.getNumSecurityRequirementObject() != 0 ){
+        if( operationObject.getSecurityRequirementObjects() != null ){
         for( SecurityRequirementObject s : operationObject.getSecurityRequirementObjects() )
         operation.addSecurityRequirement( SecurityRequirementObject.composeSecurityRequirement(s) );
         }
         if( operationObject.getNumServerObject() != 0 ){
         for( ServerObject s : operationObject.getServerObjects() )
         operation.addServer( ServerObject.composeServer(s) );
+        }
+        if( operationObject.getNumExtension() != 0 ){
+        Map<String, Object> extensionMap = new HashMap<>();
+        for( Extension e : operationObject.getExtensions() )
+        extensionMap.put(e.getKey(), e.getValue());
+        operation.setExtensions(extensionMap);
         }
 
         return operation;
@@ -557,8 +581,10 @@ public static Link LinkObject.composeLink (LinkObject linkObject){
 public static Header HeaderObject.composeHeader (HeaderObject headerObject){
         Header header = new Header();
 
-        header.setRequired( headerObject.getRequired() );
-
+        if( !headerObject.getRef().isEmpty() )
+        header.setRef(headerObject.getRef());
+        if( headerObject.getRequired() != null )
+        header.setRequired(headerObject.getRequired());
         if( !headerObject.getDescription().isEmpty() )
         header.setDescription( headerObject.getDescription() );
         if( !headerObject.getStyle().isEmpty() )
@@ -691,6 +717,12 @@ public static org.openapi4j.parser.model.v3.Schema SchemaObject.composeSchema (S
         schema.setUniqueItems(schemaObject.getUniqueItems());
         if( schemaObject.hasXmlObject() )
         schema.setXml(XmlObject.composeXml(schemaObject.getXmlObject()));
+        if( schemaObject.getNumExtension() != 0 ){
+        Map<String, Object> extensionMap = new HashMap<>();
+        for( Extension e : schemaObject.getExtensions() )
+        extensionMap.put(e.getKey(), e.getValue());
+        schema.setExtensions(extensionMap);
+        }
 
         return schema;
         }
@@ -744,9 +776,14 @@ public static SecurityScheme SecuritySchemeObject.composeSecurityScheme (Securit
         securityScheme.setFlows(OAuthFlowsObject.composeOAuthFlows(securitySchemeObject.getOAuthFlowsObject()));
         if( !securitySchemeObject.getDescription().isEmpty() )
         securityScheme.setDescription( securitySchemeObject.getDescription() );
-        if( securitySchemeObject.getBearerFormat() != null )
+        if( !securitySchemeObject.getBearerFormat().isEmpty() )
         securityScheme.setBearerFormat( securitySchemeObject.getBearerFormat() );
-
+        if( securitySchemeObject.getNumExtension() != 0 ){
+        Map<String, Object> extensionMap = new HashMap<>();
+        for( Extension e : securitySchemeObject.getExtensions() )
+        extensionMap.put(e.getKey(), e.getValue());
+        securityScheme.setExtensions(extensionMap);
+        }
 
         return securityScheme;
         }

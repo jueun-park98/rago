@@ -29,6 +29,10 @@ public static OpenAPIObject OpenAPIObject.parseOpenAPI(OpenApi3 api) throws IOEx
         openapi.setExternalDocObject(ExternalDocObject.parseExternalDocs(api.getExternalDocs()));
         if( api.getContext() != null )
         openapi.setContext(api.getContext());
+        if( api.getExtensions() != null ){
+        for( String key : api.getExtensions().keySet() )
+        openapi.addExtension(new Extension(key, api.getExtensions().get(key)));
+        }
 
         return openapi;
         }
@@ -65,6 +69,10 @@ public static ContactObject ContactObject.parseContact(Contact contact){
         contactObject.setUrl( contact.getUrl() );
         if( contact.getEmail() != null )
         contactObject.setEmail( contact.getEmail() );
+        if( contact.getExtensions() != null ){
+        for( String key : contact.getExtensions().keySet() )
+        contactObject.addExtension(new Extension(key, contact.getExtensions().get(key)));
+        }
 
         return contactObject;
         }
@@ -258,6 +266,10 @@ public static ComponentsObject ComponentsObject.parseComponents(Components compo
         }
         }
         }
+        if( components.getExtensions() != null ){
+        for( String key : components.getExtensions().keySet() )
+        componentsObject.addExtension(new Extension(key, components.getExtensions().get(key)));
+        }
 
         return componentsObject;
         }
@@ -373,6 +385,10 @@ public static OperationObject OperationObject.parseOperation(Operation operation
         for( Server s : operation.getServers() )
         operationObject.addServerObject(ServerObject.parseServer(s));
         }
+        if( operation.getExtensions() != null ) {
+        for( String key : operation.getExtensions().keySet() )
+        operationObject.addExtension(new Extension(key, operation.getExtensions().get(key)));
+        }
 
         return operationObject;
         }
@@ -384,7 +400,7 @@ public static ExternalDocObject ExternalDocObject.parseExternalDocs(ExternalDocs
         if( externalDocs.getDescription() != null )
         externalDocObject.setDescription(externalDocs.getDescription());
         if( externalDocs.getUrl() != null )
-        externalDocObject.setUrl(externalDocObject.getUrl());
+        externalDocObject.setUrl(externalDocs.getUrl());
         if( externalDocs.getExtensions() != null ) {
         for( String key : externalDocs.getExtensions().keySet() )
         externalDocObject.addExtension(new Extension(key, externalDocs.getExtensions().get(key)));
@@ -564,6 +580,8 @@ public static LinkObject LinkObject.parseLink(Link link){
 public static HeaderObject HeaderObject.parseHeader(Header header){
         HeaderObject headerObject = new HeaderObject();
 
+        if( header.isRef() )
+        headerObject.setRef(header.getRef());
         if( header.getRequired() != null )
         headerObject.setRequired( header.getRequired() );
         if( header.getDescription() != null )
@@ -717,6 +735,10 @@ public static SchemaObject SchemaObject.parseSchema (org.openapi4j.parser.model.
         schemaObject.setUniqueItems(schema.getUniqueItems());
         if( schema.getXml() != null )
         schemaObject.setXmlObject(XmlObject.parseXml(schema.getXml()));
+        if( schema.getExtensions() != null ){
+        for( String key : schema.getExtensions().keySet() )
+        schemaObject.addExtension(new Extension(key, schema.getExtensions().get(key)));
+        }
 
         return schemaObject;
         }
@@ -774,6 +796,10 @@ public static SecuritySchemeObject SecuritySchemeObject.parseSecurityScheme(Secu
         securitySchemeObject.setDescription( securityScheme.getDescription() );
         if( securityScheme.getBearerFormat() != null )
         securitySchemeObject.setBearerFormat( securityScheme.getBearerFormat() );
+        if( securityScheme.getExtensions() != null ){
+        for( String key : securityScheme.getExtensions().keySet() )
+        securitySchemeObject.addExtension(new Extension(key, securityScheme.getExtensions().get(key)));
+        }
 
         return securitySchemeObject;
         }

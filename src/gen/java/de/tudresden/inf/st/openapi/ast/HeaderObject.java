@@ -18,13 +18,15 @@ import java.net.URL;
 public class HeaderObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:557
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:581
    */
   public static Header composeHeader (HeaderObject headerObject){
         Header header = new Header();
 
-        header.setRequired( headerObject.getRequired() );
-
+        if( !headerObject.getRef().isEmpty() )
+        header.setRef(headerObject.getRef());
+        if( headerObject.getRequired() != null )
+        header.setRequired(headerObject.getRequired());
         if( !headerObject.getDescription().isEmpty() )
         header.setDescription( headerObject.getDescription() );
         if( !headerObject.getStyle().isEmpty() )
@@ -54,11 +56,13 @@ public class HeaderObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:564
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:580
    */
   public static HeaderObject parseHeader(Header header){
         HeaderObject headerObject = new HeaderObject();
 
+        if( header.isRef() )
+        headerObject.setRef(header.getRef());
         if( header.getRequired() != null )
         headerObject.setRequired( header.getRequired() );
         if( header.getDescription() != null )

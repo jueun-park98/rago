@@ -846,7 +846,6 @@ paths:
           description: OK
         default:
           $ref: "#/components/responses/Error"
-      security: []
       summary: Get the service time
       tags:
         - Stats

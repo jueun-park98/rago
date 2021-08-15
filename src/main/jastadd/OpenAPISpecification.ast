@@ -1,11 +1,11 @@
 //OpenAPI Object
-OpenAPIObject ::= <OpenAPI> [InfoObject] ServerObject* PathsObject* [ComponentsObject] SecurityRequirementObject* TagObject* [ExternalDocObject] <Context:OAIContext>;
+OpenAPIObject ::= <OpenAPI> [InfoObject] ServerObject* PathsObject* [ComponentsObject] SecurityRequirementObject* TagObject* [ExternalDocObject] <Context:OAIContext> Extension*;
 
 //Info Object
 InfoObject ::= <Title> <Description> <TermsOfService> [ContactObject] [LicenseObject] <Version> Extension*;
 
 //Contact Object
-ContactObject ::= <Name> <Url> <Email>;
+ContactObject ::= <Name> <Url> <Email> Extension*;
 
 //License Object
 LicenseObject ::= <Name> <Url>;
@@ -19,7 +19,7 @@ ServerVariableObject ::= Enum* <Default> <Description>;
 Enum ::= <EnumValue>;
 
 //Components Object
-ComponentsObject ::= SchemaTuple* ResponseTuple* ParameterTuple* ExampleTuple* RequestBodyTuple* HeaderTuple* SecuritySchemeTuple* LinkTuple* CallbackTuple*;
+ComponentsObject ::= SchemaTuple* ResponseTuple* ParameterTuple* ExampleTuple* RequestBodyTuple* HeaderTuple* SecuritySchemeTuple* LinkTuple* CallbackTuple* Extension*;
 SchemaTuple ::= <Key> SchemaObject;
 ResponseTuple ::= <Key> ResponseObject;
 ParameterTuple ::= <Key> ParameterObject;
@@ -46,7 +46,7 @@ Patch ::= OperationObject;
 Trace ::= OperationObject;
 
 //Operation Object
-OperationObject ::= Tag* <Summary> <Description> [ExternalDocObject] <OperationID> ParameterObject* [RequestBodyObject] ResponseTuple* CallbackTuple* <DeprecatedBoolean:Boolean> SecurityRequirementObject* ServerObject* <Required:Boolean>;
+OperationObject ::= Tag* <Summary> <Description> [ExternalDocObject] <OperationID> ParameterObject* [RequestBodyObject] ResponseTuple* CallbackTuple* <DeprecatedBoolean:Boolean> SecurityRequirementObject* ServerObject* <Required:Boolean> Extension*;
 Tag ::= <Tag:String>;
 
 //External Documentation Object
@@ -88,7 +88,7 @@ HeaderObject ::= <Description> <Required:Boolean> <DeprecatedBoolean:Boolean> <A
 TagObject ::= <Name> <Description> [ExternalDocObject];
 
 //Schema Object
-SchemaObject ::= <AdditionalProperties:SchemaObject> <AdditionalPropertiesAllowed:Boolean> <DefaultValue:Object> <Description> <DeprecatedBoolean:Boolean> [DiscriminatorObject] EnumObj* <Example:Object> <ExclusiveMaximum:Boolean> <ExclusiveMinimum:Boolean> [ExternalDocObject] <Format> [ItemsSchema] <Maximum:Number> <Minimum:Number> <MaxItems:Integer> <MinItems:Integer> <MaxLength:Integer> <MinLength:Integer> <MaxProperties:Integer> <MinProperties:Integer> <MultipleOf:Number> [NotSchema] <Nullable:Boolean> <Pattern> PropertyItem* RequiredField* AllOfSchema* AnyOfSchema* OneOfSchema* <ReadOnly:Boolean> <WriteOnly:Boolean> <Type> <Title> <UniqueItems:Boolean> [XmlObject] <Ref>;
+SchemaObject ::= <AdditionalProperties:SchemaObject> <AdditionalPropertiesAllowed:Boolean> <DefaultValue:Object> <Description> <DeprecatedBoolean:Boolean> [DiscriminatorObject] EnumObj* <Example:Object> <ExclusiveMaximum:Boolean> <ExclusiveMinimum:Boolean> [ExternalDocObject] <Format> [ItemsSchema] <Maximum:Number> <Minimum:Number> <MaxItems:Integer> <MinItems:Integer> <MaxLength:Integer> <MinLength:Integer> <MaxProperties:Integer> <MinProperties:Integer> <MultipleOf:Number> [NotSchema] <Nullable:Boolean> <Pattern> PropertyItem* RequiredField* AllOfSchema* AnyOfSchema* OneOfSchema* <ReadOnly:Boolean> <WriteOnly:Boolean> <Type> <Title> <UniqueItems:Boolean> [XmlObject] <Ref> Extension*;
 AdditionalProperties ::= SchemaObject;
 EnumObj ::= <EnumOb:Object>;
 ItemsSchema ::= SchemaObject;
@@ -107,7 +107,7 @@ MappingTuple ::= <Key> <Value>;
 XmlObject ::= <Name> <Namespace> <Prefix> <Attribute:Boolean> <Wrapped:Boolean>;
 
 //Security Scheme Object
-SecuritySchemeObject ::= <Type> <Description> <Name> <In> <Scheme> <BearerFormat> OAuthFlowsObject <OpenIdConnectUrl> <Ref>;
+SecuritySchemeObject ::= <Type> <Description> <Name> <In> <Scheme> <BearerFormat> OAuthFlowsObject <OpenIdConnectUrl> <Ref> Extension*;
 
 //OAuth Flows Object
 OAuthFlowsObject ::= [Implicit] [Password] [ClientCredentials] [AuthorizationCode];
