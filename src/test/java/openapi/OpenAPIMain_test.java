@@ -17,6 +17,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -39,7 +40,8 @@ public class OpenAPIMain_test {
         File resource = new File("./src/main/resources");
 
         for( File file : resource.listFiles() )
-            filenames.add(file.getName());
+                filenames.add(file.getName());
+        System.out.println(filenames.size());
 
         for( String file : filenames ){
             String writerName = "./gen-api-ex/" + file;
@@ -58,8 +60,11 @@ public class OpenAPIMain_test {
             }*/
 
             // parsed openAPI object with openapi4j
-            OpenApi3 api = new OpenApi3Parser().parse(expUrl, new ArrayList<>(), true);
+            OpenApi3 api = new OpenApi3Parser().parse(expUrl, new ArrayList<>(), false);
             System.out.println("Loading expression DSL file '" + file + "'.");
+
+            results = OpenApi3Validator.instance().validate(api);
+            System.out.println(results.isValid());
 
             // openAPI object is integrated in JastAdd grammar
             openApi = OpenAPIObject.parseOpenAPI(api);
@@ -75,7 +80,7 @@ public class OpenAPIMain_test {
             compareJson(api3.toNode(), api.toNode(), Paths.get(file));
 
             // save the generated object
-            writer.write(api3.toNode().toPrettyString());
+            writer.write(api.toNode().toPrettyString());
             writer.close();
         }
     }

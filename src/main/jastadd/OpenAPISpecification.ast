@@ -2,7 +2,7 @@
 OpenAPIObject ::= <OpenAPI> [InfoObject] ServerObject* PathsObject* [ComponentsObject] SecurityRequirementObject* TagObject* [ExternalDocObject] <Context:OAIContext>;
 
 //Info Object
-InfoObject ::= <Title> <Description> <TermsOfService> [ContactObject] [LicenseObject] <Version>;
+InfoObject ::= <Title> <Description> <TermsOfService> [ContactObject] [LicenseObject] <Version> Extension*;
 
 //Contact Object
 ContactObject ::= <Name> <Url> <Email>;
@@ -75,7 +75,7 @@ Expression ::= <Name> PathItem;
 Extension ::= <Key> <Value:Object>;
 
 //Example Object
-ExampleObject ::= <Summary> <Description> <Value:Object> <ExternalValue>;
+ExampleObject ::= <Summary> <Description> <Value:Object> <ExternalValue> Extension*;
 
 //Link Object
 LinkObject ::= <OperationRef> <OperationID> LinkParameterTuple* HeaderTuple* <Description> [ServerObject] <Ref>;

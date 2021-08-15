@@ -49,11 +49,11 @@
                     "application/json" : {
                       "schema" : {
                         "properties" : {
-                          "userData" : {
-                            "type" : "string"
-                          },
                           "timestamp" : {
                             "format" : "date-time",
+                            "type" : "string"
+                          },
+                          "userData" : {
                             "type" : "string"
                           }
                         },

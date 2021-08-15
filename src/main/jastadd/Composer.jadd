@@ -66,6 +66,12 @@ public static Info InfoObject.composeInfo (InfoObject infoObject){
         info.setContact(ContactObject.composeContact(infoObject.getContactObject()));
         if( infoObject.hasLicenseObject() )
         info.setLicense(LicenseObject.composeLicense(infoObject.getLicenseObject()));
+        if( infoObject.getNumExtension() != 0 ){
+        Map<String, Object> extension = new HashMap<>();
+        for( Extension e : infoObject.getExtensions() )
+        extension.put(e.getKey(), e.getValue());
+        info.setExtensions(extension);
+        }
 
         return info;
         }
@@ -515,6 +521,12 @@ public static Example ExampleObject.composeExample (ExampleObject exampleObject)
         example.setValue( exampleObject.getValue() );
         if( !exampleObject.getExternalValue().isEmpty() )
         example.setExternalValue( exampleObject.getExternalValue() );
+        if( exampleObject.getNumExtension() != 0 ){
+        Map<String, Object> extension = new HashMap<>();
+        for( Extension e : exampleObject.getExtensions() )
+        extension.put(e.getKey(), e.getValue());
+        example.setExtensions(extension);
+        }
 
         return example;
         }
@@ -718,17 +730,23 @@ public static Xml XmlObject.composeXml (XmlObject xmlObject) {
 public static SecurityScheme SecuritySchemeObject.composeSecurityScheme (SecuritySchemeObject securitySchemeObject){
         SecurityScheme securityScheme = new SecurityScheme();
 
-        securityScheme.setType( securitySchemeObject.getType() );
-        securityScheme.setName( securitySchemeObject.getName() );
-        securityScheme.setIn( securitySchemeObject.getIn() );
-        securityScheme.setScheme( securitySchemeObject.getScheme() );
-        securityScheme.setOpenIdConnectUrl( securitySchemeObject.getOpenIdConnectUrl() );
-        securityScheme.setFlows( OAuthFlowsObject.composeOAuthFlows( securitySchemeObject.getOAuthFlowsObject() ) );
-
+        if( !securitySchemeObject.getType().isEmpty() )
+        securityScheme.setType(securitySchemeObject.getType());
+        if( !securitySchemeObject.getName().isEmpty() )
+        securityScheme.setName(securitySchemeObject.getName());
+        if( !securitySchemeObject.getIn().isEmpty() )
+        securityScheme.setIn(securitySchemeObject.getIn());
+        if( !securitySchemeObject.getScheme().isEmpty() )
+        securityScheme.setScheme(securitySchemeObject.getScheme());
+        if( !securitySchemeObject.getOpenIdConnectUrl().isEmpty() )
+        securityScheme.setOpenIdConnectUrl(securitySchemeObject.getOpenIdConnectUrl());
+        if( securitySchemeObject.getOAuthFlowsObject() != null )
+        securityScheme.setFlows(OAuthFlowsObject.composeOAuthFlows(securitySchemeObject.getOAuthFlowsObject()));
         if( !securitySchemeObject.getDescription().isEmpty() )
         securityScheme.setDescription( securitySchemeObject.getDescription() );
         if( securitySchemeObject.getBearerFormat() != null )
         securityScheme.setBearerFormat( securitySchemeObject.getBearerFormat() );
+
 
         return securityScheme;
         }

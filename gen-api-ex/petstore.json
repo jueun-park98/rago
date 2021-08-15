@@ -12,26 +12,6 @@
   } ],
   "paths" : {
     "/pets" : {
-      "post" : {
-        "tags" : [ "pets" ],
-        "summary" : "Create a pet",
-        "operationId" : "createPets",
-        "responses" : {
-          "default" : {
-            "description" : "unexpected error",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "201" : {
-            "description" : "Null response"
-          }
-        }
-      },
       "get" : {
         "tags" : [ "pets" ],
         "summary" : "List all pets",
@@ -64,6 +44,26 @@
                 }
               }
             }
+          },
+          "default" : {
+            "description" : "unexpected error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "pets" ],
+        "summary" : "Create a pet",
+        "operationId" : "createPets",
+        "responses" : {
+          "201" : {
+            "description" : "Null response"
           },
           "default" : {
             "description" : "unexpected error",
@@ -119,6 +119,22 @@
   },
   "components" : {
     "schemas" : {
+      "Pet" : {
+        "properties" : {
+          "id" : {
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "tag" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object",
+        "required" : [ "id", "name" ]
+      },
       "Pets" : {
         "type" : "array",
         "items" : {
@@ -137,22 +153,6 @@
         },
         "type" : "object",
         "required" : [ "code", "message" ]
-      },
-      "Pet" : {
-        "properties" : {
-          "name" : {
-            "type" : "string"
-          },
-          "id" : {
-            "format" : "int64",
-            "type" : "integer"
-          },
-          "tag" : {
-            "type" : "string"
-          }
-        },
-        "type" : "object",
-        "required" : [ "id", "name" ]
       }
     }
   }

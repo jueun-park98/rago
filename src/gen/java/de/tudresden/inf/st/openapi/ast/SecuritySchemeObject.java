@@ -18,39 +18,50 @@ import java.net.URL;
 public class SecuritySchemeObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:718
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:730
    */
   public static SecurityScheme composeSecurityScheme (SecuritySchemeObject securitySchemeObject){
         SecurityScheme securityScheme = new SecurityScheme();
 
-        securityScheme.setType( securitySchemeObject.getType() );
-        securityScheme.setName( securitySchemeObject.getName() );
-        securityScheme.setIn( securitySchemeObject.getIn() );
-        securityScheme.setScheme( securitySchemeObject.getScheme() );
-        securityScheme.setOpenIdConnectUrl( securitySchemeObject.getOpenIdConnectUrl() );
-        securityScheme.setFlows( OAuthFlowsObject.composeOAuthFlows( securitySchemeObject.getOAuthFlowsObject() ) );
-
+        if( !securitySchemeObject.getType().isEmpty() )
+        securityScheme.setType(securitySchemeObject.getType());
+        if( !securitySchemeObject.getName().isEmpty() )
+        securityScheme.setName(securitySchemeObject.getName());
+        if( !securitySchemeObject.getIn().isEmpty() )
+        securityScheme.setIn(securitySchemeObject.getIn());
+        if( !securitySchemeObject.getScheme().isEmpty() )
+        securityScheme.setScheme(securitySchemeObject.getScheme());
+        if( !securitySchemeObject.getOpenIdConnectUrl().isEmpty() )
+        securityScheme.setOpenIdConnectUrl(securitySchemeObject.getOpenIdConnectUrl());
+        if( securitySchemeObject.getOAuthFlowsObject() != null )
+        securityScheme.setFlows(OAuthFlowsObject.composeOAuthFlows(securitySchemeObject.getOAuthFlowsObject()));
         if( !securitySchemeObject.getDescription().isEmpty() )
         securityScheme.setDescription( securitySchemeObject.getDescription() );
         if( securitySchemeObject.getBearerFormat() != null )
         securityScheme.setBearerFormat( securitySchemeObject.getBearerFormat() );
 
+
         return securityScheme;
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:750
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:758
    */
   public static SecuritySchemeObject parseSecurityScheme(SecurityScheme securityScheme){
         SecuritySchemeObject securitySchemeObject = new SecuritySchemeObject();
 
-        securitySchemeObject.setType( securityScheme.getType() );
-        securitySchemeObject.setName( securityScheme.getName() );
-        securitySchemeObject.setIn( securityScheme.getIn() );
-        securitySchemeObject.setScheme( securityScheme.getScheme() );
-        securitySchemeObject.setOpenIdConnectUrl( securityScheme.getOpenIdConnectUrl() );
+        if( securityScheme.getType() != null )
+        securitySchemeObject.setType(securityScheme.getType());
+        if( securityScheme.getName() != null )
+        securitySchemeObject.setName(securityScheme.getName());
+        if( securityScheme.getIn() != null )
+        securitySchemeObject.setIn(securityScheme.getIn());
+        if( securityScheme.getScheme() != null )
+        securitySchemeObject.setScheme(securityScheme.getScheme());
+        if( securityScheme.getOpenIdConnectUrl() != null )
+        securitySchemeObject.setOpenIdConnectUrl(securityScheme.getOpenIdConnectUrl());
+        if( securityScheme.getFlows() != null )
         securitySchemeObject.setOAuthFlowsObject( OAuthFlowsObject.parseOAuthFlows(securityScheme.getFlows()) );
-
         if( securityScheme.getDescription() != null )
         securitySchemeObject.setDescription( securityScheme.getDescription() );
         if( securityScheme.getBearerFormat() != null )

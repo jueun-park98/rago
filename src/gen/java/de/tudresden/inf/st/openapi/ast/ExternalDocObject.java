@@ -18,7 +18,7 @@ import java.net.URL;
 public class ExternalDocObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:338
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:344
    */
   public static ExternalDocs composeExternalDocs (ExternalDocObject externalDocObject){
         ExternalDocs externalDocs = new ExternalDocs();
@@ -38,7 +38,7 @@ public class ExternalDocObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:376
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:380
    */
   public static ExternalDocObject parseExternalDocs(ExternalDocs externalDocs){
         ExternalDocObject externalDocObject = new ExternalDocObject();

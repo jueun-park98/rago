@@ -48,6 +48,10 @@ public static InfoObject InfoObject.parseInfo(Info info) {
         infoObject.setContactObject(ContactObject.parseContact(info.getContact()));
         if( info.getLicense() != null )
         infoObject.setLicenseObject(LicenseObject.parseLicense(info.getLicense()));
+        if( info.getExtensions() != null ){
+        for( String key : info.getExtensions().keySet() )
+        infoObject.addExtension(new Extension(key, info.getExtensions().get(key)));
+        }
 
         return infoObject;
         }
@@ -528,6 +532,10 @@ public static ExampleObject ExampleObject.parseExample(Example example){
         exampleObject.setValue( example.getValue() );
         if( example.getExternalValue() != null )
         exampleObject.setExternalValue( example.getExternalValue() );
+        if( example.getExtensions() != null ){
+        for( String key : example.getExtensions().keySet() )
+        exampleObject.addExtension(new Extension(key, example.getExtensions().get(key)));
+        }
 
         return exampleObject;
         }
@@ -750,13 +758,18 @@ public static XmlObject XmlObject.parseXml (Xml xml) {
 public static SecuritySchemeObject SecuritySchemeObject.parseSecurityScheme(SecurityScheme securityScheme){
         SecuritySchemeObject securitySchemeObject = new SecuritySchemeObject();
 
-        securitySchemeObject.setType( securityScheme.getType() );
-        securitySchemeObject.setName( securityScheme.getName() );
-        securitySchemeObject.setIn( securityScheme.getIn() );
-        securitySchemeObject.setScheme( securityScheme.getScheme() );
-        securitySchemeObject.setOpenIdConnectUrl( securityScheme.getOpenIdConnectUrl() );
+        if( securityScheme.getType() != null )
+        securitySchemeObject.setType(securityScheme.getType());
+        if( securityScheme.getName() != null )
+        securitySchemeObject.setName(securityScheme.getName());
+        if( securityScheme.getIn() != null )
+        securitySchemeObject.setIn(securityScheme.getIn());
+        if( securityScheme.getScheme() != null )
+        securitySchemeObject.setScheme(securityScheme.getScheme());
+        if( securityScheme.getOpenIdConnectUrl() != null )
+        securitySchemeObject.setOpenIdConnectUrl(securityScheme.getOpenIdConnectUrl());
+        if( securityScheme.getFlows() != null )
         securitySchemeObject.setOAuthFlowsObject( OAuthFlowsObject.parseOAuthFlows(securityScheme.getFlows()) );
-
         if( securityScheme.getDescription() != null )
         securitySchemeObject.setDescription( securityScheme.getDescription() );
         if( securityScheme.getBearerFormat() != null )
@@ -808,11 +821,10 @@ public static SecurityRequirementObject SecurityRequirementObject.parseSecurityR
 
         if( securityRequirement.getRequirements() != null ){
         for( String key : securityRequirement.getRequirements().keySet() ){
-        JastAddList<SecurityRequirementTuple> tuples = new JastAddList<>();
-        for( String v : securityRequirement.getRequirement(key) ) {
         JastAddList<SecurityRequirementValue> values = new JastAddList<>();
-        }
-
+        for( String v : securityRequirement.getRequirement(key) )
+        values.add(new SecurityRequirementValue(v));
+        securityRequirementObject.addSecurityRequirementTuple(new SecurityRequirementTuple(key, values));
         }
         }
 

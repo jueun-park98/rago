@@ -1,14 +1,13 @@
-7Loading expression DSL file 'api-with-examples.json'.
+11
+3Loading expression DSL file '1password.com.yaml'.
 true
-6Loading expression DSL file 'callback-example.json'.
 true
-2Loading expression DSL file 'link-example.json'.
+5Loading expression DSL file '1password.local.yaml'.
 true
-7Loading expression DSL file 'petstore-expanded.json'.
 true
-.Loading expression DSL file 'petstore.json'.
+CLoading expression DSL file '6-dot-authentiqio.appspot.com.yaml'.
 true
-MLoading expression DSL file 'richard_mueller4-MatchinitAPI-1-swagger.json'.
 true
-+Loading expression DSL file 'uspto.json'.
+-Loading expression DSL file 'ably.io.yaml'.
 true
+false

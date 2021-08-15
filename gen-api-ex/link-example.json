@@ -5,6 +5,36 @@
     "version" : "1.0.0"
   },
   "paths" : {
+    "/2.0/users/{username}" : {
+      "get" : {
+        "operationId" : "getUserByName",
+        "parameters" : [ {
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "username"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "The User",
+            "links" : {
+              "userRepositories" : {
+                "$ref" : "#/components/links/UserRepositories"
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/user"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/2.0/repositories/{username}" : {
       "get" : {
         "operationId" : "getRepositoriesByOwner",
@@ -38,9 +68,9 @@
         }
       }
     },
-    "/2.0/users/{username}" : {
+    "/2.0/repositories/{username}/{slug}" : {
       "get" : {
-        "operationId" : "getUserByName",
+        "operationId" : "getRepository",
         "parameters" : [ {
           "required" : true,
           "schema" : {
@@ -48,19 +78,68 @@
           },
           "in" : "path",
           "name" : "username"
+        }, {
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "slug"
         } ],
         "responses" : {
           "200" : {
-            "description" : "The User",
+            "description" : "The repository",
             "links" : {
-              "userRepositories" : {
-                "$ref" : "#/components/links/UserRepositories"
+              "repositoryPullRequests" : {
+                "$ref" : "#/components/links/RepositoryPullRequests"
               }
             },
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/user"
+                  "$ref" : "#/components/schemas/repository"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/2.0/repositories/{username}/{slug}/pullrequests" : {
+      "get" : {
+        "operationId" : "getPullRequestsByRepository",
+        "parameters" : [ {
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "username"
+        }, {
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "slug"
+        }, {
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "open", "merged", "declined" ]
+          },
+          "in" : "query",
+          "name" : "state"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "an array of pull request objects",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/pullrequest"
+                  }
                 }
               }
             }
@@ -143,85 +222,6 @@
           }
         }
       }
-    },
-    "/2.0/repositories/{username}/{slug}/pullrequests" : {
-      "get" : {
-        "operationId" : "getPullRequestsByRepository",
-        "parameters" : [ {
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          },
-          "in" : "path",
-          "name" : "username"
-        }, {
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          },
-          "in" : "path",
-          "name" : "slug"
-        }, {
-          "schema" : {
-            "type" : "string",
-            "enum" : [ "open", "merged", "declined" ]
-          },
-          "in" : "query",
-          "name" : "state"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "an array of pull request objects",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/pullrequest"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/2.0/repositories/{username}/{slug}" : {
-      "get" : {
-        "operationId" : "getRepository",
-        "parameters" : [ {
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          },
-          "in" : "path",
-          "name" : "username"
-        }, {
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          },
-          "in" : "path",
-          "name" : "slug"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "The repository",
-            "links" : {
-              "repositoryPullRequests" : {
-                "$ref" : "#/components/links/RepositoryPullRequests"
-              }
-            },
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/repository"
-                }
-              }
-            }
-          }
-        }
-      }
     }
   },
   "components" : {
@@ -235,32 +235,51 @@
       "UserRepository" : {
         "operationId" : "getRepository",
         "parameters" : {
-          "slug" : "$response.body#/slug",
-          "username" : "$response.body#/owner/username"
-        }
-      },
-      "PullRequestMerge" : {
-        "operationId" : "mergePullRequest",
-        "parameters" : {
-          "pid" : "$response.body#/id",
-          "slug" : "$response.body#/repository/slug",
-          "username" : "$response.body#/author/username"
+          "username" : "$response.body#/owner/username",
+          "slug" : "$response.body#/slug"
         }
       },
       "RepositoryPullRequests" : {
         "operationId" : "getPullRequestsByRepository",
         "parameters" : {
-          "slug" : "$response.body#/slug",
-          "username" : "$response.body#/owner/username"
+          "username" : "$response.body#/owner/username",
+          "slug" : "$response.body#/slug"
+        }
+      },
+      "PullRequestMerge" : {
+        "operationId" : "mergePullRequest",
+        "parameters" : {
+          "username" : "$response.body#/author/username",
+          "slug" : "$response.body#/repository/slug",
+          "pid" : "$response.body#/id"
         }
       }
     },
     "schemas" : {
+      "user" : {
+        "properties" : {
+          "username" : {
+            "type" : "string"
+          },
+          "uuid" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "repository" : {
+        "properties" : {
+          "slug" : {
+            "type" : "string"
+          },
+          "owner" : {
+            "$ref" : "#/components/schemas/user"
+          }
+        },
+        "type" : "object"
+      },
       "pullrequest" : {
         "properties" : {
-          "author" : {
-            "$ref" : "#/components/schemas/user"
-          },
           "id" : {
             "type" : "integer"
           },
@@ -269,28 +288,9 @@
           },
           "repository" : {
             "$ref" : "#/components/schemas/repository"
-          }
-        },
-        "type" : "object"
-      },
-      "repository" : {
-        "properties" : {
-          "owner" : {
+          },
+          "author" : {
             "$ref" : "#/components/schemas/user"
-          },
-          "slug" : {
-            "type" : "string"
-          }
-        },
-        "type" : "object"
-      },
-      "user" : {
-        "properties" : {
-          "uuid" : {
-            "type" : "string"
-          },
-          "username" : {
-            "type" : "string"
           }
         },
         "type" : "object"

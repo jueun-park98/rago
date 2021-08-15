@@ -18,7 +18,7 @@ import java.net.URL;
 public class SecurityRequirementObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:767
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:785
    */
   public static SecurityRequirement composeSecurityRequirement (SecurityRequirementObject securityRequirementObject){
         SecurityRequirement securityRequirement = new SecurityRequirement();
@@ -38,18 +38,17 @@ public class SecurityRequirementObject extends ASTNode<ASTNode> implements Clone
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:806
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:819
    */
   public static SecurityRequirementObject parseSecurityRequirement(SecurityRequirement securityRequirement){
         SecurityRequirementObject securityRequirementObject = new SecurityRequirementObject();
 
         if( securityRequirement.getRequirements() != null ){
         for( String key : securityRequirement.getRequirements().keySet() ){
-        JastAddList<SecurityRequirementTuple> tuples = new JastAddList<>();
-        for( String v : securityRequirement.getRequirement(key) ) {
         JastAddList<SecurityRequirementValue> values = new JastAddList<>();
-        }
-
+        for( String v : securityRequirement.getRequirement(key) )
+        values.add(new SecurityRequirementValue(v));
+        securityRequirementObject.addSecurityRequirementTuple(new SecurityRequirementTuple(key, values));
         }
         }
 
