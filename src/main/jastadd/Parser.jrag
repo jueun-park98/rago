@@ -339,6 +339,10 @@ public static PathItem PathItem.parsePath(Path path){
         pathItem.addParameterObject(ParameterObject.parseParameter(p));
         }
         }
+        if( path.getExtensions() != null ){
+        for( String key : path.getExtensions().keySet() )
+        pathItem.addExtension(new Extension(key, path.getExtensions().get(key)));
+        }
 
         return pathItem;
         }
@@ -442,6 +446,10 @@ public static ParameterObject ParameterObject.parseParameter(Parameter parameter
         }
         if( parameter.getRequired() != null )
             parameterObject.setRequired(parameter.getRequired());
+        if( parameter.getExtensions() != null ){
+        for( String key : parameter.getExtensions().keySet() )
+        parameterObject.addExtension(new Extension(key, parameter.getExtensions().get(key)));
+        }
 
         return parameterObject;
         }
@@ -619,6 +627,10 @@ public static TagObject TagObject.parseTag(org.openapi4j.parser.model.v3.Tag tag
         tagObject.setDescription( tag.getDescription() );
         if( tag.getExternalDocs() != null )
         tagObject.setExternalDocObject( ExternalDocObject.parseExternalDocs(tag.getExternalDocs()) );
+        if( tag.getExtensions() != null ){
+        for( String key : tag.getExtensions().keySet() )
+        tagObject.addExtension(new Extension(key, tag.getExtensions().get(key)));
+        }
 
         return tagObject;
         }

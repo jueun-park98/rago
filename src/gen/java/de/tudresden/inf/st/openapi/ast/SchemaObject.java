@@ -18,7 +18,7 @@ import java.net.URL;
 public class SchemaObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:629
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:647
    */
   public static org.openapi4j.parser.model.v3.Schema composeSchema (SchemaObject schemaObject) {
         org.openapi4j.parser.model.v3.Schema schema = new org.openapi4j.parser.model.v3.Schema();
@@ -27,8 +27,8 @@ public class SchemaObject extends ASTNode<ASTNode> implements Cloneable {
         schema.setRef(schemaObject.getRef());
         if( schemaObject.getAdditionalProperties() != null )
         schema.setAdditionalProperties(composeSchema(schemaObject.getAdditionalProperties()));
-        //if( schemaObject.getAdditionalPropertiesAllowed() != null )
-        //schema.setAdditionalPropertiesAllowed(schemaObject.getAdditionalPropertiesAllowed());
+        if( schemaObject.getAdditionalPropertiesAllowed() != null && schemaObject.getAdditionalPropertiesAllowed().equals(true) )
+        schema.setAdditionalPropertiesAllowed(schemaObject.getAdditionalPropertiesAllowed());
         if( schemaObject.getDefaultValue() != null )
         schema.setDefault(schemaObject.getDefaultValue());
         if( !schemaObject.getDescription().isEmpty() )
@@ -122,7 +122,7 @@ public class SchemaObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:626
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:638
    */
   public static SchemaObject parseSchema (org.openapi4j.parser.model.v3.Schema schema) {
         SchemaObject schemaObject = new SchemaObject();

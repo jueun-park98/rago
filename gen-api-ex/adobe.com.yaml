@@ -923,9 +923,9 @@
       }
     },
     "/bin/querybuilder.json" : {
-      "post" : {
+      "get" : {
         "tags" : [ "sling" ],
-        "operationId" : "postQuery",
+        "operationId" : "getQuery",
         "parameters" : [ {
           "required" : true,
           "schema" : {
@@ -968,9 +968,9 @@
           }
         }
       },
-      "get" : {
+      "post" : {
         "tags" : [ "sling" ],
-        "operationId" : "getQuery",
+        "operationId" : "postQuery",
         "parameters" : [ {
           "required" : true,
           "schema" : {
@@ -1423,6 +1423,30 @@
       }
     },
     "/etc/replication/agents.{runmode}/{name}" : {
+      "get" : {
+        "tags" : [ "sling" ],
+        "operationId" : "getAgent",
+        "parameters" : [ {
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "runmode"
+        }, {
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "name"
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "Default response"
+          }
+        }
+      },
       "post" : {
         "tags" : [ "sling" ],
         "operationId" : "postAgent",
@@ -1804,30 +1828,6 @@
       "delete" : {
         "tags" : [ "sling" ],
         "operationId" : "deleteAgent",
-        "parameters" : [ {
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          },
-          "in" : "path",
-          "name" : "runmode"
-        }, {
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          },
-          "in" : "path",
-          "name" : "name"
-        } ],
-        "responses" : {
-          "default" : {
-            "description" : "Default response"
-          }
-        }
-      },
-      "get" : {
-        "tags" : [ "sling" ],
-        "operationId" : "getAgent",
         "parameters" : [ {
           "required" : true,
           "schema" : {
@@ -2817,6 +2817,30 @@
       }
     },
     "/{path}/{name}" : {
+      "get" : {
+        "tags" : [ "sling" ],
+        "operationId" : "getNode",
+        "parameters" : [ {
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "path"
+        }, {
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "name"
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "Default response"
+          }
+        }
+      },
       "post" : {
         "tags" : [ "sling" ],
         "operationId" : "postNode",
@@ -2873,30 +2897,6 @@
       "delete" : {
         "tags" : [ "sling" ],
         "operationId" : "deleteNode",
-        "parameters" : [ {
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          },
-          "in" : "path",
-          "name" : "path"
-        }, {
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          },
-          "in" : "path",
-          "name" : "name"
-        } ],
-        "responses" : {
-          "default" : {
-            "description" : "Default response"
-          }
-        }
-      },
-      "get" : {
-        "tags" : [ "sling" ],
-        "operationId" : "getNode",
         "parameters" : [ {
           "required" : true,
           "schema" : {

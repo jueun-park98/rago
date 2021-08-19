@@ -192,105 +192,6 @@
           }
         }
       },
-      "post" : {
-        "tags" : [ "key", "post" ],
-        "description" : "update properties of an Authentiq ID.\n(not operational in v4; use PUT for now)\n\nv5: POST issuer-signed email & phone scopes in\na self-signed JWT\n\nSee: https://github.com/skion/authentiq/wiki/JWT-Examples\n",
-        "operationId" : "key_update",
-        "parameters" : [ {
-          "$ref" : "#/components/parameters/PK"
-        } ],
-        "requestBody" : {
-          "$ref" : "#/components/requestBodies/AuthentiqID"
-        },
-        "responses" : {
-          "200" : {
-            "description" : "Successfully updated",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "properties" : {
-                    "status" : {
-                      "description" : "confirmed",
-                      "type" : "string"
-                    }
-                  },
-                  "type" : "object"
-                }
-              }
-            }
-          },
-          "404" : {
-            "description" : "Unknown key `unknown-key`",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "default" : {
-            "$ref" : "#/components/responses/ErrorResponse"
-          }
-        }
-      },
-      "delete" : {
-        "tags" : [ "key", "delete" ],
-        "description" : "Revoke an Identity (Key) with a revocation secret",
-        "operationId" : "key_revoke",
-        "parameters" : [ {
-          "$ref" : "#/components/parameters/PK"
-        }, {
-          "description" : "revokation secret",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          },
-          "in" : "query",
-          "name" : "secret"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Successful response",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "properties" : {
-                    "status" : {
-                      "description" : "done",
-                      "type" : "string"
-                    }
-                  },
-                  "type" : "object"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Key not found / wrong code `auth-error`",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "404" : {
-            "description" : "Unknown key `unknown-key`",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "default" : {
-            "$ref" : "#/components/responses/ErrorResponse"
-          }
-        }
-      },
       "put" : {
         "tags" : [ "key", "put" ],
         "description" : "Update Authentiq ID by replacing the object.\n\nv4: `JWT(sub,email,phone)` to bind email/phone hash; \n\nv5: POST issuer-signed email & phone scopes\nand PUT to update registration `JWT(sub, pk, devtoken, ...)`\n\nSee: https://github.com/skion/authentiq/wiki/JWT-Examples\n",
@@ -387,6 +288,105 @@
           },
           "410" : {
             "description" : "Key is revoked (gone). `revoked-key`",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "default" : {
+            "$ref" : "#/components/responses/ErrorResponse"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "key", "post" ],
+        "description" : "update properties of an Authentiq ID.\n(not operational in v4; use PUT for now)\n\nv5: POST issuer-signed email & phone scopes in\na self-signed JWT\n\nSee: https://github.com/skion/authentiq/wiki/JWT-Examples\n",
+        "operationId" : "key_update",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/PK"
+        } ],
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/AuthentiqID"
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successfully updated",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "status" : {
+                      "description" : "confirmed",
+                      "type" : "string"
+                    }
+                  },
+                  "type" : "object"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Unknown key `unknown-key`",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "default" : {
+            "$ref" : "#/components/responses/ErrorResponse"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "key", "delete" ],
+        "description" : "Revoke an Identity (Key) with a revocation secret",
+        "operationId" : "key_revoke",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/PK"
+        }, {
+          "description" : "revokation secret",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "in" : "query",
+          "name" : "secret"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "status" : {
+                      "description" : "done",
+                      "type" : "string"
+                    }
+                  },
+                  "type" : "object"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Key not found / wrong code `auth-error`",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Unknown key `unknown-key`",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -551,104 +551,6 @@
           }
         }
       },
-      "post" : {
-        "tags" : [ "scope", "post" ],
-        "description" : "this is a scope confirmation",
-        "operationId" : "sign_confirm",
-        "parameters" : [ {
-          "$ref" : "#/components/parameters/JobID"
-        } ],
-        "responses" : {
-          "202" : {
-            "description" : "Successfully confirmed",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "properties" : {
-                    "status" : {
-                      "description" : "confirmed",
-                      "type" : "string"
-                    }
-                  },
-                  "type" : "object"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Confirmation error `auth-error`",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "404" : {
-            "description" : "Job not found `unknown-job`",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "405" : {
-            "description" : "JWT POSTed to scope `not-supported`",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "default" : {
-            "$ref" : "#/components/responses/ErrorResponse"
-          }
-        }
-      },
-      "delete" : {
-        "tags" : [ "scope", "delete" ],
-        "description" : "delete a verification job",
-        "operationId" : "sign_delete",
-        "parameters" : [ {
-          "$ref" : "#/components/parameters/JobID"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Successfully deleted",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "properties" : {
-                    "status" : {
-                      "description" : "done",
-                      "type" : "string"
-                    }
-                  },
-                  "type" : "object"
-                }
-              }
-            }
-          },
-          "404" : {
-            "description" : "Job not found `unknown-job`",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                }
-              }
-            }
-          },
-          "default" : {
-            "$ref" : "#/components/responses/ErrorResponse"
-          }
-        }
-      },
       "put" : {
         "tags" : [ "scope", "put" ],
         "description" : "authority updates a JWT with its signature\nSee: https://github.com/skion/authentiq/wiki/JWT-Examples\n",
@@ -763,6 +665,104 @@
                 }
               },
               "application/jwt" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "default" : {
+            "$ref" : "#/components/responses/ErrorResponse"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "scope", "post" ],
+        "description" : "this is a scope confirmation",
+        "operationId" : "sign_confirm",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/JobID"
+        } ],
+        "responses" : {
+          "202" : {
+            "description" : "Successfully confirmed",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "status" : {
+                      "description" : "confirmed",
+                      "type" : "string"
+                    }
+                  },
+                  "type" : "object"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Confirmation error `auth-error`",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Job not found `unknown-job`",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "405" : {
+            "description" : "JWT POSTed to scope `not-supported`",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "default" : {
+            "$ref" : "#/components/responses/ErrorResponse"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "scope", "delete" ],
+        "description" : "delete a verification job",
+        "operationId" : "sign_delete",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/JobID"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successfully deleted",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "status" : {
+                      "description" : "done",
+                      "type" : "string"
+                    }
+                  },
+                  "type" : "object"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Job not found `unknown-job`",
+            "content" : {
+              "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Error"
                 }

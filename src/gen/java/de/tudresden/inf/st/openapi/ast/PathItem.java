@@ -11,8 +11,8 @@ import java.net.URL;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:38
- * @astdecl PathItem : ASTNode ::= <Ref:String> <Summary:String> <Description:String> [Get] [Put] [Post] [Delete] [Options] [Head] [Patch] [Trace] ServerObject* ParameterObject*;
- * @production PathItem : {@link ASTNode} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;Summary:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">[{@link Get}]</span> <span class="component">[{@link Put}]</span> <span class="component">[{@link Post}]</span> <span class="component">[{@link Delete}]</span> <span class="component">[{@link Options}]</span> <span class="component">[{@link Head}]</span> <span class="component">[{@link Patch}]</span> <span class="component">[{@link Trace}]</span> <span class="component">{@link ServerObject}*</span> <span class="component">{@link ParameterObject}*</span>;
+ * @astdecl PathItem : ASTNode ::= <Ref:String> <Summary:String> <Description:String> [Get] [Put] [Post] [Delete] [Options] [Head] [Patch] [Trace] ServerObject* ParameterObject* Extension*;
+ * @production PathItem : {@link ASTNode} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;Summary:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">[{@link Get}]</span> <span class="component">[{@link Put}]</span> <span class="component">[{@link Post}]</span> <span class="component">[{@link Delete}]</span> <span class="component">[{@link Options}]</span> <span class="component">[{@link Head}]</span> <span class="component">[{@link Patch}]</span> <span class="component">[{@link Trace}]</span> <span class="component">{@link ServerObject}*</span> <span class="component">{@link ParameterObject}*</span> <span class="component">{@link Extension}*</span>;
 
  */
 public class PathItem extends ASTNode<ASTNode> implements Cloneable {
@@ -51,6 +51,12 @@ public class PathItem extends ASTNode<ASTNode> implements Cloneable {
         if( pathItem.getNumParameterObject() != 0 ){
         for( ParameterObject p : pathItem.getParameterObjects() )
         path.addParameter( ParameterObject.composeParameter(p) );
+        }
+        if( pathItem.getNumExtension() != 0 ){
+        Map<String, Object> extensionMap = new HashMap<>();
+        for( Extension e : pathItem.getExtensions() )
+        extensionMap.put(e.getKey(), e.getValue());
+        path.setExtensions(extensionMap);
         }
 
         return path;
@@ -124,6 +130,10 @@ public class PathItem extends ASTNode<ASTNode> implements Cloneable {
         pathItem.addParameterObject(ParameterObject.parseParameter(p));
         }
         }
+        if( path.getExtensions() != null ){
+        for( String key : path.getExtensions().keySet() )
+        pathItem.addExtension(new Extension(key, path.getExtensions().get(key)));
+        }
 
         return pathItem;
         }
@@ -141,7 +151,7 @@ public class PathItem extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:10
    */
   public void init$Children() {
-    children = new ASTNode[10];
+    children = new ASTNode[11];
     setChild(new Opt(), 0);
     setChild(new Opt(), 1);
     setChild(new Opt(), 2);
@@ -152,16 +162,17 @@ public class PathItem extends ASTNode<ASTNode> implements Cloneable {
     setChild(new Opt(), 7);
     setChild(new JastAddList(), 8);
     setChild(new JastAddList(), 9);
+    setChild(new JastAddList(), 10);
   }
   /**
-   * @declaredat ASTNode:23
+   * @declaredat ASTNode:24
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Ref", "Summary", "Description", "Get", "Put", "Post", "Delete", "Options", "Head", "Patch", "Trace", "ServerObject", "ParameterObject"},
-    type = {"String", "String", "String", "Opt<Get>", "Opt<Put>", "Opt<Post>", "Opt<Delete>", "Opt<Options>", "Opt<Head>", "Opt<Patch>", "Opt<Trace>", "JastAddList<ServerObject>", "JastAddList<ParameterObject>"},
-    kind = {"Token", "Token", "Token", "Opt", "Opt", "Opt", "Opt", "Opt", "Opt", "Opt", "Opt", "List", "List"}
+    name = {"Ref", "Summary", "Description", "Get", "Put", "Post", "Delete", "Options", "Head", "Patch", "Trace", "ServerObject", "ParameterObject", "Extension"},
+    type = {"String", "String", "String", "Opt<Get>", "Opt<Put>", "Opt<Post>", "Opt<Delete>", "Opt<Options>", "Opt<Head>", "Opt<Patch>", "Opt<Trace>", "JastAddList<ServerObject>", "JastAddList<ParameterObject>", "JastAddList<Extension>"},
+    kind = {"Token", "Token", "Token", "Opt", "Opt", "Opt", "Opt", "Opt", "Opt", "Opt", "Opt", "List", "List", "List"}
   )
-  public PathItem(String p0, String p1, String p2, Opt<Get> p3, Opt<Put> p4, Opt<Post> p5, Opt<Delete> p6, Opt<Options> p7, Opt<Head> p8, Opt<Patch> p9, Opt<Trace> p10, JastAddList<ServerObject> p11, JastAddList<ParameterObject> p12) {
+  public PathItem(String p0, String p1, String p2, Opt<Get> p3, Opt<Put> p4, Opt<Post> p5, Opt<Delete> p6, Opt<Options> p7, Opt<Head> p8, Opt<Patch> p9, Opt<Trace> p10, JastAddList<ServerObject> p11, JastAddList<ParameterObject> p12, JastAddList<Extension> p13) {
     setRef(p0);
     setSummary(p1);
     setDescription(p2);
@@ -175,41 +186,42 @@ public class PathItem extends ASTNode<ASTNode> implements Cloneable {
     setChild(p10, 7);
     setChild(p11, 8);
     setChild(p12, 9);
+    setChild(p13, 10);
   }
   /** @apilevel low-level 
-   * @declaredat ASTNode:44
+   * @declaredat ASTNode:46
    */
   protected int numChildren() {
-    return 10;
+    return 11;
   }
   /**
    * @apilevel internal
-   * @declaredat ASTNode:50
+   * @declaredat ASTNode:52
    */
   public boolean mayHaveRewrite() {
     return false;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:54
+   * @declaredat ASTNode:56
    */
   public void flushAttrCache() {
     super.flushAttrCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:58
+   * @declaredat ASTNode:60
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:62
+   * @declaredat ASTNode:64
    */
   public PathItem clone() throws CloneNotSupportedException {
     PathItem node = (PathItem) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:67
+   * @declaredat ASTNode:69
    */
   public PathItem copy() {
     try {
@@ -229,7 +241,7 @@ public class PathItem extends ASTNode<ASTNode> implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:86
+   * @declaredat ASTNode:88
    */
   @Deprecated
   public PathItem fullCopy() {
@@ -240,7 +252,7 @@ public class PathItem extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:96
+   * @declaredat ASTNode:98
    */
   public PathItem treeCopyNoTransform() {
     PathItem tree = (PathItem) copy();
@@ -261,7 +273,7 @@ public class PathItem extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:116
+   * @declaredat ASTNode:118
    */
   public PathItem treeCopy() {
     PathItem tree = (PathItem) copy();
@@ -277,7 +289,7 @@ public class PathItem extends ASTNode<ASTNode> implements Cloneable {
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:130
+   * @declaredat ASTNode:132
    */
   protected boolean is$Equal(ASTNode node) {
     return super.is$Equal(node) && (tokenString_Ref == ((PathItem) node).tokenString_Ref) && (tokenString_Summary == ((PathItem) node).tokenString_Summary) && (tokenString_Description == ((PathItem) node).tokenString_Description);    
@@ -969,6 +981,116 @@ public class PathItem extends ASTNode<ASTNode> implements Cloneable {
    */
   public JastAddList<ParameterObject> getParameterObjectsNoTransform() {
     return getParameterObjectListNoTransform();
+  }
+  /**
+   * Replaces the Extension list.
+   * @param list The new list node to be used as the Extension list.
+   * @apilevel high-level
+   */
+  public void setExtensionList(JastAddList<Extension> list) {
+    setChild(list, 10);
+  }
+  /**
+   * Retrieves the number of children in the Extension list.
+   * @return Number of children in the Extension list.
+   * @apilevel high-level
+   */
+  public int getNumExtension() {
+    return getExtensionList().getNumChild();
+  }
+  /**
+   * Retrieves the number of children in the Extension list.
+   * Calling this method will not trigger rewrites.
+   * @return Number of children in the Extension list.
+   * @apilevel low-level
+   */
+  public int getNumExtensionNoTransform() {
+    return getExtensionListNoTransform().getNumChildNoTransform();
+  }
+  /**
+   * Retrieves the element at index {@code i} in the Extension list.
+   * @param i Index of the element to return.
+   * @return The element at position {@code i} in the Extension list.
+   * @apilevel high-level
+   */
+  public Extension getExtension(int i) {
+    return (Extension) getExtensionList().getChild(i);
+  }
+  /**
+   * Check whether the Extension list has any children.
+   * @return {@code true} if it has at least one child, {@code false} otherwise.
+   * @apilevel high-level
+   */
+  public boolean hasExtension() {
+    return getExtensionList().getNumChild() != 0;
+  }
+  /**
+   * Append an element to the Extension list.
+   * @param node The element to append to the Extension list.
+   * @apilevel high-level
+   */
+  public void addExtension(Extension node) {
+    JastAddList<Extension> list = (parent == null) ? getExtensionListNoTransform() : getExtensionList();
+    list.addChild(node);
+  }
+  /** @apilevel low-level 
+   */
+  public void addExtensionNoTransform(Extension node) {
+    JastAddList<Extension> list = getExtensionListNoTransform();
+    list.addChild(node);
+  }
+  /**
+   * Replaces the Extension list element at index {@code i} with the new node {@code node}.
+   * @param node The new node to replace the old list element.
+   * @param i The list index of the node to be replaced.
+   * @apilevel high-level
+   */
+  public void setExtension(Extension node, int i) {
+    JastAddList<Extension> list = getExtensionList();
+    list.setChild(node, i);
+  }
+  /**
+   * Retrieves the Extension list.
+   * @return The node representing the Extension list.
+   * @apilevel high-level
+   */
+  @ASTNodeAnnotation.ListChild(name="Extension")
+  public JastAddList<Extension> getExtensionList() {
+    JastAddList<Extension> list = (JastAddList<Extension>) getChild(10);
+    return list;
+  }
+  /**
+   * Retrieves the Extension list.
+   * <p><em>This method does not invoke AST transformations.</em></p>
+   * @return The node representing the Extension list.
+   * @apilevel low-level
+   */
+  public JastAddList<Extension> getExtensionListNoTransform() {
+    return (JastAddList<Extension>) getChildNoTransform(10);
+  }
+  /**
+   * @return the element at index {@code i} in the Extension list without
+   * triggering rewrites.
+   */
+  public Extension getExtensionNoTransform(int i) {
+    return (Extension) getExtensionListNoTransform().getChildNoTransform(i);
+  }
+  /**
+   * Retrieves the Extension list.
+   * @return The node representing the Extension list.
+   * @apilevel high-level
+   */
+  public JastAddList<Extension> getExtensions() {
+    return getExtensionList();
+  }
+  /**
+   * Retrieves the Extension list.
+   * <p><em>This method does not invoke AST transformations.</em></p>
+   * @return The node representing the Extension list.
+   * @apilevel low-level
+   */
+  public JastAddList<Extension> getExtensionsNoTransform() {
+    return getExtensionListNoTransform();
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

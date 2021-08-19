@@ -73,6 +73,8 @@ public class OpenAPIMain_test {
             api3 = OpenAPIObject.composeOpenAPI(openApi);
 
             // check, if the composed openAPI object is valid
+            //results = OpenApi3Validator.instance().validate(api3);
+            //System.out.println(results.isValid());
 
             //System.out.println(api.toNode().equals(api3.toNode()));
 
@@ -91,6 +93,7 @@ public class OpenAPIMain_test {
         // if the Jsons are equivalent, there is no reason to to the text comparison
         // if there is a difference, a text comparison might look better than just the diff.
         if (diff.size() != 0) {
+            //System.out.println(diff.toPrettyString());
             Assertions.assertEquals(actualNode.toPrettyString(), expectedNode.toPrettyString(), "JSONs for " + path + " are different:\n" + diff.toPrettyString());
         }
     }

@@ -72,6 +72,18 @@
       }
     },
     "/profile/details/" : {
+      "get" : {
+        "tags" : [ "User" ],
+        "summary" : "Used to retrive basic informations of a user-profile",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/UserID"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/UserDetails"
+          }
+        }
+      },
       "post" : {
         "tags" : [ "User" ],
         "summary" : "Used to set own profile data",
@@ -86,21 +98,21 @@
             "description" : "ok"
           }
         }
-      },
+      }
+    },
+    "/profile/preferences" : {
       "get" : {
         "tags" : [ "User" ],
-        "summary" : "Used to retrive basic informations of a user-profile",
+        "summary" : "Used to retrieve matching preferences of the given user",
         "parameters" : [ {
           "$ref" : "#/components/parameters/UserID"
         } ],
         "responses" : {
           "200" : {
-            "$ref" : "#/components/responses/UserDetails"
+            "$ref" : "#/components/responses/ProfileSettings"
           }
         }
-      }
-    },
-    "/profile/preferences" : {
+      },
       "post" : {
         "tags" : [ "User" ],
         "summary" : "Used to change preference settings of a profile",
@@ -113,18 +125,6 @@
         "responses" : {
           "200" : {
             "description" : "ok"
-          }
-        }
-      },
-      "get" : {
-        "tags" : [ "User" ],
-        "summary" : "Used to retrieve matching preferences of the given user",
-        "parameters" : [ {
-          "$ref" : "#/components/parameters/UserID"
-        } ],
-        "responses" : {
-          "200" : {
-            "$ref" : "#/components/responses/ProfileSettings"
           }
         }
       }
@@ -144,21 +144,6 @@
       }
     },
     "/channels/global" : {
-      "delete" : {
-        "tags" : [ "Channels" ],
-        "summary" : "Moderators can use this to delete Messages.",
-        "parameters" : [ {
-          "$ref" : "#/components/parameters/MessageID"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "deleted"
-          },
-          "403" : {
-            "description" : "not a moderator"
-          }
-        }
-      },
       "put" : {
         "tags" : [ "Channels" ],
         "summary" : "Used to send messages to the global channel of a domain",
@@ -185,6 +170,21 @@
         "responses" : {
           "200" : {
             "$ref" : "#/components/responses/GlobalChannelMessage"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Channels" ],
+        "summary" : "Moderators can use this to delete Messages.",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/MessageID"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "deleted"
+          },
+          "403" : {
+            "description" : "not a moderator"
           }
         }
       }
