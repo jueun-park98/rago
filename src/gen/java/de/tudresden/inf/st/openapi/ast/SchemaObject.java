@@ -27,7 +27,7 @@ public class SchemaObject extends ASTNode<ASTNode> implements Cloneable {
         schema.setRef(schemaObject.getRef());
         if( schemaObject.getAdditionalProperties() != null )
         schema.setAdditionalProperties(composeSchema(schemaObject.getAdditionalProperties()));
-        if( schemaObject.getAdditionalPropertiesAllowed() != null && schemaObject.getAdditionalPropertiesAllowed().equals(true) )
+        if( schemaObject.getAdditionalPropertiesAllowed() != null )
         schema.setAdditionalPropertiesAllowed(schemaObject.getAdditionalPropertiesAllowed());
         if( schemaObject.getDefaultValue() != null )
         schema.setDefault(schemaObject.getDefaultValue());
@@ -131,7 +131,7 @@ public class SchemaObject extends ASTNode<ASTNode> implements Cloneable {
         schemaObject.setRef(schema.getRef());
         if( schema.getAdditionalProperties() != null )
         schemaObject.setAdditionalProperties(parseSchema(schema.getAdditionalProperties()));
-        if( schema.getAdditionalPropertiesAllowed() != null )
+        if( schema.getAdditionalProperties() == null && schema.getAdditionalPropertiesAllowed() != null )
         schemaObject.setAdditionalPropertiesAllowed(schema.getAdditionalPropertiesAllowed());
         if( schema.getDefault() != null )
         schemaObject.setDefaultValue(schema.getDefault());

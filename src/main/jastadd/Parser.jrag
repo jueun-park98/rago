@@ -642,7 +642,7 @@ public static SchemaObject SchemaObject.parseSchema (org.openapi4j.parser.model.
         schemaObject.setRef(schema.getRef());
         if( schema.getAdditionalProperties() != null )
         schemaObject.setAdditionalProperties(parseSchema(schema.getAdditionalProperties()));
-        if( schema.getAdditionalPropertiesAllowed() != null )
+        if( schema.getAdditionalProperties() == null && schema.getAdditionalPropertiesAllowed() != null )
         schemaObject.setAdditionalPropertiesAllowed(schema.getAdditionalPropertiesAllowed());
         if( schema.getDefault() != null )
         schemaObject.setDefaultValue(schema.getDefault());

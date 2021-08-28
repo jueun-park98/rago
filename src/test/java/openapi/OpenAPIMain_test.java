@@ -1,5 +1,7 @@
 package openapi;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.flipkart.zjsonpatch.JsonDiff;
 import de.tudresden.inf.st.openapi.ast.*;
 import org.junit.jupiter.api.Assertions;
@@ -36,6 +38,9 @@ public class OpenAPIMain_test {
         OpenApi3 api3;
         ValidationResults results;
         List<String> filenames = new ArrayList<>();
+        String genDir = "./gen-api-ex/";
+        File genDirectory = new File(genDir);
+        File[] contents;
 
         File resource = new File("./src/main/resources");
 
@@ -44,26 +49,19 @@ public class OpenAPIMain_test {
         System.out.println(filenames.size());
 
         for( String file : filenames ){
-            String writerName = "./gen-api-ex/" + file;
-            FileWriter writer = new FileWriter(writerName);
+            String writerName = genDir + file;
+            FileWriter expectedWriter = new FileWriter((writerName.substring(0, writerName.length()-5) + "-expected.json"));
+            FileWriter actualWriter = new FileWriter((writerName.substring(0, writerName.length()-5) + "-actual.json"));
             URL expUrl = OpenAPIMain_test.class.getClassLoader().getResource(file);
 
-            /*
-            File file = null;
-            if (expUrl != null) {
-                file = new File(expUrl.getFile());
-            } else {
-                file = new File(fileName);
-            }
-            if (file == null) {
-                throw new FileNotFoundException("Could not load JSON file " + fileName);
-            }*/
-
             // parsed openAPI object with openapi4j
-            OpenApi3 api = new OpenApi3Parser().parse(expUrl, new ArrayList<>(), false);
+            OpenApi3 api = new OpenApi3Parser().parse(expUrl, new ArrayList<>(), true);
             System.out.println("Loading expression DSL file '" + file + "'.");
+            // save expected object
+            expectedWriter.write(api.toNode().toPrettyString());
+            expectedWriter.close();
 
-            results = OpenApi3Validator.instance().validate(api);
+            //results = OpenApi3Validator.instance().validate(api);
             //System.out.println(results.isValid());
 
             // openAPI object is integrated in JastAdd grammar
@@ -78,17 +76,32 @@ public class OpenAPIMain_test {
 
             //System.out.println(api.toNode().equals(api3.toNode()));
 
+            // save generated object
+            actualWriter.write(api3.toNode().toPrettyString());
+            actualWriter.close();
+
             // compare if api (source object) is equivalent to api3 (generated object)
             compareJson(api3.toNode(), api.toNode(), Paths.get(file));
+        }
 
-            // save the generated object
-            writer.write(api.toNode().toPrettyString());
-            writer.close();
+        // clean all generated jsons
+        contents = genDirectory.listFiles();
+        if (contents != null) {
+            for (File file : contents)
+                file.delete();
         }
     }
 
     protected void compareJson(JsonNode expectedNode, JsonNode actualNode, Path path) throws IOException {
         JsonNode diff = JsonDiff.asJson(expectedNode, actualNode);
+        for( int i = diff.size()-1 ; i >= 0 ; i-- ){
+            // remove all diffs, which are empty
+            if( diff.get(i).has("value") && diff.get(i).get("value").isEmpty() )
+                ((ArrayNode) diff).remove(i);
+            // remove all diffs, which are copies of empty properties
+            else if( diff.get(i).has("op") && diff.get(i).get("op").toString().equals("\"copy\"") )
+                ((ArrayNode) diff).remove(i);
+        }
 
         // if the Jsons are equivalent, there is no reason to to the text comparison
         // if there is a difference, a text comparison might look better than just the diff.

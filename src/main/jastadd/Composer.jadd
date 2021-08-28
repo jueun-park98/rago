@@ -651,7 +651,7 @@ public static org.openapi4j.parser.model.v3.Schema SchemaObject.composeSchema (S
         schema.setRef(schemaObject.getRef());
         if( schemaObject.getAdditionalProperties() != null )
         schema.setAdditionalProperties(composeSchema(schemaObject.getAdditionalProperties()));
-        if( schemaObject.getAdditionalPropertiesAllowed() != null && schemaObject.getAdditionalPropertiesAllowed().equals(true) )
+        if( schemaObject.getAdditionalPropertiesAllowed() != null )
         schema.setAdditionalPropertiesAllowed(schemaObject.getAdditionalPropertiesAllowed());
         if( schemaObject.getDefaultValue() != null )
         schema.setDefault(schemaObject.getDefaultValue());
