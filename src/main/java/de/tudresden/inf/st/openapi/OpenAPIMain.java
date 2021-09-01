@@ -62,6 +62,8 @@ public class OpenAPIMain {
         //writer.write(api3.toNode().toPrettyString());
         //writer.close();
 
+
+
         if (args.length > 0) {
             fileName = args[0];
         }

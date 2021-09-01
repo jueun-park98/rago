@@ -49,6 +49,12 @@
             <artifactId>jackson-dataformat-yaml</artifactId>
             <version>2.1.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.openapi4j</groupId>
+            <artifactId>openapi-operation-validator</artifactId>
+            <version>1.0.7</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
