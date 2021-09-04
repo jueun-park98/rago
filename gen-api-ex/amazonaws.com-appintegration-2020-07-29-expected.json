@@ -1,0 +1,1522 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "contact" : {
+      "email" : "mike.ralphson@gmail.com",
+      "name" : "Mike Ralphson",
+      "url" : "https://github.com/mermade/aws2openapi",
+      "x-twitter" : "PermittedSoc"
+    },
+    "description" : "<p>The Amazon AppIntegrations service enables you to configure and reuse connections to external applications.</p> <p>For information about how you can use external applications with Amazon Connect, see <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/crm.html\">Set up pre-built integrations</a> in the <i>Amazon Connect Administrator Guide</i>.</p>",
+    "license" : {
+      "name" : "Apache 2.0 License",
+      "url" : "http://www.apache.org/licenses/"
+    },
+    "termsOfService" : "https://aws.amazon.com/service-terms/",
+    "title" : "Amazon AppIntegrations Service",
+    "version" : "2020-07-29",
+    "x-providerName" : "amazonaws.com",
+    "x-logo" : {
+      "url" : "https://api.apis.guru/v2/cache/logo/https_twitter.com_awscloud_profile_image.png",
+      "backgroundColor" : "#FFFFFF"
+    },
+    "x-aws-signingName" : "app-integrations",
+    "x-apiClientRegistration" : {
+      "url" : "https://portal.aws.amazon.com/gp/aws/developer/registration/index.html?nc2=h_ct"
+    },
+    "x-preferred" : true,
+    "x-release" : "v4",
+    "x-apisguru-categories" : [ "cloud" ],
+    "x-serviceName" : "appintegrations",
+    "x-origin" : [ {
+      "contentType" : "application/json",
+      "url" : "https://raw.githubusercontent.com/aws/aws-sdk-js/master/apis/appintegrations-2020-07-29.normal.json",
+      "converter" : {
+        "url" : "https://github.com/mermade/aws2openapi",
+        "version" : "1.0.0"
+      },
+      "x-apisguru-driver" : "external"
+    } ]
+  },
+  "servers" : [ {
+    "url" : "http://app-integrations.{region}.amazonaws.com",
+    "description" : "The Amazon AppIntegrations Service multi-region endpoint",
+    "variables" : {
+      "region" : {
+        "description" : "The AWS region",
+        "default" : "us-east-1",
+        "enum" : [ "us-east-1", "us-east-2", "us-west-1", "us-west-2", "us-gov-west-1", "us-gov-east-1", "ca-central-1", "eu-north-1", "eu-west-1", "eu-west-2", "eu-west-3", "eu-central-1", "eu-south-1", "af-south-1", "ap-northeast-1", "ap-northeast-2", "ap-northeast-3", "ap-southeast-1", "ap-southeast-2", "ap-east-1", "ap-south-1", "sa-east-1", "me-south-1" ]
+      }
+    }
+  }, {
+    "url" : "https://app-integrations.{region}.amazonaws.com",
+    "description" : "The Amazon AppIntegrations Service multi-region endpoint",
+    "variables" : {
+      "region" : {
+        "description" : "The AWS region",
+        "default" : "us-east-1",
+        "enum" : [ "us-east-1", "us-east-2", "us-west-1", "us-west-2", "us-gov-west-1", "us-gov-east-1", "ca-central-1", "eu-north-1", "eu-west-1", "eu-west-2", "eu-west-3", "eu-central-1", "eu-south-1", "af-south-1", "ap-northeast-1", "ap-northeast-2", "ap-northeast-3", "ap-southeast-1", "ap-southeast-2", "ap-east-1", "ap-south-1", "sa-east-1", "me-south-1" ]
+      }
+    }
+  }, {
+    "url" : "http://app-integrations.{region}.amazonaws.com.cn",
+    "description" : "The Amazon AppIntegrations Service endpoint for China (Beijing) and China (Ningxia)",
+    "variables" : {
+      "region" : {
+        "description" : "The AWS region",
+        "default" : "cn-north-1",
+        "enum" : [ "cn-north-1", "cn-northwest-1" ]
+      }
+    }
+  }, {
+    "url" : "https://app-integrations.{region}.amazonaws.com.cn",
+    "description" : "The Amazon AppIntegrations Service endpoint for China (Beijing) and China (Ningxia)",
+    "variables" : {
+      "region" : {
+        "description" : "The AWS region",
+        "default" : "cn-north-1",
+        "enum" : [ "cn-north-1", "cn-northwest-1" ]
+      }
+    }
+  } ],
+  "paths" : {
+    "/eventIntegrations" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/X-Amz-Content-Sha256"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Date"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Algorithm"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Credential"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Security-Token"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Signature"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-SignedHeaders"
+      } ],
+      "get" : {
+        "description" : "Returns a paginated list of event integrations in the account.",
+        "operationId" : "ListEventIntegrations",
+        "parameters" : [ {
+          "description" : "The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.",
+          "required" : false,
+          "schema" : {
+            "maxLength" : 1000,
+            "minLength" : 1,
+            "pattern" : ".*",
+            "type" : "string"
+          },
+          "in" : "query",
+          "name" : "nextToken"
+        }, {
+          "description" : "The maximum number of results to return per page.",
+          "required" : false,
+          "schema" : {
+            "maximum" : 50,
+            "minimum" : 1,
+            "type" : "integer"
+          },
+          "in" : "query",
+          "name" : "maxResults"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ListEventIntegrationsResponse"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "InternalServiceError",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServiceError"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "ThrottlingException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ThrottlingException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "InvalidRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InvalidRequestException"
+                }
+              }
+            }
+          },
+          "483" : {
+            "description" : "AccessDeniedException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AccessDeniedException"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "description" : "Creates an EventIntegration, given a specified name, description, and a reference to an Amazon EventBridge bus in your account and a partner event source that pushes events to that bus. No objects are created in the your account, only metadata that is persisted on the EventIntegration control plane.",
+        "operationId" : "CreateEventIntegration",
+        "parameters" : [ ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "properties" : {
+                  "Name" : {
+                    "description" : "The name of the event integration.",
+                    "maxLength" : 255,
+                    "minLength" : 1,
+                    "pattern" : "^[a-zA-Z0-9\\/\\._\\-]+$",
+                    "type" : "string"
+                  },
+                  "Description" : {
+                    "description" : "The description of the event integration.",
+                    "maxLength" : 1000,
+                    "minLength" : 1,
+                    "pattern" : ".*",
+                    "type" : "string"
+                  },
+                  "EventFilter" : {
+                    "description" : "The event filter.",
+                    "properties" : {
+                      "Source" : {
+                        "allOf" : [ {
+                          "$ref" : "#/components/schemas/Source"
+                        }, {
+                          "description" : "The source of the events."
+                        } ]
+                      }
+                    },
+                    "type" : "object"
+                  },
+                  "EventBridgeBus" : {
+                    "description" : "The EventBridge bus.",
+                    "maxLength" : 255,
+                    "minLength" : 1,
+                    "pattern" : "^[a-zA-Z0-9\\/\\._\\-]+$",
+                    "type" : "string"
+                  },
+                  "ClientToken" : {
+                    "description" : "A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.",
+                    "maxLength" : 2048,
+                    "minLength" : 1,
+                    "pattern" : ".*",
+                    "type" : "string"
+                  },
+                  "Tags" : {
+                    "description" : "One or more tags.",
+                    "maxProperties" : 200,
+                    "minProperties" : 1,
+                    "type" : "object",
+                    "additionalProperties" : {
+                      "$ref" : "#/components/schemas/TagValue"
+                    }
+                  }
+                },
+                "type" : "object",
+                "required" : [ "Name", "EventFilter", "EventBridgeBus" ]
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CreateEventIntegrationResponse"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "InternalServiceError",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServiceError"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "ResourceQuotaExceededException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceQuotaExceededException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "DuplicateResourceException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DuplicateResourceException"
+                }
+              }
+            }
+          },
+          "483" : {
+            "description" : "ThrottlingException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ThrottlingException"
+                }
+              }
+            }
+          },
+          "484" : {
+            "description" : "InvalidRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InvalidRequestException"
+                }
+              }
+            }
+          },
+          "485" : {
+            "description" : "AccessDeniedException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AccessDeniedException"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/eventIntegrations/{Name}" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/X-Amz-Content-Sha256"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Date"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Algorithm"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Credential"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Security-Token"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Signature"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-SignedHeaders"
+      } ],
+      "get" : {
+        "description" : "Return information about the event integration.",
+        "operationId" : "GetEventIntegration",
+        "parameters" : [ {
+          "description" : "The name of the event integration. ",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 255,
+            "minLength" : 1,
+            "pattern" : "^[a-zA-Z0-9\\/\\._\\-]+$",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "Name"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/GetEventIntegrationResponse"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "InternalServiceError",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServiceError"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "ThrottlingException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ThrottlingException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "483" : {
+            "description" : "InvalidRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InvalidRequestException"
+                }
+              }
+            }
+          },
+          "484" : {
+            "description" : "AccessDeniedException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AccessDeniedException"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch" : {
+        "description" : "Updates the description of an event integration.",
+        "operationId" : "UpdateEventIntegration",
+        "parameters" : [ {
+          "description" : "The name of the event integration.",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 255,
+            "minLength" : 1,
+            "pattern" : "^[a-zA-Z0-9\\/\\._\\-]+$",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "Name"
+        } ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "properties" : {
+                  "Description" : {
+                    "description" : "The description of the event inegration.",
+                    "maxLength" : 1000,
+                    "minLength" : 1,
+                    "pattern" : ".*",
+                    "type" : "string"
+                  }
+                },
+                "type" : "object"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UpdateEventIntegrationResponse"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "InternalServiceError",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServiceError"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "ThrottlingException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ThrottlingException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "483" : {
+            "description" : "InvalidRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InvalidRequestException"
+                }
+              }
+            }
+          },
+          "484" : {
+            "description" : "AccessDeniedException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AccessDeniedException"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "description" : "Deletes the specified existing event integration. If the event integration is associated with clients, the request is rejected.",
+        "operationId" : "DeleteEventIntegration",
+        "parameters" : [ {
+          "description" : "The name of the event integration.",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 255,
+            "minLength" : 1,
+            "pattern" : "^[a-zA-Z0-9\\/\\._\\-]+$",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "Name"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DeleteEventIntegrationResponse"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "InternalServiceError",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServiceError"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "ThrottlingException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ThrottlingException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "483" : {
+            "description" : "InvalidRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InvalidRequestException"
+                }
+              }
+            }
+          },
+          "484" : {
+            "description" : "AccessDeniedException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AccessDeniedException"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/eventIntegrations/{Name}/associations" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/X-Amz-Content-Sha256"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Date"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Algorithm"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Credential"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Security-Token"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Signature"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-SignedHeaders"
+      } ],
+      "get" : {
+        "description" : "Returns a paginated list of event integration associations in the account. ",
+        "operationId" : "ListEventIntegrationAssociations",
+        "parameters" : [ {
+          "description" : "The name of the event integration. ",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 255,
+            "minLength" : 1,
+            "pattern" : "^[a-zA-Z0-9\\/\\._\\-]+$",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "Name"
+        }, {
+          "description" : "The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.",
+          "required" : false,
+          "schema" : {
+            "maxLength" : 1000,
+            "minLength" : 1,
+            "pattern" : ".*",
+            "type" : "string"
+          },
+          "in" : "query",
+          "name" : "nextToken"
+        }, {
+          "description" : "The maximum number of results to return per page.",
+          "required" : false,
+          "schema" : {
+            "maximum" : 50,
+            "minimum" : 1,
+            "type" : "integer"
+          },
+          "in" : "query",
+          "name" : "maxResults"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ListEventIntegrationAssociationsResponse"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "InternalServiceError",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServiceError"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "ThrottlingException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ThrottlingException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "483" : {
+            "description" : "InvalidRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InvalidRequestException"
+                }
+              }
+            }
+          },
+          "484" : {
+            "description" : "AccessDeniedException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AccessDeniedException"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tags/{resourceArn}" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/X-Amz-Content-Sha256"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Date"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Algorithm"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Credential"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Security-Token"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Signature"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-SignedHeaders"
+      } ],
+      "get" : {
+        "description" : "Lists the tags for the specified resource.",
+        "operationId" : "ListTagsForResource",
+        "parameters" : [ {
+          "description" : "The Amazon Resource Name (ARN) of the resource. ",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 2048,
+            "minLength" : 1,
+            "pattern" : "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "resourceArn"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ListTagsForResourceResponse"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "InvalidRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InvalidRequestException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "InternalServiceError",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServiceError"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "483" : {
+            "description" : "ThrottlingException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ThrottlingException"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "description" : "Adds the specified tags to the specified resource.",
+        "operationId" : "TagResource",
+        "parameters" : [ {
+          "description" : "The Amazon Resource Name (ARN) of the resource.",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 2048,
+            "minLength" : 1,
+            "pattern" : "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "resourceArn"
+        } ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "properties" : {
+                  "tags" : {
+                    "description" : "One or more tags. ",
+                    "maxProperties" : 200,
+                    "minProperties" : 1,
+                    "type" : "object",
+                    "additionalProperties" : {
+                      "$ref" : "#/components/schemas/TagValue"
+                    }
+                  }
+                },
+                "type" : "object",
+                "required" : [ "tags" ]
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/TagResourceResponse"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "InvalidRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InvalidRequestException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "InternalServiceError",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServiceError"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "483" : {
+            "description" : "ThrottlingException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ThrottlingException"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tags/{resourceArn}#tagKeys" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/X-Amz-Content-Sha256"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Date"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Algorithm"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Credential"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Security-Token"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Signature"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-SignedHeaders"
+      } ],
+      "delete" : {
+        "description" : "Removes the specified tags from the specified resource.",
+        "operationId" : "UntagResource",
+        "parameters" : [ {
+          "description" : "The Amazon Resource Name (ARN) of the resource.",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 2048,
+            "minLength" : 1,
+            "pattern" : "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "resourceArn"
+        }, {
+          "description" : "The tag keys.",
+          "required" : true,
+          "schema" : {
+            "maxItems" : 200,
+            "minItems" : 1,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/TagKey"
+            }
+          },
+          "in" : "query",
+          "name" : "tagKeys"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UntagResourceResponse"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "InvalidRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InvalidRequestException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "InternalServiceError",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServiceError"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "483" : {
+            "description" : "ThrottlingException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ThrottlingException"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "parameters" : {
+      "X-Amz-Content-Sha256" : {
+        "required" : false,
+        "schema" : {
+          "type" : "string"
+        },
+        "in" : "header",
+        "name" : "X-Amz-Content-Sha256"
+      },
+      "X-Amz-Date" : {
+        "required" : false,
+        "schema" : {
+          "type" : "string"
+        },
+        "in" : "header",
+        "name" : "X-Amz-Date"
+      },
+      "X-Amz-Algorithm" : {
+        "required" : false,
+        "schema" : {
+          "type" : "string"
+        },
+        "in" : "header",
+        "name" : "X-Amz-Algorithm"
+      },
+      "X-Amz-Credential" : {
+        "required" : false,
+        "schema" : {
+          "type" : "string"
+        },
+        "in" : "header",
+        "name" : "X-Amz-Credential"
+      },
+      "X-Amz-Security-Token" : {
+        "required" : false,
+        "schema" : {
+          "type" : "string"
+        },
+        "in" : "header",
+        "name" : "X-Amz-Security-Token"
+      },
+      "X-Amz-Signature" : {
+        "required" : false,
+        "schema" : {
+          "type" : "string"
+        },
+        "in" : "header",
+        "name" : "X-Amz-Signature"
+      },
+      "X-Amz-SignedHeaders" : {
+        "required" : false,
+        "schema" : {
+          "type" : "string"
+        },
+        "in" : "header",
+        "name" : "X-Amz-SignedHeaders"
+      }
+    },
+    "schemas" : {
+      "CreateEventIntegrationResponse" : {
+        "properties" : {
+          "EventIntegrationArn" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Arn"
+            }, {
+              "description" : "The Amazon Resource Name (ARN) of the event integration. "
+            } ]
+          }
+        },
+        "type" : "object"
+      },
+      "Source" : {
+        "maxLength" : 256,
+        "minLength" : 1,
+        "pattern" : "^aws\\.partner\\/.*$",
+        "type" : "string"
+      },
+      "TagValue" : {
+        "maxLength" : 256,
+        "type" : "string"
+      },
+      "InternalServiceError" : { },
+      "ResourceQuotaExceededException" : { },
+      "DuplicateResourceException" : { },
+      "ThrottlingException" : { },
+      "InvalidRequestException" : { },
+      "AccessDeniedException" : { },
+      "DeleteEventIntegrationResponse" : {
+        "properties" : { },
+        "type" : "object"
+      },
+      "ResourceNotFoundException" : { },
+      "GetEventIntegrationResponse" : {
+        "properties" : {
+          "Name" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Name"
+            }, {
+              "description" : "The name of the event integration. "
+            } ]
+          },
+          "Description" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Description"
+            }, {
+              "description" : "The description of the event integration."
+            } ]
+          },
+          "EventIntegrationArn" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Arn"
+            }, {
+              "description" : "The Amazon Resource Name (ARN) for the event integration."
+            } ]
+          },
+          "EventBridgeBus" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/EventBridgeBus"
+            }, {
+              "description" : "The EventBridge bus."
+            } ]
+          },
+          "EventFilter" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/EventFilter"
+            }, {
+              "description" : "The event filter."
+            } ]
+          },
+          "Tags" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/TagMap"
+            }, {
+              "description" : "One or more tags."
+            } ]
+          }
+        },
+        "type" : "object"
+      },
+      "ListEventIntegrationAssociationsResponse" : {
+        "properties" : {
+          "EventIntegrationAssociations" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/EventIntegrationAssociationsList"
+            }, {
+              "description" : "The event integration associations."
+            } ]
+          },
+          "NextToken" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/NextToken"
+            }, {
+              "description" : "If there are additional results, this is the token for the next set of results."
+            } ]
+          }
+        },
+        "type" : "object"
+      },
+      "ListEventIntegrationsResponse" : {
+        "properties" : {
+          "EventIntegrations" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/EventIntegrationsList"
+            }, {
+              "description" : "The event integrations."
+            } ]
+          },
+          "NextToken" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/NextToken"
+            }, {
+              "description" : "If there are additional results, this is the token for the next set of results."
+            } ]
+          }
+        },
+        "type" : "object"
+      },
+      "ListTagsForResourceResponse" : {
+        "properties" : {
+          "tags" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/TagMap"
+            }, {
+              "description" : "Information about the tags."
+            } ]
+          }
+        },
+        "type" : "object"
+      },
+      "TagResourceResponse" : {
+        "properties" : { },
+        "type" : "object"
+      },
+      "UntagResourceResponse" : {
+        "properties" : { },
+        "type" : "object"
+      },
+      "TagKey" : {
+        "maxLength" : 128,
+        "minLength" : 1,
+        "pattern" : "^(?!aws:)[a-zA-Z+-=._:/]+$",
+        "type" : "string"
+      },
+      "UpdateEventIntegrationResponse" : {
+        "properties" : { },
+        "type" : "object"
+      },
+      "Arn" : {
+        "maxLength" : 2048,
+        "minLength" : 1,
+        "pattern" : "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$",
+        "type" : "string"
+      },
+      "NonBlankString" : {
+        "maxLength" : 255,
+        "minLength" : 1,
+        "pattern" : ".*\\S.*",
+        "type" : "string"
+      },
+      "ClientAssociationMetadata" : {
+        "type" : "object",
+        "additionalProperties" : {
+          "$ref" : "#/components/schemas/NonBlankString"
+        }
+      },
+      "ClientId" : {
+        "maxLength" : 255,
+        "minLength" : 1,
+        "pattern" : ".*",
+        "type" : "string"
+      },
+      "Name" : {
+        "maxLength" : 255,
+        "minLength" : 1,
+        "pattern" : "^[a-zA-Z0-9\\/\\._\\-]+$",
+        "type" : "string"
+      },
+      "Description" : {
+        "maxLength" : 1000,
+        "minLength" : 1,
+        "pattern" : ".*",
+        "type" : "string"
+      },
+      "EventFilter" : {
+        "description" : "The event filter.",
+        "properties" : {
+          "Source" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Source"
+            }, {
+              "description" : "The source of the events."
+            } ]
+          }
+        },
+        "type" : "object",
+        "required" : [ "Source" ]
+      },
+      "EventBridgeBus" : {
+        "maxLength" : 255,
+        "minLength" : 1,
+        "pattern" : "^[a-zA-Z0-9\\/\\._\\-]+$",
+        "type" : "string"
+      },
+      "IdempotencyToken" : {
+        "maxLength" : 2048,
+        "minLength" : 1,
+        "pattern" : ".*",
+        "type" : "string"
+      },
+      "TagMap" : {
+        "maxProperties" : 200,
+        "minProperties" : 1,
+        "type" : "object",
+        "additionalProperties" : {
+          "$ref" : "#/components/schemas/TagValue"
+        }
+      },
+      "CreateEventIntegrationRequest" : {
+        "properties" : {
+          "Name" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Name"
+            }, {
+              "description" : "The name of the event integration."
+            } ]
+          },
+          "Description" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Description"
+            }, {
+              "description" : "The description of the event integration."
+            } ]
+          },
+          "EventFilter" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/EventFilter"
+            }, {
+              "description" : "The event filter."
+            } ]
+          },
+          "EventBridgeBus" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/EventBridgeBus"
+            }, {
+              "description" : "The EventBridge bus."
+            } ]
+          },
+          "ClientToken" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/IdempotencyToken"
+            }, {
+              "description" : "A unique, case-sensitive identifier that you provide to ensure the idempotency of the request."
+            } ]
+          },
+          "Tags" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/TagMap"
+            }, {
+              "description" : "One or more tags."
+            } ]
+          }
+        },
+        "type" : "object",
+        "title" : "CreateEventIntegrationRequest",
+        "required" : [ "Name", "EventFilter", "EventBridgeBus" ]
+      },
+      "DeleteEventIntegrationRequest" : {
+        "properties" : { },
+        "type" : "object",
+        "title" : "DeleteEventIntegrationRequest"
+      },
+      "EventBridgeRuleName" : {
+        "maxLength" : 2048,
+        "minLength" : 1,
+        "pattern" : "^[a-zA-Z0-9\\/\\._\\-]+$",
+        "type" : "string"
+      },
+      "EventIntegration" : {
+        "description" : "The event integration.",
+        "properties" : {
+          "EventIntegrationArn" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Arn"
+            }, {
+              "description" : "The Amazon Resource Name (ARN) of the event integration."
+            } ]
+          },
+          "Name" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Name"
+            }, {
+              "description" : "The name of the event integration."
+            } ]
+          },
+          "Description" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Description"
+            }, {
+              "description" : "The event integration description."
+            } ]
+          },
+          "EventFilter" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/EventFilter"
+            }, {
+              "description" : "The event integration filter."
+            } ]
+          },
+          "EventBridgeBus" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/EventBridgeBus"
+            }, {
+              "description" : "The Amazon EventBridge bus for the event integration."
+            } ]
+          },
+          "Tags" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/TagMap"
+            }, {
+              "description" : "The tags."
+            } ]
+          }
+        },
+        "type" : "object"
+      },
+      "UUID" : {
+        "pattern" : "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}",
+        "type" : "string"
+      },
+      "EventIntegrationAssociation" : {
+        "description" : "The event integration association.",
+        "properties" : {
+          "EventIntegrationAssociationArn" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Arn"
+            }, {
+              "description" : "The Amazon Resource Name (ARN) for the event integration association."
+            } ]
+          },
+          "EventIntegrationAssociationId" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/UUID"
+            }, {
+              "description" : "The identifier for the event integration association."
+            } ]
+          },
+          "EventIntegrationName" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Name"
+            }, {
+              "description" : "The name of the event integration."
+            } ]
+          },
+          "ClientId" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ClientId"
+            }, {
+              "description" : "The identifier for the client that is associated with the event integration."
+            } ]
+          },
+          "EventBridgeRuleName" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/EventBridgeRuleName"
+            }, {
+              "description" : "The name of the EventBridge rule."
+            } ]
+          },
+          "ClientAssociationMetadata" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ClientAssociationMetadata"
+            }, {
+              "description" : "The metadata associated with the client."
+            } ]
+          }
+        },
+        "type" : "object"
+      },
+      "EventIntegrationAssociationsList" : {
+        "maxItems" : 50,
+        "minItems" : 1,
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/EventIntegrationAssociation"
+        }
+      },
+      "EventIntegrationsList" : {
+        "maxItems" : 50,
+        "minItems" : 1,
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/EventIntegration"
+        }
+      },
+      "GetEventIntegrationRequest" : {
+        "properties" : { },
+        "type" : "object",
+        "title" : "GetEventIntegrationRequest"
+      },
+      "NextToken" : {
+        "maxLength" : 1000,
+        "minLength" : 1,
+        "pattern" : ".*",
+        "type" : "string"
+      },
+      "MaxResults" : {
+        "maximum" : 50,
+        "minimum" : 1,
+        "type" : "integer"
+      },
+      "ListEventIntegrationAssociationsRequest" : {
+        "properties" : { },
+        "type" : "object",
+        "title" : "ListEventIntegrationAssociationsRequest"
+      },
+      "ListEventIntegrationsRequest" : {
+        "properties" : { },
+        "type" : "object",
+        "title" : "ListEventIntegrationsRequest"
+      },
+      "ListTagsForResourceRequest" : {
+        "properties" : { },
+        "type" : "object",
+        "title" : "ListTagsForResourceRequest"
+      },
+      "TagKeyList" : {
+        "maxItems" : 200,
+        "minItems" : 1,
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/TagKey"
+        }
+      },
+      "TagResourceRequest" : {
+        "properties" : {
+          "tags" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/TagMap"
+            }, {
+              "description" : "One or more tags. "
+            } ]
+          }
+        },
+        "type" : "object",
+        "title" : "TagResourceRequest",
+        "required" : [ "tags" ]
+      },
+      "UntagResourceRequest" : {
+        "properties" : { },
+        "type" : "object",
+        "title" : "UntagResourceRequest"
+      },
+      "UpdateEventIntegrationRequest" : {
+        "properties" : {
+          "Description" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Description"
+            }, {
+              "description" : "The description of the event inegration."
+            } ]
+          }
+        },
+        "type" : "object",
+        "title" : "UpdateEventIntegrationRequest"
+      }
+    },
+    "securitySchemes" : {
+      "hmac" : {
+        "type" : "apiKey",
+        "description" : "Amazon Signature authorization v4",
+        "name" : "Authorization",
+        "in" : "header",
+        "x-amazon-apigateway-authtype" : "awsSigv4"
+      }
+    }
+  },
+  "externalDocs" : {
+    "description" : "Amazon Web Services documentation",
+    "url" : "https://docs.aws.amazon.com/app-integrations/"
+  },
+  "security" : [ {
+    "hmac" : [ ]
+  } ],
+  "x-hasEquivalentPaths" : true
+}

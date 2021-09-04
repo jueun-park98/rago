@@ -1,0 +1,4553 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "contact" : {
+      "email" : "mike.ralphson@gmail.com",
+      "name" : "Mike Ralphson",
+      "url" : "https://github.com/mermade/aws2openapi",
+      "x-twitter" : "PermittedSoc"
+    },
+    "description" : "<fullname>AWS AppConfig</fullname> <p>Use AWS AppConfig, a capability of AWS Systems Manager, to create, manage, and quickly deploy application configurations. AppConfig supports controlled deployments to applications of any size and includes built-in validation checks and monitoring. You can use AppConfig with applications hosted on Amazon EC2 instances, AWS Lambda, containers, mobile applications, or IoT devices.</p> <p>To prevent errors when deploying application configurations, especially for production systems where a simple typo could cause an unexpected outage, AppConfig includes validators. A validator provides a syntactic or semantic check to ensure that the configuration you want to deploy works as intended. To validate your application configuration data, you provide a schema or a Lambda function that runs against the configuration. The configuration deployment or update can only proceed when the configuration data is valid.</p> <p>During a configuration deployment, AppConfig monitors the application to ensure that the deployment is successful. If the system encounters an error, AppConfig rolls back the change to minimize impact for your application users. You can configure a deployment strategy for each application or environment that includes deployment criteria, including velocity, bake time, and alarms to monitor. Similar to error monitoring, if a deployment triggers an alarm, AppConfig automatically rolls back to the previous version. </p> <p>AppConfig supports multiple use cases. Here are some examples.</p> <ul> <li> <p> <b>Application tuning</b>: Use AppConfig to carefully introduce changes to your application that can only be tested with production traffic.</p> </li> <li> <p> <b>Feature toggle</b>: Use AppConfig to turn on new features that require a timely deployment, such as a product launch or announcement. </p> </li> <li> <p> <b>Allow list</b>: Use AppConfig to allow premium subscribers to access paid content. </p> </li> <li> <p> <b>Operational issues</b>: Use AppConfig to reduce stress on your application when a dependency or other external factor impacts the system.</p> </li> </ul> <p>This reference is intended to be used with the <a href=\"http://docs.aws.amazon.com/systems-manager/latest/userguide/appconfig.html\">AWS AppConfig User Guide</a>.</p>",
+    "license" : {
+      "name" : "Apache 2.0 License",
+      "url" : "http://www.apache.org/licenses/"
+    },
+    "termsOfService" : "https://aws.amazon.com/service-terms/",
+    "title" : "Amazon AppConfig",
+    "version" : "2019-10-09",
+    "x-providerName" : "amazonaws.com",
+    "x-logo" : {
+      "url" : "https://api.apis.guru/v2/cache/logo/https_twitter.com_awscloud_profile_image.png",
+      "backgroundColor" : "#FFFFFF"
+    },
+    "x-aws-signingName" : "appconfig",
+    "x-apiClientRegistration" : {
+      "url" : "https://portal.aws.amazon.com/gp/aws/developer/registration/index.html?nc2=h_ct"
+    },
+    "x-preferred" : true,
+    "x-release" : "v4",
+    "x-apisguru-categories" : [ "cloud" ],
+    "x-serviceName" : "appconfig",
+    "x-origin" : [ {
+      "contentType" : "application/json",
+      "url" : "https://raw.githubusercontent.com/aws/aws-sdk-js/master/apis/appconfig-2019-10-09.normal.json",
+      "converter" : {
+        "url" : "https://github.com/mermade/aws2openapi",
+        "version" : "1.0.0"
+      },
+      "x-apisguru-driver" : "external"
+    } ]
+  },
+  "servers" : [ {
+    "url" : "http://appconfig.{region}.amazonaws.com",
+    "description" : "The AppConfig multi-region endpoint",
+    "variables" : {
+      "region" : {
+        "description" : "The AWS region",
+        "default" : "us-east-1",
+        "enum" : [ "us-east-1", "us-east-2", "us-west-1", "us-west-2", "us-gov-west-1", "us-gov-east-1", "ca-central-1", "eu-north-1", "eu-west-1", "eu-west-2", "eu-west-3", "eu-central-1", "eu-south-1", "af-south-1", "ap-northeast-1", "ap-northeast-2", "ap-northeast-3", "ap-southeast-1", "ap-southeast-2", "ap-east-1", "ap-south-1", "sa-east-1", "me-south-1" ]
+      }
+    }
+  }, {
+    "url" : "https://appconfig.{region}.amazonaws.com",
+    "description" : "The AppConfig multi-region endpoint",
+    "variables" : {
+      "region" : {
+        "description" : "The AWS region",
+        "default" : "us-east-1",
+        "enum" : [ "us-east-1", "us-east-2", "us-west-1", "us-west-2", "us-gov-west-1", "us-gov-east-1", "ca-central-1", "eu-north-1", "eu-west-1", "eu-west-2", "eu-west-3", "eu-central-1", "eu-south-1", "af-south-1", "ap-northeast-1", "ap-northeast-2", "ap-northeast-3", "ap-southeast-1", "ap-southeast-2", "ap-east-1", "ap-south-1", "sa-east-1", "me-south-1" ]
+      }
+    }
+  }, {
+    "url" : "http://appconfig.{region}.amazonaws.com.cn",
+    "description" : "The AppConfig endpoint for China (Beijing) and China (Ningxia)",
+    "variables" : {
+      "region" : {
+        "description" : "The AWS region",
+        "default" : "cn-north-1",
+        "enum" : [ "cn-north-1", "cn-northwest-1" ]
+      }
+    }
+  }, {
+    "url" : "https://appconfig.{region}.amazonaws.com.cn",
+    "description" : "The AppConfig endpoint for China (Beijing) and China (Ningxia)",
+    "variables" : {
+      "region" : {
+        "description" : "The AWS region",
+        "default" : "cn-north-1",
+        "enum" : [ "cn-north-1", "cn-northwest-1" ]
+      }
+    }
+  } ],
+  "paths" : {
+    "/applications" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/X-Amz-Content-Sha256"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Date"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Algorithm"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Credential"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Security-Token"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Signature"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-SignedHeaders"
+      } ],
+      "get" : {
+        "description" : "List all applications in your AWS account.",
+        "operationId" : "ListApplications",
+        "parameters" : [ {
+          "description" : "The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.",
+          "required" : false,
+          "schema" : {
+            "maximum" : 50,
+            "minimum" : 1,
+            "type" : "integer"
+          },
+          "in" : "query",
+          "name" : "max_results"
+        }, {
+          "description" : "A token to start the list. Use this token to get the next set of results.",
+          "required" : false,
+          "schema" : {
+            "maxLength" : 2048,
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "in" : "query",
+          "name" : "next_token"
+        }, {
+          "description" : "Pagination limit",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "in" : "query",
+          "name" : "MaxResults"
+        }, {
+          "description" : "Pagination token",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "in" : "query",
+          "name" : "NextToken"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Applications"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "InternalServerException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServerException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "BadRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestException"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "description" : "An application in AppConfig is a logical unit of code that provides capabilities for your customers. For example, an application can be a microservice that runs on Amazon EC2 instances, a mobile application installed by your users, a serverless application using Amazon API Gateway and AWS Lambda, or any system you run on behalf of others.",
+        "operationId" : "CreateApplication",
+        "parameters" : [ ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "properties" : {
+                  "Name" : {
+                    "description" : "A name for the application.",
+                    "maxLength" : 64,
+                    "minLength" : 1,
+                    "type" : "string"
+                  },
+                  "Description" : {
+                    "description" : "A description of the application.",
+                    "maxLength" : 1024,
+                    "minLength" : 0,
+                    "type" : "string"
+                  },
+                  "Tags" : {
+                    "description" : "Metadata to assign to the application. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.",
+                    "maxProperties" : 50,
+                    "minProperties" : 0,
+                    "type" : "object",
+                    "additionalProperties" : {
+                      "$ref" : "#/components/schemas/TagValue"
+                    }
+                  }
+                },
+                "type" : "object",
+                "required" : [ "Name" ]
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Application"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "BadRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "InternalServerException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServerException"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/applications/{ApplicationId}/configurationprofiles" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/X-Amz-Content-Sha256"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Date"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Algorithm"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Credential"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Security-Token"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Signature"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-SignedHeaders"
+      } ],
+      "get" : {
+        "description" : "Lists the configuration profiles for an application.",
+        "operationId" : "ListConfigurationProfiles",
+        "parameters" : [ {
+          "description" : "The application ID.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "ApplicationId"
+        }, {
+          "description" : "The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.",
+          "required" : false,
+          "schema" : {
+            "maximum" : 50,
+            "minimum" : 1,
+            "type" : "integer"
+          },
+          "in" : "query",
+          "name" : "max_results"
+        }, {
+          "description" : "A token to start the list. Use this token to get the next set of results.",
+          "required" : false,
+          "schema" : {
+            "maxLength" : 2048,
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "in" : "query",
+          "name" : "next_token"
+        }, {
+          "description" : "Pagination limit",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "in" : "query",
+          "name" : "MaxResults"
+        }, {
+          "description" : "Pagination token",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "in" : "query",
+          "name" : "NextToken"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ConfigurationProfiles"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "InternalServerException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServerException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "BadRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestException"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "description" : "<p>Information that enables AppConfig to access the configuration source. Valid configuration sources include Systems Manager (SSM) documents, SSM Parameter Store parameters, and Amazon S3 objects. A configuration profile includes the following information.</p> <ul> <li> <p>The Uri location of the configuration data.</p> </li> <li> <p>The AWS Identity and Access Management (IAM) role that provides access to the configuration data.</p> </li> <li> <p>A validator for the configuration data. Available validators include either a JSON Schema or an AWS Lambda function.</p> </li> </ul> <p>For more information, see <a href=\"http://docs.aws.amazon.com/systems-manager/latest/userguide/appconfig-creating-configuration-and-profile.html\">Create a Configuration and a Configuration Profile</a> in the <i>AWS AppConfig User Guide</i>.</p>",
+        "operationId" : "CreateConfigurationProfile",
+        "parameters" : [ {
+          "description" : "The application ID.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "ApplicationId"
+        } ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "properties" : {
+                  "Name" : {
+                    "description" : "A name for the configuration profile.",
+                    "maxLength" : 64,
+                    "minLength" : 1,
+                    "type" : "string"
+                  },
+                  "Description" : {
+                    "description" : "A description of the configuration profile.",
+                    "maxLength" : 1024,
+                    "minLength" : 0,
+                    "type" : "string"
+                  },
+                  "LocationUri" : {
+                    "description" : "A URI to locate the configuration. You can specify a Systems Manager (SSM) document, an SSM Parameter Store parameter, or an Amazon S3 object. For an SSM document, specify either the document name in the format <code>ssm-document://&lt;Document_name&gt;</code> or the Amazon Resource Name (ARN). For a parameter, specify either the parameter name in the format <code>ssm-parameter://&lt;Parameter_name&gt;</code> or the ARN. For an Amazon S3 object, specify the URI in the following format: <code>s3://&lt;bucket&gt;/&lt;objectKey&gt; </code>. Here is an example: s3://my-bucket/my-app/us-east-1/my-config.json",
+                    "maxLength" : 2048,
+                    "minLength" : 1,
+                    "type" : "string"
+                  },
+                  "RetrievalRoleArn" : {
+                    "description" : "The ARN of an IAM role with permission to access the configuration at the specified LocationUri.",
+                    "maxLength" : 2048,
+                    "minLength" : 20,
+                    "pattern" : "^((arn):(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):(iam)::\\d{12}:role[/].*)$",
+                    "type" : "string"
+                  },
+                  "Validators" : {
+                    "description" : "A list of methods for validating the configuration.",
+                    "maxItems" : 2,
+                    "minItems" : 0,
+                    "type" : "array",
+                    "items" : {
+                      "$ref" : "#/components/schemas/Validator"
+                    }
+                  },
+                  "Tags" : {
+                    "description" : "Metadata to assign to the configuration profile. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.",
+                    "maxProperties" : 50,
+                    "minProperties" : 0,
+                    "type" : "object",
+                    "additionalProperties" : {
+                      "$ref" : "#/components/schemas/TagValue"
+                    }
+                  }
+                },
+                "type" : "object",
+                "required" : [ "Name", "LocationUri" ]
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ConfigurationProfile"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "BadRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "InternalServerException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServerException"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deploymentstrategies" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/X-Amz-Content-Sha256"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Date"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Algorithm"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Credential"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Security-Token"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Signature"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-SignedHeaders"
+      } ],
+      "get" : {
+        "description" : "List deployment strategies.",
+        "operationId" : "ListDeploymentStrategies",
+        "parameters" : [ {
+          "description" : "The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.",
+          "required" : false,
+          "schema" : {
+            "maximum" : 50,
+            "minimum" : 1,
+            "type" : "integer"
+          },
+          "in" : "query",
+          "name" : "max_results"
+        }, {
+          "description" : "A token to start the list. Use this token to get the next set of results.",
+          "required" : false,
+          "schema" : {
+            "maxLength" : 2048,
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "in" : "query",
+          "name" : "next_token"
+        }, {
+          "description" : "Pagination limit",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "in" : "query",
+          "name" : "MaxResults"
+        }, {
+          "description" : "Pagination token",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "in" : "query",
+          "name" : "NextToken"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DeploymentStrategies"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "InternalServerException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServerException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "BadRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestException"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "description" : "A deployment strategy defines important criteria for rolling out your configuration to the designated targets. A deployment strategy includes: the overall duration required, a percentage of targets to receive the deployment during each interval, an algorithm that defines how percentage grows, and bake time.",
+        "operationId" : "CreateDeploymentStrategy",
+        "parameters" : [ ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "properties" : {
+                  "Name" : {
+                    "description" : "A name for the deployment strategy.",
+                    "maxLength" : 64,
+                    "minLength" : 1,
+                    "type" : "string"
+                  },
+                  "Description" : {
+                    "description" : "A description of the deployment strategy.",
+                    "maxLength" : 1024,
+                    "minLength" : 0,
+                    "type" : "string"
+                  },
+                  "DeploymentDurationInMinutes" : {
+                    "description" : "Total amount of time for a deployment to last.",
+                    "maximum" : 1440,
+                    "minimum" : 0,
+                    "type" : "integer"
+                  },
+                  "FinalBakeTimeInMinutes" : {
+                    "description" : "The amount of time AppConfig monitors for alarms before considering the deployment to be complete and no longer eligible for automatic roll back.",
+                    "maximum" : 1440,
+                    "minimum" : 0,
+                    "type" : "integer"
+                  },
+                  "GrowthFactor" : {
+                    "description" : "The percentage of targets to receive a deployed configuration during each interval.",
+                    "format" : "float",
+                    "maximum" : 100,
+                    "minimum" : 1,
+                    "type" : "number"
+                  },
+                  "GrowthType" : {
+                    "description" : "<p>The algorithm used to define how percentage grows over time. AWS AppConfig supports the following growth types:</p> <p> <b>Linear</b>: For this type, AppConfig processes the deployment by dividing the total number of targets by the value specified for <code>Step percentage</code>. For example, a linear deployment that uses a <code>Step percentage</code> of 10 deploys the configuration to 10 percent of the hosts. After those deployments are complete, the system deploys the configuration to the next 10 percent. This continues until 100% of the targets have successfully received the configuration.</p> <p> <b>Exponential</b>: For this type, AppConfig processes the deployment exponentially using the following formula: <code>G*(2^N)</code>. In this formula, <code>G</code> is the growth factor specified by the user and <code>N</code> is the number of steps until the configuration is deployed to all targets. For example, if you specify a growth factor of 2, then the system rolls out the configuration as follows:</p> <p> <code>2*(2^0)</code> </p> <p> <code>2*(2^1)</code> </p> <p> <code>2*(2^2)</code> </p> <p>Expressed numerically, the deployment rolls out as follows: 2% of the targets, 4% of the targets, 8% of the targets, and continues until the configuration has been deployed to all targets.</p>",
+                    "type" : "string",
+                    "enum" : [ "LINEAR", "EXPONENTIAL" ]
+                  },
+                  "ReplicateTo" : {
+                    "description" : "Save the deployment strategy to a Systems Manager (SSM) document.",
+                    "type" : "string",
+                    "enum" : [ "NONE", "SSM_DOCUMENT" ]
+                  },
+                  "Tags" : {
+                    "description" : "Metadata to assign to the deployment strategy. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.",
+                    "maxProperties" : 50,
+                    "minProperties" : 0,
+                    "type" : "object",
+                    "additionalProperties" : {
+                      "$ref" : "#/components/schemas/TagValue"
+                    }
+                  }
+                },
+                "type" : "object",
+                "required" : [ "Name", "DeploymentDurationInMinutes", "GrowthFactor", "ReplicateTo" ]
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DeploymentStrategy"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "InternalServerException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServerException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "BadRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestException"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/applications/{ApplicationId}/environments" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/X-Amz-Content-Sha256"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Date"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Algorithm"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Credential"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Security-Token"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Signature"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-SignedHeaders"
+      } ],
+      "get" : {
+        "description" : "List the environments for an application.",
+        "operationId" : "ListEnvironments",
+        "parameters" : [ {
+          "description" : "The application ID.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "ApplicationId"
+        }, {
+          "description" : "The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.",
+          "required" : false,
+          "schema" : {
+            "maximum" : 50,
+            "minimum" : 1,
+            "type" : "integer"
+          },
+          "in" : "query",
+          "name" : "max_results"
+        }, {
+          "description" : "A token to start the list. Use this token to get the next set of results.",
+          "required" : false,
+          "schema" : {
+            "maxLength" : 2048,
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "in" : "query",
+          "name" : "next_token"
+        }, {
+          "description" : "Pagination limit",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "in" : "query",
+          "name" : "MaxResults"
+        }, {
+          "description" : "Pagination token",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "in" : "query",
+          "name" : "NextToken"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Environments"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "InternalServerException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServerException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "BadRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestException"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "description" : "For each application, you define one or more environments. An environment is a logical deployment group of AppConfig targets, such as applications in a <code>Beta</code> or <code>Production</code> environment. You can also define environments for application subcomponents such as the <code>Web</code>, <code>Mobile</code> and <code>Back-end</code> components for your application. You can configure Amazon CloudWatch alarms for each environment. The system monitors alarms during a configuration deployment. If an alarm is triggered, the system rolls back the configuration.",
+        "operationId" : "CreateEnvironment",
+        "parameters" : [ {
+          "description" : "The application ID.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "ApplicationId"
+        } ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "properties" : {
+                  "Name" : {
+                    "description" : "A name for the environment.",
+                    "maxLength" : 64,
+                    "minLength" : 1,
+                    "type" : "string"
+                  },
+                  "Description" : {
+                    "description" : "A description of the environment.",
+                    "maxLength" : 1024,
+                    "minLength" : 0,
+                    "type" : "string"
+                  },
+                  "Monitors" : {
+                    "description" : "Amazon CloudWatch alarms to monitor during the deployment process.",
+                    "maxItems" : 5,
+                    "minItems" : 0,
+                    "type" : "array",
+                    "items" : {
+                      "$ref" : "#/components/schemas/Monitor"
+                    }
+                  },
+                  "Tags" : {
+                    "description" : "Metadata to assign to the environment. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.",
+                    "maxProperties" : 50,
+                    "minProperties" : 0,
+                    "type" : "object",
+                    "additionalProperties" : {
+                      "$ref" : "#/components/schemas/TagValue"
+                    }
+                  }
+                },
+                "type" : "object",
+                "required" : [ "Name" ]
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Environment"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "InternalServerException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServerException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "BadRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestException"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions#Content-Type" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/X-Amz-Content-Sha256"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Date"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Algorithm"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Credential"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Security-Token"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Signature"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-SignedHeaders"
+      } ],
+      "post" : {
+        "description" : "Create a new configuration in the AppConfig configuration store.",
+        "operationId" : "CreateHostedConfigurationVersion",
+        "parameters" : [ {
+          "description" : "The application ID.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "ApplicationId"
+        }, {
+          "description" : "The configuration profile ID.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "ConfigurationProfileId"
+        }, {
+          "description" : "A description of the configuration.",
+          "required" : false,
+          "schema" : {
+            "maxLength" : 1024,
+            "minLength" : 0,
+            "type" : "string"
+          },
+          "in" : "header",
+          "name" : "Description"
+        }, {
+          "description" : "A standard MIME type describing the format of the configuration content. For more information, see <a href=\"https://docs.aws.amazon.com/https:/www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17\">Content-Type</a>.",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 255,
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "in" : "header",
+          "name" : "Content-Type"
+        }, {
+          "description" : "An optional locking token used to prevent race conditions from overwriting configuration updates when creating a new version. To ensure your data is not overwritten when creating multiple hosted configuration versions in rapid succession, specify the version of the latest hosted configuration version.",
+          "required" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "in" : "header",
+          "name" : "Latest-Version-Number"
+        } ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "properties" : {
+                  "Content" : {
+                    "description" : "The content of the configuration or the configuration data.",
+                    "format" : "password",
+                    "type" : "string"
+                  }
+                },
+                "type" : "object",
+                "required" : [ "Content" ]
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/HostedConfigurationVersion"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "BadRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "ServiceQuotaExceededException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ServiceQuotaExceededException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "483" : {
+            "description" : "ConflictException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ConflictException"
+                }
+              }
+            }
+          },
+          "484" : {
+            "description" : "PayloadTooLargeException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PayloadTooLargeException"
+                }
+              }
+            }
+          },
+          "485" : {
+            "description" : "InternalServerException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServerException"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/applications/{ApplicationId}" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/X-Amz-Content-Sha256"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Date"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Algorithm"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Credential"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Security-Token"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Signature"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-SignedHeaders"
+      } ],
+      "get" : {
+        "description" : "Retrieve information about an application.",
+        "operationId" : "GetApplication",
+        "parameters" : [ {
+          "description" : "The ID of the application you want to get.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "ApplicationId"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Application"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "InternalServerException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServerException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "BadRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestException"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch" : {
+        "description" : "Updates an application.",
+        "operationId" : "UpdateApplication",
+        "parameters" : [ {
+          "description" : "The application ID.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "ApplicationId"
+        } ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "properties" : {
+                  "Name" : {
+                    "description" : "The name of the application.",
+                    "maxLength" : 64,
+                    "minLength" : 1,
+                    "type" : "string"
+                  },
+                  "Description" : {
+                    "description" : "A description of the application.",
+                    "maxLength" : 1024,
+                    "minLength" : 0,
+                    "type" : "string"
+                  }
+                },
+                "type" : "object"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Application"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "BadRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "InternalServerException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServerException"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "description" : "Delete an application. Deleting an application does not delete a configuration from a host.",
+        "operationId" : "DeleteApplication",
+        "parameters" : [ {
+          "description" : "The ID of the application to delete.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "ApplicationId"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Success"
+          },
+          "480" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "InternalServerException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServerException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "BadRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestException"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/X-Amz-Content-Sha256"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Date"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Algorithm"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Credential"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Security-Token"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Signature"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-SignedHeaders"
+      } ],
+      "get" : {
+        "description" : "Retrieve information about a configuration profile.",
+        "operationId" : "GetConfigurationProfile",
+        "parameters" : [ {
+          "description" : "The ID of the application that includes the configuration profile you want to get.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "ApplicationId"
+        }, {
+          "description" : "The ID of the configuration profile you want to get.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "ConfigurationProfileId"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ConfigurationProfile"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "InternalServerException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServerException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "BadRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestException"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch" : {
+        "description" : "Updates a configuration profile.",
+        "operationId" : "UpdateConfigurationProfile",
+        "parameters" : [ {
+          "description" : "The application ID.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "ApplicationId"
+        }, {
+          "description" : "The ID of the configuration profile.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "ConfigurationProfileId"
+        } ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "properties" : {
+                  "Name" : {
+                    "description" : "The name of the configuration profile.",
+                    "maxLength" : 64,
+                    "minLength" : 1,
+                    "type" : "string"
+                  },
+                  "Description" : {
+                    "description" : "A description of the configuration profile.",
+                    "maxLength" : 1024,
+                    "minLength" : 0,
+                    "type" : "string"
+                  },
+                  "RetrievalRoleArn" : {
+                    "description" : "The ARN of an IAM role with permission to access the configuration at the specified LocationUri.",
+                    "maxLength" : 2048,
+                    "minLength" : 20,
+                    "pattern" : "^((arn):(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):(iam)::\\d{12}:role[/].*)$",
+                    "type" : "string"
+                  },
+                  "Validators" : {
+                    "description" : "A list of methods for validating the configuration.",
+                    "maxItems" : 2,
+                    "minItems" : 0,
+                    "type" : "array",
+                    "items" : {
+                      "$ref" : "#/components/schemas/Validator"
+                    }
+                  }
+                },
+                "type" : "object"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ConfigurationProfile"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "BadRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "InternalServerException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServerException"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "description" : "Delete a configuration profile. Deleting a configuration profile does not delete a configuration from a host.",
+        "operationId" : "DeleteConfigurationProfile",
+        "parameters" : [ {
+          "description" : "The application ID that includes the configuration profile you want to delete.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "ApplicationId"
+        }, {
+          "description" : "The ID of the configuration profile you want to delete.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "ConfigurationProfileId"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Success"
+          },
+          "480" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "ConflictException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ConflictException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "InternalServerException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServerException"
+                }
+              }
+            }
+          },
+          "483" : {
+            "description" : "BadRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestException"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deployementstrategies/{DeploymentStrategyId}" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/X-Amz-Content-Sha256"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Date"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Algorithm"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Credential"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Security-Token"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Signature"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-SignedHeaders"
+      } ],
+      "delete" : {
+        "description" : "Delete a deployment strategy. Deleting a deployment strategy does not delete a configuration from a host.",
+        "operationId" : "DeleteDeploymentStrategy",
+        "parameters" : [ {
+          "description" : "The ID of the deployment strategy you want to delete.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "(^[a-z0-9]{4,7}$|^AppConfig\\.[A-Za-z0-9]{9,40}$)",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "DeploymentStrategyId"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Success"
+          },
+          "480" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "InternalServerException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServerException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "BadRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestException"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/applications/{ApplicationId}/environments/{EnvironmentId}" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/X-Amz-Content-Sha256"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Date"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Algorithm"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Credential"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Security-Token"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Signature"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-SignedHeaders"
+      } ],
+      "get" : {
+        "description" : "Retrieve information about an environment. An environment is a logical deployment group of AppConfig applications, such as applications in a <code>Production</code> environment or in an <code>EU_Region</code> environment. Each configuration deployment targets an environment. You can enable one or more Amazon CloudWatch alarms for an environment. If an alarm is triggered during a deployment, AppConfig roles back the configuration.",
+        "operationId" : "GetEnvironment",
+        "parameters" : [ {
+          "description" : "The ID of the application that includes the environment you want to get.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "ApplicationId"
+        }, {
+          "description" : "The ID of the environment you wnat to get.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "EnvironmentId"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Environment"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "InternalServerException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServerException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "BadRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestException"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch" : {
+        "description" : "Updates an environment.",
+        "operationId" : "UpdateEnvironment",
+        "parameters" : [ {
+          "description" : "The application ID.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "ApplicationId"
+        }, {
+          "description" : "The environment ID.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "EnvironmentId"
+        } ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "properties" : {
+                  "Name" : {
+                    "description" : "The name of the environment.",
+                    "maxLength" : 64,
+                    "minLength" : 1,
+                    "type" : "string"
+                  },
+                  "Description" : {
+                    "description" : "A description of the environment.",
+                    "maxLength" : 1024,
+                    "minLength" : 0,
+                    "type" : "string"
+                  },
+                  "Monitors" : {
+                    "description" : "Amazon CloudWatch alarms to monitor during the deployment process.",
+                    "maxItems" : 5,
+                    "minItems" : 0,
+                    "type" : "array",
+                    "items" : {
+                      "$ref" : "#/components/schemas/Monitor"
+                    }
+                  }
+                },
+                "type" : "object"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Environment"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "BadRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "InternalServerException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServerException"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "description" : "Delete an environment. Deleting an environment does not delete a configuration from a host.",
+        "operationId" : "DeleteEnvironment",
+        "parameters" : [ {
+          "description" : "The application ID that includes the environment you want to delete.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "ApplicationId"
+        }, {
+          "description" : "The ID of the environment you want to delete.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "EnvironmentId"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Success"
+          },
+          "480" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "ConflictException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ConflictException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "InternalServerException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServerException"
+                }
+              }
+            }
+          },
+          "483" : {
+            "description" : "BadRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestException"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions/{VersionNumber}" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/X-Amz-Content-Sha256"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Date"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Algorithm"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Credential"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Security-Token"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Signature"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-SignedHeaders"
+      } ],
+      "get" : {
+        "description" : "Get information about a specific configuration version.",
+        "operationId" : "GetHostedConfigurationVersion",
+        "parameters" : [ {
+          "description" : "The application ID.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "ApplicationId"
+        }, {
+          "description" : "The configuration profile ID.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "ConfigurationProfileId"
+        }, {
+          "description" : "The version.",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "in" : "path",
+          "name" : "VersionNumber"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/HostedConfigurationVersion"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "BadRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "InternalServerException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServerException"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "description" : "Delete a version of a configuration from the AppConfig configuration store.",
+        "operationId" : "DeleteHostedConfigurationVersion",
+        "parameters" : [ {
+          "description" : "The application ID.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "ApplicationId"
+        }, {
+          "description" : "The configuration profile ID.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "ConfigurationProfileId"
+        }, {
+          "description" : "The versions number to delete.",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "in" : "path",
+          "name" : "VersionNumber"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Success"
+          },
+          "480" : {
+            "description" : "BadRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "InternalServerException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServerException"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/applications/{Application}/environments/{Environment}/configurations/{Configuration}#client_id" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/X-Amz-Content-Sha256"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Date"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Algorithm"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Credential"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Security-Token"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Signature"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-SignedHeaders"
+      } ],
+      "get" : {
+        "description" : "<p>Receive information about a configuration.</p> <important> <p>AWS AppConfig uses the value of the <code>ClientConfigurationVersion</code> parameter to identify the configuration version on your clients. If you don¡¯t send <code>ClientConfigurationVersion</code> with each call to <code>GetConfiguration</code>, your clients receive the current configuration. You are charged each time your clients receive a configuration.</p> <p>To avoid excess charges, we recommend that you include the <code>ClientConfigurationVersion</code> value with every call to <code>GetConfiguration</code>. This value must be saved on your client. Subsequent calls to <code>GetConfiguration</code> must pass this value by using the <code>ClientConfigurationVersion</code> parameter. </p> </important>",
+        "operationId" : "GetConfiguration",
+        "parameters" : [ {
+          "description" : "The application to get. Specify either the application name or the application ID.",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 64,
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "Application"
+        }, {
+          "description" : "The environment to get. Specify either the environment name or the environment ID.",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 64,
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "Environment"
+        }, {
+          "description" : "The configuration to get. Specify either the configuration name or the configuration ID.",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 64,
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "Configuration"
+        }, {
+          "description" : "A unique ID to identify the client for the configuration. This ID enables AppConfig to deploy the configuration in intervals, as defined in the deployment strategy.",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 64,
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "in" : "query",
+          "name" : "client_id"
+        }, {
+          "description" : "<p>The configuration version returned in the most recent <code>GetConfiguration</code> response.</p> <important> <p>AWS AppConfig uses the value of the <code>ClientConfigurationVersion</code> parameter to identify the configuration version on your clients. If you don¡¯t send <code>ClientConfigurationVersion</code> with each call to <code>GetConfiguration</code>, your clients receive the current configuration. You are charged each time your clients receive a configuration.</p> <p>To avoid excess charges, we recommend that you include the <code>ClientConfigurationVersion</code> value with every call to <code>GetConfiguration</code>. This value must be saved on your client. Subsequent calls to <code>GetConfiguration</code> must pass this value by using the <code>ClientConfigurationVersion</code> parameter. </p> </important> <p>For more information about working with configurations, see <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/appconfig-retrieving-the-configuration.html\">Retrieving the Configuration</a> in the <i>AWS AppConfig User Guide</i>.</p>",
+          "required" : false,
+          "schema" : {
+            "maxLength" : 1024,
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "in" : "query",
+          "name" : "client_configuration_version"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Configuration"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "InternalServerException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServerException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "BadRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestException"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/applications/{ApplicationId}/environments/{EnvironmentId}/deployments/{DeploymentNumber}" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/X-Amz-Content-Sha256"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Date"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Algorithm"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Credential"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Security-Token"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Signature"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-SignedHeaders"
+      } ],
+      "get" : {
+        "description" : "Retrieve information about a configuration deployment.",
+        "operationId" : "GetDeployment",
+        "parameters" : [ {
+          "description" : "The ID of the application that includes the deployment you want to get. ",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "ApplicationId"
+        }, {
+          "description" : "The ID of the environment that includes the deployment you want to get. ",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "EnvironmentId"
+        }, {
+          "description" : "The sequence number of the deployment.",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "in" : "path",
+          "name" : "DeploymentNumber"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Deployment"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "InternalServerException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServerException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "BadRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestException"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "description" : "Stops a deployment. This API action works only on deployments that have a status of <code>DEPLOYING</code>. This action moves the deployment to a status of <code>ROLLED_BACK</code>.",
+        "operationId" : "StopDeployment",
+        "parameters" : [ {
+          "description" : "The application ID.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "ApplicationId"
+        }, {
+          "description" : "The environment ID.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "EnvironmentId"
+        }, {
+          "description" : "The sequence number of the deployment.",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "in" : "path",
+          "name" : "DeploymentNumber"
+        } ],
+        "responses" : {
+          "202" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Deployment"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "InternalServerException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServerException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "BadRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestException"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deploymentstrategies/{DeploymentStrategyId}" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/X-Amz-Content-Sha256"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Date"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Algorithm"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Credential"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Security-Token"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Signature"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-SignedHeaders"
+      } ],
+      "get" : {
+        "description" : "Retrieve information about a deployment strategy. A deployment strategy defines important criteria for rolling out your configuration to the designated targets. A deployment strategy includes: the overall duration required, a percentage of targets to receive the deployment during each interval, an algorithm that defines how percentage grows, and bake time.",
+        "operationId" : "GetDeploymentStrategy",
+        "parameters" : [ {
+          "description" : "The ID of the deployment strategy to get.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "(^[a-z0-9]{4,7}$|^AppConfig\\.[A-Za-z0-9]{9,40}$)",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "DeploymentStrategyId"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DeploymentStrategy"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "InternalServerException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServerException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "BadRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestException"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch" : {
+        "description" : "Updates a deployment strategy.",
+        "operationId" : "UpdateDeploymentStrategy",
+        "parameters" : [ {
+          "description" : "The deployment strategy ID.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "(^[a-z0-9]{4,7}$|^AppConfig\\.[A-Za-z0-9]{9,40}$)",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "DeploymentStrategyId"
+        } ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "properties" : {
+                  "Description" : {
+                    "description" : "A description of the deployment strategy.",
+                    "maxLength" : 1024,
+                    "minLength" : 0,
+                    "type" : "string"
+                  },
+                  "DeploymentDurationInMinutes" : {
+                    "description" : "Total amount of time for a deployment to last.",
+                    "maximum" : 1440,
+                    "minimum" : 0,
+                    "type" : "integer"
+                  },
+                  "FinalBakeTimeInMinutes" : {
+                    "description" : "The amount of time AppConfig monitors for alarms before considering the deployment to be complete and no longer eligible for automatic roll back.",
+                    "maximum" : 1440,
+                    "minimum" : 0,
+                    "type" : "integer"
+                  },
+                  "GrowthFactor" : {
+                    "description" : "The percentage of targets to receive a deployed configuration during each interval.",
+                    "format" : "float",
+                    "maximum" : 100,
+                    "minimum" : 1,
+                    "type" : "number"
+                  },
+                  "GrowthType" : {
+                    "description" : "<p>The algorithm used to define how percentage grows over time. AWS AppConfig supports the following growth types:</p> <p> <b>Linear</b>: For this type, AppConfig processes the deployment by increments of the growth factor evenly distributed over the deployment time. For example, a linear deployment that uses a growth factor of 20 initially makes the configuration available to 20 percent of the targets. After 1/5th of the deployment time has passed, the system updates the percentage to 40 percent. This continues until 100% of the targets are set to receive the deployed configuration.</p> <p> <b>Exponential</b>: For this type, AppConfig processes the deployment exponentially using the following formula: <code>G*(2^N)</code>. In this formula, <code>G</code> is the growth factor specified by the user and <code>N</code> is the number of steps until the configuration is deployed to all targets. For example, if you specify a growth factor of 2, then the system rolls out the configuration as follows:</p> <p> <code>2*(2^0)</code> </p> <p> <code>2*(2^1)</code> </p> <p> <code>2*(2^2)</code> </p> <p>Expressed numerically, the deployment rolls out as follows: 2% of the targets, 4% of the targets, 8% of the targets, and continues until the configuration has been deployed to all targets.</p>",
+                    "type" : "string",
+                    "enum" : [ "LINEAR", "EXPONENTIAL" ]
+                  }
+                },
+                "type" : "object"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DeploymentStrategy"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "BadRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "InternalServerException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServerException"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/applications/{ApplicationId}/environments/{EnvironmentId}/deployments" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/X-Amz-Content-Sha256"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Date"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Algorithm"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Credential"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Security-Token"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Signature"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-SignedHeaders"
+      } ],
+      "get" : {
+        "description" : "Lists the deployments for an environment.",
+        "operationId" : "ListDeployments",
+        "parameters" : [ {
+          "description" : "The application ID.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "ApplicationId"
+        }, {
+          "description" : "The environment ID.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "EnvironmentId"
+        }, {
+          "description" : "The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.",
+          "required" : false,
+          "schema" : {
+            "maximum" : 50,
+            "minimum" : 1,
+            "type" : "integer"
+          },
+          "in" : "query",
+          "name" : "max_results"
+        }, {
+          "description" : "A token to start the list. Use this token to get the next set of results.",
+          "required" : false,
+          "schema" : {
+            "maxLength" : 2048,
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "in" : "query",
+          "name" : "next_token"
+        }, {
+          "description" : "Pagination limit",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "in" : "query",
+          "name" : "MaxResults"
+        }, {
+          "description" : "Pagination token",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "in" : "query",
+          "name" : "NextToken"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Deployments"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "InternalServerException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServerException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "BadRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestException"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "description" : "Starts a deployment.",
+        "operationId" : "StartDeployment",
+        "parameters" : [ {
+          "description" : "The application ID.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "ApplicationId"
+        }, {
+          "description" : "The environment ID.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "EnvironmentId"
+        } ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "properties" : {
+                  "DeploymentStrategyId" : {
+                    "description" : "The deployment strategy ID.",
+                    "pattern" : "(^[a-z0-9]{4,7}$|^AppConfig\\.[A-Za-z0-9]{9,40}$)",
+                    "type" : "string"
+                  },
+                  "ConfigurationProfileId" : {
+                    "description" : "The configuration profile ID.",
+                    "pattern" : "[a-z0-9]{4,7}",
+                    "type" : "string"
+                  },
+                  "ConfigurationVersion" : {
+                    "description" : "The configuration version to deploy.",
+                    "maxLength" : 1024,
+                    "minLength" : 1,
+                    "type" : "string"
+                  },
+                  "Description" : {
+                    "description" : "A description of the deployment.",
+                    "maxLength" : 1024,
+                    "minLength" : 0,
+                    "type" : "string"
+                  },
+                  "Tags" : {
+                    "description" : "Metadata to assign to the deployment. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.",
+                    "maxProperties" : 50,
+                    "minProperties" : 0,
+                    "type" : "object",
+                    "additionalProperties" : {
+                      "$ref" : "#/components/schemas/TagValue"
+                    }
+                  }
+                },
+                "type" : "object",
+                "required" : [ "DeploymentStrategyId", "ConfigurationProfileId", "ConfigurationVersion" ]
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Deployment"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "BadRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "ConflictException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ConflictException"
+                }
+              }
+            }
+          },
+          "483" : {
+            "description" : "InternalServerException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServerException"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/X-Amz-Content-Sha256"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Date"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Algorithm"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Credential"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Security-Token"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Signature"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-SignedHeaders"
+      } ],
+      "get" : {
+        "description" : "View a list of configurations stored in the AppConfig configuration store by version.",
+        "operationId" : "ListHostedConfigurationVersions",
+        "parameters" : [ {
+          "description" : "The application ID.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "ApplicationId"
+        }, {
+          "description" : "The configuration profile ID.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "ConfigurationProfileId"
+        }, {
+          "description" : "The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.",
+          "required" : false,
+          "schema" : {
+            "maximum" : 50,
+            "minimum" : 1,
+            "type" : "integer"
+          },
+          "in" : "query",
+          "name" : "max_results"
+        }, {
+          "description" : "A token to start the list. Use this token to get the next set of results. ",
+          "required" : false,
+          "schema" : {
+            "maxLength" : 2048,
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "in" : "query",
+          "name" : "next_token"
+        }, {
+          "description" : "Pagination limit",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "in" : "query",
+          "name" : "MaxResults"
+        }, {
+          "description" : "Pagination token",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "in" : "query",
+          "name" : "NextToken"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/HostedConfigurationVersions"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "BadRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "InternalServerException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServerException"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tags/{ResourceArn}" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/X-Amz-Content-Sha256"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Date"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Algorithm"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Credential"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Security-Token"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Signature"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-SignedHeaders"
+      } ],
+      "get" : {
+        "description" : "Retrieves the list of key-value tags assigned to the resource.",
+        "operationId" : "ListTagsForResource",
+        "parameters" : [ {
+          "description" : "The resource ARN.",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 2048,
+            "minLength" : 20,
+            "pattern" : "arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "ResourceArn"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceTags"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "BadRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "InternalServerException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServerException"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "description" : "Metadata to assign to an AppConfig resource. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define. You can specify a maximum of 50 tags for a resource.",
+        "operationId" : "TagResource",
+        "parameters" : [ {
+          "description" : "The ARN of the resource for which to retrieve tags.",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 2048,
+            "minLength" : 20,
+            "pattern" : "arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "ResourceArn"
+        } ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "properties" : {
+                  "Tags" : {
+                    "description" : "The key-value string map. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with <code>aws:</code>. The tag value can be up to 256 characters.",
+                    "maxProperties" : 50,
+                    "minProperties" : 0,
+                    "type" : "object",
+                    "additionalProperties" : {
+                      "$ref" : "#/components/schemas/TagValue"
+                    }
+                  }
+                },
+                "type" : "object",
+                "required" : [ "Tags" ]
+              }
+            }
+          }
+        },
+        "responses" : {
+          "204" : {
+            "description" : "Success"
+          },
+          "480" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "BadRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "InternalServerException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServerException"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tags/{ResourceArn}#tagKeys" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/X-Amz-Content-Sha256"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Date"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Algorithm"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Credential"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Security-Token"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Signature"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-SignedHeaders"
+      } ],
+      "delete" : {
+        "description" : "Deletes a tag key and value from an AppConfig resource.",
+        "operationId" : "UntagResource",
+        "parameters" : [ {
+          "description" : "The ARN of the resource for which to remove tags.",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 2048,
+            "minLength" : 20,
+            "pattern" : "arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "ResourceArn"
+        }, {
+          "description" : "The tag keys to delete.",
+          "required" : true,
+          "schema" : {
+            "maxItems" : 50,
+            "minItems" : 0,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/TagKey"
+            }
+          },
+          "in" : "query",
+          "name" : "tagKeys"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Success"
+          },
+          "480" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "BadRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "InternalServerException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServerException"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/validators#configuration_version" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/X-Amz-Content-Sha256"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Date"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Algorithm"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Credential"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Security-Token"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Signature"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-SignedHeaders"
+      } ],
+      "post" : {
+        "description" : "Uses the validators in a configuration profile to validate a configuration.",
+        "operationId" : "ValidateConfiguration",
+        "parameters" : [ {
+          "description" : "The application ID.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "ApplicationId"
+        }, {
+          "description" : "The configuration profile ID.",
+          "required" : true,
+          "schema" : {
+            "pattern" : "[a-z0-9]{4,7}",
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "ConfigurationProfileId"
+        }, {
+          "description" : "The version of the configuration to validate.",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 1024,
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "in" : "query",
+          "name" : "configuration_version"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Success"
+          },
+          "480" : {
+            "description" : "BadRequestException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "InternalServerException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServerException"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "parameters" : {
+      "X-Amz-Content-Sha256" : {
+        "required" : false,
+        "schema" : {
+          "type" : "string"
+        },
+        "in" : "header",
+        "name" : "X-Amz-Content-Sha256"
+      },
+      "X-Amz-Date" : {
+        "required" : false,
+        "schema" : {
+          "type" : "string"
+        },
+        "in" : "header",
+        "name" : "X-Amz-Date"
+      },
+      "X-Amz-Algorithm" : {
+        "required" : false,
+        "schema" : {
+          "type" : "string"
+        },
+        "in" : "header",
+        "name" : "X-Amz-Algorithm"
+      },
+      "X-Amz-Credential" : {
+        "required" : false,
+        "schema" : {
+          "type" : "string"
+        },
+        "in" : "header",
+        "name" : "X-Amz-Credential"
+      },
+      "X-Amz-Security-Token" : {
+        "required" : false,
+        "schema" : {
+          "type" : "string"
+        },
+        "in" : "header",
+        "name" : "X-Amz-Security-Token"
+      },
+      "X-Amz-Signature" : {
+        "required" : false,
+        "schema" : {
+          "type" : "string"
+        },
+        "in" : "header",
+        "name" : "X-Amz-Signature"
+      },
+      "X-Amz-SignedHeaders" : {
+        "required" : false,
+        "schema" : {
+          "type" : "string"
+        },
+        "in" : "header",
+        "name" : "X-Amz-SignedHeaders"
+      }
+    },
+    "schemas" : {
+      "Application" : {
+        "properties" : {
+          "Id" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Id"
+            }, {
+              "description" : "The application ID."
+            } ]
+          },
+          "Name" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Name"
+            }, {
+              "description" : "The application name."
+            } ]
+          },
+          "Description" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Description"
+            }, {
+              "description" : "The description of the application."
+            } ]
+          }
+        },
+        "type" : "object"
+      },
+      "TagValue" : {
+        "maxLength" : 256,
+        "type" : "string"
+      },
+      "BadRequestException" : { },
+      "InternalServerException" : { },
+      "ConfigurationProfile" : {
+        "properties" : {
+          "ApplicationId" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Id"
+            }, {
+              "description" : "The application ID."
+            } ]
+          },
+          "Id" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Id"
+            }, {
+              "description" : "The configuration profile ID."
+            } ]
+          },
+          "Name" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Name"
+            }, {
+              "description" : "The name of the configuration profile."
+            } ]
+          },
+          "Description" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Description"
+            }, {
+              "description" : "The configuration profile description."
+            } ]
+          },
+          "LocationUri" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Uri"
+            }, {
+              "description" : "The URI location of the configuration."
+            } ]
+          },
+          "RetrievalRoleArn" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/RoleArn"
+            }, {
+              "description" : "The ARN of an IAM role with permission to access the configuration at the specified LocationUri."
+            } ]
+          },
+          "Validators" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ValidatorList"
+            }, {
+              "description" : "A list of methods for validating the configuration."
+            } ]
+          }
+        },
+        "type" : "object"
+      },
+      "Validator" : {
+        "description" : "A validator provides a syntactic or semantic check to ensure the configuration you want to deploy functions as intended. To validate your application configuration data, you provide a schema or a Lambda function that runs against the configuration. The configuration deployment or update can only proceed when the configuration data is valid.",
+        "properties" : {
+          "Type" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ValidatorType"
+            }, {
+              "description" : "AppConfig supports validators of type <code>JSON_SCHEMA</code> and <code>LAMBDA</code> "
+            } ]
+          },
+          "Content" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/StringWithLengthBetween0And32768"
+            }, {
+              "description" : "Either the JSON Schema content or the Amazon Resource Name (ARN) of an AWS Lambda function."
+            } ]
+          }
+        },
+        "type" : "object",
+        "required" : [ "Type", "Content" ]
+      },
+      "ResourceNotFoundException" : { },
+      "DeploymentStrategy" : {
+        "properties" : {
+          "Id" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Id"
+            }, {
+              "description" : "The deployment strategy ID."
+            } ]
+          },
+          "Name" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Name"
+            }, {
+              "description" : "The name of the deployment strategy."
+            } ]
+          },
+          "Description" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Description"
+            }, {
+              "description" : "The description of the deployment strategy."
+            } ]
+          },
+          "DeploymentDurationInMinutes" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/MinutesBetween0And24Hours"
+            }, {
+              "description" : "Total amount of time the deployment lasted."
+            } ]
+          },
+          "GrowthType" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/GrowthType"
+            }, {
+              "description" : "The algorithm used to define how percentage grew over time."
+            } ]
+          },
+          "GrowthFactor" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Percentage"
+            }, {
+              "description" : "The percentage of targets that received a deployed configuration during each interval."
+            } ]
+          },
+          "FinalBakeTimeInMinutes" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/MinutesBetween0And24Hours"
+            }, {
+              "description" : "The amount of time AppConfig monitored for alarms before considering the deployment to be complete and no longer eligible for automatic roll back."
+            } ]
+          },
+          "ReplicateTo" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ReplicateTo"
+            }, {
+              "description" : "Save the deployment strategy to a Systems Manager (SSM) document."
+            } ]
+          }
+        },
+        "type" : "object"
+      },
+      "Environment" : {
+        "properties" : {
+          "ApplicationId" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Id"
+            }, {
+              "description" : "The application ID."
+            } ]
+          },
+          "Id" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Id"
+            }, {
+              "description" : "The environment ID."
+            } ]
+          },
+          "Name" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Name"
+            }, {
+              "description" : "The name of the environment."
+            } ]
+          },
+          "Description" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Description"
+            }, {
+              "description" : "The description of the environment."
+            } ]
+          },
+          "State" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/EnvironmentState"
+            }, {
+              "description" : "The state of the environment. An environment can be in one of the following states: <code>READY_FOR_DEPLOYMENT</code>, <code>DEPLOYING</code>, <code>ROLLING_BACK</code>, or <code>ROLLED_BACK</code> "
+            } ]
+          },
+          "Monitors" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/MonitorList"
+            }, {
+              "description" : "Amazon CloudWatch alarms monitored during the deployment."
+            } ]
+          }
+        },
+        "type" : "object"
+      },
+      "Monitor" : {
+        "description" : "Amazon CloudWatch alarms to monitor during the deployment process.",
+        "properties" : {
+          "AlarmArn" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Arn"
+            }, {
+              "description" : "ARN of the Amazon CloudWatch alarm."
+            } ]
+          },
+          "AlarmRoleArn" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/RoleArn"
+            }, {
+              "description" : "ARN of an IAM role for AppConfig to monitor <code>AlarmArn</code>."
+            } ]
+          }
+        },
+        "type" : "object"
+      },
+      "HostedConfigurationVersion" : {
+        "properties" : {
+          "Content" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Blob"
+            }, {
+              "description" : "The content of the configuration or the configuration data."
+            } ]
+          }
+        },
+        "type" : "object"
+      },
+      "ServiceQuotaExceededException" : { },
+      "ConflictException" : { },
+      "PayloadTooLargeException" : { },
+      "Configuration" : {
+        "properties" : {
+          "Content" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Blob"
+            }, {
+              "description" : "The content of the configuration or the configuration data."
+            } ]
+          }
+        },
+        "type" : "object"
+      },
+      "Deployment" : {
+        "properties" : {
+          "ApplicationId" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Id"
+            }, {
+              "description" : "The ID of the application that was deployed."
+            } ]
+          },
+          "EnvironmentId" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Id"
+            }, {
+              "description" : "The ID of the environment that was deployed."
+            } ]
+          },
+          "DeploymentStrategyId" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Id"
+            }, {
+              "description" : "The ID of the deployment strategy that was deployed."
+            } ]
+          },
+          "ConfigurationProfileId" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Id"
+            }, {
+              "description" : "The ID of the configuration profile that was deployed."
+            } ]
+          },
+          "DeploymentNumber" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Integer"
+            }, {
+              "description" : "The sequence number of the deployment."
+            } ]
+          },
+          "ConfigurationName" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Name"
+            }, {
+              "description" : "The name of the configuration."
+            } ]
+          },
+          "ConfigurationLocationUri" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Uri"
+            }, {
+              "description" : "Information about the source location of the configuration."
+            } ]
+          },
+          "ConfigurationVersion" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Version"
+            }, {
+              "description" : "The configuration version that was deployed."
+            } ]
+          },
+          "Description" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Description"
+            }, {
+              "description" : "The description of the deployment."
+            } ]
+          },
+          "DeploymentDurationInMinutes" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/MinutesBetween0And24Hours"
+            }, {
+              "description" : "Total amount of time the deployment lasted."
+            } ]
+          },
+          "GrowthType" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/GrowthType"
+            }, {
+              "description" : "The algorithm used to define how percentage grew over time."
+            } ]
+          },
+          "GrowthFactor" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Percentage"
+            }, {
+              "description" : "The percentage of targets to receive a deployed configuration during each interval."
+            } ]
+          },
+          "FinalBakeTimeInMinutes" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/MinutesBetween0And24Hours"
+            }, {
+              "description" : "The amount of time AppConfig monitored for alarms before considering the deployment to be complete and no longer eligible for automatic roll back."
+            } ]
+          },
+          "State" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/DeploymentState"
+            }, {
+              "description" : "The state of the deployment."
+            } ]
+          },
+          "EventLog" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/DeploymentEvents"
+            }, {
+              "description" : "A list containing all events related to a deployment. The most recent events are displayed first."
+            } ]
+          },
+          "PercentageComplete" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Percentage"
+            }, {
+              "description" : "The percentage of targets for which the deployment is available."
+            } ]
+          },
+          "StartedAt" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Iso8601DateTime"
+            }, {
+              "description" : "The time the deployment started."
+            } ]
+          },
+          "CompletedAt" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Iso8601DateTime"
+            }, {
+              "description" : "The time the deployment completed. "
+            } ]
+          }
+        },
+        "type" : "object"
+      },
+      "Applications" : {
+        "properties" : {
+          "Items" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ApplicationList"
+            }, {
+              "description" : "The elements from this collection."
+            } ]
+          },
+          "NextToken" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/NextToken"
+            }, {
+              "description" : "The token for the next set of items to return. Use this token to get the next set of results."
+            } ]
+          }
+        },
+        "type" : "object"
+      },
+      "ConfigurationProfiles" : {
+        "properties" : {
+          "Items" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ConfigurationProfileSummaryList"
+            }, {
+              "description" : "The elements from this collection."
+            } ]
+          },
+          "NextToken" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/NextToken"
+            }, {
+              "description" : "The token for the next set of items to return. Use this token to get the next set of results."
+            } ]
+          }
+        },
+        "type" : "object"
+      },
+      "DeploymentStrategies" : {
+        "properties" : {
+          "Items" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/DeploymentStrategyList"
+            }, {
+              "description" : "The elements from this collection."
+            } ]
+          },
+          "NextToken" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/NextToken"
+            }, {
+              "description" : "The token for the next set of items to return. Use this token to get the next set of results."
+            } ]
+          }
+        },
+        "type" : "object"
+      },
+      "Deployments" : {
+        "properties" : {
+          "Items" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/DeploymentList"
+            }, {
+              "description" : "The elements from this collection."
+            } ]
+          },
+          "NextToken" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/NextToken"
+            }, {
+              "description" : "The token for the next set of items to return. Use this token to get the next set of results."
+            } ]
+          }
+        },
+        "type" : "object"
+      },
+      "Environments" : {
+        "properties" : {
+          "Items" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/EnvironmentList"
+            }, {
+              "description" : "The elements from this collection."
+            } ]
+          },
+          "NextToken" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/NextToken"
+            }, {
+              "description" : "The token for the next set of items to return. Use this token to get the next set of results."
+            } ]
+          }
+        },
+        "type" : "object"
+      },
+      "HostedConfigurationVersions" : {
+        "properties" : {
+          "Items" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/HostedConfigurationVersionSummaryList"
+            }, {
+              "description" : "The elements from this collection."
+            } ]
+          },
+          "NextToken" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/NextToken"
+            }, {
+              "description" : "The token for the next set of items to return. Use this token to get the next set of results."
+            } ]
+          }
+        },
+        "type" : "object"
+      },
+      "ResourceTags" : {
+        "properties" : {
+          "Tags" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/TagMap"
+            }, {
+              "description" : "Metadata to assign to AppConfig resources. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define."
+            } ]
+          }
+        },
+        "type" : "object"
+      },
+      "TagKey" : {
+        "maxLength" : 128,
+        "minLength" : 1,
+        "type" : "string"
+      },
+      "Id" : {
+        "pattern" : "[a-z0-9]{4,7}",
+        "type" : "string"
+      },
+      "Name" : {
+        "maxLength" : 64,
+        "minLength" : 1,
+        "type" : "string"
+      },
+      "Description" : {
+        "maxLength" : 1024,
+        "minLength" : 0,
+        "type" : "string"
+      },
+      "ApplicationList" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/Application"
+        }
+      },
+      "NextToken" : {
+        "maxLength" : 2048,
+        "minLength" : 1,
+        "type" : "string"
+      },
+      "Arn" : {
+        "maxLength" : 2048,
+        "minLength" : 20,
+        "pattern" : "arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+",
+        "type" : "string"
+      },
+      "Blob" : {
+        "format" : "password",
+        "type" : "string"
+      },
+      "Version" : {
+        "maxLength" : 1024,
+        "minLength" : 1,
+        "type" : "string"
+      },
+      "String" : {
+        "type" : "string"
+      },
+      "Uri" : {
+        "maxLength" : 2048,
+        "minLength" : 1,
+        "type" : "string"
+      },
+      "RoleArn" : {
+        "maxLength" : 2048,
+        "minLength" : 20,
+        "pattern" : "^((arn):(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):(iam)::\\d{12}:role[/].*)$",
+        "type" : "string"
+      },
+      "ValidatorList" : {
+        "maxItems" : 2,
+        "minItems" : 0,
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/Validator"
+        }
+      },
+      "ValidatorTypeList" : {
+        "maxItems" : 2,
+        "minItems" : 0,
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/ValidatorType"
+        }
+      },
+      "ConfigurationProfileSummary" : {
+        "description" : "A summary of a configuration profile.",
+        "properties" : {
+          "ApplicationId" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Id"
+            }, {
+              "description" : "The application ID."
+            } ]
+          },
+          "Id" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Id"
+            }, {
+              "description" : "The ID of the configuration profile."
+            } ]
+          },
+          "Name" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Name"
+            }, {
+              "description" : "The name of the configuration profile."
+            } ]
+          },
+          "LocationUri" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Uri"
+            }, {
+              "description" : "The URI location of the configuration."
+            } ]
+          },
+          "ValidatorTypes" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ValidatorTypeList"
+            }, {
+              "description" : "The types of validators in the configuration profile."
+            } ]
+          }
+        },
+        "type" : "object"
+      },
+      "ConfigurationProfileSummaryList" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/ConfigurationProfileSummary"
+        }
+      },
+      "TagMap" : {
+        "maxProperties" : 50,
+        "minProperties" : 0,
+        "type" : "object",
+        "additionalProperties" : {
+          "$ref" : "#/components/schemas/TagValue"
+        }
+      },
+      "CreateApplicationRequest" : {
+        "properties" : {
+          "Name" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Name"
+            }, {
+              "description" : "A name for the application."
+            } ]
+          },
+          "Description" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Description"
+            }, {
+              "description" : "A description of the application."
+            } ]
+          },
+          "Tags" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/TagMap"
+            }, {
+              "description" : "Metadata to assign to the application. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define."
+            } ]
+          }
+        },
+        "type" : "object",
+        "title" : "CreateApplicationRequest",
+        "required" : [ "Name" ]
+      },
+      "CreateConfigurationProfileRequest" : {
+        "properties" : {
+          "Name" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Name"
+            }, {
+              "description" : "A name for the configuration profile."
+            } ]
+          },
+          "Description" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Description"
+            }, {
+              "description" : "A description of the configuration profile."
+            } ]
+          },
+          "LocationUri" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Uri"
+            }, {
+              "description" : "A URI to locate the configuration. You can specify a Systems Manager (SSM) document, an SSM Parameter Store parameter, or an Amazon S3 object. For an SSM document, specify either the document name in the format <code>ssm-document://&lt;Document_name&gt;</code> or the Amazon Resource Name (ARN). For a parameter, specify either the parameter name in the format <code>ssm-parameter://&lt;Parameter_name&gt;</code> or the ARN. For an Amazon S3 object, specify the URI in the following format: <code>s3://&lt;bucket&gt;/&lt;objectKey&gt; </code>. Here is an example: s3://my-bucket/my-app/us-east-1/my-config.json"
+            } ]
+          },
+          "RetrievalRoleArn" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/RoleArn"
+            }, {
+              "description" : "The ARN of an IAM role with permission to access the configuration at the specified LocationUri."
+            } ]
+          },
+          "Validators" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ValidatorList"
+            }, {
+              "description" : "A list of methods for validating the configuration."
+            } ]
+          },
+          "Tags" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/TagMap"
+            }, {
+              "description" : "Metadata to assign to the configuration profile. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define."
+            } ]
+          }
+        },
+        "type" : "object",
+        "title" : "CreateConfigurationProfileRequest",
+        "required" : [ "Name", "LocationUri" ]
+      },
+      "MinutesBetween0And24Hours" : {
+        "maximum" : 1440,
+        "minimum" : 0,
+        "type" : "integer"
+      },
+      "GrowthFactor" : {
+        "format" : "float",
+        "maximum" : 100,
+        "minimum" : 1,
+        "type" : "number"
+      },
+      "GrowthType" : {
+        "type" : "string",
+        "enum" : [ "LINEAR", "EXPONENTIAL" ]
+      },
+      "ReplicateTo" : {
+        "type" : "string",
+        "enum" : [ "NONE", "SSM_DOCUMENT" ]
+      },
+      "CreateDeploymentStrategyRequest" : {
+        "properties" : {
+          "Name" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Name"
+            }, {
+              "description" : "A name for the deployment strategy."
+            } ]
+          },
+          "Description" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Description"
+            }, {
+              "description" : "A description of the deployment strategy."
+            } ]
+          },
+          "DeploymentDurationInMinutes" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/MinutesBetween0And24Hours"
+            }, {
+              "description" : "Total amount of time for a deployment to last."
+            } ]
+          },
+          "FinalBakeTimeInMinutes" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/MinutesBetween0And24Hours"
+            }, {
+              "description" : "The amount of time AppConfig monitors for alarms before considering the deployment to be complete and no longer eligible for automatic roll back."
+            } ]
+          },
+          "GrowthFactor" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/GrowthFactor"
+            }, {
+              "description" : "The percentage of targets to receive a deployed configuration during each interval."
+            } ]
+          },
+          "GrowthType" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/GrowthType"
+            }, {
+              "description" : "<p>The algorithm used to define how percentage grows over time. AWS AppConfig supports the following growth types:</p> <p> <b>Linear</b>: For this type, AppConfig processes the deployment by dividing the total number of targets by the value specified for <code>Step percentage</code>. For example, a linear deployment that uses a <code>Step percentage</code> of 10 deploys the configuration to 10 percent of the hosts. After those deployments are complete, the system deploys the configuration to the next 10 percent. This continues until 100% of the targets have successfully received the configuration.</p> <p> <b>Exponential</b>: For this type, AppConfig processes the deployment exponentially using the following formula: <code>G*(2^N)</code>. In this formula, <code>G</code> is the growth factor specified by the user and <code>N</code> is the number of steps until the configuration is deployed to all targets. For example, if you specify a growth factor of 2, then the system rolls out the configuration as follows:</p> <p> <code>2*(2^0)</code> </p> <p> <code>2*(2^1)</code> </p> <p> <code>2*(2^2)</code> </p> <p>Expressed numerically, the deployment rolls out as follows: 2% of the targets, 4% of the targets, 8% of the targets, and continues until the configuration has been deployed to all targets.</p>"
+            } ]
+          },
+          "ReplicateTo" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ReplicateTo"
+            }, {
+              "description" : "Save the deployment strategy to a Systems Manager (SSM) document."
+            } ]
+          },
+          "Tags" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/TagMap"
+            }, {
+              "description" : "Metadata to assign to the deployment strategy. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define."
+            } ]
+          }
+        },
+        "type" : "object",
+        "title" : "CreateDeploymentStrategyRequest",
+        "required" : [ "Name", "DeploymentDurationInMinutes", "GrowthFactor", "ReplicateTo" ]
+      },
+      "MonitorList" : {
+        "maxItems" : 5,
+        "minItems" : 0,
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/Monitor"
+        }
+      },
+      "CreateEnvironmentRequest" : {
+        "properties" : {
+          "Name" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Name"
+            }, {
+              "description" : "A name for the environment."
+            } ]
+          },
+          "Description" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Description"
+            }, {
+              "description" : "A description of the environment."
+            } ]
+          },
+          "Monitors" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/MonitorList"
+            }, {
+              "description" : "Amazon CloudWatch alarms to monitor during the deployment process."
+            } ]
+          },
+          "Tags" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/TagMap"
+            }, {
+              "description" : "Metadata to assign to the environment. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define."
+            } ]
+          }
+        },
+        "type" : "object",
+        "title" : "CreateEnvironmentRequest",
+        "required" : [ "Name" ]
+      },
+      "StringWithLengthBetween1And255" : {
+        "maxLength" : 255,
+        "minLength" : 1,
+        "type" : "string"
+      },
+      "Integer" : {
+        "type" : "integer"
+      },
+      "CreateHostedConfigurationVersionRequest" : {
+        "properties" : {
+          "Content" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Blob"
+            }, {
+              "description" : "The content of the configuration or the configuration data."
+            } ]
+          }
+        },
+        "type" : "object",
+        "title" : "CreateHostedConfigurationVersionRequest",
+        "required" : [ "Content" ]
+      },
+      "DeleteApplicationRequest" : {
+        "properties" : { },
+        "type" : "object",
+        "title" : "DeleteApplicationRequest"
+      },
+      "DeleteConfigurationProfileRequest" : {
+        "properties" : { },
+        "type" : "object",
+        "title" : "DeleteConfigurationProfileRequest"
+      },
+      "DeploymentStrategyId" : {
+        "pattern" : "(^[a-z0-9]{4,7}$|^AppConfig\\.[A-Za-z0-9]{9,40}$)",
+        "type" : "string"
+      },
+      "DeleteDeploymentStrategyRequest" : {
+        "properties" : { },
+        "type" : "object",
+        "title" : "DeleteDeploymentStrategyRequest"
+      },
+      "DeleteEnvironmentRequest" : {
+        "properties" : { },
+        "type" : "object",
+        "title" : "DeleteEnvironmentRequest"
+      },
+      "DeleteHostedConfigurationVersionRequest" : {
+        "properties" : { },
+        "type" : "object",
+        "title" : "DeleteHostedConfigurationVersionRequest"
+      },
+      "Percentage" : {
+        "format" : "float",
+        "maximum" : 100,
+        "minimum" : 1,
+        "type" : "number"
+      },
+      "DeploymentState" : {
+        "type" : "string",
+        "enum" : [ "BAKING", "VALIDATING", "DEPLOYING", "COMPLETE", "ROLLING_BACK", "ROLLED_BACK" ]
+      },
+      "DeploymentEvents" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/DeploymentEvent"
+        }
+      },
+      "Iso8601DateTime" : {
+        "format" : "date-time",
+        "type" : "string"
+      },
+      "DeploymentEventType" : {
+        "type" : "string",
+        "enum" : [ "PERCENTAGE_UPDATED", "ROLLBACK_STARTED", "ROLLBACK_COMPLETED", "BAKE_TIME_STARTED", "DEPLOYMENT_STARTED", "DEPLOYMENT_COMPLETED" ]
+      },
+      "TriggeredBy" : {
+        "type" : "string",
+        "enum" : [ "USER", "APPCONFIG", "CLOUDWATCH_ALARM", "INTERNAL_ERROR" ]
+      },
+      "DeploymentEvent" : {
+        "description" : "An object that describes a deployment event.",
+        "properties" : {
+          "EventType" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/DeploymentEventType"
+            }, {
+              "description" : "The type of deployment event. Deployment event types include the start, stop, or completion of a deployment; a percentage update; the start or stop of a bake period; the start or completion of a rollback."
+            } ]
+          },
+          "TriggeredBy" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/TriggeredBy"
+            }, {
+              "description" : "The entity that triggered the deployment event. Events can be triggered by a user, AWS AppConfig, an Amazon CloudWatch alarm, or an internal error."
+            } ]
+          },
+          "Description" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Description"
+            }, {
+              "description" : "A description of the deployment event. Descriptions include, but are not limited to, the user account or the CloudWatch alarm ARN that initiated a rollback, the percentage of hosts that received the deployment, or in the case of an internal error, a recommendation to attempt a new deployment."
+            } ]
+          },
+          "OccurredAt" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Iso8601DateTime"
+            }, {
+              "description" : "The date and time the event occurred."
+            } ]
+          }
+        },
+        "type" : "object"
+      },
+      "DeploymentSummary" : {
+        "description" : "Information about the deployment.",
+        "properties" : {
+          "DeploymentNumber" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Integer"
+            }, {
+              "description" : "The sequence number of the deployment."
+            } ]
+          },
+          "ConfigurationName" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Name"
+            }, {
+              "description" : "The name of the configuration."
+            } ]
+          },
+          "ConfigurationVersion" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Version"
+            }, {
+              "description" : "The version of the configuration."
+            } ]
+          },
+          "DeploymentDurationInMinutes" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/MinutesBetween0And24Hours"
+            }, {
+              "description" : "Total amount of time the deployment lasted."
+            } ]
+          },
+          "GrowthType" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/GrowthType"
+            }, {
+              "description" : "The algorithm used to define how percentage grows over time."
+            } ]
+          },
+          "GrowthFactor" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Percentage"
+            }, {
+              "description" : "The percentage of targets to receive a deployed configuration during each interval."
+            } ]
+          },
+          "FinalBakeTimeInMinutes" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/MinutesBetween0And24Hours"
+            }, {
+              "description" : "The amount of time AppConfig monitors for alarms before considering the deployment to be complete and no longer eligible for automatic roll back."
+            } ]
+          },
+          "State" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/DeploymentState"
+            }, {
+              "description" : "The state of the deployment."
+            } ]
+          },
+          "PercentageComplete" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Percentage"
+            }, {
+              "description" : "The percentage of targets for which the deployment is available."
+            } ]
+          },
+          "StartedAt" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Iso8601DateTime"
+            }, {
+              "description" : "Time the deployment started."
+            } ]
+          },
+          "CompletedAt" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Iso8601DateTime"
+            }, {
+              "description" : "Time the deployment completed."
+            } ]
+          }
+        },
+        "type" : "object"
+      },
+      "DeploymentList" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/DeploymentSummary"
+        }
+      },
+      "DeploymentStrategyList" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/DeploymentStrategy"
+        }
+      },
+      "EnvironmentState" : {
+        "type" : "string",
+        "enum" : [ "READY_FOR_DEPLOYMENT", "DEPLOYING", "ROLLING_BACK", "ROLLED_BACK" ]
+      },
+      "EnvironmentList" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/Environment"
+        }
+      },
+      "GetApplicationRequest" : {
+        "properties" : { },
+        "type" : "object",
+        "title" : "GetApplicationRequest"
+      },
+      "GetConfigurationProfileRequest" : {
+        "properties" : { },
+        "type" : "object",
+        "title" : "GetConfigurationProfileRequest"
+      },
+      "StringWithLengthBetween1And64" : {
+        "maxLength" : 64,
+        "minLength" : 1,
+        "type" : "string"
+      },
+      "GetConfigurationRequest" : {
+        "properties" : { },
+        "type" : "object",
+        "title" : "GetConfigurationRequest"
+      },
+      "GetDeploymentRequest" : {
+        "properties" : { },
+        "type" : "object",
+        "title" : "GetDeploymentRequest"
+      },
+      "GetDeploymentStrategyRequest" : {
+        "properties" : { },
+        "type" : "object",
+        "title" : "GetDeploymentStrategyRequest"
+      },
+      "GetEnvironmentRequest" : {
+        "properties" : { },
+        "type" : "object",
+        "title" : "GetEnvironmentRequest"
+      },
+      "GetHostedConfigurationVersionRequest" : {
+        "properties" : { },
+        "type" : "object",
+        "title" : "GetHostedConfigurationVersionRequest"
+      },
+      "HostedConfigurationVersionSummary" : {
+        "description" : "Information about the configuration.",
+        "properties" : {
+          "ApplicationId" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Id"
+            }, {
+              "description" : "The application ID."
+            } ]
+          },
+          "ConfigurationProfileId" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Id"
+            }, {
+              "description" : "The configuration profile ID."
+            } ]
+          },
+          "VersionNumber" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Integer"
+            }, {
+              "description" : "The configuration version."
+            } ]
+          },
+          "Description" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Description"
+            }, {
+              "description" : "A description of the configuration."
+            } ]
+          },
+          "ContentType" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/StringWithLengthBetween1And255"
+            }, {
+              "description" : "A standard MIME type describing the format of the configuration content. For more information, see <a href=\"https://docs.aws.amazon.com/https:/www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17\">Content-Type</a>."
+            } ]
+          }
+        },
+        "type" : "object"
+      },
+      "HostedConfigurationVersionSummaryList" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/HostedConfigurationVersionSummary"
+        }
+      },
+      "MaxResults" : {
+        "maximum" : 50,
+        "minimum" : 1,
+        "type" : "integer"
+      },
+      "ListApplicationsRequest" : {
+        "properties" : { },
+        "type" : "object",
+        "title" : "ListApplicationsRequest"
+      },
+      "ListConfigurationProfilesRequest" : {
+        "properties" : { },
+        "type" : "object",
+        "title" : "ListConfigurationProfilesRequest"
+      },
+      "ListDeploymentStrategiesRequest" : {
+        "properties" : { },
+        "type" : "object",
+        "title" : "ListDeploymentStrategiesRequest"
+      },
+      "ListDeploymentsRequest" : {
+        "properties" : { },
+        "type" : "object",
+        "title" : "ListDeploymentsRequest"
+      },
+      "ListEnvironmentsRequest" : {
+        "properties" : { },
+        "type" : "object",
+        "title" : "ListEnvironmentsRequest"
+      },
+      "ListHostedConfigurationVersionsRequest" : {
+        "properties" : { },
+        "type" : "object",
+        "title" : "ListHostedConfigurationVersionsRequest"
+      },
+      "ListTagsForResourceRequest" : {
+        "properties" : { },
+        "type" : "object",
+        "title" : "ListTagsForResourceRequest"
+      },
+      "StartDeploymentRequest" : {
+        "properties" : {
+          "DeploymentStrategyId" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/DeploymentStrategyId"
+            }, {
+              "description" : "The deployment strategy ID."
+            } ]
+          },
+          "ConfigurationProfileId" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Id"
+            }, {
+              "description" : "The configuration profile ID."
+            } ]
+          },
+          "ConfigurationVersion" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Version"
+            }, {
+              "description" : "The configuration version to deploy."
+            } ]
+          },
+          "Description" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Description"
+            }, {
+              "description" : "A description of the deployment."
+            } ]
+          },
+          "Tags" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/TagMap"
+            }, {
+              "description" : "Metadata to assign to the deployment. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define."
+            } ]
+          }
+        },
+        "type" : "object",
+        "title" : "StartDeploymentRequest",
+        "required" : [ "DeploymentStrategyId", "ConfigurationProfileId", "ConfigurationVersion" ]
+      },
+      "StopDeploymentRequest" : {
+        "properties" : { },
+        "type" : "object",
+        "title" : "StopDeploymentRequest"
+      },
+      "StringWithLengthBetween0And32768" : {
+        "format" : "password",
+        "maxLength" : 32768,
+        "minLength" : 0,
+        "type" : "string"
+      },
+      "TagKeyList" : {
+        "maxItems" : 50,
+        "minItems" : 0,
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/TagKey"
+        }
+      },
+      "TagResourceRequest" : {
+        "properties" : {
+          "Tags" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/TagMap"
+            }, {
+              "description" : "The key-value string map. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with <code>aws:</code>. The tag value can be up to 256 characters."
+            } ]
+          }
+        },
+        "type" : "object",
+        "title" : "TagResourceRequest",
+        "required" : [ "Tags" ]
+      },
+      "UntagResourceRequest" : {
+        "properties" : { },
+        "type" : "object",
+        "title" : "UntagResourceRequest"
+      },
+      "UpdateApplicationRequest" : {
+        "properties" : {
+          "Name" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Name"
+            }, {
+              "description" : "The name of the application."
+            } ]
+          },
+          "Description" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Description"
+            }, {
+              "description" : "A description of the application."
+            } ]
+          }
+        },
+        "type" : "object",
+        "title" : "UpdateApplicationRequest"
+      },
+      "UpdateConfigurationProfileRequest" : {
+        "properties" : {
+          "Name" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Name"
+            }, {
+              "description" : "The name of the configuration profile."
+            } ]
+          },
+          "Description" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Description"
+            }, {
+              "description" : "A description of the configuration profile."
+            } ]
+          },
+          "RetrievalRoleArn" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/RoleArn"
+            }, {
+              "description" : "The ARN of an IAM role with permission to access the configuration at the specified LocationUri."
+            } ]
+          },
+          "Validators" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ValidatorList"
+            }, {
+              "description" : "A list of methods for validating the configuration."
+            } ]
+          }
+        },
+        "type" : "object",
+        "title" : "UpdateConfigurationProfileRequest"
+      },
+      "UpdateDeploymentStrategyRequest" : {
+        "properties" : {
+          "Description" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Description"
+            }, {
+              "description" : "A description of the deployment strategy."
+            } ]
+          },
+          "DeploymentDurationInMinutes" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/MinutesBetween0And24Hours"
+            }, {
+              "description" : "Total amount of time for a deployment to last."
+            } ]
+          },
+          "FinalBakeTimeInMinutes" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/MinutesBetween0And24Hours"
+            }, {
+              "description" : "The amount of time AppConfig monitors for alarms before considering the deployment to be complete and no longer eligible for automatic roll back."
+            } ]
+          },
+          "GrowthFactor" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/GrowthFactor"
+            }, {
+              "description" : "The percentage of targets to receive a deployed configuration during each interval."
+            } ]
+          },
+          "GrowthType" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/GrowthType"
+            }, {
+              "description" : "<p>The algorithm used to define how percentage grows over time. AWS AppConfig supports the following growth types:</p> <p> <b>Linear</b>: For this type, AppConfig processes the deployment by increments of the growth factor evenly distributed over the deployment time. For example, a linear deployment that uses a growth factor of 20 initially makes the configuration available to 20 percent of the targets. After 1/5th of the deployment time has passed, the system updates the percentage to 40 percent. This continues until 100% of the targets are set to receive the deployed configuration.</p> <p> <b>Exponential</b>: For this type, AppConfig processes the deployment exponentially using the following formula: <code>G*(2^N)</code>. In this formula, <code>G</code> is the growth factor specified by the user and <code>N</code> is the number of steps until the configuration is deployed to all targets. For example, if you specify a growth factor of 2, then the system rolls out the configuration as follows:</p> <p> <code>2*(2^0)</code> </p> <p> <code>2*(2^1)</code> </p> <p> <code>2*(2^2)</code> </p> <p>Expressed numerically, the deployment rolls out as follows: 2% of the targets, 4% of the targets, 8% of the targets, and continues until the configuration has been deployed to all targets.</p>"
+            } ]
+          }
+        },
+        "type" : "object",
+        "title" : "UpdateDeploymentStrategyRequest"
+      },
+      "UpdateEnvironmentRequest" : {
+        "properties" : {
+          "Name" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Name"
+            }, {
+              "description" : "The name of the environment."
+            } ]
+          },
+          "Description" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Description"
+            }, {
+              "description" : "A description of the environment."
+            } ]
+          },
+          "Monitors" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/MonitorList"
+            }, {
+              "description" : "Amazon CloudWatch alarms to monitor during the deployment process."
+            } ]
+          }
+        },
+        "type" : "object",
+        "title" : "UpdateEnvironmentRequest"
+      },
+      "ValidateConfigurationRequest" : {
+        "properties" : { },
+        "type" : "object",
+        "title" : "ValidateConfigurationRequest"
+      },
+      "ValidatorType" : {
+        "type" : "string",
+        "enum" : [ "JSON_SCHEMA", "LAMBDA" ]
+      }
+    },
+    "securitySchemes" : {
+      "hmac" : {
+        "type" : "apiKey",
+        "description" : "Amazon Signature authorization v4",
+        "name" : "Authorization",
+        "in" : "header",
+        "x-amazon-apigateway-authtype" : "awsSigv4"
+      }
+    }
+  },
+  "externalDocs" : {
+    "description" : "Amazon Web Services documentation",
+    "url" : "https://docs.aws.amazon.com/appconfig/"
+  },
+  "security" : [ {
+    "hmac" : [ ]
+  } ],
+  "x-hasEquivalentPaths" : true
+}

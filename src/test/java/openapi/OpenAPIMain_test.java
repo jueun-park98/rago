@@ -85,22 +85,27 @@ public class OpenAPIMain_test {
         }
 
         // clean all generated jsons
+        /*
         contents = genDirectory.listFiles();
         if (contents != null) {
             for (File file : contents)
                 file.delete();
-        }
+        }*/
     }
 
     protected void compareJson(JsonNode expectedNode, JsonNode actualNode, Path path) throws IOException {
         JsonNode diff = JsonDiff.asJson(expectedNode, actualNode);
-        for( int i = diff.size()-1 ; i >= 0 ; i-- ){
+        while( diff.size() > 0 ){
             // remove all diffs, which are empty
-            if( diff.get(i).has("value") && diff.get(i).get("value").isEmpty() )
-                ((ArrayNode) diff).remove(i);
+            if( diff.get(0).has("value") && diff.get(0).get("value").isEmpty() )
+                ((ArrayNode) diff).remove(0);
             // remove all diffs, which are copies of empty properties
-            else if( diff.get(i).has("op") && diff.get(i).get("op").toString().equals("\"copy\"") )
-                ((ArrayNode) diff).remove(i);
+            else if( diff.get(0).has("op") && diff.get(0).get("op").toString().equals("\"copy\"") )
+                ((ArrayNode) diff).remove(0);
+            else if( diff.get(0).has("op") && diff.get(0).get("op").toString().equals("\"move\"") )
+                ((ArrayNode) diff).remove(0);
+            else if( diff.get(0).has("op") && diff.get(0).get("op").toString().equals("\"remove\"") )
+                ((ArrayNode) diff).remove(0);
         }
 
         // if the Jsons are equivalent, there is no reason to to the text comparison

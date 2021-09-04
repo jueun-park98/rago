@@ -823,19 +823,22 @@ public static OAuthFlowsObject OAuthFlowsObject.parseOAuthFlows(OAuthFlows oAuth
         ClientCredentials clientCredentials = new ClientCredentials();
         AuthorizationCode authorizationCode = new AuthorizationCode();
 
-        if( oAuthFlows.getImplicit() != null )
+        if( oAuthFlows.getImplicit() != null ){
         implicit.setOAuthFlowObject( OAuthFlowObject.parseOAuthFlow(oAuthFlows.getImplicit()) );
-        if( oAuthFlows.getPassword() != null )
-        password.setOAuthFlowObject( OAuthFlowObject.parseOAuthFlow(oAuthFlows.getPassword()) );
-        if( oAuthFlows.getClientCredentials() != null )
-        clientCredentials.setOAuthFlowObject( OAuthFlowObject.parseOAuthFlow(oAuthFlows.getClientCredentials()) );
-        if( oAuthFlows.getAuthorizationCode() != null )
-        authorizationCode.setOAuthFlowObject( OAuthFlowObject.parseOAuthFlow(oAuthFlows.getAuthorizationCode()) );
-
         oAuthFlowsObject.setImplicit(implicit);
-        oAuthFlowsObject.setPassword(password);
+        }
+        if( oAuthFlows.getPassword() != null ){
+            password.setOAuthFlowObject(OAuthFlowObject.parseOAuthFlow(oAuthFlows.getPassword()));
+            oAuthFlowsObject.setPassword(password);
+        }
+        if( oAuthFlows.getClientCredentials() != null ){
+        clientCredentials.setOAuthFlowObject(OAuthFlowObject.parseOAuthFlow(oAuthFlows.getClientCredentials()));
         oAuthFlowsObject.setClientCredentials(clientCredentials);
+        }
+        if( oAuthFlows.getAuthorizationCode() != null ){
+        authorizationCode.setOAuthFlowObject(OAuthFlowObject.parseOAuthFlow(oAuthFlows.getAuthorizationCode()));
         oAuthFlowsObject.setAuthorizationCode(authorizationCode);
+        }
 
         return oAuthFlowsObject;
         }
@@ -843,7 +846,9 @@ public static OAuthFlowsObject OAuthFlowsObject.parseOAuthFlows(OAuthFlows oAuth
 public static OAuthFlowObject OAuthFlowObject.parseOAuthFlow(OAuthFlow oAuthFlow){
         OAuthFlowObject oAuthFlowObject = new OAuthFlowObject();
 
+        if( oAuthFlow.getAuthorizationUrl() != null )
         oAuthFlowObject.setAuthorizationUrl( oAuthFlow.getAuthorizationUrl() );
+        if( oAuthFlow.getTokenUrl() != null )
         oAuthFlowObject.setTokenUrl( oAuthFlow.getTokenUrl() );
         for( String key : oAuthFlow.getScopes().keySet() )
         oAuthFlowObject.addScopesTuple( new ScopesTuple(key, oAuthFlow.getScope(key)) );

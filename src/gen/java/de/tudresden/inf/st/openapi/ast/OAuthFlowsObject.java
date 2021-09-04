@@ -25,8 +25,13 @@ public class OAuthFlowsObject extends ASTNode<ASTNode> implements Cloneable {
 
         if( oAuthFlowsObject.hasImplicit() )
         oAuthFlows.setImplicit( OAuthFlowObject.composeOAuthFlow(oAuthFlowsObject.getImplicit().getOAuthFlowObject()) );
-        if( oAuthFlowsObject.hasPassword() )
+        if( oAuthFlowsObject.hasPassword() ){
+        //System.out.println("Password eingegangen : " + oAuthFlowsObject.getPassword().getOAuthFlowObject().getAuthorizationUrl() );
+        System.out.println("Password eingegangen : " + oAuthFlowsObject.getPassword().getOAuthFlowObject().getConfiguration() );
+        System.out.println("Password eingegangen : " + oAuthFlowsObject.getPassword().getOAuthFlowObject().getTokenUrl() );
+        System.out.println("Password eingegangen : " + oAuthFlowsObject.getPassword().getOAuthFlowObject().getRefreshUrl() );
         oAuthFlows.setPassword( OAuthFlowObject.composeOAuthFlow(oAuthFlowsObject.getPassword().getOAuthFlowObject()) );
+        }
         if( oAuthFlowsObject.hasClientCredentials() )
         oAuthFlows.setClientCredentials( OAuthFlowObject.composeOAuthFlow(oAuthFlowsObject.getClientCredentials().getOAuthFlowObject()) );
         if( oAuthFlowsObject.hasAuthorizationCode() )
@@ -45,19 +50,22 @@ public class OAuthFlowsObject extends ASTNode<ASTNode> implements Cloneable {
         ClientCredentials clientCredentials = new ClientCredentials();
         AuthorizationCode authorizationCode = new AuthorizationCode();
 
-        if( oAuthFlows.getImplicit() != null )
+        if( oAuthFlows.getImplicit() != null ){
         implicit.setOAuthFlowObject( OAuthFlowObject.parseOAuthFlow(oAuthFlows.getImplicit()) );
-        if( oAuthFlows.getPassword() != null )
-        password.setOAuthFlowObject( OAuthFlowObject.parseOAuthFlow(oAuthFlows.getPassword()) );
-        if( oAuthFlows.getClientCredentials() != null )
-        clientCredentials.setOAuthFlowObject( OAuthFlowObject.parseOAuthFlow(oAuthFlows.getClientCredentials()) );
-        if( oAuthFlows.getAuthorizationCode() != null )
-        authorizationCode.setOAuthFlowObject( OAuthFlowObject.parseOAuthFlow(oAuthFlows.getAuthorizationCode()) );
-
         oAuthFlowsObject.setImplicit(implicit);
-        oAuthFlowsObject.setPassword(password);
+        }
+        if( oAuthFlows.getPassword() != null ){
+            password.setOAuthFlowObject(OAuthFlowObject.parseOAuthFlow(oAuthFlows.getPassword()));
+            oAuthFlowsObject.setPassword(password);
+        }
+        if( oAuthFlows.getClientCredentials() != null ){
+        clientCredentials.setOAuthFlowObject(OAuthFlowObject.parseOAuthFlow(oAuthFlows.getClientCredentials()));
         oAuthFlowsObject.setClientCredentials(clientCredentials);
+        }
+        if( oAuthFlows.getAuthorizationCode() != null ){
+        authorizationCode.setOAuthFlowObject(OAuthFlowObject.parseOAuthFlow(oAuthFlows.getAuthorizationCode()));
         oAuthFlowsObject.setAuthorizationCode(authorizationCode);
+        }
 
         return oAuthFlowsObject;
         }

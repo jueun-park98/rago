@@ -1,0 +1,554 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "contact" : {
+      "email" : "mike.ralphson@gmail.com",
+      "name" : "Mike Ralphson",
+      "url" : "https://github.com/mermade/aws2openapi",
+      "x-twitter" : "PermittedSoc"
+    },
+    "description" : "Amazon EC2 Instance Connect enables system administrators to publish one-time use SSH public keys to EC2, providing users a simple and secure way to connect to their instances.",
+    "license" : {
+      "name" : "Apache 2.0 License",
+      "url" : "http://www.apache.org/licenses/"
+    },
+    "termsOfService" : "https://aws.amazon.com/service-terms/",
+    "title" : "AWS EC2 Instance Connect",
+    "version" : "2018-04-02",
+    "x-providerName" : "amazonaws.com",
+    "x-logo" : {
+      "url" : "https://api.apis.guru/v2/cache/logo/https_twitter.com_awscloud_profile_image.png",
+      "backgroundColor" : "#FFFFFF"
+    },
+    "x-apiClientRegistration" : {
+      "url" : "https://portal.aws.amazon.com/gp/aws/developer/registration/index.html?nc2=h_ct"
+    },
+    "x-preferred" : true,
+    "x-release" : "v4",
+    "x-apisguru-categories" : [ "cloud" ],
+    "x-serviceName" : "ec2-instance-connect",
+    "x-origin" : [ {
+      "contentType" : "application/json",
+      "url" : "https://raw.githubusercontent.com/aws/aws-sdk-js/master/apis/ec2-instance-connect-2018-04-02.normal.json",
+      "converter" : {
+        "url" : "https://github.com/mermade/aws2openapi",
+        "version" : "1.0.0"
+      },
+      "x-apisguru-driver" : "external"
+    } ]
+  },
+  "servers" : [ {
+    "url" : "http://ec2-instance-connect.{region}.amazonaws.com",
+    "description" : "The EC2 Instance Connect multi-region endpoint",
+    "variables" : {
+      "region" : {
+        "description" : "The AWS region",
+        "default" : "us-east-1",
+        "enum" : [ "us-east-1", "us-east-2", "us-west-1", "us-west-2", "us-gov-west-1", "us-gov-east-1", "ca-central-1", "eu-north-1", "eu-west-1", "eu-west-2", "eu-west-3", "eu-central-1", "eu-south-1", "af-south-1", "ap-northeast-1", "ap-northeast-2", "ap-northeast-3", "ap-southeast-1", "ap-southeast-2", "ap-east-1", "ap-south-1", "sa-east-1", "me-south-1" ]
+      }
+    }
+  }, {
+    "url" : "https://ec2-instance-connect.{region}.amazonaws.com",
+    "description" : "The EC2 Instance Connect multi-region endpoint",
+    "variables" : {
+      "region" : {
+        "description" : "The AWS region",
+        "default" : "us-east-1",
+        "enum" : [ "us-east-1", "us-east-2", "us-west-1", "us-west-2", "us-gov-west-1", "us-gov-east-1", "ca-central-1", "eu-north-1", "eu-west-1", "eu-west-2", "eu-west-3", "eu-central-1", "eu-south-1", "af-south-1", "ap-northeast-1", "ap-northeast-2", "ap-northeast-3", "ap-southeast-1", "ap-southeast-2", "ap-east-1", "ap-south-1", "sa-east-1", "me-south-1" ]
+      }
+    }
+  }, {
+    "url" : "http://ec2-instance-connect.{region}.amazonaws.com.cn",
+    "description" : "The EC2 Instance Connect endpoint for China (Beijing) and China (Ningxia)",
+    "variables" : {
+      "region" : {
+        "description" : "The AWS region",
+        "default" : "cn-north-1",
+        "enum" : [ "cn-north-1", "cn-northwest-1" ]
+      }
+    }
+  }, {
+    "url" : "https://ec2-instance-connect.{region}.amazonaws.com.cn",
+    "description" : "The EC2 Instance Connect endpoint for China (Beijing) and China (Ningxia)",
+    "variables" : {
+      "region" : {
+        "description" : "The AWS region",
+        "default" : "cn-north-1",
+        "enum" : [ "cn-north-1", "cn-northwest-1" ]
+      }
+    }
+  } ],
+  "paths" : {
+    "/#X-Amz-Target=AWSEC2InstanceConnectService.SendSSHPublicKey" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/X-Amz-Content-Sha256"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Date"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Algorithm"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Credential"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Security-Token"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Signature"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-SignedHeaders"
+      } ],
+      "post" : {
+        "description" : "Pushes an SSH public key to the specified EC2 instance for use by the specified user. The key remains for 60 seconds. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Connect-using-EC2-Instance-Connect.html\">Connect to your Linux instance using EC2 Instance Connect</a> in the <i>Amazon EC2 User Guide</i>.",
+        "operationId" : "SendSSHPublicKey",
+        "parameters" : [ {
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "AWSEC2InstanceConnectService.SendSSHPublicKey" ]
+          },
+          "in" : "header",
+          "name" : "X-Amz-Target"
+        } ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SendSSHPublicKeyRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendSSHPublicKeyResponse"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "AuthException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AuthException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "InvalidArgsException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InvalidArgsException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "ServiceException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ServiceException"
+                }
+              }
+            }
+          },
+          "483" : {
+            "description" : "ThrottlingException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ThrottlingException"
+                }
+              }
+            }
+          },
+          "484" : {
+            "description" : "EC2InstanceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/EC2InstanceNotFoundException"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/#X-Amz-Target=AWSEC2InstanceConnectService.SendSerialConsoleSSHPublicKey" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/X-Amz-Content-Sha256"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Date"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Algorithm"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Credential"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Security-Token"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Signature"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-SignedHeaders"
+      } ],
+      "post" : {
+        "description" : "Pushes an SSH public key to the specified EC2 instance. The key remains for 60 seconds, which gives you 60 seconds to establish a serial console connection to the instance using SSH. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-serial-console.html\">EC2 Serial Console</a> in the <i>Amazon EC2 User Guide</i>.",
+        "operationId" : "SendSerialConsoleSSHPublicKey",
+        "parameters" : [ {
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "AWSEC2InstanceConnectService.SendSerialConsoleSSHPublicKey" ]
+          },
+          "in" : "header",
+          "name" : "X-Amz-Target"
+        } ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SendSerialConsoleSSHPublicKeyRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SendSerialConsoleSSHPublicKeyResponse"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "AuthException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AuthException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "SerialConsoleAccessDisabledException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SerialConsoleAccessDisabledException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "InvalidArgsException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InvalidArgsException"
+                }
+              }
+            }
+          },
+          "483" : {
+            "description" : "ServiceException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ServiceException"
+                }
+              }
+            }
+          },
+          "484" : {
+            "description" : "ThrottlingException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ThrottlingException"
+                }
+              }
+            }
+          },
+          "485" : {
+            "description" : "EC2InstanceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/EC2InstanceNotFoundException"
+                }
+              }
+            }
+          },
+          "486" : {
+            "description" : "EC2InstanceTypeInvalidException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/EC2InstanceTypeInvalidException"
+                }
+              }
+            }
+          },
+          "487" : {
+            "description" : "SerialConsoleSessionLimitExceededException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SerialConsoleSessionLimitExceededException"
+                }
+              }
+            }
+          },
+          "488" : {
+            "description" : "SerialConsoleSessionUnavailableException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SerialConsoleSessionUnavailableException"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "parameters" : {
+      "X-Amz-Content-Sha256" : {
+        "required" : false,
+        "schema" : {
+          "type" : "string"
+        },
+        "in" : "header",
+        "name" : "X-Amz-Content-Sha256"
+      },
+      "X-Amz-Date" : {
+        "required" : false,
+        "schema" : {
+          "type" : "string"
+        },
+        "in" : "header",
+        "name" : "X-Amz-Date"
+      },
+      "X-Amz-Algorithm" : {
+        "required" : false,
+        "schema" : {
+          "type" : "string"
+        },
+        "in" : "header",
+        "name" : "X-Amz-Algorithm"
+      },
+      "X-Amz-Credential" : {
+        "required" : false,
+        "schema" : {
+          "type" : "string"
+        },
+        "in" : "header",
+        "name" : "X-Amz-Credential"
+      },
+      "X-Amz-Security-Token" : {
+        "required" : false,
+        "schema" : {
+          "type" : "string"
+        },
+        "in" : "header",
+        "name" : "X-Amz-Security-Token"
+      },
+      "X-Amz-Signature" : {
+        "required" : false,
+        "schema" : {
+          "type" : "string"
+        },
+        "in" : "header",
+        "name" : "X-Amz-Signature"
+      },
+      "X-Amz-SignedHeaders" : {
+        "required" : false,
+        "schema" : {
+          "type" : "string"
+        },
+        "in" : "header",
+        "name" : "X-Amz-SignedHeaders"
+      }
+    },
+    "schemas" : {
+      "SendSSHPublicKeyResponse" : {
+        "example" : {
+          "RequestId" : "abcd1234-abcd-1234-abcd-1234abcd1234",
+          "Success" : true
+        },
+        "properties" : {
+          "RequestId" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/RequestId"
+            }, {
+              "description" : "The ID of the request. Please provide this ID when contacting AWS Support for assistance."
+            } ]
+          },
+          "Success" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Success"
+            }, {
+              "description" : "Is true if the request succeeds and an error otherwise."
+            } ]
+          }
+        },
+        "type" : "object"
+      },
+      "SendSSHPublicKeyRequest" : {
+        "properties" : {
+          "InstanceId" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/InstanceId"
+            }, {
+              "description" : "The ID of the EC2 instance."
+            } ]
+          },
+          "InstanceOSUser" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/InstanceOSUser"
+            }, {
+              "description" : "The OS user on the EC2 instance for whom the key can be used to authenticate."
+            } ]
+          },
+          "SSHPublicKey" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/SSHPublicKey"
+            }, {
+              "description" : "The public key material. To use the public key, you must have the matching private key."
+            } ]
+          },
+          "AvailabilityZone" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/AvailabilityZone"
+            }, {
+              "description" : "The Availability Zone in which the EC2 instance was launched."
+            } ]
+          }
+        },
+        "type" : "object",
+        "title" : "SendSSHPublicKeyRequest",
+        "required" : [ "InstanceId", "InstanceOSUser", "SSHPublicKey", "AvailabilityZone" ]
+      },
+      "AuthException" : { },
+      "InvalidArgsException" : { },
+      "ServiceException" : { },
+      "ThrottlingException" : { },
+      "EC2InstanceNotFoundException" : { },
+      "SendSerialConsoleSSHPublicKeyResponse" : {
+        "properties" : {
+          "RequestId" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/RequestId"
+            }, {
+              "description" : "The ID of the request. Please provide this ID when contacting AWS Support for assistance."
+            } ]
+          },
+          "Success" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Success"
+            }, {
+              "description" : "Is true if the request succeeds and an error otherwise."
+            } ]
+          }
+        },
+        "type" : "object"
+      },
+      "SendSerialConsoleSSHPublicKeyRequest" : {
+        "properties" : {
+          "InstanceId" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/InstanceId"
+            }, {
+              "description" : "The ID of the EC2 instance."
+            } ]
+          },
+          "SerialPort" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/SerialPort"
+            }, {
+              "description" : "<p>The serial port of the EC2 instance. Currently only port 0 is supported.</p> <p>Default: 0</p>"
+            } ]
+          },
+          "SSHPublicKey" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/SSHPublicKey"
+            }, {
+              "description" : "The public key material. To use the public key, you must have the matching private key. For information about the supported key formats and lengths, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#how-to-generate-your-own-key-and-import-it-to-aws\">Requirements for key pairs</a> in the <i>Amazon EC2 User Guide</i>."
+            } ]
+          }
+        },
+        "type" : "object",
+        "title" : "SendSerialConsoleSSHPublicKeyRequest",
+        "required" : [ "InstanceId", "SSHPublicKey" ]
+      },
+      "SerialConsoleAccessDisabledException" : { },
+      "EC2InstanceTypeInvalidException" : { },
+      "SerialConsoleSessionLimitExceededException" : { },
+      "SerialConsoleSessionUnavailableException" : { },
+      "AvailabilityZone" : {
+        "maxLength" : 32,
+        "minLength" : 6,
+        "pattern" : "^(\\w+-){2,3}\\d+\\w+$",
+        "type" : "string"
+      },
+      "InstanceId" : {
+        "maxLength" : 32,
+        "minLength" : 10,
+        "pattern" : "^i-[a-f0-9]+$",
+        "type" : "string"
+      },
+      "InstanceOSUser" : {
+        "maxLength" : 32,
+        "minLength" : 1,
+        "pattern" : "^[A-Za-z_][A-Za-z0-9\\@\\._-]{0,30}[A-Za-z0-9\\$_-]?$",
+        "type" : "string"
+      },
+      "RequestId" : {
+        "type" : "string"
+      },
+      "SSHPublicKey" : {
+        "maxLength" : 4096,
+        "minLength" : 256,
+        "type" : "string"
+      },
+      "Success" : {
+        "type" : "boolean"
+      },
+      "SerialPort" : {
+        "maximum" : 0,
+        "minimum" : 0,
+        "type" : "integer"
+      }
+    },
+    "securitySchemes" : {
+      "hmac" : {
+        "type" : "apiKey",
+        "description" : "Amazon Signature authorization v4",
+        "name" : "Authorization",
+        "in" : "header",
+        "x-amazon-apigateway-authtype" : "awsSigv4"
+      }
+    }
+  },
+  "externalDocs" : {
+    "description" : "Amazon Web Services documentation",
+    "url" : "https://docs.aws.amazon.com/ec2-instance-connect/"
+  },
+  "security" : [ {
+    "hmac" : [ ]
+  } ],
+  "x-hasEquivalentPaths" : true
+}

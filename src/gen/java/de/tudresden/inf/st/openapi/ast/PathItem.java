@@ -62,6 +62,12 @@ public class PathItem extends ASTNode<ASTNode> implements Cloneable {
         return path;
         }
   /**
+   * @aspect RandomRequestGenerator
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jadd:3
+   */
+  public static void sendRandomRequests() {
+        }
+  /**
    * @aspect Parser
    * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:277
    */

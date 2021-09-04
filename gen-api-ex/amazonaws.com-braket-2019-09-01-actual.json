@@ -1,0 +1,1818 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "contact" : {
+      "email" : "mike.ralphson@gmail.com",
+      "name" : "Mike Ralphson",
+      "url" : "https://github.com/mermade/aws2openapi",
+      "x-twitter" : "PermittedSoc"
+    },
+    "description" : "The Amazon Braket API Reference provides information about the operations and structures supported in Amazon Braket.",
+    "license" : {
+      "name" : "Apache 2.0 License",
+      "url" : "http://www.apache.org/licenses/"
+    },
+    "termsOfService" : "https://aws.amazon.com/service-terms/",
+    "title" : "Braket",
+    "version" : "2019-09-01",
+    "x-providerName" : "amazonaws.com",
+    "x-logo" : {
+      "url" : "https://api.apis.guru/v2/cache/logo/https_twitter.com_awscloud_profile_image.png",
+      "backgroundColor" : "#FFFFFF"
+    },
+    "x-aws-signingName" : "braket",
+    "x-apiClientRegistration" : {
+      "url" : "https://portal.aws.amazon.com/gp/aws/developer/registration/index.html?nc2=h_ct"
+    },
+    "x-preferred" : true,
+    "x-release" : "v4",
+    "x-apisguru-categories" : [ "cloud" ],
+    "x-serviceName" : "braket",
+    "x-origin" : [ {
+      "contentType" : "application/json",
+      "url" : "https://raw.githubusercontent.com/aws/aws-sdk-js/master/apis/braket-2019-09-01.normal.json",
+      "converter" : {
+        "url" : "https://github.com/mermade/aws2openapi",
+        "version" : "1.0.0"
+      },
+      "x-apisguru-driver" : "external"
+    } ]
+  },
+  "servers" : [ {
+    "url" : "http://braket.{region}.amazonaws.com",
+    "description" : "The Braket multi-region endpoint",
+    "variables" : {
+      "region" : {
+        "description" : "The AWS region",
+        "default" : "us-east-1",
+        "enum" : [ "us-east-1", "us-east-2", "us-west-1", "us-west-2", "us-gov-west-1", "us-gov-east-1", "ca-central-1", "eu-north-1", "eu-west-1", "eu-west-2", "eu-west-3", "eu-central-1", "eu-south-1", "af-south-1", "ap-northeast-1", "ap-northeast-2", "ap-northeast-3", "ap-southeast-1", "ap-southeast-2", "ap-east-1", "ap-south-1", "sa-east-1", "me-south-1" ]
+      }
+    }
+  }, {
+    "url" : "https://braket.{region}.amazonaws.com",
+    "description" : "The Braket multi-region endpoint",
+    "variables" : {
+      "region" : {
+        "description" : "The AWS region",
+        "default" : "us-east-1",
+        "enum" : [ "us-east-1", "us-east-2", "us-west-1", "us-west-2", "us-gov-west-1", "us-gov-east-1", "ca-central-1", "eu-north-1", "eu-west-1", "eu-west-2", "eu-west-3", "eu-central-1", "eu-south-1", "af-south-1", "ap-northeast-1", "ap-northeast-2", "ap-northeast-3", "ap-southeast-1", "ap-southeast-2", "ap-east-1", "ap-south-1", "sa-east-1", "me-south-1" ]
+      }
+    }
+  }, {
+    "url" : "http://braket.{region}.amazonaws.com.cn",
+    "description" : "The Braket endpoint for China (Beijing) and China (Ningxia)",
+    "variables" : {
+      "region" : {
+        "description" : "The AWS region",
+        "default" : "cn-north-1",
+        "enum" : [ "cn-north-1", "cn-northwest-1" ]
+      }
+    }
+  }, {
+    "url" : "https://braket.{region}.amazonaws.com.cn",
+    "description" : "The Braket endpoint for China (Beijing) and China (Ningxia)",
+    "variables" : {
+      "region" : {
+        "description" : "The AWS region",
+        "default" : "cn-north-1",
+        "enum" : [ "cn-north-1", "cn-northwest-1" ]
+      }
+    }
+  } ],
+  "paths" : {
+    "/devices" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/X-Amz-Content-Sha256"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Date"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Algorithm"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Credential"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Security-Token"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Signature"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-SignedHeaders"
+      } ],
+      "post" : {
+        "description" : "Searches for devices using the specified filters.",
+        "operationId" : "SearchDevices",
+        "parameters" : [ {
+          "description" : "Pagination limit",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "in" : "query",
+          "name" : "maxResults"
+        }, {
+          "description" : "Pagination token",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "in" : "query",
+          "name" : "nextToken"
+        } ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "properties" : {
+                  "maxResults" : {
+                    "description" : "The maximum number of results to return in the response.",
+                    "maximum" : 100,
+                    "minimum" : 1,
+                    "type" : "integer"
+                  },
+                  "nextToken" : {
+                    "description" : "A token used for pagination of results returned in the response. Use the token returned from the previous request continue results where the previous request ended.",
+                    "type" : "string"
+                  },
+                  "filters" : {
+                    "description" : "The filter values to use to search for a device.",
+                    "maxItems" : 10,
+                    "minItems" : 0,
+                    "type" : "array",
+                    "items" : {
+                      "$ref" : "#/components/schemas/SearchDevicesFilter"
+                    }
+                  }
+                },
+                "type" : "object",
+                "required" : [ "filters" ]
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SearchDevicesResponse"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "AccessDeniedException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AccessDeniedException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "ThrottlingException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ThrottlingException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "InternalServiceException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServiceException"
+                }
+              }
+            }
+          },
+          "483" : {
+            "description" : "ValidationException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ValidationException"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tags/{resourceArn}#tagKeys" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/X-Amz-Content-Sha256"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Date"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Algorithm"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Credential"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Security-Token"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Signature"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-SignedHeaders"
+      } ],
+      "delete" : {
+        "description" : "Remove tags from a resource.",
+        "operationId" : "UntagResource",
+        "parameters" : [ {
+          "description" : "Specify the <code>resourceArn</code> for the resource from which to remove the tags.",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "resourceArn"
+        }, {
+          "description" : "Specify the keys for the tags to remove from the resource.",
+          "required" : true,
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/String"
+            }
+          },
+          "in" : "query",
+          "name" : "tagKeys"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UntagResourceResponse"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "InternalServiceException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServiceException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "ValidationException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ValidationException"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/device/{deviceArn}" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/X-Amz-Content-Sha256"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Date"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Algorithm"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Credential"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Security-Token"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Signature"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-SignedHeaders"
+      } ],
+      "get" : {
+        "description" : "Retrieves the devices available in Amazon Braket.",
+        "operationId" : "GetDevice",
+        "parameters" : [ {
+          "description" : "The ARN of the device to retrieve.",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 256,
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "deviceArn"
+        } ],
+        "responses" : {
+          "484" : {
+            "description" : "DeviceRetiredException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DeviceRetiredException"
+                }
+              }
+            }
+          },
+          "485" : {
+            "description" : "InternalServiceException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServiceException"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/GetDeviceResponse"
+                }
+              }
+            }
+          },
+          "486" : {
+            "description" : "ValidationException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ValidationException"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "AccessDeniedException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AccessDeniedException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "ThrottlingException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ThrottlingException"
+                }
+              }
+            }
+          },
+          "483" : {
+            "description" : "DeviceOfflineException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DeviceOfflineException"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tags/{resourceArn}" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/X-Amz-Content-Sha256"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Date"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Algorithm"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Credential"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Security-Token"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Signature"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-SignedHeaders"
+      } ],
+      "get" : {
+        "description" : "Shows the tags associated with this resource.",
+        "operationId" : "ListTagsForResource",
+        "parameters" : [ {
+          "description" : "Specify the <code>resourceArn</code> for the resource whose tags to display.",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "resourceArn"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ListTagsForResourceResponse"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "InternalServiceException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServiceException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "ValidationException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ValidationException"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "description" : "Add a tag to the specified resource.",
+        "operationId" : "TagResource",
+        "parameters" : [ {
+          "description" : "Specify the <code>resourceArn</code> of the resource to which a tag will be added.",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "resourceArn"
+        } ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "properties" : {
+                  "tags" : {
+                    "description" : "Specify the tags to add to the resource.",
+                    "type" : "object",
+                    "additionalProperties" : {
+                      "$ref" : "#/components/schemas/String"
+                    }
+                  }
+                },
+                "type" : "object",
+                "required" : [ "tags" ]
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/TagResourceResponse"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "InternalServiceException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServiceException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "ValidationException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ValidationException"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/quantum-task/{quantumTaskArn}" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/X-Amz-Content-Sha256"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Date"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Algorithm"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Credential"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Security-Token"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Signature"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-SignedHeaders"
+      } ],
+      "get" : {
+        "description" : "Retrieves the specified quantum task.",
+        "operationId" : "GetQuantumTask",
+        "parameters" : [ {
+          "description" : "the ARN of the task to retrieve.",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 256,
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "quantumTaskArn"
+        } ],
+        "responses" : {
+          "484" : {
+            "description" : "ValidationException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ValidationException"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/GetQuantumTaskResponse"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "AccessDeniedException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AccessDeniedException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "ThrottlingException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ThrottlingException"
+                }
+              }
+            }
+          },
+          "483" : {
+            "description" : "InternalServiceException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServiceException"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/quantum-task" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/X-Amz-Content-Sha256"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Date"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Algorithm"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Credential"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Security-Token"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Signature"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-SignedHeaders"
+      } ],
+      "post" : {
+        "description" : "Creates a quantum task.",
+        "operationId" : "CreateQuantumTask",
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "properties" : {
+                  "outputS3Bucket" : {
+                    "description" : "The S3 bucket to store task result files in.",
+                    "maxLength" : 63,
+                    "minLength" : 3,
+                    "type" : "string"
+                  },
+                  "clientToken" : {
+                    "description" : "The client token associated with the request.",
+                    "maxLength" : 64,
+                    "minLength" : 1,
+                    "type" : "string"
+                  },
+                  "deviceArn" : {
+                    "description" : "The ARN of the device to run the task on.",
+                    "maxLength" : 256,
+                    "minLength" : 1,
+                    "type" : "string"
+                  },
+                  "action" : {
+                    "description" : "The action associated with the task.",
+                    "type" : "string"
+                  },
+                  "deviceParameters" : {
+                    "description" : "The parameters for the device to run the task on.",
+                    "maxLength" : 48000,
+                    "minLength" : 1,
+                    "type" : "string"
+                  },
+                  "shots" : {
+                    "description" : "The number of shots to use for the task.",
+                    "minimum" : 0,
+                    "type" : "integer"
+                  },
+                  "outputS3KeyPrefix" : {
+                    "description" : "The key prefix for the location in the S3 bucket to store task results in.",
+                    "maxLength" : 1024,
+                    "minLength" : 1,
+                    "type" : "string"
+                  },
+                  "tags" : {
+                    "description" : "Tags to be added to the quantum task you're creating.",
+                    "type" : "object",
+                    "additionalProperties" : {
+                      "$ref" : "#/components/schemas/String"
+                    }
+                  }
+                },
+                "type" : "object",
+                "required" : [ "action", "clientToken", "deviceArn", "outputS3Bucket", "outputS3KeyPrefix", "shots" ]
+              }
+            }
+          }
+        },
+        "responses" : {
+          "484" : {
+            "description" : "ServiceQuotaExceededException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ServiceQuotaExceededException"
+                }
+              }
+            }
+          },
+          "485" : {
+            "description" : "ValidationException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ValidationException"
+                }
+              }
+            }
+          },
+          "201" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CreateQuantumTaskResponse"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "AccessDeniedException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AccessDeniedException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "ThrottlingException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ThrottlingException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "DeviceOfflineException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DeviceOfflineException"
+                }
+              }
+            }
+          },
+          "483" : {
+            "description" : "InternalServiceException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServiceException"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/quantum-task/{quantumTaskArn}/cancel" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/X-Amz-Content-Sha256"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Date"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Algorithm"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Credential"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Security-Token"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Signature"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-SignedHeaders"
+      } ],
+      "put" : {
+        "description" : "Cancels the specified task.",
+        "operationId" : "CancelQuantumTask",
+        "parameters" : [ {
+          "description" : "The ARN of the task to cancel.",
+          "required" : true,
+          "schema" : {
+            "maxLength" : 256,
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "in" : "path",
+          "name" : "quantumTaskArn"
+        } ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "properties" : {
+                  "clientToken" : {
+                    "description" : "The client token associated with the request.",
+                    "maxLength" : 64,
+                    "minLength" : 1,
+                    "type" : "string"
+                  }
+                },
+                "type" : "object",
+                "required" : [ "clientToken" ]
+              }
+            }
+          }
+        },
+        "responses" : {
+          "484" : {
+            "description" : "InternalServiceException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServiceException"
+                }
+              }
+            }
+          },
+          "485" : {
+            "description" : "ValidationException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ValidationException"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CancelQuantumTaskResponse"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "ResourceNotFoundException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResourceNotFoundException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "AccessDeniedException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AccessDeniedException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "ConflictException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ConflictException"
+                }
+              }
+            }
+          },
+          "483" : {
+            "description" : "ThrottlingException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ThrottlingException"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/quantum-tasks" : {
+      "parameters" : [ {
+        "$ref" : "#/components/parameters/X-Amz-Content-Sha256"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Date"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Algorithm"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Credential"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Security-Token"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-Signature"
+      }, {
+        "$ref" : "#/components/parameters/X-Amz-SignedHeaders"
+      } ],
+      "post" : {
+        "description" : "Searches for tasks that match the specified filter values.",
+        "operationId" : "SearchQuantumTasks",
+        "parameters" : [ {
+          "description" : "Pagination limit",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "in" : "query",
+          "name" : "maxResults"
+        }, {
+          "description" : "Pagination token",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "in" : "query",
+          "name" : "nextToken"
+        } ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "properties" : {
+                  "maxResults" : {
+                    "description" : "Maximum number of results to return in the response.",
+                    "maximum" : 100,
+                    "minimum" : 1,
+                    "type" : "integer"
+                  },
+                  "nextToken" : {
+                    "description" : "A token used for pagination of results returned in the response. Use the token returned from the previous request continue results where the previous request ended.",
+                    "type" : "string"
+                  },
+                  "filters" : {
+                    "description" : "Array of <code>SearchQuantumTasksFilter</code> objects.",
+                    "maxItems" : 10,
+                    "minItems" : 0,
+                    "type" : "array",
+                    "items" : {
+                      "$ref" : "#/components/schemas/SearchQuantumTasksFilter"
+                    }
+                  }
+                },
+                "type" : "object",
+                "required" : [ "filters" ]
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SearchQuantumTasksResponse"
+                }
+              }
+            }
+          },
+          "480" : {
+            "description" : "AccessDeniedException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AccessDeniedException"
+                }
+              }
+            }
+          },
+          "481" : {
+            "description" : "ThrottlingException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ThrottlingException"
+                }
+              }
+            }
+          },
+          "482" : {
+            "description" : "InternalServiceException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InternalServiceException"
+                }
+              }
+            }
+          },
+          "483" : {
+            "description" : "ValidationException",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ValidationException"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "parameters" : {
+      "X-Amz-Date" : {
+        "required" : false,
+        "schema" : {
+          "type" : "string"
+        },
+        "in" : "header",
+        "name" : "X-Amz-Date"
+      },
+      "X-Amz-Algorithm" : {
+        "required" : false,
+        "schema" : {
+          "type" : "string"
+        },
+        "in" : "header",
+        "name" : "X-Amz-Algorithm"
+      },
+      "X-Amz-Signature" : {
+        "required" : false,
+        "schema" : {
+          "type" : "string"
+        },
+        "in" : "header",
+        "name" : "X-Amz-Signature"
+      },
+      "X-Amz-SignedHeaders" : {
+        "required" : false,
+        "schema" : {
+          "type" : "string"
+        },
+        "in" : "header",
+        "name" : "X-Amz-SignedHeaders"
+      },
+      "X-Amz-Security-Token" : {
+        "required" : false,
+        "schema" : {
+          "type" : "string"
+        },
+        "in" : "header",
+        "name" : "X-Amz-Security-Token"
+      },
+      "X-Amz-Credential" : {
+        "required" : false,
+        "schema" : {
+          "type" : "string"
+        },
+        "in" : "header",
+        "name" : "X-Amz-Credential"
+      },
+      "X-Amz-Content-Sha256" : {
+        "required" : false,
+        "schema" : {
+          "type" : "string"
+        },
+        "in" : "header",
+        "name" : "X-Amz-Content-Sha256"
+      }
+    },
+    "schemas" : {
+      "AccessDeniedException" : { },
+      "GetDeviceRequest" : {
+        "type" : "object",
+        "title" : "GetDeviceRequest"
+      },
+      "SearchQuantumTasksRequest" : {
+        "properties" : {
+          "maxResults" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/SearchQuantumTasksRequestMaxResultsInteger"
+            }, {
+              "description" : "Maximum number of results to return in the response."
+            } ]
+          },
+          "nextToken" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/String"
+            }, {
+              "description" : "A token used for pagination of results returned in the response. Use the token returned from the previous request continue results where the previous request ended."
+            } ]
+          },
+          "filters" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/SearchQuantumTasksRequestFiltersList"
+            }, {
+              "description" : "Array of <code>SearchQuantumTasksFilter</code> objects."
+            } ]
+          }
+        },
+        "type" : "object",
+        "title" : "SearchQuantumTasksRequest",
+        "required" : [ "filters" ]
+      },
+      "ConflictException" : { },
+      "CreateQuantumTaskRequest" : {
+        "properties" : {
+          "outputS3Bucket" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/CreateQuantumTaskRequestOutputS3BucketString"
+            }, {
+              "description" : "The S3 bucket to store task result files in."
+            } ]
+          },
+          "clientToken" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/String64"
+            }, {
+              "description" : "The client token associated with the request."
+            } ]
+          },
+          "deviceArn" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/DeviceArn"
+            }, {
+              "description" : "The ARN of the device to run the task on."
+            } ]
+          },
+          "action" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/JsonValue"
+            }, {
+              "description" : "The action associated with the task."
+            } ]
+          },
+          "deviceParameters" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/CreateQuantumTaskRequestDeviceParametersString"
+            }, {
+              "description" : "The parameters for the device to run the task on."
+            } ]
+          },
+          "shots" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/CreateQuantumTaskRequestShotsLong"
+            }, {
+              "description" : "The number of shots to use for the task."
+            } ]
+          },
+          "outputS3KeyPrefix" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/CreateQuantumTaskRequestOutputS3KeyPrefixString"
+            }, {
+              "description" : "The key prefix for the location in the S3 bucket to store task results in."
+            } ]
+          },
+          "tags" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/TagsMap"
+            }, {
+              "description" : "Tags to be added to the quantum task you're creating."
+            } ]
+          }
+        },
+        "type" : "object",
+        "title" : "CreateQuantumTaskRequest",
+        "required" : [ "action", "clientToken", "deviceArn", "outputS3Bucket", "outputS3KeyPrefix", "shots" ]
+      },
+      "String" : {
+        "type" : "string"
+      },
+      "SearchDevicesRequestFiltersList" : {
+        "maxItems" : 10,
+        "minItems" : 0,
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/SearchDevicesFilter"
+        }
+      },
+      "TagsMap" : {
+        "type" : "object",
+        "additionalProperties" : {
+          "$ref" : "#/components/schemas/String"
+        }
+      },
+      "SearchDevicesFilterNameString" : {
+        "maxLength" : 64,
+        "minLength" : 1,
+        "type" : "string"
+      },
+      "CancelQuantumTaskResponse" : {
+        "properties" : {
+          "cancellationStatus" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/CancellationStatus"
+            }, {
+              "description" : "The status of the cancellation request."
+            } ]
+          },
+          "quantumTaskArn" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/QuantumTaskArn"
+            }, {
+              "description" : "The ARN of the task."
+            } ]
+          }
+        },
+        "type" : "object",
+        "required" : [ "cancellationStatus", "quantumTaskArn" ]
+      },
+      "GetQuantumTaskResponse" : {
+        "properties" : {
+          "outputS3Bucket" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/String"
+            }, {
+              "description" : "The S3 bucket where task results are stored."
+            } ]
+          },
+          "createdAt" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/SyntheticTimestamp_date_time"
+            }, {
+              "description" : "The time at which the task was created."
+            } ]
+          },
+          "endedAt" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/SyntheticTimestamp_date_time"
+            }, {
+              "description" : "The time at which the task ended."
+            } ]
+          },
+          "deviceArn" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/DeviceArn"
+            }, {
+              "description" : "The ARN of the device the task was run on."
+            } ]
+          },
+          "failureReason" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/String"
+            }, {
+              "description" : "The reason that a task failed."
+            } ]
+          },
+          "deviceParameters" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/JsonValue"
+            }, {
+              "description" : "The parameters for the device on which the task ran."
+            } ]
+          },
+          "outputS3Directory" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/String"
+            }, {
+              "description" : "The folder in the S3 bucket where task results are stored."
+            } ]
+          },
+          "shots" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Long"
+            }, {
+              "description" : "The number of shots used in the task."
+            } ]
+          },
+          "quantumTaskArn" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/QuantumTaskArn"
+            }, {
+              "description" : "The ARN of the task."
+            } ]
+          },
+          "status" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/QuantumTaskStatus"
+            }, {
+              "description" : "The status of the task."
+            } ]
+          },
+          "tags" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/TagsMap"
+            }, {
+              "description" : "The tags that belong to this task."
+            } ]
+          }
+        },
+        "type" : "object",
+        "required" : [ "createdAt", "deviceArn", "deviceParameters", "outputS3Bucket", "outputS3Directory", "quantumTaskArn", "shots", "status" ]
+      },
+      "SyntheticTimestamp_date_time" : {
+        "format" : "date-time",
+        "type" : "string"
+      },
+      "SearchQuantumTasksRequestFiltersList" : {
+        "maxItems" : 10,
+        "minItems" : 0,
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/SearchQuantumTasksFilter"
+        }
+      },
+      "ResourceNotFoundException" : { },
+      "GetQuantumTaskRequest" : {
+        "type" : "object",
+        "title" : "GetQuantumTaskRequest"
+      },
+      "CreateQuantumTaskRequestOutputS3BucketString" : {
+        "maxLength" : 63,
+        "minLength" : 3,
+        "type" : "string"
+      },
+      "JsonValue" : {
+        "type" : "string"
+      },
+      "DeviceRetiredException" : { },
+      "String256" : {
+        "maxLength" : 256,
+        "minLength" : 1,
+        "type" : "string"
+      },
+      "QuantumTaskSummaryList" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/QuantumTaskSummary"
+        }
+      },
+      "SearchDevicesFilterValuesList" : {
+        "maxItems" : 10,
+        "minItems" : 1,
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/String256"
+        }
+      },
+      "DeviceType" : {
+        "type" : "string",
+        "enum" : [ "QPU", "SIMULATOR" ]
+      },
+      "UntagResourceResponse" : {
+        "type" : "object"
+      },
+      "QuantumTaskArn" : {
+        "maxLength" : 256,
+        "minLength" : 1,
+        "type" : "string"
+      },
+      "CreateQuantumTaskRequestOutputS3KeyPrefixString" : {
+        "maxLength" : 1024,
+        "minLength" : 1,
+        "type" : "string"
+      },
+      "Long" : {
+        "type" : "integer"
+      },
+      "ThrottlingException" : { },
+      "CancelQuantumTaskRequest" : {
+        "properties" : {
+          "clientToken" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/String64"
+            }, {
+              "description" : "The client token associated with the request."
+            } ]
+          }
+        },
+        "type" : "object",
+        "title" : "CancelQuantumTaskRequest",
+        "required" : [ "clientToken" ]
+      },
+      "SearchQuantumTasksResponse" : {
+        "properties" : {
+          "nextToken" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/String"
+            }, {
+              "description" : "A token used for pagination of results, or null if there are no additional results. Use the token value in a subsequent request to continue results where the previous request ended."
+            } ]
+          },
+          "quantumTasks" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/QuantumTaskSummaryList"
+            }, {
+              "description" : "An array of <code>QuantumTaskSummary</code> objects for tasks that match the specified filters."
+            } ]
+          }
+        },
+        "type" : "object",
+        "required" : [ "quantumTasks" ]
+      },
+      "ValidationException" : { },
+      "TagResourceResponse" : {
+        "type" : "object"
+      },
+      "SearchDevicesRequest" : {
+        "properties" : {
+          "maxResults" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/SearchDevicesRequestMaxResultsInteger"
+            }, {
+              "description" : "The maximum number of results to return in the response."
+            } ]
+          },
+          "nextToken" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/String"
+            }, {
+              "description" : "A token used for pagination of results returned in the response. Use the token returned from the previous request continue results where the previous request ended."
+            } ]
+          },
+          "filters" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/SearchDevicesRequestFiltersList"
+            }, {
+              "description" : "The filter values to use to search for a device."
+            } ]
+          }
+        },
+        "type" : "object",
+        "title" : "SearchDevicesRequest",
+        "required" : [ "filters" ]
+      },
+      "QuantumTaskStatus" : {
+        "type" : "string",
+        "enum" : [ "CREATED", "QUEUED", "RUNNING", "COMPLETED", "FAILED", "CANCELLING", "CANCELLED" ]
+      },
+      "ListTagsForResourceRequest" : {
+        "type" : "object",
+        "title" : "ListTagsForResourceRequest"
+      },
+      "GetDeviceResponse" : {
+        "properties" : {
+          "deviceType" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/DeviceType"
+            }, {
+              "description" : "The type of the device."
+            } ]
+          },
+          "deviceArn" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/DeviceArn"
+            }, {
+              "description" : "The ARN of the device."
+            } ]
+          },
+          "deviceName" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/String"
+            }, {
+              "description" : "The name of the device."
+            } ]
+          },
+          "deviceCapabilities" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/JsonValue"
+            }, {
+              "description" : "Details about the capabilities of the device."
+            } ]
+          },
+          "providerName" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/String"
+            }, {
+              "description" : "The name of the partner company for the device."
+            } ]
+          },
+          "deviceStatus" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/DeviceStatus"
+            }, {
+              "description" : "The status of the device."
+            } ]
+          }
+        },
+        "type" : "object",
+        "required" : [ "deviceArn", "deviceCapabilities", "deviceName", "deviceStatus", "deviceType", "providerName" ]
+      },
+      "DeviceSummaryList" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/DeviceSummary"
+        }
+      },
+      "SearchQuantumTasksFilterValuesList" : {
+        "maxItems" : 10,
+        "minItems" : 1,
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/String256"
+        }
+      },
+      "ServiceQuotaExceededException" : { },
+      "TagResourceRequest" : {
+        "properties" : {
+          "tags" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/TagsMap"
+            }, {
+              "description" : "Specify the tags to add to the resource."
+            } ]
+          }
+        },
+        "type" : "object",
+        "title" : "TagResourceRequest",
+        "required" : [ "tags" ]
+      },
+      "ListTagsForResourceResponse" : {
+        "properties" : {
+          "tags" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/TagsMap"
+            }, {
+              "description" : "Displays the key, value pairs of tags associated with this resource."
+            } ]
+          }
+        },
+        "type" : "object"
+      },
+      "CreateQuantumTaskRequestDeviceParametersString" : {
+        "maxLength" : 48000,
+        "minLength" : 1,
+        "type" : "string"
+      },
+      "SearchQuantumTasksFilter" : {
+        "description" : "A filter to use to search for tasks.",
+        "properties" : {
+          "values" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/SearchQuantumTasksFilterValuesList"
+            }, {
+              "description" : "The values to use for the filter."
+            } ]
+          },
+          "name" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/String64"
+            }, {
+              "description" : "The name of the device used for the task."
+            } ]
+          },
+          "operator" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/SearchQuantumTasksFilterOperator"
+            }, {
+              "description" : "An operator to use in the filter."
+            } ]
+          }
+        },
+        "type" : "object",
+        "required" : [ "name", "operator", "values" ]
+      },
+      "SearchDevicesFilter" : {
+        "description" : "The filter to use for searching devices.",
+        "properties" : {
+          "values" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/SearchDevicesFilterValuesList"
+            }, {
+              "description" : "The values to use to filter results."
+            } ]
+          },
+          "name" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/SearchDevicesFilterNameString"
+            }, {
+              "description" : "The name to use to filter results."
+            } ]
+          }
+        },
+        "type" : "object",
+        "required" : [ "name", "values" ]
+      },
+      "DeviceSummary" : {
+        "description" : "Includes information about the device.",
+        "properties" : {
+          "deviceType" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/DeviceType"
+            }, {
+              "description" : "The type of the device."
+            } ]
+          },
+          "deviceArn" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/DeviceArn"
+            }, {
+              "description" : "The ARN of the device."
+            } ]
+          },
+          "deviceName" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/String"
+            }, {
+              "description" : "The name of the device."
+            } ]
+          },
+          "providerName" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/String"
+            }, {
+              "description" : "The provider of the device."
+            } ]
+          },
+          "deviceStatus" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/DeviceStatus"
+            }, {
+              "description" : "The status of the device."
+            } ]
+          }
+        },
+        "type" : "object",
+        "required" : [ "deviceArn", "deviceName", "deviceStatus", "deviceType", "providerName" ]
+      },
+      "SearchQuantumTasksFilterOperator" : {
+        "type" : "string",
+        "enum" : [ "LT", "LTE", "EQUAL", "GT", "GTE", "BETWEEN" ]
+      },
+      "TagKeys" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/String"
+        }
+      },
+      "InternalServiceException" : { },
+      "CreateQuantumTaskResponse" : {
+        "properties" : {
+          "quantumTaskArn" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/QuantumTaskArn"
+            }, {
+              "description" : "The ARN of the task created by the request."
+            } ]
+          }
+        },
+        "type" : "object",
+        "required" : [ "quantumTaskArn" ]
+      },
+      "QuantumTaskSummary" : {
+        "description" : "Includes information about a quantum task.",
+        "properties" : {
+          "outputS3Bucket" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/String"
+            }, {
+              "description" : "The S3 bucket where the task result file is stored.."
+            } ]
+          },
+          "createdAt" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/SyntheticTimestamp_date_time"
+            }, {
+              "description" : "The time at which the task was created."
+            } ]
+          },
+          "endedAt" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/SyntheticTimestamp_date_time"
+            }, {
+              "description" : "The time at which the task finished."
+            } ]
+          },
+          "deviceArn" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/DeviceArn"
+            }, {
+              "description" : "The ARN of the device the task ran on."
+            } ]
+          },
+          "outputS3Directory" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/String"
+            }, {
+              "description" : "The folder in the S3 bucket where the task result file is stored."
+            } ]
+          },
+          "shots" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Long"
+            }, {
+              "description" : "The shots used for the task."
+            } ]
+          },
+          "quantumTaskArn" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/QuantumTaskArn"
+            }, {
+              "description" : "The ARN of the task."
+            } ]
+          },
+          "status" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/QuantumTaskStatus"
+            }, {
+              "description" : "The status of the task."
+            } ]
+          },
+          "tags" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/TagsMap"
+            }, {
+              "description" : "Displays the key, value pairs of tags associated with this quantum task."
+            } ]
+          }
+        },
+        "type" : "object",
+        "required" : [ "createdAt", "deviceArn", "outputS3Bucket", "outputS3Directory", "quantumTaskArn", "shots", "status" ]
+      },
+      "UntagResourceRequest" : {
+        "type" : "object",
+        "title" : "UntagResourceRequest"
+      },
+      "DeviceArn" : {
+        "maxLength" : 256,
+        "minLength" : 1,
+        "type" : "string"
+      },
+      "String64" : {
+        "maxLength" : 64,
+        "minLength" : 1,
+        "type" : "string"
+      },
+      "SearchQuantumTasksRequestMaxResultsInteger" : {
+        "maximum" : 100,
+        "minimum" : 1,
+        "type" : "integer"
+      },
+      "DeviceOfflineException" : { },
+      "SearchDevicesResponse" : {
+        "properties" : {
+          "devices" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/DeviceSummaryList"
+            }, {
+              "description" : "An array of <code>DeviceSummary</code> objects for devices that match the specified filter values."
+            } ]
+          },
+          "nextToken" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/String"
+            }, {
+              "description" : "A token used for pagination of results, or null if there are no additional results. Use the token value in a subsequent request to continue results where the previous request ended."
+            } ]
+          }
+        },
+        "type" : "object",
+        "required" : [ "devices" ]
+      },
+      "CreateQuantumTaskRequestShotsLong" : {
+        "minimum" : 0,
+        "type" : "integer"
+      },
+      "DeviceStatus" : {
+        "type" : "string",
+        "enum" : [ "ONLINE", "OFFLINE", "RETIRED" ]
+      },
+      "CancellationStatus" : {
+        "type" : "string",
+        "enum" : [ "CANCELLING", "CANCELLED" ]
+      },
+      "SearchDevicesRequestMaxResultsInteger" : {
+        "maximum" : 100,
+        "minimum" : 1,
+        "type" : "integer"
+      }
+    },
+    "securitySchemes" : {
+      "hmac" : {
+        "type" : "apiKey",
+        "description" : "Amazon Signature authorization v4",
+        "name" : "Authorization",
+        "in" : "header",
+        "x-amazon-apigateway-authtype" : "awsSigv4"
+      }
+    }
+  },
+  "externalDocs" : {
+    "description" : "Amazon Web Services documentation",
+    "url" : "https://docs.aws.amazon.com/braket/"
+  },
+  "security" : [ {
+    "hmac" : [ ]
+  } ],
+  "x-hasEquivalentPaths" : true
+}

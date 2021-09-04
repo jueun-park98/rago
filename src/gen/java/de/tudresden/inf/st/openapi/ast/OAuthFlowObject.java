@@ -18,14 +18,16 @@ import java.net.URL;
 public class OAuthFlowObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:824
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:829
    */
   public static OAuthFlow composeOAuthFlow (OAuthFlowObject oAuthFlowObject){
         OAuthFlow oAuthFlow = new OAuthFlow();
         Map<String, String> scopes = new HashMap<>();
 
-        oAuthFlow.setAuthorizationUrl(oAuthFlowObject.getAuthorizationUrl());
-        oAuthFlow.setTokenUrl(oAuthFlowObject.getTokenUrl());
+        if( oAuthFlowObject.getAuthorizationUrl() != null )
+        oAuthFlow.setAuthorizationUrl( oAuthFlowObject.getAuthorizationUrl() );
+        if( oAuthFlowObject.getTokenUrl() != null )
+        oAuthFlow.setTokenUrl( oAuthFlowObject.getTokenUrl() );
         for( ScopesTuple t : oAuthFlowObject.getScopesTuples() )
         scopes.put(t.getScopesKey(), t.getScopesValue());
         oAuthFlow.setScopes(scopes);
@@ -37,12 +39,14 @@ public class OAuthFlowObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:843
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:846
    */
   public static OAuthFlowObject parseOAuthFlow(OAuthFlow oAuthFlow){
         OAuthFlowObject oAuthFlowObject = new OAuthFlowObject();
 
+        if( oAuthFlow.getAuthorizationUrl() != null )
         oAuthFlowObject.setAuthorizationUrl( oAuthFlow.getAuthorizationUrl() );
+        if( oAuthFlow.getTokenUrl() != null )
         oAuthFlowObject.setTokenUrl( oAuthFlow.getTokenUrl() );
         for( String key : oAuthFlow.getScopes().keySet() )
         oAuthFlowObject.addScopesTuple( new ScopesTuple(key, oAuthFlow.getScope(key)) );

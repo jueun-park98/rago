@@ -1,0 +1,691 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "description" : "This API describes the communication between the mobile App and MatchinitServer",
+    "title" : "Server - mobile App - API",
+    "version" : "1"
+  },
+  "servers" : [ {
+    "url" : "https://virtserver.swaggerhub.com/richard_mueller4/MatchinitAPI/1",
+    "description" : "SwaggerHub API Auto Mocking"
+  } ],
+  "paths" : {
+    "/channels/global/ban" : {
+      "post" : {
+        "tags" : [ "Channels" ],
+        "summary" : "Moderators can use this to temporarly ban people",
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/Ban"
+        },
+        "responses" : {
+          "200" : {
+            "description" : "ok"
+          },
+          "403" : {
+            "description" : "not a moderator"
+          }
+        }
+      }
+    },
+    "/matches/dislike/" : {
+      "post" : {
+        "tags" : [ "Matches" ],
+        "summary" : "Used to dislike a user reducing his matching score in the process.",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/UserID"
+        }, {
+          "$ref" : "#/components/parameters/ownUserID"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ok"
+          }
+        }
+      }
+    },
+    "/game/score/{gameID}/" : {
+      "get" : {
+        "tags" : [ "Gamification" ],
+        "summary" : "Used to retrieve Highscore list with own spot and surrounding places.",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/ownUserID"
+        }, {
+          "$ref" : "#/components/parameters/GameID"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/Highscores"
+          }
+        }
+      }
+    },
+    "/profile/preferences" : {
+      "get" : {
+        "tags" : [ "User" ],
+        "summary" : "Used to retrieve matching preferences of the given user",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/UserID"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/ProfileSettings"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "User" ],
+        "summary" : "Used to change preference settings of a profile",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/UserID"
+        } ],
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/ProfileSettings"
+        },
+        "responses" : {
+          "200" : {
+            "description" : "ok"
+          }
+        }
+      }
+    },
+    "/game/details/" : {
+      "get" : {
+        "tags" : [ "Gamification" ],
+        "summary" : "Used to retrieve an overview of gamification details.",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/ownUserID"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/GamificationDetails"
+          }
+        }
+      }
+    },
+    "/matches/" : {
+      "get" : {
+        "tags" : [ "Matches" ],
+        "summary" : "Used to retrive new possible matches.",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/ownUserID"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/Matches"
+          }
+        }
+      }
+    },
+    "/user/register" : {
+      "put" : {
+        "tags" : [ "User" ],
+        "summary" : "Used to register from the mobile app.",
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/RegisterData"
+        },
+        "responses" : {
+          "200" : {
+            "description" : "ok"
+          }
+        }
+      }
+    },
+    "/matches/confirmed/" : {
+      "get" : {
+        "tags" : [ "Matches" ],
+        "summary" : "Used to retrive already matched users.",
+        "operationId" : "getUserDetails",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/ownUserID"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/Matches"
+          }
+        }
+      }
+    },
+    "/channels/global" : {
+      "get" : {
+        "tags" : [ "Channels" ],
+        "summary" : "Used to retrieve messages of the global channel of a domain",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/timestamp"
+        }, {
+          "$ref" : "#/components/parameters/numberOfMessages"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/GlobalChannelMessage"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Channels" ],
+        "summary" : "Used to send messages to the global channel of a domain",
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/SendGlobalChannelMessage"
+        },
+        "responses" : {
+          "201" : {
+            "description" : "created"
+          },
+          "403" : {
+            "description" : "Banned"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Channels" ],
+        "summary" : "Moderators can use this to delete Messages.",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/MessageID"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "deleted"
+          },
+          "403" : {
+            "description" : "not a moderator"
+          }
+        }
+      }
+    },
+    "/game/refresh/" : {
+      "get" : {
+        "tags" : [ "Gamification" ],
+        "summary" : "Used to refresh scores of games outside of the mobile app.",
+        "description" : "This request will be forwarded to the Matchinit-Cube-Proxy Server of a certain user domain / Cube network, and will be forwarded further to the specific Cube Server.",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/ownUserID"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/GamificationDetails"
+          }
+        }
+      }
+    },
+    "/matches/like/" : {
+      "post" : {
+        "tags" : [ "Matches" ],
+        "summary" : "Used to like a user possibly confirming a match.",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/UserID"
+        }, {
+          "$ref" : "#/components/parameters/ownUserID"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ok"
+          }
+        }
+      }
+    },
+    "/profile/details/" : {
+      "get" : {
+        "tags" : [ "User" ],
+        "summary" : "Used to retrive basic informations of a user-profile",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/UserID"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/UserDetails"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "User" ],
+        "summary" : "Used to set own profile data",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/UserID"
+        } ],
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/UserDetails"
+        },
+        "responses" : {
+          "200" : {
+            "description" : "ok"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "parameters" : {
+      "UserID" : {
+        "required" : true,
+        "schema" : {
+          "$ref" : "#/components/schemas/UserID"
+        },
+        "in" : "query",
+        "name" : "userID"
+      },
+      "ownUserID" : {
+        "description" : "Id of the user making the request.",
+        "required" : true,
+        "schema" : {
+          "$ref" : "#/components/schemas/UserID"
+        },
+        "in" : "query",
+        "name" : "ownUserID"
+      },
+      "numberOfMessages" : {
+        "description" : "specifies the number of messages to query, if not used, a maximum amount of messages is returned",
+        "required" : false,
+        "schema" : {
+          "type" : "integer"
+        },
+        "in" : "query",
+        "name" : "nom"
+      },
+      "timestamp" : {
+        "description" : "can be used to load messages starting at a specific time (going backwards from that point on), if not used the newest messages are loaded",
+        "required" : false,
+        "schema" : {
+          "format" : "date",
+          "type" : "string"
+        },
+        "in" : "query",
+        "name" : "timestamp"
+      },
+      "GameID" : {
+        "description" : "GameID of the single Game requested, or `global` for all scores",
+        "required" : true,
+        "schema" : {
+          "example" : "L?ften",
+          "type" : "string"
+        },
+        "in" : "path",
+        "name" : "gameID"
+      },
+      "MessageID" : {
+        "description" : "ID of a Message",
+        "required" : true,
+        "schema" : {
+          "example" : 524343,
+          "type" : "integer"
+        },
+        "in" : "query",
+        "name" : "messageID"
+      }
+    },
+    "requestBodies" : {
+      "UserDetails" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/UserDetails"
+            }
+          }
+        }
+      },
+      "RegisterData" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/UserRegisterData"
+            }
+          }
+        }
+      },
+      "SendGlobalChannelMessage" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/SendChannelMessage"
+            }
+          }
+        }
+      },
+      "GlobalChannelMessage" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ChannelMessage"
+            }
+          }
+        }
+      },
+      "ProfileSettings" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ProfileSettings"
+            }
+          }
+        }
+      },
+      "Ban" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Ban"
+            }
+          }
+        }
+      }
+    },
+    "responses" : {
+      "UserDetails" : {
+        "description" : "ok",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/UserDetails"
+            }
+          }
+        }
+      },
+      "Matches" : {
+        "description" : "Ok",
+        "links" : {
+          "User" : {
+            "operationId" : "getUserDetails",
+            "parameters" : {
+              "userId" : "$response.body.matched_users#/id"
+            }
+          }
+        },
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/PotentialMatches"
+            }
+          }
+        }
+      },
+      "GlobalChannelMessage" : {
+        "description" : "ok",
+        "links" : {
+          "User" : {
+            "operationId" : "getUserDetails",
+            "parameters" : {
+              "userId" : "$response.body#/userID"
+            }
+          }
+        },
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "example" : [ {
+                "message" : "Hallo!",
+                "date" : "11.02.2014",
+                "userID" : 8263427,
+                "messageID" : 121523
+              }, {
+                "message" : "Auch hallo!",
+                "date" : "12.02.2014",
+                "userID" : 1249731,
+                "messageID" : 903245
+              } ],
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/ChannelMessage"
+              }
+            }
+          }
+        }
+      },
+      "GamificationDetails" : {
+        "description" : "ok",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/GamificationDetails"
+            }
+          }
+        }
+      },
+      "Users" : {
+        "description" : "Ok",
+        "links" : {
+          "User" : {
+            "operationId" : "getUserDetails",
+            "parameters" : {
+              "userId" : "$response.body#/id"
+            }
+          }
+        },
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/User"
+            }
+          }
+        }
+      },
+      "Highscores" : {
+        "description" : "ok",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "properties" : {
+                "gameID" : {
+                  "example" : "L?ften",
+                  "type" : "string"
+                },
+                "scores" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Score"
+                  }
+                }
+              },
+              "type" : "object"
+            }
+          }
+        }
+      },
+      "ProfileSettings" : {
+        "description" : "ok",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ProfileSettings"
+            }
+          }
+        }
+      }
+    },
+    "schemas" : {
+      "MatchPreference" : {
+        "properties" : {
+          "preference" : {
+            "example" : "MatchWithSameCourses",
+            "type" : "string"
+          },
+          "value" : {
+            "example" : true,
+            "type" : "boolean"
+          }
+        },
+        "type" : "object"
+      },
+      "Score" : {
+        "properties" : {
+          "score" : {
+            "example" : 2102,
+            "type" : "integer"
+          },
+          "name" : {
+            "example" : "Max",
+            "type" : "string"
+          },
+          "place" : {
+            "example" : 4,
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "User" : {
+        "properties" : {
+          "name" : {
+            "example" : "Max Mustermann",
+            "type" : "string"
+          },
+          "id" : {
+            "example" : 81230,
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "UserDetails" : {
+        "properties" : {
+          "name" : {
+            "example" : "Tim",
+            "type" : "string"
+          },
+          "selfDescription" : {
+            "example" : "None",
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "SendChannelMessage" : {
+        "properties" : {
+          "message" : {
+            "example" : "Hallo wie geht es euch allen im Uni-Channel ?",
+            "maximum" : 20000,
+            "minimum" : 1,
+            "type" : "string"
+          },
+          "userID" : {
+            "example" : 35432412,
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "UserID" : {
+        "type" : "integer"
+      },
+      "PotentialMatches" : {
+        "properties" : {
+          "matched_users" : {
+            "example" : [ {
+              "id" : 1353143,
+              "name" : "Max Musterman"
+            }, {
+              "id" : 1245424,
+              "name" : "S?ren S?renson"
+            } ],
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/User"
+            }
+          }
+        },
+        "type" : "object"
+      },
+      "UserRegisterData" : {
+        "properties" : {
+          "name" : {
+            "example" : "Max Mustermann",
+            "type" : "string"
+          },
+          "email" : {
+            "example" : "maxm@tu-dresden.de",
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "GamificationDetails" : {
+        "properties" : {
+          "level" : {
+            "example" : 4,
+            "type" : "integer"
+          },
+          "place" : {
+            "example" : 1045,
+            "type" : "integer"
+          },
+          "bonuses" : {
+            "example" : [ "DistancingBonus", "FreshAirBonus" ],
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "points" : {
+            "example" : 32,
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "Ban" : {
+        "properties" : {
+          "reason" : {
+            "example" : "wrote something bad",
+            "type" : "string"
+          },
+          "ownUserID" : {
+            "example" : 824923,
+            "type" : "integer"
+          },
+          "userToBanID" : {
+            "example" : 332542,
+            "type" : "integer"
+          },
+          "messageOfSuspect" : {
+            "example" : 763423,
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "ProfileSettings" : {
+        "properties" : {
+          "showDescription" : {
+            "type" : "boolean"
+          },
+          "showPicture" : {
+            "type" : "boolean"
+          },
+          "showName" : {
+            "type" : "boolean"
+          },
+          "showPreferences" : {
+            "type" : "boolean"
+          },
+          "matchPreferences" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/MatchPreference"
+            }
+          }
+        },
+        "type" : "object"
+      },
+      "ChannelMessage" : {
+        "properties" : {
+          "date" : {
+            "format" : "date",
+            "type" : "string"
+          },
+          "messageID" : {
+            "example" : 29847,
+            "type" : "integer"
+          },
+          "message" : {
+            "example" : "Hallo wie geht es euch allen im Uni-Channel ?",
+            "maximum" : 20000,
+            "minimum" : 1,
+            "type" : "string"
+          },
+          "userID" : {
+            "example" : 35432412,
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      }
+    }
+  }
+}

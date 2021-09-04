@@ -811,8 +811,13 @@ public static OAuthFlows OAuthFlowsObject.composeOAuthFlows (OAuthFlowsObject oA
 
         if( oAuthFlowsObject.hasImplicit() )
         oAuthFlows.setImplicit( OAuthFlowObject.composeOAuthFlow(oAuthFlowsObject.getImplicit().getOAuthFlowObject()) );
-        if( oAuthFlowsObject.hasPassword() )
+        if( oAuthFlowsObject.hasPassword() ){
+        //System.out.println("Password eingegangen : " + oAuthFlowsObject.getPassword().getOAuthFlowObject().getAuthorizationUrl() );
+        System.out.println("Password eingegangen : " + oAuthFlowsObject.getPassword().getOAuthFlowObject().getConfiguration() );
+        System.out.println("Password eingegangen : " + oAuthFlowsObject.getPassword().getOAuthFlowObject().getTokenUrl() );
+        System.out.println("Password eingegangen : " + oAuthFlowsObject.getPassword().getOAuthFlowObject().getRefreshUrl() );
         oAuthFlows.setPassword( OAuthFlowObject.composeOAuthFlow(oAuthFlowsObject.getPassword().getOAuthFlowObject()) );
+        }
         if( oAuthFlowsObject.hasClientCredentials() )
         oAuthFlows.setClientCredentials( OAuthFlowObject.composeOAuthFlow(oAuthFlowsObject.getClientCredentials().getOAuthFlowObject()) );
         if( oAuthFlowsObject.hasAuthorizationCode() )
@@ -825,8 +830,10 @@ public static OAuthFlow OAuthFlowObject.composeOAuthFlow (OAuthFlowObject oAuthF
         OAuthFlow oAuthFlow = new OAuthFlow();
         Map<String, String> scopes = new HashMap<>();
 
-        oAuthFlow.setAuthorizationUrl(oAuthFlowObject.getAuthorizationUrl());
-        oAuthFlow.setTokenUrl(oAuthFlowObject.getTokenUrl());
+        if( oAuthFlowObject.getAuthorizationUrl() != null )
+        oAuthFlow.setAuthorizationUrl( oAuthFlowObject.getAuthorizationUrl() );
+        if( oAuthFlowObject.getTokenUrl() != null )
+        oAuthFlow.setTokenUrl( oAuthFlowObject.getTokenUrl() );
         for( ScopesTuple t : oAuthFlowObject.getScopesTuples() )
         scopes.put(t.getScopesKey(), t.getScopesValue());
         oAuthFlow.setScopes(scopes);

@@ -17,11 +17,14 @@ public class HttpURLConnectionExample {
         HttpURLConnectionExample http = new HttpURLConnectionExample();
 
         System.out.println("Data call with GET");
-        http.sendGet("https://www.naver.com");
+        http.sendGet("https://petstore.swagger.io/v2/pet/findByStatus?status=available");
 
         System.out.println("Data call with POST");
-        String urlParameters = "sn=C02G8416DRJM&cn=&locale=&caller=&num=12345";
-        http.sendPost("https://www.google.co.kr/", urlParameters);
+        String urlParameters = "";
+        http.sendPost("https://petstore.swagger.io/v2/pet", urlParameters);
+
+        //System.out.println("Data call with DELETE");
+        //http.sendDelete("https://petstore.swagger.io/v2/pet/123123");
     }
 
     // HTTP GET request
@@ -56,6 +59,8 @@ public class HttpURLConnectionExample {
 
         con.setRequestMethod("POST"); // HTTP POST
         con.setRequestProperty("User-Agent", USER_AGENT);
+        con.addRequestProperty("body", "");
+        //con.addRequestProperty("status", "available");
         con.setDoOutput(true); // POST
         // Send post request
         DataOutputStream wr = new DataOutputStream(con.getOutputStream());
@@ -77,5 +82,29 @@ public class HttpURLConnectionExample {
         System.out.println("HTTP status code : " + responseCode);
         //System.out.println("HTTP body : " + response.toString());
 
+    }
+
+    // HTTP DELETE request
+    private void sendDelete(String targetUrl) throws Exception {
+
+        URL url = new URL(targetUrl);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+        con.setRequestMethod("DELETE"); // optional default is GET
+        con.setRequestProperty("User-Agent", USER_AGENT); // add request header
+
+        int responseCode = con.getResponseCode();
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+
+        // print result
+        System.out.println("HTTP status code : " + responseCode);
+        //System.out.println("HTTP body : " + response.toString());
     }
 }
