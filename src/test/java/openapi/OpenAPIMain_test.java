@@ -85,12 +85,12 @@ public class OpenAPIMain_test {
         }
 
         // clean all generated jsons
-        /*
+        
         contents = genDirectory.listFiles();
         if (contents != null) {
             for (File file : contents)
                 file.delete();
-        }*/
+        }
     }
 
     protected void compareJson(JsonNode expectedNode, JsonNode actualNode, Path path) throws IOException {

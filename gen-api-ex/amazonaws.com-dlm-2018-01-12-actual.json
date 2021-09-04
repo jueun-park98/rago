@@ -799,9 +799,9 @@
       }, {
         "$ref" : "#/components/parameters/X-Amz-SignedHeaders"
       } ],
-      "get" : {
-        "description" : "Gets detailed information about the specified lifecycle policy.",
-        "operationId" : "GetLifecyclePolicy",
+      "delete" : {
+        "description" : "Deletes the specified lifecycle policy and halts the automated operations that the policy specified.",
+        "operationId" : "DeleteLifecyclePolicy",
         "parameters" : [ {
           "description" : "The identifier of the lifecycle policy.",
           "required" : true,
@@ -820,7 +820,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/GetLifecyclePolicyResponse"
+                  "$ref" : "#/components/schemas/DeleteLifecyclePolicyResponse"
                 }
               }
             }
@@ -857,9 +857,9 @@
           }
         }
       },
-      "delete" : {
-        "description" : "Deletes the specified lifecycle policy and halts the automated operations that the policy specified.",
-        "operationId" : "DeleteLifecyclePolicy",
+      "get" : {
+        "description" : "Gets detailed information about the specified lifecycle policy.",
+        "operationId" : "GetLifecyclePolicy",
         "parameters" : [ {
           "description" : "The identifier of the lifecycle policy.",
           "required" : true,
@@ -878,7 +878,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/DeleteLifecyclePolicyResponse"
+                  "$ref" : "#/components/schemas/GetLifecyclePolicyResponse"
                 }
               }
             }
