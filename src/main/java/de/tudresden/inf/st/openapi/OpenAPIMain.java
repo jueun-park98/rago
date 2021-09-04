@@ -27,12 +27,34 @@ import java.util.concurrent.ConcurrentHashMap;
 public class OpenAPIMain {
 
     /** main-method, calls the set of methods to test the OpenAPI-Generator with JastAdd **/
-    public static void main(String[] args) throws IOException, ResolutionException, ValidationException, EncodeException {
+    public static void main(String[] args) throws Exception {
         OpenAPIObject openApi;
         OpenApi3 api3;
-        ValidationResults results = new ValidationResults();
+        ValidationResults results;
+        List<String> filenames = new ArrayList<>();
+        String genDir = "./gen-api-ex/";
+        File genDirectory = new File(genDir);
+        File[] contents;
 
-        String fileName = "link-example.json";
+        File resource = new File("./src/main/resources");
+
+        for( File file : resource.listFiles() )
+            filenames.add(file.getName());
+        System.out.println(filenames.size());
+
+        for( String file : filenames ){
+            String writerName = genDir + file;
+
+            URL expUrl = OpenAPIMain.class.getClassLoader().getResource(file);
+            OpenApi3 api = new OpenApi3Parser().parse(expUrl, new ArrayList<>(), true);
+            System.out.println("Loading expression DSL file '" + file + "'.");
+
+            openApi = OpenAPIObject.parseOpenAPI(api);
+            openApi.generateRequests();
+
+        }
+
+        String fileName = "petstore-v2.yaml";
         //FileWriter writer = new FileWriter("./gen-api-ex/callback-example_generated.json");
 
         URL expUrl = OpenAPIMain.class.getClassLoader().getResource(fileName);
@@ -46,17 +68,18 @@ public class OpenAPIMain {
             throw new FileNotFoundException("Could not load JSON file " + fileName);
         }
 
+        /*
         OpenApi3 api = new OpenApi3Parser().parse(expUrl, new ArrayList<>(), true);
         System.out.println("Loading expression DSL file '" + fileName + "'.");
 
         openApi = OpenAPIObject.parseOpenAPI(api);
+        openApi.generateRequests();
 
         api3 = OpenAPIObject.composeOpenAPI(openApi);
 
-        results = OpenApi3Validator.instance().validate(api3);
+        results = OpenApi3Validator.instance().validate(api);
 
-        if( api.getPath("/2.0/repositories/{username}").getGet().getOperationId() != null )
-            System.out.println(api.getPath("/2.0/repositories/{username}").getGet().getOperationId());
+        openApi.generateRequests();*/
 
 
         //writer.write(api3.toNode().toPrettyString());

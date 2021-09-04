@@ -12,6 +12,9 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import javax.net.ssl.HttpsURLConnection;
+import java.util.Random;
+import java.util.stream.IntStream;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:49
@@ -82,6 +85,144 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
         }
 
         return operation;
+        }
+  /**
+   * @aspect RandomRequestGenerator
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jadd:40
+   */
+  public void sendRandomGET(String targetUrl) throws Exception {
+        Random rand = new Random();
+
+        for( ParameterObject p : this.getParameterObjects() ){
+        if( p.getIn().equals("path") ){
+        String pathPart = targetUrl.substring(targetUrl.indexOf("{") ,targetUrl.indexOf("}") + 1);
+
+        if( p.getSchemaObject().getType().equals("string") )
+        targetUrl = targetUrl.replace(pathPart, this.generateRandomString(rand, p.getSchemaObject().getEnumObjs()));
+        else if( p.getSchemaObject().getType().equals("integer") )
+        targetUrl = targetUrl.replace(pathPart, this.generateRandomInt( rand,
+        p.getSchemaObject().getMinimum() != null ? p.getSchemaObject().getMinimum().intValue() : -1,
+        p.getSchemaObject().getMaximum() != null ? p.getSchemaObject().getMaximum().intValue() : -1
+        ));
+        }
+        else if( p.getIn().equals("query") ){
+
+        if( p.getSchemaObject().getType().equals("string") )
+        targetUrl = targetUrl + "&" + p.getName() + "=" + this.generateRandomString(rand, p.getSchemaObject().getEnumObjs());
+        else if( p.getSchemaObject().getType().equals("integer") )
+        targetUrl = targetUrl + "&" + p.getName() + "=" + this.generateRandomInt(  rand,
+        p.getSchemaObject().getMinimum() != null ? p.getSchemaObject().getMinimum().intValue() : -1,
+        p.getSchemaObject().getMaximum() != null ? p.getSchemaObject().getMaximum().intValue() : -1 );
+        else if( p.getSchemaObject().getType().equals("array") ){
+        if( p.getSchemaObject().getItemsSchema().getSchemaObject().getType().equals("string") ){
+        for( EnumObj e : p.getSchemaObject().getItemsSchema().getSchemaObject().getEnumObjs() )
+        targetUrl=rand.nextDouble()< 0.5?targetUrl+"&"+p.getName()+"="+e.getEnumOb():targetUrl;
+        }
+        else if( p.getSchemaObject().getItemsSchema().getSchemaObject().getType().equals("integer") ){
+        for( int i = 0 ; i < 5 ; i++ )
+        targetUrl = targetUrl + "&" + p.getName() + "=" + this.generateRandomInt(  rand,
+        p.getSchemaObject().getMinimum() != null ? p.getSchemaObject().getMinimum().intValue() : -1,
+        p.getSchemaObject().getMaximum() != null ? p.getSchemaObject().getMaximum().intValue() : -1 );
+        }
+
+        }
+        }
+        }
+        targetUrl = targetUrl.replaceFirst("&", "?");
+        System.out.println(targetUrl);
+
+        URL url = new URL(targetUrl);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+        con.setRequestMethod("GET"); // optional default is GET
+        int responseCode = con.getResponseCode();
+
+        // print result
+        System.out.println("HTTP status code (GET) : " + responseCode);
+    }
+  /**
+   * @aspect RandomRequestGenerator
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jadd:91
+   */
+  public void sendRandomPOST(String targetUrl) throws Exception {
+        Random rand = new Random();
+
+        for( ParameterObject p : this.getParameterObjects() ){
+        if( p.getIn().equals("path") ){
+        String pathPart = targetUrl.substring(targetUrl.indexOf("{") ,targetUrl.indexOf("}") + 1);
+
+        if( p.getSchemaObject().getType().equals("string") )
+        targetUrl = targetUrl.replace(pathPart, this.generateRandomString(rand, p.getSchemaObject().getEnumObjs()));
+        else if( p.getSchemaObject().getType().equals("integer") )
+        targetUrl = targetUrl.replace(pathPart, this.generateRandomInt( rand,
+        p.getSchemaObject().getMinimum() != null ? p.getSchemaObject().getMinimum().intValue() : -1,
+        p.getSchemaObject().getMaximum() != null ? p.getSchemaObject().getMaximum().intValue() : -1
+        ));
+        }
+        else if( p.getIn().equals("query") ){
+
+        if( p.getSchemaObject().getType().equals("string") )
+        targetUrl = targetUrl + "&" + p.getName() + "=" + this.generateRandomString(rand, p.getSchemaObject().getEnumObjs());
+        else if( p.getSchemaObject().getType().equals("integer") )
+        targetUrl = targetUrl + "&" + p.getName() + "=" + this.generateRandomInt(  rand,
+        p.getSchemaObject().getMinimum() != null ? p.getSchemaObject().getMinimum().intValue() : -1,
+        p.getSchemaObject().getMaximum() != null ? p.getSchemaObject().getMaximum().intValue() : -1 );
+        else if( p.getSchemaObject().getType().equals("array") ){
+        if( p.getSchemaObject().getItemsSchema().getSchemaObject().getType().equals("string") ){
+        for( EnumObj e : p.getSchemaObject().getItemsSchema().getSchemaObject().getEnumObjs() )
+        targetUrl=rand.nextDouble()< 0.5?targetUrl+"&"+p.getName()+"="+e.getEnumOb():targetUrl;
+        }
+        else if( p.getSchemaObject().getItemsSchema().getSchemaObject().getType().equals("integer") ){
+        for( int i = 0 ; i < 5 ; i++ )
+        targetUrl = targetUrl + "&" + p.getName() + "=" + this.generateRandomInt(  rand,
+        p.getSchemaObject().getMinimum() != null ? p.getSchemaObject().getMinimum().intValue() : -1,
+        p.getSchemaObject().getMaximum() != null ? p.getSchemaObject().getMaximum().intValue() : -1 );
+        }
+
+        }
+        }
+        }
+        targetUrl = targetUrl.replaceFirst("&", "?");
+        System.out.println(targetUrl);
+
+        URL url = new URL(targetUrl);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+        con.setRequestMethod("POST"); // HTTP POST
+        con.setDoOutput(true); // POST
+
+        int responseCode = con.getResponseCode();
+
+        // print result
+        System.out.println("HTTP status code (POST) : " + responseCode);
+    }
+  /**
+   * @aspect RandomRequestGenerator
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jadd:144
+   */
+  public String generateRandomString(Random rand, JastAddList<EnumObj> objs) {
+        if( objs.getNumChild() != 0 )
+        return objs.getChild(rand.nextInt(objs.getNumChild())).getEnumOb().toString();
+
+
+        return rand
+        .ints(97, 123)
+        .limit(10)
+        .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+        .toString();
+    }
+  /**
+   * @aspect RandomRequestGenerator
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jadd:156
+   */
+  public String generateRandomInt(Random rand, int minimum, int maximum){
+        if( minimum > -1 && maximum > 0 )
+        return String.valueOf(rand.nextInt(minimum+maximum)-minimum);
+        else if( minimum > -1 )
+        return String.valueOf(rand.nextInt()+minimum);
+        else if( maximum > 0 )
+        return String.valueOf(rand.nextInt(maximum));
+        return String.valueOf(rand.nextInt());
         }
   /**
    * @aspect Parser

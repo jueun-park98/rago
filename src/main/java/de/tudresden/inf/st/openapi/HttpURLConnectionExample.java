@@ -17,7 +17,7 @@ public class HttpURLConnectionExample {
         HttpURLConnectionExample http = new HttpURLConnectionExample();
 
         System.out.println("Data call with GET");
-        http.sendGet("https://petstore.swagger.io/v2/pet/findByStatus?status=available");
+        http.sendGet("https://petstore.swagger.io/v2/pet/1");
 
         System.out.println("Data call with POST");
         String urlParameters = "";
@@ -59,16 +59,18 @@ public class HttpURLConnectionExample {
 
         con.setRequestMethod("POST"); // HTTP POST
         con.setRequestProperty("User-Agent", USER_AGENT);
-        con.addRequestProperty("body", "");
+        //con.addRequestProperty("body", "");
         //con.addRequestProperty("status", "available");
         con.setDoOutput(true); // POST
         // Send post request
+        /*
         DataOutputStream wr = new DataOutputStream(con.getOutputStream());
         wr.writeBytes(parameters);
         wr.flush();
-        wr.close();
+        wr.close();*/
 
         int responseCode = con.getResponseCode();
+        /*
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String inputLine;
         StringBuffer response = new StringBuffer();
@@ -76,7 +78,7 @@ public class HttpURLConnectionExample {
         while ((inputLine = in.readLine()) != null) {
             response.append(inputLine);
         }
-        in.close();
+        in.close();*/
 
         // print result
         System.out.println("HTTP status code : " + responseCode);

@@ -85,7 +85,7 @@ public class OpenAPIMain_test {
         }
 
         // clean all generated jsons
-        
+
         contents = genDirectory.listFiles();
         if (contents != null) {
             for (File file : contents)

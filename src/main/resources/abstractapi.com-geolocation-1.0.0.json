@@ -30,7 +30,7 @@
     "url": "https://www.abstractapi.com/ip-geolocation-api#docs"
   },
   "paths": {
-    "/v1/": {
+    "/v1": {
       "get": {
         "description": "Retrieve the location of an IP address",
         "parameters": [

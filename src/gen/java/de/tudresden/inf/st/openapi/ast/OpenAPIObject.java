@@ -12,6 +12,9 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import javax.net.ssl.HttpsURLConnection;
+import java.util.Random;
+import java.util.stream.IntStream;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:2
@@ -70,6 +73,17 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
 
         return api3;
         }
+  /**
+   * @aspect RandomRequestGenerator
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jadd:12
+   */
+  public void generateRequests() throws Exception {
+        String baseUrl = this.getServerObject(0).getUrl();
+
+        for( PathsObject p : this.getPathsObjects() )
+        p.sendRandomRequests(baseUrl);
+
+    }
   /**
    * @aspect Parser
    * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:3
