@@ -155,8 +155,8 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
         targetUrl = targetUrl.replace(pathPart, this.generateRandomString(rand, p.getSchemaObject().getEnumObjs()));
         else if( p.getSchemaObject().getType().equals("integer") )
         targetUrl = targetUrl.replace(pathPart, this.generateRandomInt( rand,
-        p.getSchemaObject().getMinimum() != null ? p.getSchemaObject().getMinimum().intValue() : -1,
-        p.getSchemaObject().getMaximum() != null ? p.getSchemaObject().getMaximum().intValue() : -1
+        -1, // p.getSchemaObject().getMinimum() != null ? p.getSchemaObject().getMinimum().intValue() : -1,
+        10 // p.getSchemaObject().getMaximum() != null ? p.getSchemaObject().getMaximum().intValue() : -1
         ));
         }
         else if( p.getIn().equals("query") ){
@@ -165,8 +165,8 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
         targetUrl = targetUrl + "&" + p.getName() + "=" + this.generateRandomString(rand, p.getSchemaObject().getEnumObjs());
         else if( p.getSchemaObject().getType().equals("integer") )
         targetUrl = targetUrl + "&" + p.getName() + "=" + this.generateRandomInt(  rand,
-        p.getSchemaObject().getMinimum() != null ? p.getSchemaObject().getMinimum().intValue() : -1,
-        p.getSchemaObject().getMaximum() != null ? p.getSchemaObject().getMaximum().intValue() : -1 );
+        -1, // p.getSchemaObject().getMinimum() != null ? p.getSchemaObject().getMinimum().intValue() : -1,
+        10); // p.getSchemaObject().getMaximum() != null ? p.getSchemaObject().getMaximum().intValue() : -1
         else if( p.getSchemaObject().getType().equals("array") ){
         if( p.getSchemaObject().getItemsSchema().getSchemaObject().getType().equals("string") ){
         for( EnumObj e : p.getSchemaObject().getItemsSchema().getSchemaObject().getEnumObjs() )
@@ -175,8 +175,8 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
         else if( p.getSchemaObject().getItemsSchema().getSchemaObject().getType().equals("integer") ){
         for( int i = 0 ; i < 5 ; i++ )
         targetUrl = targetUrl + "&" + p.getName() + "=" + this.generateRandomInt(  rand,
-        p.getSchemaObject().getMinimum() != null ? p.getSchemaObject().getMinimum().intValue() : -1,
-        p.getSchemaObject().getMaximum() != null ? p.getSchemaObject().getMaximum().intValue() : -1 );
+        -1, // p.getSchemaObject().getMinimum() != null ? p.getSchemaObject().getMinimum().intValue() : -1,
+        10); // p.getSchemaObject().getMaximum() != null ? p.getSchemaObject().getMaximum().intValue() : -1
         }
 
         }
