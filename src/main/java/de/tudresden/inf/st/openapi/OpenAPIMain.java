@@ -86,6 +86,7 @@ public class OpenAPIMain {
         //writer.close();
 
 
+        Map<String, String> s = new HashMap<>();
 
         if (args.length > 0) {
             fileName = args[0];

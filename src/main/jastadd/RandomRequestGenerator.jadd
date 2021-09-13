@@ -9,6 +9,25 @@ import java.util.stream.IntStream;
 
 aspect RandomRequestGenerator {
 
+    /*
+    syn String PathObject.getRequestURI(Ramdom r);
+    coll Set OpenAPI.requestURIs(Random r);
+    uncache PathObject.getRequestURI();
+    syn Set OpenAPI.requestURIs();
+
+     */
+
+        /*
+    syn Map<String, String> OpenAPIObject.generateUrls();
+    eq OpenAPIObject.generateUrls() {
+        Map<String, String> Urls = new HashMap<>();
+        String baseUrl = this.getServerObject(0).getUrl();
+
+        return Urls;
+    }*/
+
+    coll Set<>
+
     public void OpenAPIObject.generateRequests() throws Exception {
         String baseUrl = this.getServerObject(0).getUrl();
 
