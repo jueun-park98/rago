@@ -17,7 +17,7 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:14
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:14
  * @astdecl ServerObject : ASTNode ::= <Url:String> <Description:String> ServerVariablesTuple*;
  * @production ServerObject : {@link ASTNode} ::= <span class="component">&lt;Url:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">{@link ServerVariablesTuple}*</span>;
 
@@ -25,7 +25,7 @@ import java.util.stream.IntStream;
 public class ServerObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:115
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:115
    */
   public static Server composeServer (ServerObject serverObject){
         Server server = new Server();
@@ -45,7 +45,7 @@ public class ServerObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:91
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:91
    */
   public static ServerObject parseServer(Server server){
         ServerObject serverObject = new ServerObject();

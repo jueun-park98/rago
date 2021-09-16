@@ -17,7 +17,7 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:35
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:35
  * @astdecl PathsObject : ASTNode ::= <Ref:String> PathItem;
  * @production PathsObject : {@link ASTNode} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">{@link PathItem}</span>;
 
@@ -25,7 +25,7 @@ import java.util.stream.IntStream;
 public class PathsObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect RandomRequestGenerator
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jadd:40
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/RandomRequestGenerator.jadd:40
    */
   public void sendRandomRequests(String baseUrl) throws Exception {
         if( this.getPathItem().hasGet() ){

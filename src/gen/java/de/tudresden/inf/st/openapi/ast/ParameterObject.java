@@ -17,15 +17,15 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:56
- * @astdecl ParameterObject : ASTNode ::= <Name:String> <In:String> <Description:String> <Required:Boolean> <DeprecatedBoolean:Boolean> <AllowEmptyValue:Boolean> <Style:String> <Explode:Boolean> <AllowReserved:Boolean> [SchemaObject] <Example:Object> ExampleTuple* ContentTuple* <Ref:String> Extension*;
- * @production ParameterObject : {@link ASTNode} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;In:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;Required:Boolean&gt;</span> <span class="component">&lt;DeprecatedBoolean:Boolean&gt;</span> <span class="component">&lt;AllowEmptyValue:Boolean&gt;</span> <span class="component">&lt;Style:String&gt;</span> <span class="component">&lt;Explode:Boolean&gt;</span> <span class="component">&lt;AllowReserved:Boolean&gt;</span> <span class="component">[{@link SchemaObject}]</span> <span class="component">&lt;Example:Object&gt;</span> <span class="component">{@link ExampleTuple}*</span> <span class="component">{@link ContentTuple}*</span> <span class="component">&lt;Ref:String&gt;</span> <span class="component">{@link Extension}*</span>;
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:58
+ * @astdecl ParameterObject : ParameterOb ::= <Name:String> <In:String> <Description:String> <Required:Boolean> <DeprecatedBoolean:Boolean> <AllowEmptyValue:Boolean> <Style:String> <Explode:Boolean> <AllowReserved:Boolean> [SchemaObject] <Example:Object> ExampleTuple* ContentTuple* Extension*;
+ * @production ParameterObject : {@link ParameterOb} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;In:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;Required:Boolean&gt;</span> <span class="component">&lt;DeprecatedBoolean:Boolean&gt;</span> <span class="component">&lt;AllowEmptyValue:Boolean&gt;</span> <span class="component">&lt;Style:String&gt;</span> <span class="component">&lt;Explode:Boolean&gt;</span> <span class="component">&lt;AllowReserved:Boolean&gt;</span> <span class="component">[{@link SchemaObject}]</span> <span class="component">&lt;Example:Object&gt;</span> <span class="component">{@link ExampleTuple}*</span> <span class="component">{@link ContentTuple}*</span> <span class="component">{@link Extension}*</span>;
 
  */
-public class ParameterObject extends ASTNode<ASTNode> implements Cloneable {
+public class ParameterObject extends ParameterOb implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:391
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:391
    */
   public static Parameter composeParameter (ParameterObject parameterObject){
         Parameter parameter = new Parameter();
@@ -77,7 +77,7 @@ public class ParameterObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:416
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:416
    */
   public static ParameterObject parseParameter(Parameter parameter){
         ParameterObject parameterObject = new ParameterObject();
@@ -143,11 +143,11 @@ public class ParameterObject extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:17
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Name", "In", "Description", "Required", "DeprecatedBoolean", "AllowEmptyValue", "Style", "Explode", "AllowReserved", "SchemaObject", "Example", "ExampleTuple", "ContentTuple", "Ref", "Extension"},
-    type = {"String", "String", "String", "Boolean", "Boolean", "Boolean", "String", "Boolean", "Boolean", "Opt<SchemaObject>", "Object", "JastAddList<ExampleTuple>", "JastAddList<ContentTuple>", "String", "JastAddList<Extension>"},
-    kind = {"Token", "Token", "Token", "Token", "Token", "Token", "Token", "Token", "Token", "Opt", "Token", "List", "List", "Token", "List"}
+    name = {"Name", "In", "Description", "Required", "DeprecatedBoolean", "AllowEmptyValue", "Style", "Explode", "AllowReserved", "SchemaObject", "Example", "ExampleTuple", "ContentTuple", "Extension"},
+    type = {"String", "String", "String", "Boolean", "Boolean", "Boolean", "String", "Boolean", "Boolean", "Opt<SchemaObject>", "Object", "JastAddList<ExampleTuple>", "JastAddList<ContentTuple>", "JastAddList<Extension>"},
+    kind = {"Token", "Token", "Token", "Token", "Token", "Token", "Token", "Token", "Token", "Opt", "Token", "List", "List", "List"}
   )
-  public ParameterObject(String p0, String p1, String p2, Boolean p3, Boolean p4, Boolean p5, String p6, Boolean p7, Boolean p8, Opt<SchemaObject> p9, Object p10, JastAddList<ExampleTuple> p11, JastAddList<ContentTuple> p12, String p13, JastAddList<Extension> p14) {
+  public ParameterObject(String p0, String p1, String p2, Boolean p3, Boolean p4, Boolean p5, String p6, Boolean p7, Boolean p8, Opt<SchemaObject> p9, Object p10, JastAddList<ExampleTuple> p11, JastAddList<ContentTuple> p12, JastAddList<Extension> p13) {
     setName(p0);
     setIn(p1);
     setDescription(p2);
@@ -161,43 +161,42 @@ public class ParameterObject extends ASTNode<ASTNode> implements Cloneable {
     setExample(p10);
     setChild(p11, 1);
     setChild(p12, 2);
-    setRef(p13);
-    setChild(p14, 3);
+    setChild(p13, 3);
   }
   /** @apilevel low-level 
-   * @declaredat ASTNode:40
+   * @declaredat ASTNode:39
    */
   protected int numChildren() {
     return 4;
   }
   /**
    * @apilevel internal
-   * @declaredat ASTNode:46
+   * @declaredat ASTNode:45
    */
   public boolean mayHaveRewrite() {
     return false;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:50
+   * @declaredat ASTNode:49
    */
   public void flushAttrCache() {
     super.flushAttrCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:54
+   * @declaredat ASTNode:53
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:58
+   * @declaredat ASTNode:57
    */
   public ParameterObject clone() throws CloneNotSupportedException {
     ParameterObject node = (ParameterObject) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:63
+   * @declaredat ASTNode:62
    */
   public ParameterObject copy() {
     try {
@@ -217,7 +216,7 @@ public class ParameterObject extends ASTNode<ASTNode> implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:82
+   * @declaredat ASTNode:81
    */
   @Deprecated
   public ParameterObject fullCopy() {
@@ -228,7 +227,7 @@ public class ParameterObject extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:92
+   * @declaredat ASTNode:91
    */
   public ParameterObject treeCopyNoTransform() {
     ParameterObject tree = (ParameterObject) copy();
@@ -249,7 +248,7 @@ public class ParameterObject extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:112
+   * @declaredat ASTNode:111
    */
   public ParameterObject treeCopy() {
     ParameterObject tree = (ParameterObject) copy();
@@ -265,10 +264,10 @@ public class ParameterObject extends ASTNode<ASTNode> implements Cloneable {
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:126
+   * @declaredat ASTNode:125
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node) && (tokenString_Name == ((ParameterObject) node).tokenString_Name) && (tokenString_In == ((ParameterObject) node).tokenString_In) && (tokenString_Description == ((ParameterObject) node).tokenString_Description) && (tokenBoolean_Required == ((ParameterObject) node).tokenBoolean_Required) && (tokenBoolean_DeprecatedBoolean == ((ParameterObject) node).tokenBoolean_DeprecatedBoolean) && (tokenBoolean_AllowEmptyValue == ((ParameterObject) node).tokenBoolean_AllowEmptyValue) && (tokenString_Style == ((ParameterObject) node).tokenString_Style) && (tokenBoolean_Explode == ((ParameterObject) node).tokenBoolean_Explode) && (tokenBoolean_AllowReserved == ((ParameterObject) node).tokenBoolean_AllowReserved) && (tokenObject_Example == ((ParameterObject) node).tokenObject_Example) && (tokenString_Ref == ((ParameterObject) node).tokenString_Ref);    
+    return super.is$Equal(node) && (tokenString_Name == ((ParameterObject) node).tokenString_Name) && (tokenString_In == ((ParameterObject) node).tokenString_In) && (tokenString_Description == ((ParameterObject) node).tokenString_Description) && (tokenBoolean_Required == ((ParameterObject) node).tokenBoolean_Required) && (tokenBoolean_DeprecatedBoolean == ((ParameterObject) node).tokenBoolean_DeprecatedBoolean) && (tokenBoolean_AllowEmptyValue == ((ParameterObject) node).tokenBoolean_AllowEmptyValue) && (tokenString_Style == ((ParameterObject) node).tokenString_Style) && (tokenBoolean_Explode == ((ParameterObject) node).tokenBoolean_Explode) && (tokenBoolean_AllowReserved == ((ParameterObject) node).tokenBoolean_AllowReserved) && (tokenObject_Example == ((ParameterObject) node).tokenObject_Example);    
   }
   /**
    * Replaces the lexeme Name.
@@ -740,26 +739,6 @@ public class ParameterObject extends ASTNode<ASTNode> implements Cloneable {
    */
   public JastAddList<ContentTuple> getContentTuplesNoTransform() {
     return getContentTupleListNoTransform();
-  }
-  /**
-   * Replaces the lexeme Ref.
-   * @param value The new value for the lexeme Ref.
-   * @apilevel high-level
-   */
-  public void setRef(String value) {
-    tokenString_Ref = value;
-  }
-  /** @apilevel internal 
-   */
-  protected String tokenString_Ref;
-  /**
-   * Retrieves the value for the lexeme Ref.
-   * @return The value for the lexeme Ref.
-   * @apilevel high-level
-   */
-  @ASTNodeAnnotation.Token(name="Ref")
-  public String getRef() {
-    return tokenString_Ref != null ? tokenString_Ref : "";
   }
   /**
    * Replaces the Extension list.

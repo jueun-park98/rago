@@ -17,7 +17,7 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:19
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:19
  * @astdecl Enum : ASTNode ::= <EnumValue:String>;
  * @production Enum : {@link ASTNode} ::= <span class="component">&lt;EnumValue:String&gt;</span>;
 

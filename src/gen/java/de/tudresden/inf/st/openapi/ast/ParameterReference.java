@@ -17,16 +17,16 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:96
- * @astdecl ItemsSchema : ASTNode ::= SchemaObject;
- * @production ItemsSchema : {@link ASTNode} ::= <span class="component">{@link SchemaObject}</span>;
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:57
+ * @astdecl ParameterReference : ParameterOb ::= <Ref:String> <ParameterObject:ParameterObject>;
+ * @production ParameterReference : {@link ParameterOb} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;ParameterObject:ParameterObject&gt;</span>;
 
  */
-public class ItemsSchema extends ASTNode<ASTNode> implements Cloneable {
+public class ParameterReference extends ParameterOb implements Cloneable {
   /**
    * @declaredat ASTNode:1
    */
-  public ItemsSchema() {
+  public ParameterReference() {
     super();
   }
   /**
@@ -37,24 +37,24 @@ public class ItemsSchema extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:10
    */
   public void init$Children() {
-    children = new ASTNode[1];
   }
   /**
-   * @declaredat ASTNode:13
+   * @declaredat ASTNode:12
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"SchemaObject"},
-    type = {"SchemaObject"},
-    kind = {"Child"}
+    name = {"Ref", "ParameterObject"},
+    type = {"String", "ParameterObject"},
+    kind = {"Token", "Token"}
   )
-  public ItemsSchema(SchemaObject p0) {
-    setChild(p0, 0);
+  public ParameterReference(String p0, ParameterObject p1) {
+    setRef(p0);
+    setParameterObject(p1);
   }
   /** @apilevel low-level 
    * @declaredat ASTNode:22
    */
   protected int numChildren() {
-    return 1;
+    return 0;
   }
   /**
    * @apilevel internal
@@ -78,16 +78,16 @@ public class ItemsSchema extends ASTNode<ASTNode> implements Cloneable {
   /** @apilevel internal 
    * @declaredat ASTNode:40
    */
-  public ItemsSchema clone() throws CloneNotSupportedException {
-    ItemsSchema node = (ItemsSchema) super.clone();
+  public ParameterReference clone() throws CloneNotSupportedException {
+    ParameterReference node = (ParameterReference) super.clone();
     return node;
   }
   /** @apilevel internal 
    * @declaredat ASTNode:45
    */
-  public ItemsSchema copy() {
+  public ParameterReference copy() {
     try {
-      ItemsSchema node = (ItemsSchema) clone();
+      ParameterReference node = (ParameterReference) clone();
       node.parent = null;
       if (children != null) {
         node.children = (ASTNode[]) children.clone();
@@ -106,7 +106,7 @@ public class ItemsSchema extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:64
    */
   @Deprecated
-  public ItemsSchema fullCopy() {
+  public ParameterReference fullCopy() {
     return treeCopyNoTransform();
   }
   /**
@@ -116,8 +116,8 @@ public class ItemsSchema extends ASTNode<ASTNode> implements Cloneable {
    * @apilevel low-level
    * @declaredat ASTNode:74
    */
-  public ItemsSchema treeCopyNoTransform() {
-    ItemsSchema tree = (ItemsSchema) copy();
+  public ParameterReference treeCopyNoTransform() {
+    ParameterReference tree = (ParameterReference) copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
         ASTNode child = (ASTNode) children[i];
@@ -137,8 +137,8 @@ public class ItemsSchema extends ASTNode<ASTNode> implements Cloneable {
    * @apilevel low-level
    * @declaredat ASTNode:94
    */
-  public ItemsSchema treeCopy() {
-    ItemsSchema tree = (ItemsSchema) copy();
+  public ParameterReference treeCopy() {
+    ParameterReference tree = (ParameterReference) copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
         ASTNode child = (ASTNode) getChild(i);
@@ -154,33 +154,47 @@ public class ItemsSchema extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:108
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node);    
+    return super.is$Equal(node) && (tokenString_Ref == ((ParameterReference) node).tokenString_Ref) && (tokenParameterObject_ParameterObject == ((ParameterReference) node).tokenParameterObject_ParameterObject);    
   }
   /**
-   * Replaces the SchemaObject child.
-   * @param node The new node to replace the SchemaObject child.
+   * Replaces the lexeme Ref.
+   * @param value The new value for the lexeme Ref.
    * @apilevel high-level
    */
-  public void setSchemaObject(SchemaObject node) {
-    setChild(node, 0);
+  public void setRef(String value) {
+    tokenString_Ref = value;
   }
+  /** @apilevel internal 
+   */
+  protected String tokenString_Ref;
   /**
-   * Retrieves the SchemaObject child.
-   * @return The current node used as the SchemaObject child.
+   * Retrieves the value for the lexeme Ref.
+   * @return The value for the lexeme Ref.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Child(name="SchemaObject")
-  public SchemaObject getSchemaObject() {
-    return (SchemaObject) getChild(0);
+  @ASTNodeAnnotation.Token(name="Ref")
+  public String getRef() {
+    return tokenString_Ref != null ? tokenString_Ref : "";
   }
   /**
-   * Retrieves the SchemaObject child.
-   * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The current node used as the SchemaObject child.
-   * @apilevel low-level
+   * Replaces the lexeme ParameterObject.
+   * @param value The new value for the lexeme ParameterObject.
+   * @apilevel high-level
    */
-  public SchemaObject getSchemaObjectNoTransform() {
-    return (SchemaObject) getChildNoTransform(0);
+  public void setParameterObject(ParameterObject value) {
+    tokenParameterObject_ParameterObject = value;
+  }
+  /** @apilevel internal 
+   */
+  protected ParameterObject tokenParameterObject_ParameterObject;
+  /**
+   * Retrieves the value for the lexeme ParameterObject.
+   * @return The value for the lexeme ParameterObject.
+   * @apilevel high-level
+   */
+  @ASTNodeAnnotation.Token(name="ParameterObject")
+  public ParameterObject getParameterObject() {
+    return tokenParameterObject_ParameterObject;
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

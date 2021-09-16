@@ -17,7 +17,7 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:73
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:75
  * @astdecl CallbackObject : ASTNode ::= Expression* Extension* <Ref:String>;
  * @production CallbackObject : {@link ASTNode} ::= <span class="component">{@link Expression}*</span> <span class="component">{@link Extension}*</span> <span class="component">&lt;Ref:String&gt;</span>;
 
@@ -25,7 +25,7 @@ import java.util.stream.IntStream;
 public class CallbackObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:536
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:536
    */
   public static Callback composeCallback (CallbackObject callbackObject){
         Callback callback = new Callback();
@@ -41,7 +41,7 @@ public class CallbackObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:537
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:537
    */
   public static CallbackObject parseCallback(Callback callback){
         CallbackObject callbackObject = new CallbackObject();

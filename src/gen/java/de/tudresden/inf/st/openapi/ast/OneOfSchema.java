@@ -17,7 +17,7 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:100
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:102
  * @astdecl OneOfSchema : ASTNode ::= SchemaObject;
  * @production OneOfSchema : {@link ASTNode} ::= <span class="component">{@link SchemaObject}</span>;
 
