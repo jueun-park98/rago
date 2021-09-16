@@ -17,42 +17,12 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:75
- * @astdecl CallbackObject : ASTNode ::= Expression* Extension* <Ref:String>;
- * @production CallbackObject : {@link ASTNode} ::= <span class="component">{@link Expression}*</span> <span class="component">{@link Extension}*</span> <span class="component">&lt;Ref:String&gt;</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:83
+ * @astdecl CallbackObject : CallbackOb ::= Expression* Extension*;
+ * @production CallbackObject : {@link CallbackOb} ::= <span class="component">{@link Expression}*</span> <span class="component">{@link Extension}*</span>;
 
  */
-public class CallbackObject extends ASTNode<ASTNode> implements Cloneable {
-  /**
-   * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:536
-   */
-  public static Callback composeCallback (CallbackObject callbackObject){
-        Callback callback = new Callback();
-
-        if( callbackObject.getNumExpression() != 0 ){
-        Map<String, Path> paths = new HashMap<>();
-        for( Expression e : callbackObject.getExpressions() )
-        paths.put( e.getName(), PathItem.composePath( e.getPathItem() ));
-        callback.setCallbackPaths(paths);
-        }
-
-        return callback;
-        }
-  /**
-   * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:537
-   */
-  public static CallbackObject parseCallback(Callback callback){
-        CallbackObject callbackObject = new CallbackObject();
-
-        if( callback.getCallbackPaths() != null ){
-        for( String key : callback.getCallbackPaths().keySet() )
-        callbackObject.addExpression(new Expression(key, PathItem.parsePath(callback.getCallbackPath(key))));
-        }
-
-        return callbackObject;
-        }
+public class CallbackObject extends CallbackOb implements Cloneable {
   /**
    * @declaredat ASTNode:1
    */
@@ -75,49 +45,48 @@ public class CallbackObject extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:15
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Expression", "Extension", "Ref"},
-    type = {"JastAddList<Expression>", "JastAddList<Extension>", "String"},
-    kind = {"List", "List", "Token"}
+    name = {"Expression", "Extension"},
+    type = {"JastAddList<Expression>", "JastAddList<Extension>"},
+    kind = {"List", "List"}
   )
-  public CallbackObject(JastAddList<Expression> p0, JastAddList<Extension> p1, String p2) {
+  public CallbackObject(JastAddList<Expression> p0, JastAddList<Extension> p1) {
     setChild(p0, 0);
     setChild(p1, 1);
-    setRef(p2);
   }
   /** @apilevel low-level 
-   * @declaredat ASTNode:26
+   * @declaredat ASTNode:25
    */
   protected int numChildren() {
     return 2;
   }
   /**
    * @apilevel internal
-   * @declaredat ASTNode:32
+   * @declaredat ASTNode:31
    */
   public boolean mayHaveRewrite() {
     return false;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:36
+   * @declaredat ASTNode:35
    */
   public void flushAttrCache() {
     super.flushAttrCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:40
+   * @declaredat ASTNode:39
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:44
+   * @declaredat ASTNode:43
    */
   public CallbackObject clone() throws CloneNotSupportedException {
     CallbackObject node = (CallbackObject) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:49
+   * @declaredat ASTNode:48
    */
   public CallbackObject copy() {
     try {
@@ -137,7 +106,7 @@ public class CallbackObject extends ASTNode<ASTNode> implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:68
+   * @declaredat ASTNode:67
    */
   @Deprecated
   public CallbackObject fullCopy() {
@@ -148,7 +117,7 @@ public class CallbackObject extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:78
+   * @declaredat ASTNode:77
    */
   public CallbackObject treeCopyNoTransform() {
     CallbackObject tree = (CallbackObject) copy();
@@ -169,7 +138,7 @@ public class CallbackObject extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:98
+   * @declaredat ASTNode:97
    */
   public CallbackObject treeCopy() {
     CallbackObject tree = (CallbackObject) copy();
@@ -185,10 +154,10 @@ public class CallbackObject extends ASTNode<ASTNode> implements Cloneable {
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:112
+   * @declaredat ASTNode:111
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node) && (tokenString_Ref == ((CallbackObject) node).tokenString_Ref);    
+    return super.is$Equal(node);    
   }
   /**
    * Replaces the Expression list.
@@ -409,26 +378,6 @@ public class CallbackObject extends ASTNode<ASTNode> implements Cloneable {
    */
   public JastAddList<Extension> getExtensionsNoTransform() {
     return getExtensionListNoTransform();
-  }
-  /**
-   * Replaces the lexeme Ref.
-   * @param value The new value for the lexeme Ref.
-   * @apilevel high-level
-   */
-  public void setRef(String value) {
-    tokenString_Ref = value;
-  }
-  /** @apilevel internal 
-   */
-  protected String tokenString_Ref;
-  /**
-   * Retrieves the value for the lexeme Ref.
-   * @return The value for the lexeme Ref.
-   * @apilevel high-level
-   */
-  @ASTNodeAnnotation.Token(name="Ref")
-  public String getRef() {
-    return tokenString_Ref != null ? tokenString_Ref : "";
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

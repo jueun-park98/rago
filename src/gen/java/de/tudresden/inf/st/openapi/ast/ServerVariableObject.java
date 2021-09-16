@@ -17,15 +17,15 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:18
- * @astdecl ServerVariableObject : ASTNode ::= Enum* <Default:String> <Description:String>;
- * @production ServerVariableObject : {@link ASTNode} ::= <span class="component">{@link Enum}*</span> <span class="component">&lt;Default:String&gt;</span> <span class="component">&lt;Description:String&gt;</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:18
+ * @astdecl ServerVariableObject : ASTNode ::= Enum* <Default:String> <Description:String> Extension*;
+ * @production ServerVariableObject : {@link ASTNode} ::= <span class="component">{@link Enum}*</span> <span class="component">&lt;Default:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">{@link Extension}*</span>;
 
  */
 public class ServerVariableObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:132
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:132
    */
   public static ServerVariable composeServerVariable (ServerVariableObject serverVariableObject){
         ServerVariable serverVariable = new ServerVariable();
@@ -45,7 +45,7 @@ public class ServerVariableObject extends ASTNode<ASTNode> implements Cloneable 
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:106
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:106
    */
   public static ServerVariableObject parseServerVariable(ServerVariable serverVariable){
         ServerVariableObject serverVariableObject = new ServerVariableObject();
@@ -75,56 +75,58 @@ public class ServerVariableObject extends ASTNode<ASTNode> implements Cloneable 
    * @declaredat ASTNode:10
    */
   public void init$Children() {
-    children = new ASTNode[1];
+    children = new ASTNode[2];
     setChild(new JastAddList(), 0);
+    setChild(new JastAddList(), 1);
   }
   /**
-   * @declaredat ASTNode:14
+   * @declaredat ASTNode:15
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Enum", "Default", "Description"},
-    type = {"JastAddList<Enum>", "String", "String"},
-    kind = {"List", "Token", "Token"}
+    name = {"Enum", "Default", "Description", "Extension"},
+    type = {"JastAddList<Enum>", "String", "String", "JastAddList<Extension>"},
+    kind = {"List", "Token", "Token", "List"}
   )
-  public ServerVariableObject(JastAddList<Enum> p0, String p1, String p2) {
+  public ServerVariableObject(JastAddList<Enum> p0, String p1, String p2, JastAddList<Extension> p3) {
     setChild(p0, 0);
     setDefault(p1);
     setDescription(p2);
+    setChild(p3, 1);
   }
   /** @apilevel low-level 
-   * @declaredat ASTNode:25
+   * @declaredat ASTNode:27
    */
   protected int numChildren() {
-    return 1;
+    return 2;
   }
   /**
    * @apilevel internal
-   * @declaredat ASTNode:31
+   * @declaredat ASTNode:33
    */
   public boolean mayHaveRewrite() {
     return false;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:35
+   * @declaredat ASTNode:37
    */
   public void flushAttrCache() {
     super.flushAttrCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:39
+   * @declaredat ASTNode:41
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:43
+   * @declaredat ASTNode:45
    */
   public ServerVariableObject clone() throws CloneNotSupportedException {
     ServerVariableObject node = (ServerVariableObject) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:48
+   * @declaredat ASTNode:50
    */
   public ServerVariableObject copy() {
     try {
@@ -144,7 +146,7 @@ public class ServerVariableObject extends ASTNode<ASTNode> implements Cloneable 
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:67
+   * @declaredat ASTNode:69
    */
   @Deprecated
   public ServerVariableObject fullCopy() {
@@ -155,7 +157,7 @@ public class ServerVariableObject extends ASTNode<ASTNode> implements Cloneable 
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:77
+   * @declaredat ASTNode:79
    */
   public ServerVariableObject treeCopyNoTransform() {
     ServerVariableObject tree = (ServerVariableObject) copy();
@@ -176,7 +178,7 @@ public class ServerVariableObject extends ASTNode<ASTNode> implements Cloneable 
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:97
+   * @declaredat ASTNode:99
    */
   public ServerVariableObject treeCopy() {
     ServerVariableObject tree = (ServerVariableObject) copy();
@@ -192,7 +194,7 @@ public class ServerVariableObject extends ASTNode<ASTNode> implements Cloneable 
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:111
+   * @declaredat ASTNode:113
    */
   protected boolean is$Equal(ASTNode node) {
     return super.is$Equal(node) && (tokenString_Default == ((ServerVariableObject) node).tokenString_Default) && (tokenString_Description == ((ServerVariableObject) node).tokenString_Description);    
@@ -346,6 +348,116 @@ public class ServerVariableObject extends ASTNode<ASTNode> implements Cloneable 
   @ASTNodeAnnotation.Token(name="Description")
   public String getDescription() {
     return tokenString_Description != null ? tokenString_Description : "";
+  }
+  /**
+   * Replaces the Extension list.
+   * @param list The new list node to be used as the Extension list.
+   * @apilevel high-level
+   */
+  public void setExtensionList(JastAddList<Extension> list) {
+    setChild(list, 1);
+  }
+  /**
+   * Retrieves the number of children in the Extension list.
+   * @return Number of children in the Extension list.
+   * @apilevel high-level
+   */
+  public int getNumExtension() {
+    return getExtensionList().getNumChild();
+  }
+  /**
+   * Retrieves the number of children in the Extension list.
+   * Calling this method will not trigger rewrites.
+   * @return Number of children in the Extension list.
+   * @apilevel low-level
+   */
+  public int getNumExtensionNoTransform() {
+    return getExtensionListNoTransform().getNumChildNoTransform();
+  }
+  /**
+   * Retrieves the element at index {@code i} in the Extension list.
+   * @param i Index of the element to return.
+   * @return The element at position {@code i} in the Extension list.
+   * @apilevel high-level
+   */
+  public Extension getExtension(int i) {
+    return (Extension) getExtensionList().getChild(i);
+  }
+  /**
+   * Check whether the Extension list has any children.
+   * @return {@code true} if it has at least one child, {@code false} otherwise.
+   * @apilevel high-level
+   */
+  public boolean hasExtension() {
+    return getExtensionList().getNumChild() != 0;
+  }
+  /**
+   * Append an element to the Extension list.
+   * @param node The element to append to the Extension list.
+   * @apilevel high-level
+   */
+  public void addExtension(Extension node) {
+    JastAddList<Extension> list = (parent == null) ? getExtensionListNoTransform() : getExtensionList();
+    list.addChild(node);
+  }
+  /** @apilevel low-level 
+   */
+  public void addExtensionNoTransform(Extension node) {
+    JastAddList<Extension> list = getExtensionListNoTransform();
+    list.addChild(node);
+  }
+  /**
+   * Replaces the Extension list element at index {@code i} with the new node {@code node}.
+   * @param node The new node to replace the old list element.
+   * @param i The list index of the node to be replaced.
+   * @apilevel high-level
+   */
+  public void setExtension(Extension node, int i) {
+    JastAddList<Extension> list = getExtensionList();
+    list.setChild(node, i);
+  }
+  /**
+   * Retrieves the Extension list.
+   * @return The node representing the Extension list.
+   * @apilevel high-level
+   */
+  @ASTNodeAnnotation.ListChild(name="Extension")
+  public JastAddList<Extension> getExtensionList() {
+    JastAddList<Extension> list = (JastAddList<Extension>) getChild(1);
+    return list;
+  }
+  /**
+   * Retrieves the Extension list.
+   * <p><em>This method does not invoke AST transformations.</em></p>
+   * @return The node representing the Extension list.
+   * @apilevel low-level
+   */
+  public JastAddList<Extension> getExtensionListNoTransform() {
+    return (JastAddList<Extension>) getChildNoTransform(1);
+  }
+  /**
+   * @return the element at index {@code i} in the Extension list without
+   * triggering rewrites.
+   */
+  public Extension getExtensionNoTransform(int i) {
+    return (Extension) getExtensionListNoTransform().getChildNoTransform(i);
+  }
+  /**
+   * Retrieves the Extension list.
+   * @return The node representing the Extension list.
+   * @apilevel high-level
+   */
+  public JastAddList<Extension> getExtensions() {
+    return getExtensionList();
+  }
+  /**
+   * Retrieves the Extension list.
+   * <p><em>This method does not invoke AST transformations.</em></p>
+   * @return The node representing the Extension list.
+   * @apilevel low-level
+   */
+  public JastAddList<Extension> getExtensionsNoTransform() {
+    return getExtensionListNoTransform();
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

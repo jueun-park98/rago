@@ -17,108 +17,12 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:58
- * @astdecl ParameterObject : ParameterOb ::= <Name:String> <In:String> <Description:String> <Required:Boolean> <DeprecatedBoolean:Boolean> <AllowEmptyValue:Boolean> <Style:String> <Explode:Boolean> <AllowReserved:Boolean> [SchemaObject] <Example:Object> ExampleTuple* ContentTuple* Extension*;
- * @production ParameterObject : {@link ParameterOb} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;In:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;Required:Boolean&gt;</span> <span class="component">&lt;DeprecatedBoolean:Boolean&gt;</span> <span class="component">&lt;AllowEmptyValue:Boolean&gt;</span> <span class="component">&lt;Style:String&gt;</span> <span class="component">&lt;Explode:Boolean&gt;</span> <span class="component">&lt;AllowReserved:Boolean&gt;</span> <span class="component">[{@link SchemaObject}]</span> <span class="component">&lt;Example:Object&gt;</span> <span class="component">{@link ExampleTuple}*</span> <span class="component">{@link ContentTuple}*</span> <span class="component">{@link Extension}*</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:60
+ * @astdecl ParameterObject : ParameterOb ::= <Name:String> <In:String> <Description:String> <Required:Boolean> <DeprecatedBoolean:Boolean> <AllowEmptyValue:Boolean> <Style:String> <Explode:Boolean> <AllowReserved:Boolean> [SchemaOb] <Example:Object> ExampleTuple* ContentTuple* Extension*;
+ * @production ParameterObject : {@link ParameterOb} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;In:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;Required:Boolean&gt;</span> <span class="component">&lt;DeprecatedBoolean:Boolean&gt;</span> <span class="component">&lt;AllowEmptyValue:Boolean&gt;</span> <span class="component">&lt;Style:String&gt;</span> <span class="component">&lt;Explode:Boolean&gt;</span> <span class="component">&lt;AllowReserved:Boolean&gt;</span> <span class="component">[{@link SchemaOb}]</span> <span class="component">&lt;Example:Object&gt;</span> <span class="component">{@link ExampleTuple}*</span> <span class="component">{@link ContentTuple}*</span> <span class="component">{@link Extension}*</span>;
 
  */
 public class ParameterObject extends ParameterOb implements Cloneable {
-  /**
-   * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:391
-   */
-  public static Parameter composeParameter (ParameterObject parameterObject){
-        Parameter parameter = new Parameter();
-
-        if( !parameterObject.getRef().isEmpty() )
-        parameter.setRef(parameterObject.getRef());
-        if( !parameterObject.getName().isEmpty() )
-        parameter.setName(parameterObject.getName());
-        if( !parameterObject.getIn().isEmpty() )
-        parameter.setIn(parameterObject.getIn());
-        if( parameterObject.getRequired() != null )
-        parameter.setRequired(parameterObject.getRequired());
-        if( !parameterObject.getDescription().isEmpty() )
-        parameter.setDescription(parameterObject.getDescription());
-        if( parameterObject.getDeprecatedBoolean() != null )
-        parameter.setDeprecated(parameterObject.getDeprecatedBoolean());
-        if( !parameterObject.getStyle().isEmpty() )
-        parameter.setStyle(parameterObject.getStyle());
-        if( parameterObject.getAllowReserved() != null )
-        parameter.setAllowReserved(parameterObject.getAllowReserved());
-        if( parameterObject.getExplode() != null )
-        parameter.setExplode(parameterObject.getExplode());
-        if( parameterObject.getSchemaObject() != null )
-        parameter.setSchema(SchemaObject.composeSchema(parameterObject.getSchemaObject()));
-        if( parameterObject.getExample() != null )
-        parameter.setExample(parameterObject.getExample());
-        if( parameterObject.getNumExampleTuple() != 0 ){
-        Map<String, Example> exampleMap = new HashMap<>();
-        for( ExampleTuple t : parameterObject.getExampleTuples() )
-        exampleMap.put(t.getKey(), ExampleObject.composeExample(t.getExampleObject()));
-        parameter.setExamples(exampleMap);
-        }
-        if( parameterObject.getNumContentTuple() != 0 ){
-        Map<String, MediaType> contentMap = new HashMap<>();
-        for( ContentTuple t : parameterObject.getContentTuples() )
-        contentMap.put(t.getKey(), MediaTypeObject.composeMediaType(t.getMediaTypeObject()));
-        parameter.setContentMediaTypes(contentMap);
-        }
-        if( parameterObject.getRequired() != null )
-            parameter.setRequired(parameterObject.getRequired());
-        if( parameterObject.getNumExtension() != 0 ){
-        Map<String, Object> extensionMap = new HashMap<>();
-        for( Extension e : parameterObject.getExtensions() )
-        extensionMap.put(e.getKey(), e.getValue());
-        parameter.setExtensions(extensionMap);
-        }
-
-        return parameter;
-        }
-  /**
-   * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:416
-   */
-  public static ParameterObject parseParameter(Parameter parameter){
-        ParameterObject parameterObject = new ParameterObject();
-
-        if( parameter.isRef() )
-        parameterObject.setRef(parameter.getRef());
-        if( parameter.getName() != null )
-        parameterObject.setName(parameter.getName());
-        if( parameter.getIn() != null )
-        parameterObject.setIn(parameter.getIn());
-        if( parameter.getDescription() != null )
-        parameterObject.setDescription(parameter.getDescription());
-        if( parameter.getDeprecated() != null )
-        parameterObject.setDeprecatedBoolean(parameter.getDeprecated());
-        if( parameter.getStyle() != null )
-        parameterObject.setStyle( parameter.getStyle() );
-        if( parameter.getExplode() != null )
-        parameterObject.setExplode( parameter.getExplode() );
-        if( parameter.getAllowReserved() != null )
-        parameterObject.setAllowReserved( parameter.getAllowReserved() );
-        if( parameter.getSchema() != null )
-        parameterObject.setSchemaObject(SchemaObject.parseSchema(parameter.getSchema()));
-        if( parameter.getExample() != null )
-        parameterObject.setExample( parameter.getExample() );
-        if( parameter.getExamples() != null ){
-        for( String key : parameter.getExamples().keySet() )
-        parameterObject.addExampleTuple(new ExampleTuple(key, ExampleObject.parseExample(parameter.getExample(key))));
-        }
-        if( parameter.getContentMediaTypes() != null ){
-        for( String key : parameter.getContentMediaTypes().keySet() )
-        parameterObject.addContentTuple(new ContentTuple(key, MediaTypeObject.parseMediaType(parameter.getContentMediaType(key))));
-        }
-        if( parameter.getRequired() != null )
-            parameterObject.setRequired(parameter.getRequired());
-        if( parameter.getExtensions() != null ){
-        for( String key : parameter.getExtensions().keySet() )
-        parameterObject.addExtension(new Extension(key, parameter.getExtensions().get(key)));
-        }
-
-        return parameterObject;
-        }
   /**
    * @declaredat ASTNode:1
    */
@@ -143,11 +47,11 @@ public class ParameterObject extends ParameterOb implements Cloneable {
    * @declaredat ASTNode:17
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Name", "In", "Description", "Required", "DeprecatedBoolean", "AllowEmptyValue", "Style", "Explode", "AllowReserved", "SchemaObject", "Example", "ExampleTuple", "ContentTuple", "Extension"},
-    type = {"String", "String", "String", "Boolean", "Boolean", "Boolean", "String", "Boolean", "Boolean", "Opt<SchemaObject>", "Object", "JastAddList<ExampleTuple>", "JastAddList<ContentTuple>", "JastAddList<Extension>"},
+    name = {"Name", "In", "Description", "Required", "DeprecatedBoolean", "AllowEmptyValue", "Style", "Explode", "AllowReserved", "SchemaOb", "Example", "ExampleTuple", "ContentTuple", "Extension"},
+    type = {"String", "String", "String", "Boolean", "Boolean", "Boolean", "String", "Boolean", "Boolean", "Opt<SchemaOb>", "Object", "JastAddList<ExampleTuple>", "JastAddList<ContentTuple>", "JastAddList<Extension>"},
     kind = {"Token", "Token", "Token", "Token", "Token", "Token", "Token", "Token", "Token", "Opt", "Token", "List", "List", "List"}
   )
-  public ParameterObject(String p0, String p1, String p2, Boolean p3, Boolean p4, Boolean p5, String p6, Boolean p7, Boolean p8, Opt<SchemaObject> p9, Object p10, JastAddList<ExampleTuple> p11, JastAddList<ContentTuple> p12, JastAddList<Extension> p13) {
+  public ParameterObject(String p0, String p1, String p2, Boolean p3, Boolean p4, Boolean p5, String p6, Boolean p7, Boolean p8, Opt<SchemaOb> p9, Object p10, JastAddList<ExampleTuple> p11, JastAddList<ContentTuple> p12, JastAddList<Extension> p13) {
     setName(p0);
     setIn(p1);
     setDescription(p2);
@@ -450,55 +354,55 @@ public class ParameterObject extends ParameterOb implements Cloneable {
     return tokenBoolean_AllowReserved;
   }
   /**
-   * Replaces the optional node for the SchemaObject child. This is the <code>Opt</code>
-   * node containing the child SchemaObject, not the actual child!
-   * @param opt The new node to be used as the optional node for the SchemaObject child.
+   * Replaces the optional node for the SchemaOb child. This is the <code>Opt</code>
+   * node containing the child SchemaOb, not the actual child!
+   * @param opt The new node to be used as the optional node for the SchemaOb child.
    * @apilevel low-level
    */
-  public void setSchemaObjectOpt(Opt<SchemaObject> opt) {
+  public void setSchemaObOpt(Opt<SchemaOb> opt) {
     setChild(opt, 0);
   }
   /**
-   * Replaces the (optional) SchemaObject child.
-   * @param node The new node to be used as the SchemaObject child.
+   * Replaces the (optional) SchemaOb child.
+   * @param node The new node to be used as the SchemaOb child.
    * @apilevel high-level
    */
-  public void setSchemaObject(SchemaObject node) {
-    getSchemaObjectOpt().setChild(node, 0);
+  public void setSchemaOb(SchemaOb node) {
+    getSchemaObOpt().setChild(node, 0);
   }
   /**
-   * Check whether the optional SchemaObject child exists.
-   * @return {@code true} if the optional SchemaObject child exists, {@code false} if it does not.
+   * Check whether the optional SchemaOb child exists.
+   * @return {@code true} if the optional SchemaOb child exists, {@code false} if it does not.
    * @apilevel high-level
    */
-  public boolean hasSchemaObject() {
-    return getSchemaObjectOpt().getNumChild() != 0;
+  public boolean hasSchemaOb() {
+    return getSchemaObOpt().getNumChild() != 0;
   }
   /**
-   * Retrieves the (optional) SchemaObject child.
-   * @return The SchemaObject child, if it exists. Returns {@code null} otherwise.
+   * Retrieves the (optional) SchemaOb child.
+   * @return The SchemaOb child, if it exists. Returns {@code null} otherwise.
    * @apilevel low-level
    */
-  public SchemaObject getSchemaObject() {
-    return (SchemaObject) getSchemaObjectOpt().getChild(0);
+  public SchemaOb getSchemaOb() {
+    return (SchemaOb) getSchemaObOpt().getChild(0);
   }
   /**
-   * Retrieves the optional node for the SchemaObject child. This is the <code>Opt</code> node containing the child SchemaObject, not the actual child!
-   * @return The optional node for child the SchemaObject child.
+   * Retrieves the optional node for the SchemaOb child. This is the <code>Opt</code> node containing the child SchemaOb, not the actual child!
+   * @return The optional node for child the SchemaOb child.
    * @apilevel low-level
    */
-  @ASTNodeAnnotation.OptChild(name="SchemaObject")
-  public Opt<SchemaObject> getSchemaObjectOpt() {
-    return (Opt<SchemaObject>) getChild(0);
+  @ASTNodeAnnotation.OptChild(name="SchemaOb")
+  public Opt<SchemaOb> getSchemaObOpt() {
+    return (Opt<SchemaOb>) getChild(0);
   }
   /**
-   * Retrieves the optional node for child SchemaObject. This is the <code>Opt</code> node containing the child SchemaObject, not the actual child!
+   * Retrieves the optional node for child SchemaOb. This is the <code>Opt</code> node containing the child SchemaOb, not the actual child!
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The optional node for child SchemaObject.
+   * @return The optional node for child SchemaOb.
    * @apilevel low-level
    */
-  public Opt<SchemaObject> getSchemaObjectOptNoTransform() {
-    return (Opt<SchemaObject>) getChildNoTransform(0);
+  public Opt<SchemaOb> getSchemaObOptNoTransform() {
+    return (Opt<SchemaOb>) getChildNoTransform(0);
   }
   /**
    * Replaces the lexeme Example.

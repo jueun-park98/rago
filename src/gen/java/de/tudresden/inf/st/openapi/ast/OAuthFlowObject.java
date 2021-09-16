@@ -17,15 +17,15 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:122
- * @astdecl OAuthFlowObject : ASTNode ::= <AuthorizationUrl:String> <TokenUrl:String> <RefreshUrl:String> ScopesTuple* <Configuration:String>;
- * @production OAuthFlowObject : {@link ASTNode} ::= <span class="component">&lt;AuthorizationUrl:String&gt;</span> <span class="component">&lt;TokenUrl:String&gt;</span> <span class="component">&lt;RefreshUrl:String&gt;</span> <span class="component">{@link ScopesTuple}*</span> <span class="component">&lt;Configuration:String&gt;</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:140
+ * @astdecl OAuthFlowObject : ASTNode ::= <AuthorizationUrl:String> <TokenUrl:String> <RefreshUrl:String> ScopesTuple* <Configuration:String> Extension*;
+ * @production OAuthFlowObject : {@link ASTNode} ::= <span class="component">&lt;AuthorizationUrl:String&gt;</span> <span class="component">&lt;TokenUrl:String&gt;</span> <span class="component">&lt;RefreshUrl:String&gt;</span> <span class="component">{@link ScopesTuple}*</span> <span class="component">&lt;Configuration:String&gt;</span> <span class="component">{@link Extension}*</span>;
 
  */
 public class OAuthFlowObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:829
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:828
    */
   public static OAuthFlow composeOAuthFlow (OAuthFlowObject oAuthFlowObject){
         OAuthFlow oAuthFlow = new OAuthFlow();
@@ -46,7 +46,7 @@ public class OAuthFlowObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:846
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:845
    */
   public static OAuthFlowObject parseOAuthFlow(OAuthFlow oAuthFlow){
         OAuthFlowObject oAuthFlowObject = new OAuthFlowObject();
@@ -77,58 +77,60 @@ public class OAuthFlowObject extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:10
    */
   public void init$Children() {
-    children = new ASTNode[1];
+    children = new ASTNode[2];
     setChild(new JastAddList(), 0);
+    setChild(new JastAddList(), 1);
   }
   /**
-   * @declaredat ASTNode:14
+   * @declaredat ASTNode:15
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"AuthorizationUrl", "TokenUrl", "RefreshUrl", "ScopesTuple", "Configuration"},
-    type = {"String", "String", "String", "JastAddList<ScopesTuple>", "String"},
-    kind = {"Token", "Token", "Token", "List", "Token"}
+    name = {"AuthorizationUrl", "TokenUrl", "RefreshUrl", "ScopesTuple", "Configuration", "Extension"},
+    type = {"String", "String", "String", "JastAddList<ScopesTuple>", "String", "JastAddList<Extension>"},
+    kind = {"Token", "Token", "Token", "List", "Token", "List"}
   )
-  public OAuthFlowObject(String p0, String p1, String p2, JastAddList<ScopesTuple> p3, String p4) {
+  public OAuthFlowObject(String p0, String p1, String p2, JastAddList<ScopesTuple> p3, String p4, JastAddList<Extension> p5) {
     setAuthorizationUrl(p0);
     setTokenUrl(p1);
     setRefreshUrl(p2);
     setChild(p3, 0);
     setConfiguration(p4);
+    setChild(p5, 1);
   }
   /** @apilevel low-level 
-   * @declaredat ASTNode:27
+   * @declaredat ASTNode:29
    */
   protected int numChildren() {
-    return 1;
+    return 2;
   }
   /**
    * @apilevel internal
-   * @declaredat ASTNode:33
+   * @declaredat ASTNode:35
    */
   public boolean mayHaveRewrite() {
     return false;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:37
+   * @declaredat ASTNode:39
    */
   public void flushAttrCache() {
     super.flushAttrCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:41
+   * @declaredat ASTNode:43
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:45
+   * @declaredat ASTNode:47
    */
   public OAuthFlowObject clone() throws CloneNotSupportedException {
     OAuthFlowObject node = (OAuthFlowObject) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:50
+   * @declaredat ASTNode:52
    */
   public OAuthFlowObject copy() {
     try {
@@ -148,7 +150,7 @@ public class OAuthFlowObject extends ASTNode<ASTNode> implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:69
+   * @declaredat ASTNode:71
    */
   @Deprecated
   public OAuthFlowObject fullCopy() {
@@ -159,7 +161,7 @@ public class OAuthFlowObject extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:79
+   * @declaredat ASTNode:81
    */
   public OAuthFlowObject treeCopyNoTransform() {
     OAuthFlowObject tree = (OAuthFlowObject) copy();
@@ -180,7 +182,7 @@ public class OAuthFlowObject extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:99
+   * @declaredat ASTNode:101
    */
   public OAuthFlowObject treeCopy() {
     OAuthFlowObject tree = (OAuthFlowObject) copy();
@@ -196,7 +198,7 @@ public class OAuthFlowObject extends ASTNode<ASTNode> implements Cloneable {
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:113
+   * @declaredat ASTNode:115
    */
   protected boolean is$Equal(ASTNode node) {
     return super.is$Equal(node) && (tokenString_AuthorizationUrl == ((OAuthFlowObject) node).tokenString_AuthorizationUrl) && (tokenString_TokenUrl == ((OAuthFlowObject) node).tokenString_TokenUrl) && (tokenString_RefreshUrl == ((OAuthFlowObject) node).tokenString_RefreshUrl) && (tokenString_Configuration == ((OAuthFlowObject) node).tokenString_Configuration);    
@@ -390,6 +392,116 @@ public class OAuthFlowObject extends ASTNode<ASTNode> implements Cloneable {
   @ASTNodeAnnotation.Token(name="Configuration")
   public String getConfiguration() {
     return tokenString_Configuration != null ? tokenString_Configuration : "";
+  }
+  /**
+   * Replaces the Extension list.
+   * @param list The new list node to be used as the Extension list.
+   * @apilevel high-level
+   */
+  public void setExtensionList(JastAddList<Extension> list) {
+    setChild(list, 1);
+  }
+  /**
+   * Retrieves the number of children in the Extension list.
+   * @return Number of children in the Extension list.
+   * @apilevel high-level
+   */
+  public int getNumExtension() {
+    return getExtensionList().getNumChild();
+  }
+  /**
+   * Retrieves the number of children in the Extension list.
+   * Calling this method will not trigger rewrites.
+   * @return Number of children in the Extension list.
+   * @apilevel low-level
+   */
+  public int getNumExtensionNoTransform() {
+    return getExtensionListNoTransform().getNumChildNoTransform();
+  }
+  /**
+   * Retrieves the element at index {@code i} in the Extension list.
+   * @param i Index of the element to return.
+   * @return The element at position {@code i} in the Extension list.
+   * @apilevel high-level
+   */
+  public Extension getExtension(int i) {
+    return (Extension) getExtensionList().getChild(i);
+  }
+  /**
+   * Check whether the Extension list has any children.
+   * @return {@code true} if it has at least one child, {@code false} otherwise.
+   * @apilevel high-level
+   */
+  public boolean hasExtension() {
+    return getExtensionList().getNumChild() != 0;
+  }
+  /**
+   * Append an element to the Extension list.
+   * @param node The element to append to the Extension list.
+   * @apilevel high-level
+   */
+  public void addExtension(Extension node) {
+    JastAddList<Extension> list = (parent == null) ? getExtensionListNoTransform() : getExtensionList();
+    list.addChild(node);
+  }
+  /** @apilevel low-level 
+   */
+  public void addExtensionNoTransform(Extension node) {
+    JastAddList<Extension> list = getExtensionListNoTransform();
+    list.addChild(node);
+  }
+  /**
+   * Replaces the Extension list element at index {@code i} with the new node {@code node}.
+   * @param node The new node to replace the old list element.
+   * @param i The list index of the node to be replaced.
+   * @apilevel high-level
+   */
+  public void setExtension(Extension node, int i) {
+    JastAddList<Extension> list = getExtensionList();
+    list.setChild(node, i);
+  }
+  /**
+   * Retrieves the Extension list.
+   * @return The node representing the Extension list.
+   * @apilevel high-level
+   */
+  @ASTNodeAnnotation.ListChild(name="Extension")
+  public JastAddList<Extension> getExtensionList() {
+    JastAddList<Extension> list = (JastAddList<Extension>) getChild(1);
+    return list;
+  }
+  /**
+   * Retrieves the Extension list.
+   * <p><em>This method does not invoke AST transformations.</em></p>
+   * @return The node representing the Extension list.
+   * @apilevel low-level
+   */
+  public JastAddList<Extension> getExtensionListNoTransform() {
+    return (JastAddList<Extension>) getChildNoTransform(1);
+  }
+  /**
+   * @return the element at index {@code i} in the Extension list without
+   * triggering rewrites.
+   */
+  public Extension getExtensionNoTransform(int i) {
+    return (Extension) getExtensionListNoTransform().getChildNoTransform(i);
+  }
+  /**
+   * Retrieves the Extension list.
+   * @return The node representing the Extension list.
+   * @apilevel high-level
+   */
+  public JastAddList<Extension> getExtensions() {
+    return getExtensionList();
+  }
+  /**
+   * Retrieves the Extension list.
+   * <p><em>This method does not invoke AST transformations.</em></p>
+   * @return The node representing the Extension list.
+   * @apilevel low-level
+   */
+  public JastAddList<Extension> getExtensionsNoTransform() {
+    return getExtensionListNoTransform();
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

@@ -17,9 +17,9 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:31
- * @astdecl CallbackTuple : ASTNode ::= <Key:String> CallbackObject;
- * @production CallbackTuple : {@link ASTNode} ::= <span class="component">&lt;Key:String&gt;</span> <span class="component">{@link CallbackObject}</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:31
+ * @astdecl CallbackTuple : ASTNode ::= <Key:String> CallbackOb;
+ * @production CallbackTuple : {@link ASTNode} ::= <span class="component">&lt;Key:String&gt;</span> <span class="component">{@link CallbackOb}</span>;
 
  */
 public class CallbackTuple extends ASTNode<ASTNode> implements Cloneable {
@@ -43,11 +43,11 @@ public class CallbackTuple extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:13
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Key", "CallbackObject"},
-    type = {"String", "CallbackObject"},
+    name = {"Key", "CallbackOb"},
+    type = {"String", "CallbackOb"},
     kind = {"Token", "Child"}
   )
-  public CallbackTuple(String p0, CallbackObject p1) {
+  public CallbackTuple(String p0, CallbackOb p1) {
     setKey(p0);
     setChild(p1, 0);
   }
@@ -178,30 +178,30 @@ public class CallbackTuple extends ASTNode<ASTNode> implements Cloneable {
     return tokenString_Key != null ? tokenString_Key : "";
   }
   /**
-   * Replaces the CallbackObject child.
-   * @param node The new node to replace the CallbackObject child.
+   * Replaces the CallbackOb child.
+   * @param node The new node to replace the CallbackOb child.
    * @apilevel high-level
    */
-  public void setCallbackObject(CallbackObject node) {
+  public void setCallbackOb(CallbackOb node) {
     setChild(node, 0);
   }
   /**
-   * Retrieves the CallbackObject child.
-   * @return The current node used as the CallbackObject child.
+   * Retrieves the CallbackOb child.
+   * @return The current node used as the CallbackOb child.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Child(name="CallbackObject")
-  public CallbackObject getCallbackObject() {
-    return (CallbackObject) getChild(0);
+  @ASTNodeAnnotation.Child(name="CallbackOb")
+  public CallbackOb getCallbackOb() {
+    return (CallbackOb) getChild(0);
   }
   /**
-   * Retrieves the CallbackObject child.
+   * Retrieves the CallbackOb child.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The current node used as the CallbackObject child.
+   * @return The current node used as the CallbackOb child.
    * @apilevel low-level
    */
-  public CallbackObject getCallbackObjectNoTransform() {
-    return (CallbackObject) getChildNoTransform(0);
+  public CallbackOb getCallbackObNoTransform() {
+    return (CallbackOb) getChildNoTransform(0);
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

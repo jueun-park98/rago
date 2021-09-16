@@ -269,9 +269,8 @@ public static Components ComponentsObject.composeComponents (ComponentsObject co
         return components;
         }
 
-public static Path PathItem.composePath (PathItem pathItem){
+public static Path PathItemOb.composePath (PathItem pathItem){
         Path path = new Path();
-
 
         if( !pathItem.getRef().isEmpty() )
         path.setRef(pathItem.getRef());
@@ -388,7 +387,7 @@ public static ExternalDocs ExternalDocObject.composeExternalDocs (ExternalDocObj
         return externalDocs;
         }
 
-public static Parameter ParameterObject.composeParameter (ParameterObject parameterObject){
+public static Parameter ParameterOb.composeParameter (ParameterObject parameterObject){
         Parameter parameter = new Parameter();
 
         if( !parameterObject.getRef().isEmpty() )
@@ -437,7 +436,7 @@ public static Parameter ParameterObject.composeParameter (ParameterObject parame
         return parameter;
         }
 
-public static org.openapi4j.parser.model.v3.RequestBody RequestBodyObject.composeRequestBody (RequestBodyObject requestBodyObject){
+public static org.openapi4j.parser.model.v3.RequestBody RequestBodyOb.composeRequestBody (RequestBodyObject requestBodyObject){
         org.openapi4j.parser.model.v3.RequestBody requestBody = new org.openapi4j.parser.model.v3.RequestBody();
 
         if( requestBodyObject.getNumContentTuple() != 0 ){
@@ -504,7 +503,7 @@ public static EncodingProperty EncodingObject.composeEncodingProperty (EncodingO
         return encodingProperty;
         }
 
-public static Response ResponseObject.composeResponse (ResponseObject responseObject){
+public static Response ResponseOb.composeResponse (ResponseObject responseObject){
         Response response = new Response();
 
         if( !responseObject.getRef().isEmpty() )
@@ -533,7 +532,7 @@ public static Response ResponseObject.composeResponse (ResponseObject responseOb
         return response;
         }
 
-public static Callback CallbackObject.composeCallback (CallbackObject callbackObject){
+public static Callback CallbackOb.composeCallback (CallbackObject callbackObject){
         Callback callback = new Callback();
 
         if( callbackObject.getNumExpression() != 0 ){
@@ -546,7 +545,7 @@ public static Callback CallbackObject.composeCallback (CallbackObject callbackOb
         return callback;
         }
 
-public static Example ExampleObject.composeExample (ExampleObject exampleObject){
+public static Example ExampleOb.composeExample (ExampleObject exampleObject){
         Example example = new Example();
 
         if( !exampleObject.getSummary().isEmpty() )
@@ -567,7 +566,7 @@ public static Example ExampleObject.composeExample (ExampleObject exampleObject)
         return example;
         }
 
-public static Link LinkObject.composeLink (LinkObject linkObject){
+public static Link LinkOb.composeLink (LinkObject linkObject){
         Link link = new Link();
 
         if( !linkObject.getRef().isEmpty() )
@@ -590,7 +589,7 @@ public static Link LinkObject.composeLink (LinkObject linkObject){
         return link;
         }
 
-public static Header HeaderObject.composeHeader (HeaderObject headerObject){
+public static Header HeaderOb.composeHeader (HeaderObject headerObject){
         Header header = new Header();
 
         if( !headerObject.getRef().isEmpty() )
@@ -644,7 +643,7 @@ public static org.openapi4j.parser.model.v3.Tag TagObject.composeTag (TagObject 
         return tag;
         }
 
-public static org.openapi4j.parser.model.v3.Schema SchemaObject.composeSchema (SchemaObject schemaObject) {
+public static org.openapi4j.parser.model.v3.Schema SchemaOb.composeSchema (SchemaObject schemaObject) {
         org.openapi4j.parser.model.v3.Schema schema = new org.openapi4j.parser.model.v3.Schema();
 
         if( !schemaObject.getRef().isEmpty() )
@@ -777,7 +776,7 @@ public static Xml XmlObject.composeXml (XmlObject xmlObject) {
         return xml;
         }
 
-public static SecurityScheme SecuritySchemeObject.composeSecurityScheme (SecuritySchemeObject securitySchemeObject){
+public static SecurityScheme SecuritySchemeOb.composeSecurityScheme (SecuritySchemeObject securitySchemeObject){
         SecurityScheme securityScheme = new SecurityScheme();
 
         if( !securitySchemeObject.getType().isEmpty() )

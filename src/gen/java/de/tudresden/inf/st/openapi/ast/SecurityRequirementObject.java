@@ -17,7 +17,7 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:126
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:144
  * @astdecl SecurityRequirementObject : ASTNode ::= SecurityRequirementTuple*;
  * @production SecurityRequirementObject : {@link ASTNode} ::= <span class="component">{@link SecurityRequirementTuple}*</span>;
 
@@ -25,7 +25,7 @@ import java.util.stream.IntStream;
 public class SecurityRequirementObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:847
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:846
    */
   public static SecurityRequirement composeSecurityRequirement (SecurityRequirementObject securityRequirementObject){
         SecurityRequirement securityRequirement = new SecurityRequirement();
@@ -45,7 +45,7 @@ public class SecurityRequirementObject extends ASTNode<ASTNode> implements Clone
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:862
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:861
    */
   public static SecurityRequirementObject parseSecurityRequirement(SecurityRequirement securityRequirement){
         SecurityRequirementObject securityRequirementObject = new SecurityRequirementObject();

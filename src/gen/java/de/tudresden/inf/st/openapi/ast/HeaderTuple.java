@@ -17,9 +17,9 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:28
- * @astdecl HeaderTuple : ASTNode ::= <Key:String> HeaderObject;
- * @production HeaderTuple : {@link ASTNode} ::= <span class="component">&lt;Key:String&gt;</span> <span class="component">{@link HeaderObject}</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:28
+ * @astdecl HeaderTuple : ASTNode ::= <Key:String> HeaderOb;
+ * @production HeaderTuple : {@link ASTNode} ::= <span class="component">&lt;Key:String&gt;</span> <span class="component">{@link HeaderOb}</span>;
 
  */
 public class HeaderTuple extends ASTNode<ASTNode> implements Cloneable {
@@ -43,11 +43,11 @@ public class HeaderTuple extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:13
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Key", "HeaderObject"},
-    type = {"String", "HeaderObject"},
+    name = {"Key", "HeaderOb"},
+    type = {"String", "HeaderOb"},
     kind = {"Token", "Child"}
   )
-  public HeaderTuple(String p0, HeaderObject p1) {
+  public HeaderTuple(String p0, HeaderOb p1) {
     setKey(p0);
     setChild(p1, 0);
   }
@@ -178,30 +178,30 @@ public class HeaderTuple extends ASTNode<ASTNode> implements Cloneable {
     return tokenString_Key != null ? tokenString_Key : "";
   }
   /**
-   * Replaces the HeaderObject child.
-   * @param node The new node to replace the HeaderObject child.
+   * Replaces the HeaderOb child.
+   * @param node The new node to replace the HeaderOb child.
    * @apilevel high-level
    */
-  public void setHeaderObject(HeaderObject node) {
+  public void setHeaderOb(HeaderOb node) {
     setChild(node, 0);
   }
   /**
-   * Retrieves the HeaderObject child.
-   * @return The current node used as the HeaderObject child.
+   * Retrieves the HeaderOb child.
+   * @return The current node used as the HeaderOb child.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Child(name="HeaderObject")
-  public HeaderObject getHeaderObject() {
-    return (HeaderObject) getChild(0);
+  @ASTNodeAnnotation.Child(name="HeaderOb")
+  public HeaderOb getHeaderOb() {
+    return (HeaderOb) getChild(0);
   }
   /**
-   * Retrieves the HeaderObject child.
+   * Retrieves the HeaderOb child.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The current node used as the HeaderObject child.
+   * @return The current node used as the HeaderOb child.
    * @apilevel low-level
    */
-  public HeaderObject getHeaderObjectNoTransform() {
-    return (HeaderObject) getChildNoTransform(0);
+  public HeaderOb getHeaderObNoTransform() {
+    return (HeaderOb) getChildNoTransform(0);
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

@@ -17,9 +17,9 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:101
- * @astdecl AnyOfSchema : ASTNode ::= SchemaObject;
- * @production AnyOfSchema : {@link ASTNode} ::= <span class="component">{@link SchemaObject}</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:117
+ * @astdecl AnyOfSchema : ASTNode ::= SchemaOb;
+ * @production AnyOfSchema : {@link ASTNode} ::= <span class="component">{@link SchemaOb}</span>;
 
  */
 public class AnyOfSchema extends ASTNode<ASTNode> implements Cloneable {
@@ -43,11 +43,11 @@ public class AnyOfSchema extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:13
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"SchemaObject"},
-    type = {"SchemaObject"},
+    name = {"SchemaOb"},
+    type = {"SchemaOb"},
     kind = {"Child"}
   )
-  public AnyOfSchema(SchemaObject p0) {
+  public AnyOfSchema(SchemaOb p0) {
     setChild(p0, 0);
   }
   /** @apilevel low-level 
@@ -157,30 +157,30 @@ public class AnyOfSchema extends ASTNode<ASTNode> implements Cloneable {
     return super.is$Equal(node);    
   }
   /**
-   * Replaces the SchemaObject child.
-   * @param node The new node to replace the SchemaObject child.
+   * Replaces the SchemaOb child.
+   * @param node The new node to replace the SchemaOb child.
    * @apilevel high-level
    */
-  public void setSchemaObject(SchemaObject node) {
+  public void setSchemaOb(SchemaOb node) {
     setChild(node, 0);
   }
   /**
-   * Retrieves the SchemaObject child.
-   * @return The current node used as the SchemaObject child.
+   * Retrieves the SchemaOb child.
+   * @return The current node used as the SchemaOb child.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Child(name="SchemaObject")
-  public SchemaObject getSchemaObject() {
-    return (SchemaObject) getChild(0);
+  @ASTNodeAnnotation.Child(name="SchemaOb")
+  public SchemaOb getSchemaOb() {
+    return (SchemaOb) getChild(0);
   }
   /**
-   * Retrieves the SchemaObject child.
+   * Retrieves the SchemaOb child.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The current node used as the SchemaObject child.
+   * @return The current node used as the SchemaOb child.
    * @apilevel low-level
    */
-  public SchemaObject getSchemaObjectNoTransform() {
-    return (SchemaObject) getChildNoTransform(0);
+  public SchemaOb getSchemaObNoTransform() {
+    return (SchemaOb) getChildNoTransform(0);
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

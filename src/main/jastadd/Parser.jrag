@@ -274,9 +274,8 @@ public static ComponentsObject ComponentsObject.parseComponents(Components compo
         return componentsObject;
         }
 
-public static PathItem PathItem.parsePath(Path path){
+public static PathItem PathItemOb.parsePath(Path path){
         PathItem pathItem = new PathItem();
-
 
         if( path.getRef() != null )
         pathItem.setRef(path.getRef());
@@ -413,7 +412,7 @@ public static ExternalDocObject ExternalDocObject.parseExternalDocs(ExternalDocs
         return externalDocObject;
         }
 
-public static ParameterObject ParameterObject.parseParameter(Parameter parameter){
+public static ParameterObject ParameterOb.parseParameter(Parameter parameter){
         ParameterObject parameterObject = new ParameterObject();
 
         if( parameter.isRef() )
@@ -454,7 +453,7 @@ public static ParameterObject ParameterObject.parseParameter(Parameter parameter
         return parameterObject;
         }
 
-public static RequestBodyObject RequestBodyObject.parseRequestBody(org.openapi4j.parser.model.v3.RequestBody requestBody){
+public static RequestBodyObject RequestBodyOb.parseRequestBody(org.openapi4j.parser.model.v3.RequestBody requestBody){
         RequestBodyObject requestBodyObject = new RequestBodyObject();
 
         if( requestBody.getContentMediaTypes() != null ) {
@@ -511,7 +510,7 @@ public static EncodingObject EncodingObject.parseEncoding(EncodingProperty encod
         return encodingObject;
         }
 
-public static ResponseObject ResponseObject.parseResponse(Response response){
+public static ResponseObject ResponseOb.parseResponse(Response response){
         ResponseObject responseObject = new ResponseObject();
 
         if( response.isRef() )
@@ -534,7 +533,7 @@ public static ResponseObject ResponseObject.parseResponse(Response response){
         return responseObject;
         }
 
-public static CallbackObject CallbackObject.parseCallback(Callback callback){
+public static CallbackObject CallbackOb.parseCallback(Callback callback){
         CallbackObject callbackObject = new CallbackObject();
 
         if( callback.getCallbackPaths() != null ){
@@ -545,7 +544,7 @@ public static CallbackObject CallbackObject.parseCallback(Callback callback){
         return callbackObject;
         }
 
-public static ExampleObject ExampleObject.parseExample(Example example){
+public static ExampleObject ExampleOb.parseExample(Example example){
         ExampleObject exampleObject = new ExampleObject();
 
         if( example.getSummary() != null )
@@ -564,7 +563,7 @@ public static ExampleObject ExampleObject.parseExample(Example example){
         return exampleObject;
         }
 
-public static LinkObject LinkObject.parseLink(Link link){
+public static LinkObject LinkOb.parseLink(Link link){
         LinkObject linkObject = new LinkObject();
 
         if( link.isRef() )
@@ -585,7 +584,7 @@ public static LinkObject LinkObject.parseLink(Link link){
         return linkObject;
         }
 
-public static HeaderObject HeaderObject.parseHeader(Header header){
+public static HeaderObject HeaderOb.parseHeader(Header header){
         HeaderObject headerObject = new HeaderObject();
 
         if( header.isRef() )
@@ -635,7 +634,7 @@ public static TagObject TagObject.parseTag(org.openapi4j.parser.model.v3.Tag tag
         return tagObject;
         }
 
-public static SchemaObject SchemaObject.parseSchema (org.openapi4j.parser.model.v3.Schema schema) {
+public static SchemaObject SchemaOb.parseSchema (org.openapi4j.parser.model.v3.Schema schema) {
         SchemaObject schemaObject = new SchemaObject();
 
         if( schema.isRef() )
@@ -789,7 +788,7 @@ public static XmlObject XmlObject.parseXml (Xml xml) {
         return xmlObject;
         }
 
-public static SecuritySchemeObject SecuritySchemeObject.parseSecurityScheme(SecurityScheme securityScheme){
+public static SecuritySchemeObject SecuritySchemeOb.parseSecurityScheme(SecurityScheme securityScheme){
         SecuritySchemeObject securitySchemeObject = new SecuritySchemeObject();
 
         if( securityScheme.getType() != null )

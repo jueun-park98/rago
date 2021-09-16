@@ -17,7 +17,7 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:128
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:146
  * @astdecl SecurityRequirementValue : ASTNode ::= <Value:String>;
  * @production SecurityRequirementValue : {@link ASTNode} ::= <span class="component">&lt;Value:String&gt;</span>;
 

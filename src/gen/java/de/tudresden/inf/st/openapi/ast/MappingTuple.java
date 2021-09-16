@@ -17,7 +17,7 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:106
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:122
  * @astdecl MappingTuple : ASTNode ::= <Key:String> <Value:String>;
  * @production MappingTuple : {@link ASTNode} ::= <span class="component">&lt;Key:String&gt;</span> <span class="component">&lt;Value:String&gt;</span>;
 

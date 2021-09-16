@@ -17,15 +17,15 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:49
- * @astdecl OperationObject : ASTNode ::= Tag* <Summary:String> <Description:String> [ExternalDocObject] <OperationID:String> ParameterObject* [RequestBodyObject] ResponseTuple* CallbackTuple* <DeprecatedBoolean:Boolean> SecurityRequirementObject* ServerObject* <Required:Boolean> Extension*;
- * @production OperationObject : {@link ASTNode} ::= <span class="component">{@link Tag}*</span> <span class="component">&lt;Summary:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">[{@link ExternalDocObject}]</span> <span class="component">&lt;OperationID:String&gt;</span> <span class="component">{@link ParameterObject}*</span> <span class="component">[{@link RequestBodyObject}]</span> <span class="component">{@link ResponseTuple}*</span> <span class="component">{@link CallbackTuple}*</span> <span class="component">&lt;DeprecatedBoolean:Boolean&gt;</span> <span class="component">{@link SecurityRequirementObject}*</span> <span class="component">{@link ServerObject}*</span> <span class="component">&lt;Required:Boolean&gt;</span> <span class="component">{@link Extension}*</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:51
+ * @astdecl OperationObject : ASTNode ::= Tag* <Summary:String> <Description:String> [ExternalDocObject] <OperationID:String> ParameterObject* [RequestBodyOb] ResponseTuple* CallbackTuple* <DeprecatedBoolean:Boolean> SecurityRequirementObject* ServerObject* <Required:Boolean> Extension*;
+ * @production OperationObject : {@link ASTNode} ::= <span class="component">{@link Tag}*</span> <span class="component">&lt;Summary:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">[{@link ExternalDocObject}]</span> <span class="component">&lt;OperationID:String&gt;</span> <span class="component">{@link ParameterObject}*</span> <span class="component">[{@link RequestBodyOb}]</span> <span class="component">{@link ResponseTuple}*</span> <span class="component">{@link CallbackTuple}*</span> <span class="component">&lt;DeprecatedBoolean:Boolean&gt;</span> <span class="component">{@link SecurityRequirementObject}*</span> <span class="component">{@link ServerObject}*</span> <span class="component">&lt;Required:Boolean&gt;</span> <span class="component">{@link Extension}*</span>;
 
  */
 public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:314
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:313
    */
   public static Operation composeOperation (OperationObject operationObject){
         Operation operation = new Operation();
@@ -88,7 +88,7 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect RandomRequestGenerator
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/RandomRequestGenerator.jadd:60
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jadd:60
    */
   public void sendRandomGET(String targetUrl) throws Exception {
         Random rand = new Random();
@@ -142,7 +142,7 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
     }
   /**
    * @aspect RandomRequestGenerator
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/RandomRequestGenerator.jadd:111
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jadd:111
    */
   public void sendRandomPOST(String targetUrl) throws Exception {
         Random rand = new Random();
@@ -198,7 +198,7 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
     }
   /**
    * @aspect RandomRequestGenerator
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/RandomRequestGenerator.jadd:164
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jadd:164
    */
   public String generateRandomString(Random rand, JastAddList<EnumObj> objs) {
         if( objs.getNumChild() != 0 )
@@ -213,7 +213,7 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
     }
   /**
    * @aspect RandomRequestGenerator
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/RandomRequestGenerator.jadd:176
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jadd:176
    */
   public String generateRandomInt(Random rand, int minimum, int maximum){
         if( minimum > -1 && maximum > 0 )
@@ -226,7 +226,7 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:350
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:349
    */
   public static OperationObject parseOperation(Operation operation){
         OperationObject operationObject = new OperationObject();
@@ -306,11 +306,11 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:22
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Tag", "Summary", "Description", "ExternalDocObject", "OperationID", "ParameterObject", "RequestBodyObject", "ResponseTuple", "CallbackTuple", "DeprecatedBoolean", "SecurityRequirementObject", "ServerObject", "Required", "Extension"},
-    type = {"JastAddList<Tag>", "String", "String", "Opt<ExternalDocObject>", "String", "JastAddList<ParameterObject>", "Opt<RequestBodyObject>", "JastAddList<ResponseTuple>", "JastAddList<CallbackTuple>", "Boolean", "JastAddList<SecurityRequirementObject>", "JastAddList<ServerObject>", "Boolean", "JastAddList<Extension>"},
+    name = {"Tag", "Summary", "Description", "ExternalDocObject", "OperationID", "ParameterObject", "RequestBodyOb", "ResponseTuple", "CallbackTuple", "DeprecatedBoolean", "SecurityRequirementObject", "ServerObject", "Required", "Extension"},
+    type = {"JastAddList<Tag>", "String", "String", "Opt<ExternalDocObject>", "String", "JastAddList<ParameterObject>", "Opt<RequestBodyOb>", "JastAddList<ResponseTuple>", "JastAddList<CallbackTuple>", "Boolean", "JastAddList<SecurityRequirementObject>", "JastAddList<ServerObject>", "Boolean", "JastAddList<Extension>"},
     kind = {"List", "Token", "Token", "Opt", "Token", "List", "Opt", "List", "List", "Token", "List", "List", "Token", "List"}
   )
-  public OperationObject(JastAddList<Tag> p0, String p1, String p2, Opt<ExternalDocObject> p3, String p4, JastAddList<ParameterObject> p5, Opt<RequestBodyObject> p6, JastAddList<ResponseTuple> p7, JastAddList<CallbackTuple> p8, Boolean p9, JastAddList<SecurityRequirementObject> p10, JastAddList<ServerObject> p11, Boolean p12, JastAddList<Extension> p13) {
+  public OperationObject(JastAddList<Tag> p0, String p1, String p2, Opt<ExternalDocObject> p3, String p4, JastAddList<ParameterObject> p5, Opt<RequestBodyOb> p6, JastAddList<ResponseTuple> p7, JastAddList<CallbackTuple> p8, Boolean p9, JastAddList<SecurityRequirementObject> p10, JastAddList<ServerObject> p11, Boolean p12, JastAddList<Extension> p13) {
     setChild(p0, 0);
     setSummary(p1);
     setDescription(p2);
@@ -764,55 +764,55 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
     return getParameterObjectListNoTransform();
   }
   /**
-   * Replaces the optional node for the RequestBodyObject child. This is the <code>Opt</code>
-   * node containing the child RequestBodyObject, not the actual child!
-   * @param opt The new node to be used as the optional node for the RequestBodyObject child.
+   * Replaces the optional node for the RequestBodyOb child. This is the <code>Opt</code>
+   * node containing the child RequestBodyOb, not the actual child!
+   * @param opt The new node to be used as the optional node for the RequestBodyOb child.
    * @apilevel low-level
    */
-  public void setRequestBodyObjectOpt(Opt<RequestBodyObject> opt) {
+  public void setRequestBodyObOpt(Opt<RequestBodyOb> opt) {
     setChild(opt, 3);
   }
   /**
-   * Replaces the (optional) RequestBodyObject child.
-   * @param node The new node to be used as the RequestBodyObject child.
+   * Replaces the (optional) RequestBodyOb child.
+   * @param node The new node to be used as the RequestBodyOb child.
    * @apilevel high-level
    */
-  public void setRequestBodyObject(RequestBodyObject node) {
-    getRequestBodyObjectOpt().setChild(node, 0);
+  public void setRequestBodyOb(RequestBodyOb node) {
+    getRequestBodyObOpt().setChild(node, 0);
   }
   /**
-   * Check whether the optional RequestBodyObject child exists.
-   * @return {@code true} if the optional RequestBodyObject child exists, {@code false} if it does not.
+   * Check whether the optional RequestBodyOb child exists.
+   * @return {@code true} if the optional RequestBodyOb child exists, {@code false} if it does not.
    * @apilevel high-level
    */
-  public boolean hasRequestBodyObject() {
-    return getRequestBodyObjectOpt().getNumChild() != 0;
+  public boolean hasRequestBodyOb() {
+    return getRequestBodyObOpt().getNumChild() != 0;
   }
   /**
-   * Retrieves the (optional) RequestBodyObject child.
-   * @return The RequestBodyObject child, if it exists. Returns {@code null} otherwise.
+   * Retrieves the (optional) RequestBodyOb child.
+   * @return The RequestBodyOb child, if it exists. Returns {@code null} otherwise.
    * @apilevel low-level
    */
-  public RequestBodyObject getRequestBodyObject() {
-    return (RequestBodyObject) getRequestBodyObjectOpt().getChild(0);
+  public RequestBodyOb getRequestBodyOb() {
+    return (RequestBodyOb) getRequestBodyObOpt().getChild(0);
   }
   /**
-   * Retrieves the optional node for the RequestBodyObject child. This is the <code>Opt</code> node containing the child RequestBodyObject, not the actual child!
-   * @return The optional node for child the RequestBodyObject child.
+   * Retrieves the optional node for the RequestBodyOb child. This is the <code>Opt</code> node containing the child RequestBodyOb, not the actual child!
+   * @return The optional node for child the RequestBodyOb child.
    * @apilevel low-level
    */
-  @ASTNodeAnnotation.OptChild(name="RequestBodyObject")
-  public Opt<RequestBodyObject> getRequestBodyObjectOpt() {
-    return (Opt<RequestBodyObject>) getChild(3);
+  @ASTNodeAnnotation.OptChild(name="RequestBodyOb")
+  public Opt<RequestBodyOb> getRequestBodyObOpt() {
+    return (Opt<RequestBodyOb>) getChild(3);
   }
   /**
-   * Retrieves the optional node for child RequestBodyObject. This is the <code>Opt</code> node containing the child RequestBodyObject, not the actual child!
+   * Retrieves the optional node for child RequestBodyOb. This is the <code>Opt</code> node containing the child RequestBodyOb, not the actual child!
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The optional node for child RequestBodyObject.
+   * @return The optional node for child RequestBodyOb.
    * @apilevel low-level
    */
-  public Opt<RequestBodyObject> getRequestBodyObjectOptNoTransform() {
-    return (Opt<RequestBodyObject>) getChildNoTransform(3);
+  public Opt<RequestBodyOb> getRequestBodyObOptNoTransform() {
+    return (Opt<RequestBodyOb>) getChildNoTransform(3);
   }
   /**
    * Replaces the ResponseTuple list.

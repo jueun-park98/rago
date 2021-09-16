@@ -17,9 +17,9 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:23
- * @astdecl SchemaTuple : ASTNode ::= <Key:String> SchemaObject;
- * @production SchemaTuple : {@link ASTNode} ::= <span class="component">&lt;Key:String&gt;</span> <span class="component">{@link SchemaObject}</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:23
+ * @astdecl SchemaTuple : ASTNode ::= <Key:String> SchemaOb;
+ * @production SchemaTuple : {@link ASTNode} ::= <span class="component">&lt;Key:String&gt;</span> <span class="component">{@link SchemaOb}</span>;
 
  */
 public class SchemaTuple extends ASTNode<ASTNode> implements Cloneable {
@@ -43,11 +43,11 @@ public class SchemaTuple extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:13
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Key", "SchemaObject"},
-    type = {"String", "SchemaObject"},
+    name = {"Key", "SchemaOb"},
+    type = {"String", "SchemaOb"},
     kind = {"Token", "Child"}
   )
-  public SchemaTuple(String p0, SchemaObject p1) {
+  public SchemaTuple(String p0, SchemaOb p1) {
     setKey(p0);
     setChild(p1, 0);
   }
@@ -178,30 +178,30 @@ public class SchemaTuple extends ASTNode<ASTNode> implements Cloneable {
     return tokenString_Key != null ? tokenString_Key : "";
   }
   /**
-   * Replaces the SchemaObject child.
-   * @param node The new node to replace the SchemaObject child.
+   * Replaces the SchemaOb child.
+   * @param node The new node to replace the SchemaOb child.
    * @apilevel high-level
    */
-  public void setSchemaObject(SchemaObject node) {
+  public void setSchemaOb(SchemaOb node) {
     setChild(node, 0);
   }
   /**
-   * Retrieves the SchemaObject child.
-   * @return The current node used as the SchemaObject child.
+   * Retrieves the SchemaOb child.
+   * @return The current node used as the SchemaOb child.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Child(name="SchemaObject")
-  public SchemaObject getSchemaObject() {
-    return (SchemaObject) getChild(0);
+  @ASTNodeAnnotation.Child(name="SchemaOb")
+  public SchemaOb getSchemaOb() {
+    return (SchemaOb) getChild(0);
   }
   /**
-   * Retrieves the SchemaObject child.
+   * Retrieves the SchemaOb child.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The current node used as the SchemaObject child.
+   * @return The current node used as the SchemaOb child.
    * @apilevel low-level
    */
-  public SchemaObject getSchemaObjectNoTransform() {
-    return (SchemaObject) getChildNoTransform(0);
+  public SchemaOb getSchemaObNoTransform() {
+    return (SchemaOb) getChildNoTransform(0);
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

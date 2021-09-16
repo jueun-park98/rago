@@ -8,14 +8,14 @@ InfoObject ::= <Title> <Description> <TermsOfService> [ContactObject] [LicenseOb
 ContactObject ::= <Name> <Url> <Email> Extension*;
 
 //License Object
-LicenseObject ::= <Name> <Url>;
+LicenseObject ::= <Name> <Url> Extension*;
 
 //Server Object
-ServerObject ::= <Url> <Description> ServerVariablesTuple*;
+ServerObject ::= <Url> <Description> ServerVariablesTuple* Extension*;
 ServerVariablesTuple ::= <Name> ServerVariableObject;
 
 //Server Variable Object
-ServerVariableObject ::= Enum* <Default> <Description>;
+ServerVariableObject ::= Enum* <Default> <Description> Extension*;
 Enum ::= <EnumValue>;
 
 //Components Object
@@ -66,7 +66,7 @@ RequestBodyReference : RequestBodyOb ::= <Ref> <RequestBodyObject:RequestBodyObj
 RequestBodyObject : RequestBodyOb ::= <Description> ContentTuple* <Required:Boolean>;
 
 //Media Type Object
-MediaTypeObject ::= [SchemaOb] <Example:Object> ExampleTuple* EncodingTuple*;
+MediaTypeObject ::= [SchemaOb] <Example:Object> ExampleTuple* EncodingTuple* Extension*;
 EncodingTuple ::= <Key> EncodingObject;
 
 //Encoding Object
@@ -75,10 +75,12 @@ EncodingObject ::= <ContentType> HeaderTuple* <Style> <Explode:Boolean> <AllowRe
 //Response Object
 abstract ResponseOb;
 ResponseReference : ResponseOb ::= <Ref> <ResponseObject:ResponseObject>;
-ResponseObject : ResponseOb ::= <Description> HeaderTuple* ContentTuple* LinkTuple*;
+ResponseObject : ResponseOb ::= <Description> HeaderTuple* ContentTuple* LinkTuple* Extension*;
 
 //Callback Object
-CallbackObject ::= Expression* Extension* <Ref>;
+abstract CallbackOb;
+CallbackReference : CallbackOb ::= <Ref> <CallbackObject:CallbackObject>;
+CallbackObject : CallbackOb ::= Expression* Extension*;
 Expression ::= <Name> PathItemOb;
 Extension ::= <Key> <Value:Object>;
 
@@ -90,13 +92,13 @@ ExampleObject : ExampleOb ::= <Summary> <Description> <Value:Object> <ExternalVa
 //Link Object
 abstract LinkOb;
 LinkReference : LinkOb ::= <Ref> <LinkObject:LinkObject>;
-LinkObject ::= <OperationRef> <OperationID> LinkParameterTuple* HeaderTuple* <Description> [ServerObject];
+LinkObject ::= <OperationRef> <OperationID> LinkParameterTuple* HeaderTuple* <Description> [ServerObject] Extension*;
 LinkParameterTuple ::= <LinkParameterKey> <LinkParameterValue>;
 
 //Header Object
 abstract HeaderOb;
 HeaderReference : HeaderOb ::= <Ref> <HeaderObject:HeaderObject>;
-HeaderObject : HeaderOb ::= <Description> <Required:Boolean> <DeprecatedBoolean:Boolean> <AllowEmptyValue:Boolean> <Style> <Explode:Boolean> <AllowReserved:Boolean> [SchemaOb] <Example:Object> ExampleTuple* ContentTuple* <Ref>;
+HeaderObject : HeaderOb ::= <Description> <Required:Boolean> <DeprecatedBoolean:Boolean> <AllowEmptyValue:Boolean> <Style> <Explode:Boolean> <AllowReserved:Boolean> [SchemaOb] <Example:Object> ExampleTuple* ContentTuple* Extension*;
 
 //Tag Object
 TagObject ::= <Name> <Description> [ExternalDocObject] Extension*;
@@ -120,7 +122,7 @@ DiscriminatorObject ::= <PropertyName> MappingTuple*;
 MappingTuple ::= <Key> <Value>;
 
 //XML Object
-XmlObject ::= <Name> <Namespace> <Prefix> <Attribute:Boolean> <Wrapped:Boolean>;
+XmlObject ::= <Name> <Namespace> <Prefix> <Attribute:Boolean> <Wrapped:Boolean> Extension*;
 
 //Security Scheme Object
 abstract SecuritySchemeOb;
@@ -128,14 +130,14 @@ SecuritySchemeReference : SecuritySchemeOb ::= <Ref> <SecuritySchemeObject:Secur
 SecuritySchemeObject ::= <Type> <Description> <Name> <In> <Scheme> <BearerFormat> OAuthFlowsObject <OpenIdConnectUrl> Extension*;
 
 //OAuth Flows Object
-OAuthFlowsObject ::= [Implicit] [Password] [ClientCredentials] [AuthorizationCode];
+OAuthFlowsObject ::= [Implicit] [Password] [ClientCredentials] [AuthorizationCode] Extension*;
 Implicit ::= OAuthFlowObject;
 Password ::= OAuthFlowObject;
 ClientCredentials ::= OAuthFlowObject;
 AuthorizationCode ::= OAuthFlowObject;
 
 //OAuth Flow Object
-OAuthFlowObject ::= <AuthorizationUrl> <TokenUrl> <RefreshUrl> ScopesTuple* <Configuration>;
+OAuthFlowObject ::= <AuthorizationUrl> <TokenUrl> <RefreshUrl> ScopesTuple* <Configuration> Extension*;
 ScopesTuple ::= <ScopesKey> <ScopesValue>;
 
 //Security Requirement Object

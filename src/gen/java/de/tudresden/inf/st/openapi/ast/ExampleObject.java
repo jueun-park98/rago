@@ -17,58 +17,12 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:80
- * @astdecl ExampleObject : ASTNode ::= <Summary:String> <Description:String> <Value:Object> <ExternalValue:String> Extension*;
- * @production ExampleObject : {@link ASTNode} ::= <span class="component">&lt;Summary:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;Value:Object&gt;</span> <span class="component">&lt;ExternalValue:String&gt;</span> <span class="component">{@link Extension}*</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:90
+ * @astdecl ExampleObject : ExampleOb ::= <Summary:String> <Description:String> <Value:Object> <ExternalValue:String> Extension*;
+ * @production ExampleObject : {@link ExampleOb} ::= <span class="component">&lt;Summary:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;Value:Object&gt;</span> <span class="component">&lt;ExternalValue:String&gt;</span> <span class="component">{@link Extension}*</span>;
 
  */
-public class ExampleObject extends ASTNode<ASTNode> implements Cloneable {
-  /**
-   * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:549
-   */
-  public static Example composeExample (ExampleObject exampleObject){
-        Example example = new Example();
-
-        if( !exampleObject.getSummary().isEmpty() )
-        example.setSummary( exampleObject.getSummary() );
-        if( !exampleObject.getDescription().isEmpty() )
-        example.setDescription( exampleObject.getDescription() );
-        if( exampleObject.getValue() != null )
-        example.setValue( exampleObject.getValue() );
-        if( !exampleObject.getExternalValue().isEmpty() )
-        example.setExternalValue( exampleObject.getExternalValue() );
-        if( exampleObject.getNumExtension() != 0 ){
-        Map<String, Object> extension = new HashMap<>();
-        for( Extension e : exampleObject.getExtensions() )
-        extension.put(e.getKey(), e.getValue());
-        example.setExtensions(extension);
-        }
-
-        return example;
-        }
-  /**
-   * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:548
-   */
-  public static ExampleObject parseExample(Example example){
-        ExampleObject exampleObject = new ExampleObject();
-
-        if( example.getSummary() != null )
-        exampleObject.setSummary( example.getSummary() );
-        if( example.getDescription() != null )
-        exampleObject.setDescription( example.getDescription() );
-        if( example.getValue() != null )
-        exampleObject.setValue( example.getValue() );
-        if( example.getExternalValue() != null )
-        exampleObject.setExternalValue( example.getExternalValue() );
-        if( example.getExtensions() != null ){
-        for( String key : example.getExtensions().keySet() )
-        exampleObject.addExtension(new Extension(key, example.getExtensions().get(key)));
-        }
-
-        return exampleObject;
-        }
+public class ExampleObject extends ExampleOb implements Cloneable {
   /**
    * @declaredat ASTNode:1
    */

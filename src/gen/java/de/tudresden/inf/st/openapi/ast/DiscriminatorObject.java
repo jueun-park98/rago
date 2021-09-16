@@ -17,7 +17,7 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:105
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:121
  * @astdecl DiscriminatorObject : ASTNode ::= <PropertyName:String> MappingTuple*;
  * @production DiscriminatorObject : {@link ASTNode} ::= <span class="component">&lt;PropertyName:String&gt;</span> <span class="component">{@link MappingTuple}*</span>;
 
@@ -25,7 +25,7 @@ import java.util.stream.IntStream;
 public class DiscriminatorObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:748
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:747
    */
   public static Discriminator composeDiscriminator (DiscriminatorObject discriminatorObject) {
         Discriminator discriminator = new Discriminator();
@@ -43,7 +43,7 @@ public class DiscriminatorObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:758
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:757
    */
   public static DiscriminatorObject parseDiscriminator (Discriminator discriminator) {
         DiscriminatorObject discriminatorObject = new DiscriminatorObject();

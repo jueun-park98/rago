@@ -17,15 +17,15 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:11
- * @astdecl LicenseObject : ASTNode ::= <Name:String> <Url:String>;
- * @production LicenseObject : {@link ASTNode} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;Url:String&gt;</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:11
+ * @astdecl LicenseObject : ASTNode ::= <Name:String> <Url:String> Extension*;
+ * @production LicenseObject : {@link ASTNode} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;Url:String&gt;</span> <span class="component">{@link Extension}*</span>;
 
  */
 public class LicenseObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:104
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:104
    */
   public static License composeLicense (LicenseObject licenseObject){
         License license = new License();
@@ -39,7 +39,7 @@ public class LicenseObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:80
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:80
    */
   public static LicenseObject parseLicense(License license){
         LicenseObject licenseObject = new LicenseObject();
@@ -65,53 +65,56 @@ public class LicenseObject extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:10
    */
   public void init$Children() {
+    children = new ASTNode[1];
+    setChild(new JastAddList(), 0);
   }
   /**
-   * @declaredat ASTNode:12
+   * @declaredat ASTNode:14
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Name", "Url"},
-    type = {"String", "String"},
-    kind = {"Token", "Token"}
+    name = {"Name", "Url", "Extension"},
+    type = {"String", "String", "JastAddList<Extension>"},
+    kind = {"Token", "Token", "List"}
   )
-  public LicenseObject(String p0, String p1) {
+  public LicenseObject(String p0, String p1, JastAddList<Extension> p2) {
     setName(p0);
     setUrl(p1);
+    setChild(p2, 0);
   }
   /** @apilevel low-level 
-   * @declaredat ASTNode:22
+   * @declaredat ASTNode:25
    */
   protected int numChildren() {
-    return 0;
+    return 1;
   }
   /**
    * @apilevel internal
-   * @declaredat ASTNode:28
+   * @declaredat ASTNode:31
    */
   public boolean mayHaveRewrite() {
     return false;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:32
+   * @declaredat ASTNode:35
    */
   public void flushAttrCache() {
     super.flushAttrCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:36
+   * @declaredat ASTNode:39
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:40
+   * @declaredat ASTNode:43
    */
   public LicenseObject clone() throws CloneNotSupportedException {
     LicenseObject node = (LicenseObject) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:45
+   * @declaredat ASTNode:48
    */
   public LicenseObject copy() {
     try {
@@ -131,7 +134,7 @@ public class LicenseObject extends ASTNode<ASTNode> implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:64
+   * @declaredat ASTNode:67
    */
   @Deprecated
   public LicenseObject fullCopy() {
@@ -142,7 +145,7 @@ public class LicenseObject extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:74
+   * @declaredat ASTNode:77
    */
   public LicenseObject treeCopyNoTransform() {
     LicenseObject tree = (LicenseObject) copy();
@@ -163,7 +166,7 @@ public class LicenseObject extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:94
+   * @declaredat ASTNode:97
    */
   public LicenseObject treeCopy() {
     LicenseObject tree = (LicenseObject) copy();
@@ -179,7 +182,7 @@ public class LicenseObject extends ASTNode<ASTNode> implements Cloneable {
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:108
+   * @declaredat ASTNode:111
    */
   protected boolean is$Equal(ASTNode node) {
     return super.is$Equal(node) && (tokenString_Name == ((LicenseObject) node).tokenString_Name) && (tokenString_Url == ((LicenseObject) node).tokenString_Url);    
@@ -223,6 +226,116 @@ public class LicenseObject extends ASTNode<ASTNode> implements Cloneable {
   @ASTNodeAnnotation.Token(name="Url")
   public String getUrl() {
     return tokenString_Url != null ? tokenString_Url : "";
+  }
+  /**
+   * Replaces the Extension list.
+   * @param list The new list node to be used as the Extension list.
+   * @apilevel high-level
+   */
+  public void setExtensionList(JastAddList<Extension> list) {
+    setChild(list, 0);
+  }
+  /**
+   * Retrieves the number of children in the Extension list.
+   * @return Number of children in the Extension list.
+   * @apilevel high-level
+   */
+  public int getNumExtension() {
+    return getExtensionList().getNumChild();
+  }
+  /**
+   * Retrieves the number of children in the Extension list.
+   * Calling this method will not trigger rewrites.
+   * @return Number of children in the Extension list.
+   * @apilevel low-level
+   */
+  public int getNumExtensionNoTransform() {
+    return getExtensionListNoTransform().getNumChildNoTransform();
+  }
+  /**
+   * Retrieves the element at index {@code i} in the Extension list.
+   * @param i Index of the element to return.
+   * @return The element at position {@code i} in the Extension list.
+   * @apilevel high-level
+   */
+  public Extension getExtension(int i) {
+    return (Extension) getExtensionList().getChild(i);
+  }
+  /**
+   * Check whether the Extension list has any children.
+   * @return {@code true} if it has at least one child, {@code false} otherwise.
+   * @apilevel high-level
+   */
+  public boolean hasExtension() {
+    return getExtensionList().getNumChild() != 0;
+  }
+  /**
+   * Append an element to the Extension list.
+   * @param node The element to append to the Extension list.
+   * @apilevel high-level
+   */
+  public void addExtension(Extension node) {
+    JastAddList<Extension> list = (parent == null) ? getExtensionListNoTransform() : getExtensionList();
+    list.addChild(node);
+  }
+  /** @apilevel low-level 
+   */
+  public void addExtensionNoTransform(Extension node) {
+    JastAddList<Extension> list = getExtensionListNoTransform();
+    list.addChild(node);
+  }
+  /**
+   * Replaces the Extension list element at index {@code i} with the new node {@code node}.
+   * @param node The new node to replace the old list element.
+   * @param i The list index of the node to be replaced.
+   * @apilevel high-level
+   */
+  public void setExtension(Extension node, int i) {
+    JastAddList<Extension> list = getExtensionList();
+    list.setChild(node, i);
+  }
+  /**
+   * Retrieves the Extension list.
+   * @return The node representing the Extension list.
+   * @apilevel high-level
+   */
+  @ASTNodeAnnotation.ListChild(name="Extension")
+  public JastAddList<Extension> getExtensionList() {
+    JastAddList<Extension> list = (JastAddList<Extension>) getChild(0);
+    return list;
+  }
+  /**
+   * Retrieves the Extension list.
+   * <p><em>This method does not invoke AST transformations.</em></p>
+   * @return The node representing the Extension list.
+   * @apilevel low-level
+   */
+  public JastAddList<Extension> getExtensionListNoTransform() {
+    return (JastAddList<Extension>) getChildNoTransform(0);
+  }
+  /**
+   * @return the element at index {@code i} in the Extension list without
+   * triggering rewrites.
+   */
+  public Extension getExtensionNoTransform(int i) {
+    return (Extension) getExtensionListNoTransform().getChildNoTransform(i);
+  }
+  /**
+   * Retrieves the Extension list.
+   * @return The node representing the Extension list.
+   * @apilevel high-level
+   */
+  public JastAddList<Extension> getExtensions() {
+    return getExtensionList();
+  }
+  /**
+   * Retrieves the Extension list.
+   * <p><em>This method does not invoke AST transformations.</em></p>
+   * @return The node representing the Extension list.
+   * @apilevel low-level
+   */
+  public JastAddList<Extension> getExtensionsNoTransform() {
+    return getExtensionListNoTransform();
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

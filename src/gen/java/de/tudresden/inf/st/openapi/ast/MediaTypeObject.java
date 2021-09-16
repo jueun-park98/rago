@@ -17,15 +17,15 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:65
- * @astdecl MediaTypeObject : ASTNode ::= [SchemaObject] <Example:Object> ExampleTuple* EncodingTuple*;
- * @production MediaTypeObject : {@link ASTNode} ::= <span class="component">[{@link SchemaObject}]</span> <span class="component">&lt;Example:Object&gt;</span> <span class="component">{@link ExampleTuple}*</span> <span class="component">{@link EncodingTuple}*</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:69
+ * @astdecl MediaTypeObject : ASTNode ::= [SchemaOb] <Example:Object> ExampleTuple* EncodingTuple* Extension*;
+ * @production MediaTypeObject : {@link ASTNode} ::= <span class="component">[{@link SchemaOb}]</span> <span class="component">&lt;Example:Object&gt;</span> <span class="component">{@link ExampleTuple}*</span> <span class="component">{@link EncodingTuple}*</span> <span class="component">{@link Extension}*</span>;
 
  */
 public class MediaTypeObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:459
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:458
    */
   public static MediaType composeMediaType (MediaTypeObject mediaTypeObject){
         MediaType mediaType = new MediaType();
@@ -51,7 +51,7 @@ public class MediaTypeObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:474
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:473
    */
   public static MediaTypeObject parseMediaType(MediaType mediaType){
         MediaTypeObject mediaTypeObject = new MediaTypeObject();
@@ -85,59 +85,61 @@ public class MediaTypeObject extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:10
    */
   public void init$Children() {
-    children = new ASTNode[3];
+    children = new ASTNode[4];
     setChild(new Opt(), 0);
     setChild(new JastAddList(), 1);
     setChild(new JastAddList(), 2);
+    setChild(new JastAddList(), 3);
   }
   /**
-   * @declaredat ASTNode:16
+   * @declaredat ASTNode:17
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"SchemaObject", "Example", "ExampleTuple", "EncodingTuple"},
-    type = {"Opt<SchemaObject>", "Object", "JastAddList<ExampleTuple>", "JastAddList<EncodingTuple>"},
-    kind = {"Opt", "Token", "List", "List"}
+    name = {"SchemaOb", "Example", "ExampleTuple", "EncodingTuple", "Extension"},
+    type = {"Opt<SchemaOb>", "Object", "JastAddList<ExampleTuple>", "JastAddList<EncodingTuple>", "JastAddList<Extension>"},
+    kind = {"Opt", "Token", "List", "List", "List"}
   )
-  public MediaTypeObject(Opt<SchemaObject> p0, Object p1, JastAddList<ExampleTuple> p2, JastAddList<EncodingTuple> p3) {
+  public MediaTypeObject(Opt<SchemaOb> p0, Object p1, JastAddList<ExampleTuple> p2, JastAddList<EncodingTuple> p3, JastAddList<Extension> p4) {
     setChild(p0, 0);
     setExample(p1);
     setChild(p2, 1);
     setChild(p3, 2);
+    setChild(p4, 3);
   }
   /** @apilevel low-level 
-   * @declaredat ASTNode:28
+   * @declaredat ASTNode:30
    */
   protected int numChildren() {
-    return 3;
+    return 4;
   }
   /**
    * @apilevel internal
-   * @declaredat ASTNode:34
+   * @declaredat ASTNode:36
    */
   public boolean mayHaveRewrite() {
     return false;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:38
+   * @declaredat ASTNode:40
    */
   public void flushAttrCache() {
     super.flushAttrCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:42
+   * @declaredat ASTNode:44
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:46
+   * @declaredat ASTNode:48
    */
   public MediaTypeObject clone() throws CloneNotSupportedException {
     MediaTypeObject node = (MediaTypeObject) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:51
+   * @declaredat ASTNode:53
    */
   public MediaTypeObject copy() {
     try {
@@ -157,7 +159,7 @@ public class MediaTypeObject extends ASTNode<ASTNode> implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:70
+   * @declaredat ASTNode:72
    */
   @Deprecated
   public MediaTypeObject fullCopy() {
@@ -168,7 +170,7 @@ public class MediaTypeObject extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:80
+   * @declaredat ASTNode:82
    */
   public MediaTypeObject treeCopyNoTransform() {
     MediaTypeObject tree = (MediaTypeObject) copy();
@@ -189,7 +191,7 @@ public class MediaTypeObject extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:100
+   * @declaredat ASTNode:102
    */
   public MediaTypeObject treeCopy() {
     MediaTypeObject tree = (MediaTypeObject) copy();
@@ -205,61 +207,61 @@ public class MediaTypeObject extends ASTNode<ASTNode> implements Cloneable {
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:114
+   * @declaredat ASTNode:116
    */
   protected boolean is$Equal(ASTNode node) {
     return super.is$Equal(node) && (tokenObject_Example == ((MediaTypeObject) node).tokenObject_Example);    
   }
   /**
-   * Replaces the optional node for the SchemaObject child. This is the <code>Opt</code>
-   * node containing the child SchemaObject, not the actual child!
-   * @param opt The new node to be used as the optional node for the SchemaObject child.
+   * Replaces the optional node for the SchemaOb child. This is the <code>Opt</code>
+   * node containing the child SchemaOb, not the actual child!
+   * @param opt The new node to be used as the optional node for the SchemaOb child.
    * @apilevel low-level
    */
-  public void setSchemaObjectOpt(Opt<SchemaObject> opt) {
+  public void setSchemaObOpt(Opt<SchemaOb> opt) {
     setChild(opt, 0);
   }
   /**
-   * Replaces the (optional) SchemaObject child.
-   * @param node The new node to be used as the SchemaObject child.
+   * Replaces the (optional) SchemaOb child.
+   * @param node The new node to be used as the SchemaOb child.
    * @apilevel high-level
    */
-  public void setSchemaObject(SchemaObject node) {
-    getSchemaObjectOpt().setChild(node, 0);
+  public void setSchemaOb(SchemaOb node) {
+    getSchemaObOpt().setChild(node, 0);
   }
   /**
-   * Check whether the optional SchemaObject child exists.
-   * @return {@code true} if the optional SchemaObject child exists, {@code false} if it does not.
+   * Check whether the optional SchemaOb child exists.
+   * @return {@code true} if the optional SchemaOb child exists, {@code false} if it does not.
    * @apilevel high-level
    */
-  public boolean hasSchemaObject() {
-    return getSchemaObjectOpt().getNumChild() != 0;
+  public boolean hasSchemaOb() {
+    return getSchemaObOpt().getNumChild() != 0;
   }
   /**
-   * Retrieves the (optional) SchemaObject child.
-   * @return The SchemaObject child, if it exists. Returns {@code null} otherwise.
+   * Retrieves the (optional) SchemaOb child.
+   * @return The SchemaOb child, if it exists. Returns {@code null} otherwise.
    * @apilevel low-level
    */
-  public SchemaObject getSchemaObject() {
-    return (SchemaObject) getSchemaObjectOpt().getChild(0);
+  public SchemaOb getSchemaOb() {
+    return (SchemaOb) getSchemaObOpt().getChild(0);
   }
   /**
-   * Retrieves the optional node for the SchemaObject child. This is the <code>Opt</code> node containing the child SchemaObject, not the actual child!
-   * @return The optional node for child the SchemaObject child.
+   * Retrieves the optional node for the SchemaOb child. This is the <code>Opt</code> node containing the child SchemaOb, not the actual child!
+   * @return The optional node for child the SchemaOb child.
    * @apilevel low-level
    */
-  @ASTNodeAnnotation.OptChild(name="SchemaObject")
-  public Opt<SchemaObject> getSchemaObjectOpt() {
-    return (Opt<SchemaObject>) getChild(0);
+  @ASTNodeAnnotation.OptChild(name="SchemaOb")
+  public Opt<SchemaOb> getSchemaObOpt() {
+    return (Opt<SchemaOb>) getChild(0);
   }
   /**
-   * Retrieves the optional node for child SchemaObject. This is the <code>Opt</code> node containing the child SchemaObject, not the actual child!
+   * Retrieves the optional node for child SchemaOb. This is the <code>Opt</code> node containing the child SchemaOb, not the actual child!
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The optional node for child SchemaObject.
+   * @return The optional node for child SchemaOb.
    * @apilevel low-level
    */
-  public Opt<SchemaObject> getSchemaObjectOptNoTransform() {
-    return (Opt<SchemaObject>) getChildNoTransform(0);
+  public Opt<SchemaOb> getSchemaObOptNoTransform() {
+    return (Opt<SchemaOb>) getChildNoTransform(0);
   }
   /**
    * Replaces the lexeme Example.
@@ -500,6 +502,116 @@ public class MediaTypeObject extends ASTNode<ASTNode> implements Cloneable {
    */
   public JastAddList<EncodingTuple> getEncodingTuplesNoTransform() {
     return getEncodingTupleListNoTransform();
+  }
+  /**
+   * Replaces the Extension list.
+   * @param list The new list node to be used as the Extension list.
+   * @apilevel high-level
+   */
+  public void setExtensionList(JastAddList<Extension> list) {
+    setChild(list, 3);
+  }
+  /**
+   * Retrieves the number of children in the Extension list.
+   * @return Number of children in the Extension list.
+   * @apilevel high-level
+   */
+  public int getNumExtension() {
+    return getExtensionList().getNumChild();
+  }
+  /**
+   * Retrieves the number of children in the Extension list.
+   * Calling this method will not trigger rewrites.
+   * @return Number of children in the Extension list.
+   * @apilevel low-level
+   */
+  public int getNumExtensionNoTransform() {
+    return getExtensionListNoTransform().getNumChildNoTransform();
+  }
+  /**
+   * Retrieves the element at index {@code i} in the Extension list.
+   * @param i Index of the element to return.
+   * @return The element at position {@code i} in the Extension list.
+   * @apilevel high-level
+   */
+  public Extension getExtension(int i) {
+    return (Extension) getExtensionList().getChild(i);
+  }
+  /**
+   * Check whether the Extension list has any children.
+   * @return {@code true} if it has at least one child, {@code false} otherwise.
+   * @apilevel high-level
+   */
+  public boolean hasExtension() {
+    return getExtensionList().getNumChild() != 0;
+  }
+  /**
+   * Append an element to the Extension list.
+   * @param node The element to append to the Extension list.
+   * @apilevel high-level
+   */
+  public void addExtension(Extension node) {
+    JastAddList<Extension> list = (parent == null) ? getExtensionListNoTransform() : getExtensionList();
+    list.addChild(node);
+  }
+  /** @apilevel low-level 
+   */
+  public void addExtensionNoTransform(Extension node) {
+    JastAddList<Extension> list = getExtensionListNoTransform();
+    list.addChild(node);
+  }
+  /**
+   * Replaces the Extension list element at index {@code i} with the new node {@code node}.
+   * @param node The new node to replace the old list element.
+   * @param i The list index of the node to be replaced.
+   * @apilevel high-level
+   */
+  public void setExtension(Extension node, int i) {
+    JastAddList<Extension> list = getExtensionList();
+    list.setChild(node, i);
+  }
+  /**
+   * Retrieves the Extension list.
+   * @return The node representing the Extension list.
+   * @apilevel high-level
+   */
+  @ASTNodeAnnotation.ListChild(name="Extension")
+  public JastAddList<Extension> getExtensionList() {
+    JastAddList<Extension> list = (JastAddList<Extension>) getChild(3);
+    return list;
+  }
+  /**
+   * Retrieves the Extension list.
+   * <p><em>This method does not invoke AST transformations.</em></p>
+   * @return The node representing the Extension list.
+   * @apilevel low-level
+   */
+  public JastAddList<Extension> getExtensionListNoTransform() {
+    return (JastAddList<Extension>) getChildNoTransform(3);
+  }
+  /**
+   * @return the element at index {@code i} in the Extension list without
+   * triggering rewrites.
+   */
+  public Extension getExtensionNoTransform(int i) {
+    return (Extension) getExtensionListNoTransform().getChildNoTransform(i);
+  }
+  /**
+   * Retrieves the Extension list.
+   * @return The node representing the Extension list.
+   * @apilevel high-level
+   */
+  public JastAddList<Extension> getExtensions() {
+    return getExtensionList();
+  }
+  /**
+   * Retrieves the Extension list.
+   * <p><em>This method does not invoke AST transformations.</em></p>
+   * @return The node representing the Extension list.
+   * @apilevel low-level
+   */
+  public JastAddList<Extension> getExtensionsNoTransform() {
+    return getExtensionListNoTransform();
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

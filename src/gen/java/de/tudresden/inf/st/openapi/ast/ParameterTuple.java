@@ -17,9 +17,9 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:25
- * @astdecl ParameterTuple : ASTNode ::= <Key:String> ParameterObject;
- * @production ParameterTuple : {@link ASTNode} ::= <span class="component">&lt;Key:String&gt;</span> <span class="component">{@link ParameterObject}</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:25
+ * @astdecl ParameterTuple : ASTNode ::= <Key:String> ParameterOb;
+ * @production ParameterTuple : {@link ASTNode} ::= <span class="component">&lt;Key:String&gt;</span> <span class="component">{@link ParameterOb}</span>;
 
  */
 public class ParameterTuple extends ASTNode<ASTNode> implements Cloneable {
@@ -43,11 +43,11 @@ public class ParameterTuple extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:13
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Key", "ParameterObject"},
-    type = {"String", "ParameterObject"},
+    name = {"Key", "ParameterOb"},
+    type = {"String", "ParameterOb"},
     kind = {"Token", "Child"}
   )
-  public ParameterTuple(String p0, ParameterObject p1) {
+  public ParameterTuple(String p0, ParameterOb p1) {
     setKey(p0);
     setChild(p1, 0);
   }
@@ -178,30 +178,30 @@ public class ParameterTuple extends ASTNode<ASTNode> implements Cloneable {
     return tokenString_Key != null ? tokenString_Key : "";
   }
   /**
-   * Replaces the ParameterObject child.
-   * @param node The new node to replace the ParameterObject child.
+   * Replaces the ParameterOb child.
+   * @param node The new node to replace the ParameterOb child.
    * @apilevel high-level
    */
-  public void setParameterObject(ParameterObject node) {
+  public void setParameterOb(ParameterOb node) {
     setChild(node, 0);
   }
   /**
-   * Retrieves the ParameterObject child.
-   * @return The current node used as the ParameterObject child.
+   * Retrieves the ParameterOb child.
+   * @return The current node used as the ParameterOb child.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Child(name="ParameterObject")
-  public ParameterObject getParameterObject() {
-    return (ParameterObject) getChild(0);
+  @ASTNodeAnnotation.Child(name="ParameterOb")
+  public ParameterOb getParameterOb() {
+    return (ParameterOb) getChild(0);
   }
   /**
-   * Retrieves the ParameterObject child.
+   * Retrieves the ParameterOb child.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The current node used as the ParameterObject child.
+   * @return The current node used as the ParameterOb child.
    * @apilevel low-level
    */
-  public ParameterObject getParameterObjectNoTransform() {
-    return (ParameterObject) getChildNoTransform(0);
+  public ParameterOb getParameterObNoTransform() {
+    return (ParameterOb) getChildNoTransform(0);
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

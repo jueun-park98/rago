@@ -17,7 +17,7 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:22
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:22
  * @astdecl ComponentsObject : ASTNode ::= SchemaTuple* ResponseTuple* ParameterTuple* ExampleTuple* RequestBodyTuple* HeaderTuple* SecuritySchemeTuple* LinkTuple* CallbackTuple* Extension*;
  * @production ComponentsObject : {@link ASTNode} ::= <span class="component">{@link SchemaTuple}*</span> <span class="component">{@link ResponseTuple}*</span> <span class="component">{@link ParameterTuple}*</span> <span class="component">{@link ExampleTuple}*</span> <span class="component">{@link RequestBodyTuple}*</span> <span class="component">{@link HeaderTuple}*</span> <span class="component">{@link SecuritySchemeTuple}*</span> <span class="component">{@link LinkTuple}*</span> <span class="component">{@link CallbackTuple}*</span> <span class="component">{@link Extension}*</span>;
 
@@ -25,7 +25,7 @@ import java.util.stream.IntStream;
 public class ComponentsObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:149
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:149
    */
   public static Components composeComponents (ComponentsObject componentsObject){
         Components components = new Components();
@@ -151,7 +151,7 @@ public class ComponentsObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:121
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:121
    */
   public static ComponentsObject parseComponents(Components components){
         ComponentsObject componentsObject = new ComponentsObject();

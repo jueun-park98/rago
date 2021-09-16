@@ -17,9 +17,9 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:29
- * @astdecl SecuritySchemeTuple : ASTNode ::= <Key:String> SecuritySchemeObject;
- * @production SecuritySchemeTuple : {@link ASTNode} ::= <span class="component">&lt;Key:String&gt;</span> <span class="component">{@link SecuritySchemeObject}</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:29
+ * @astdecl SecuritySchemeTuple : ASTNode ::= <Key:String> SecuritySchemeOb;
+ * @production SecuritySchemeTuple : {@link ASTNode} ::= <span class="component">&lt;Key:String&gt;</span> <span class="component">{@link SecuritySchemeOb}</span>;
 
  */
 public class SecuritySchemeTuple extends ASTNode<ASTNode> implements Cloneable {
@@ -43,11 +43,11 @@ public class SecuritySchemeTuple extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:13
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Key", "SecuritySchemeObject"},
-    type = {"String", "SecuritySchemeObject"},
+    name = {"Key", "SecuritySchemeOb"},
+    type = {"String", "SecuritySchemeOb"},
     kind = {"Token", "Child"}
   )
-  public SecuritySchemeTuple(String p0, SecuritySchemeObject p1) {
+  public SecuritySchemeTuple(String p0, SecuritySchemeOb p1) {
     setKey(p0);
     setChild(p1, 0);
   }
@@ -178,30 +178,30 @@ public class SecuritySchemeTuple extends ASTNode<ASTNode> implements Cloneable {
     return tokenString_Key != null ? tokenString_Key : "";
   }
   /**
-   * Replaces the SecuritySchemeObject child.
-   * @param node The new node to replace the SecuritySchemeObject child.
+   * Replaces the SecuritySchemeOb child.
+   * @param node The new node to replace the SecuritySchemeOb child.
    * @apilevel high-level
    */
-  public void setSecuritySchemeObject(SecuritySchemeObject node) {
+  public void setSecuritySchemeOb(SecuritySchemeOb node) {
     setChild(node, 0);
   }
   /**
-   * Retrieves the SecuritySchemeObject child.
-   * @return The current node used as the SecuritySchemeObject child.
+   * Retrieves the SecuritySchemeOb child.
+   * @return The current node used as the SecuritySchemeOb child.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Child(name="SecuritySchemeObject")
-  public SecuritySchemeObject getSecuritySchemeObject() {
-    return (SecuritySchemeObject) getChild(0);
+  @ASTNodeAnnotation.Child(name="SecuritySchemeOb")
+  public SecuritySchemeOb getSecuritySchemeOb() {
+    return (SecuritySchemeOb) getChild(0);
   }
   /**
-   * Retrieves the SecuritySchemeObject child.
+   * Retrieves the SecuritySchemeOb child.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The current node used as the SecuritySchemeObject child.
+   * @return The current node used as the SecuritySchemeOb child.
    * @apilevel low-level
    */
-  public SecuritySchemeObject getSecuritySchemeObjectNoTransform() {
-    return (SecuritySchemeObject) getChildNoTransform(0);
+  public SecuritySchemeOb getSecuritySchemeObNoTransform() {
+    return (SecuritySchemeOb) getChildNoTransform(0);
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

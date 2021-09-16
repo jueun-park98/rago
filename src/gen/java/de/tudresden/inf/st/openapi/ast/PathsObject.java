@@ -17,15 +17,15 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:35
- * @astdecl PathsObject : ASTNode ::= <Ref:String> PathItem;
- * @production PathsObject : {@link ASTNode} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">{@link PathItem}</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:35
+ * @astdecl PathsObject : ASTNode ::= <Ref:String> PathItemOb;
+ * @production PathsObject : {@link ASTNode} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">{@link PathItemOb}</span>;
 
  */
 public class PathsObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect RandomRequestGenerator
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/RandomRequestGenerator.jadd:40
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jadd:40
    */
   public void sendRandomRequests(String baseUrl) throws Exception {
         if( this.getPathItem().hasGet() ){
@@ -66,11 +66,11 @@ public class PathsObject extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:13
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Ref", "PathItem"},
-    type = {"String", "PathItem"},
+    name = {"Ref", "PathItemOb"},
+    type = {"String", "PathItemOb"},
     kind = {"Token", "Child"}
   )
-  public PathsObject(String p0, PathItem p1) {
+  public PathsObject(String p0, PathItemOb p1) {
     setRef(p0);
     setChild(p1, 0);
   }
@@ -201,30 +201,30 @@ public class PathsObject extends ASTNode<ASTNode> implements Cloneable {
     return tokenString_Ref != null ? tokenString_Ref : "";
   }
   /**
-   * Replaces the PathItem child.
-   * @param node The new node to replace the PathItem child.
+   * Replaces the PathItemOb child.
+   * @param node The new node to replace the PathItemOb child.
    * @apilevel high-level
    */
-  public void setPathItem(PathItem node) {
+  public void setPathItemOb(PathItemOb node) {
     setChild(node, 0);
   }
   /**
-   * Retrieves the PathItem child.
-   * @return The current node used as the PathItem child.
+   * Retrieves the PathItemOb child.
+   * @return The current node used as the PathItemOb child.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Child(name="PathItem")
-  public PathItem getPathItem() {
-    return (PathItem) getChild(0);
+  @ASTNodeAnnotation.Child(name="PathItemOb")
+  public PathItemOb getPathItemOb() {
+    return (PathItemOb) getChild(0);
   }
   /**
-   * Retrieves the PathItem child.
+   * Retrieves the PathItemOb child.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The current node used as the PathItem child.
+   * @return The current node used as the PathItemOb child.
    * @apilevel low-level
    */
-  public PathItem getPathItemNoTransform() {
-    return (PathItem) getChildNoTransform(0);
+  public PathItemOb getPathItemObNoTransform() {
+    return (PathItemOb) getChildNoTransform(0);
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

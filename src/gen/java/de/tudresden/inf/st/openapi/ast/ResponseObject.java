@@ -17,70 +17,12 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:72
- * @astdecl ResponseObject : ASTNode ::= <Ref:String> <Description:String> HeaderTuple* ContentTuple* LinkTuple*;
- * @production ResponseObject : {@link ASTNode} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">{@link HeaderTuple}*</span> <span class="component">{@link ContentTuple}*</span> <span class="component">{@link LinkTuple}*</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:78
+ * @astdecl ResponseObject : ResponseOb ::= <Description:String> HeaderTuple* ContentTuple* LinkTuple* Extension*;
+ * @production ResponseObject : {@link ResponseOb} ::= <span class="component">&lt;Description:String&gt;</span> <span class="component">{@link HeaderTuple}*</span> <span class="component">{@link ContentTuple}*</span> <span class="component">{@link LinkTuple}*</span> <span class="component">{@link Extension}*</span>;
 
  */
-public class ResponseObject extends ASTNode<ASTNode> implements Cloneable {
-  /**
-   * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:507
-   */
-  public static Response composeResponse (ResponseObject responseObject){
-        Response response = new Response();
-
-        if( !responseObject.getRef().isEmpty() )
-        response.setRef(responseObject.getRef());
-        if( !responseObject.getDescription().isEmpty() )
-        response.setDescription(responseObject.getDescription());
-        if( responseObject.getNumHeaderTuple() != 0 ){
-        Map<String, Header> headers = new HashMap<>();
-        for( HeaderTuple t : responseObject.getHeaderTuples() )
-        headers.put(t.getKey(), HeaderObject.composeHeader(t.getHeaderObject()));
-        response.setHeaders(headers);
-        }
-        if( responseObject.getNumContentTuple() != 0 ){
-        Map<String, MediaType> contents = new HashMap<>();
-        for( ContentTuple t : responseObject.getContentTuples() )
-        contents.put(t.getKey(), MediaTypeObject.composeMediaType(t.getMediaTypeObject()));
-        response.setContentMediaTypes(contents);
-        }
-        if( responseObject.getNumLinkTuple() != 0 ){
-        Map<String, Link> links = new HashMap<>();
-        for( LinkTuple t : responseObject.getLinkTuples() )
-        links.put(t.getKey(), LinkObject.composeLink(t.getLinkObject()));
-        response.setLinks(links);
-        }
-
-        return response;
-        }
-  /**
-   * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:514
-   */
-  public static ResponseObject parseResponse(Response response){
-        ResponseObject responseObject = new ResponseObject();
-
-        if( response.isRef() )
-        responseObject.setRef(response.getRef());
-        if( response.getDescription() != null )
-        responseObject.setDescription(response.getDescription());
-        if( response.getHeaders() != null ){
-        for( String key : response.getHeaders().keySet() )
-        responseObject.addHeaderTuple( new HeaderTuple(key, HeaderObject.parseHeader(response.getHeader(key))) );
-        }
-        if( response.getContentMediaTypes() != null ){
-        for( String key : response.getContentMediaTypes().keySet() )
-        responseObject.addContentTuple( new ContentTuple(key, MediaTypeObject.parseMediaType(response.getContentMediaType(key))) );
-        }
-        if( response.getLinks() != null ){
-        for( String key : response.getLinks().keySet() )
-        responseObject.addLinkTuple( new LinkTuple(key, LinkObject.parseLink(response.getLink(key))) );
-        }
-
-        return responseObject;
-        }
+public class ResponseObject extends ResponseOb implements Cloneable {
   /**
    * @declaredat ASTNode:1
    */
@@ -95,60 +37,61 @@ public class ResponseObject extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:10
    */
   public void init$Children() {
-    children = new ASTNode[3];
+    children = new ASTNode[4];
     setChild(new JastAddList(), 0);
     setChild(new JastAddList(), 1);
     setChild(new JastAddList(), 2);
+    setChild(new JastAddList(), 3);
   }
   /**
-   * @declaredat ASTNode:16
+   * @declaredat ASTNode:17
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Ref", "Description", "HeaderTuple", "ContentTuple", "LinkTuple"},
-    type = {"String", "String", "JastAddList<HeaderTuple>", "JastAddList<ContentTuple>", "JastAddList<LinkTuple>"},
-    kind = {"Token", "Token", "List", "List", "List"}
+    name = {"Description", "HeaderTuple", "ContentTuple", "LinkTuple", "Extension"},
+    type = {"String", "JastAddList<HeaderTuple>", "JastAddList<ContentTuple>", "JastAddList<LinkTuple>", "JastAddList<Extension>"},
+    kind = {"Token", "List", "List", "List", "List"}
   )
-  public ResponseObject(String p0, String p1, JastAddList<HeaderTuple> p2, JastAddList<ContentTuple> p3, JastAddList<LinkTuple> p4) {
-    setRef(p0);
-    setDescription(p1);
-    setChild(p2, 0);
-    setChild(p3, 1);
-    setChild(p4, 2);
+  public ResponseObject(String p0, JastAddList<HeaderTuple> p1, JastAddList<ContentTuple> p2, JastAddList<LinkTuple> p3, JastAddList<Extension> p4) {
+    setDescription(p0);
+    setChild(p1, 0);
+    setChild(p2, 1);
+    setChild(p3, 2);
+    setChild(p4, 3);
   }
   /** @apilevel low-level 
-   * @declaredat ASTNode:29
+   * @declaredat ASTNode:30
    */
   protected int numChildren() {
-    return 3;
+    return 4;
   }
   /**
    * @apilevel internal
-   * @declaredat ASTNode:35
+   * @declaredat ASTNode:36
    */
   public boolean mayHaveRewrite() {
     return false;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:39
+   * @declaredat ASTNode:40
    */
   public void flushAttrCache() {
     super.flushAttrCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:43
+   * @declaredat ASTNode:44
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:47
+   * @declaredat ASTNode:48
    */
   public ResponseObject clone() throws CloneNotSupportedException {
     ResponseObject node = (ResponseObject) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:52
+   * @declaredat ASTNode:53
    */
   public ResponseObject copy() {
     try {
@@ -168,7 +111,7 @@ public class ResponseObject extends ASTNode<ASTNode> implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:71
+   * @declaredat ASTNode:72
    */
   @Deprecated
   public ResponseObject fullCopy() {
@@ -179,7 +122,7 @@ public class ResponseObject extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:81
+   * @declaredat ASTNode:82
    */
   public ResponseObject treeCopyNoTransform() {
     ResponseObject tree = (ResponseObject) copy();
@@ -200,7 +143,7 @@ public class ResponseObject extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:101
+   * @declaredat ASTNode:102
    */
   public ResponseObject treeCopy() {
     ResponseObject tree = (ResponseObject) copy();
@@ -216,30 +159,10 @@ public class ResponseObject extends ASTNode<ASTNode> implements Cloneable {
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:115
+   * @declaredat ASTNode:116
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node) && (tokenString_Ref == ((ResponseObject) node).tokenString_Ref) && (tokenString_Description == ((ResponseObject) node).tokenString_Description);    
-  }
-  /**
-   * Replaces the lexeme Ref.
-   * @param value The new value for the lexeme Ref.
-   * @apilevel high-level
-   */
-  public void setRef(String value) {
-    tokenString_Ref = value;
-  }
-  /** @apilevel internal 
-   */
-  protected String tokenString_Ref;
-  /**
-   * Retrieves the value for the lexeme Ref.
-   * @return The value for the lexeme Ref.
-   * @apilevel high-level
-   */
-  @ASTNodeAnnotation.Token(name="Ref")
-  public String getRef() {
-    return tokenString_Ref != null ? tokenString_Ref : "";
+    return super.is$Equal(node) && (tokenString_Description == ((ResponseObject) node).tokenString_Description);    
   }
   /**
    * Replaces the lexeme Description.
@@ -590,6 +513,116 @@ public class ResponseObject extends ASTNode<ASTNode> implements Cloneable {
    */
   public JastAddList<LinkTuple> getLinkTuplesNoTransform() {
     return getLinkTupleListNoTransform();
+  }
+  /**
+   * Replaces the Extension list.
+   * @param list The new list node to be used as the Extension list.
+   * @apilevel high-level
+   */
+  public void setExtensionList(JastAddList<Extension> list) {
+    setChild(list, 3);
+  }
+  /**
+   * Retrieves the number of children in the Extension list.
+   * @return Number of children in the Extension list.
+   * @apilevel high-level
+   */
+  public int getNumExtension() {
+    return getExtensionList().getNumChild();
+  }
+  /**
+   * Retrieves the number of children in the Extension list.
+   * Calling this method will not trigger rewrites.
+   * @return Number of children in the Extension list.
+   * @apilevel low-level
+   */
+  public int getNumExtensionNoTransform() {
+    return getExtensionListNoTransform().getNumChildNoTransform();
+  }
+  /**
+   * Retrieves the element at index {@code i} in the Extension list.
+   * @param i Index of the element to return.
+   * @return The element at position {@code i} in the Extension list.
+   * @apilevel high-level
+   */
+  public Extension getExtension(int i) {
+    return (Extension) getExtensionList().getChild(i);
+  }
+  /**
+   * Check whether the Extension list has any children.
+   * @return {@code true} if it has at least one child, {@code false} otherwise.
+   * @apilevel high-level
+   */
+  public boolean hasExtension() {
+    return getExtensionList().getNumChild() != 0;
+  }
+  /**
+   * Append an element to the Extension list.
+   * @param node The element to append to the Extension list.
+   * @apilevel high-level
+   */
+  public void addExtension(Extension node) {
+    JastAddList<Extension> list = (parent == null) ? getExtensionListNoTransform() : getExtensionList();
+    list.addChild(node);
+  }
+  /** @apilevel low-level 
+   */
+  public void addExtensionNoTransform(Extension node) {
+    JastAddList<Extension> list = getExtensionListNoTransform();
+    list.addChild(node);
+  }
+  /**
+   * Replaces the Extension list element at index {@code i} with the new node {@code node}.
+   * @param node The new node to replace the old list element.
+   * @param i The list index of the node to be replaced.
+   * @apilevel high-level
+   */
+  public void setExtension(Extension node, int i) {
+    JastAddList<Extension> list = getExtensionList();
+    list.setChild(node, i);
+  }
+  /**
+   * Retrieves the Extension list.
+   * @return The node representing the Extension list.
+   * @apilevel high-level
+   */
+  @ASTNodeAnnotation.ListChild(name="Extension")
+  public JastAddList<Extension> getExtensionList() {
+    JastAddList<Extension> list = (JastAddList<Extension>) getChild(3);
+    return list;
+  }
+  /**
+   * Retrieves the Extension list.
+   * <p><em>This method does not invoke AST transformations.</em></p>
+   * @return The node representing the Extension list.
+   * @apilevel low-level
+   */
+  public JastAddList<Extension> getExtensionListNoTransform() {
+    return (JastAddList<Extension>) getChildNoTransform(3);
+  }
+  /**
+   * @return the element at index {@code i} in the Extension list without
+   * triggering rewrites.
+   */
+  public Extension getExtensionNoTransform(int i) {
+    return (Extension) getExtensionListNoTransform().getChildNoTransform(i);
+  }
+  /**
+   * Retrieves the Extension list.
+   * @return The node representing the Extension list.
+   * @apilevel high-level
+   */
+  public JastAddList<Extension> getExtensions() {
+    return getExtensionList();
+  }
+  /**
+   * Retrieves the Extension list.
+   * <p><em>This method does not invoke AST transformations.</em></p>
+   * @return The node representing the Extension list.
+   * @apilevel low-level
+   */
+  public JastAddList<Extension> getExtensionsNoTransform() {
+    return getExtensionListNoTransform();
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

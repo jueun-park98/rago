@@ -17,9 +17,9 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:27
- * @astdecl RequestBodyTuple : ASTNode ::= <Key:String> RequestBodyObject;
- * @production RequestBodyTuple : {@link ASTNode} ::= <span class="component">&lt;Key:String&gt;</span> <span class="component">{@link RequestBodyObject}</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:27
+ * @astdecl RequestBodyTuple : ASTNode ::= <Key:String> RequestBodyOb;
+ * @production RequestBodyTuple : {@link ASTNode} ::= <span class="component">&lt;Key:String&gt;</span> <span class="component">{@link RequestBodyOb}</span>;
 
  */
 public class RequestBodyTuple extends ASTNode<ASTNode> implements Cloneable {
@@ -43,11 +43,11 @@ public class RequestBodyTuple extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:13
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Key", "RequestBodyObject"},
-    type = {"String", "RequestBodyObject"},
+    name = {"Key", "RequestBodyOb"},
+    type = {"String", "RequestBodyOb"},
     kind = {"Token", "Child"}
   )
-  public RequestBodyTuple(String p0, RequestBodyObject p1) {
+  public RequestBodyTuple(String p0, RequestBodyOb p1) {
     setKey(p0);
     setChild(p1, 0);
   }
@@ -178,30 +178,30 @@ public class RequestBodyTuple extends ASTNode<ASTNode> implements Cloneable {
     return tokenString_Key != null ? tokenString_Key : "";
   }
   /**
-   * Replaces the RequestBodyObject child.
-   * @param node The new node to replace the RequestBodyObject child.
+   * Replaces the RequestBodyOb child.
+   * @param node The new node to replace the RequestBodyOb child.
    * @apilevel high-level
    */
-  public void setRequestBodyObject(RequestBodyObject node) {
+  public void setRequestBodyOb(RequestBodyOb node) {
     setChild(node, 0);
   }
   /**
-   * Retrieves the RequestBodyObject child.
-   * @return The current node used as the RequestBodyObject child.
+   * Retrieves the RequestBodyOb child.
+   * @return The current node used as the RequestBodyOb child.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Child(name="RequestBodyObject")
-  public RequestBodyObject getRequestBodyObject() {
-    return (RequestBodyObject) getChild(0);
+  @ASTNodeAnnotation.Child(name="RequestBodyOb")
+  public RequestBodyOb getRequestBodyOb() {
+    return (RequestBodyOb) getChild(0);
   }
   /**
-   * Retrieves the RequestBodyObject child.
+   * Retrieves the RequestBodyOb child.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The current node used as the RequestBodyObject child.
+   * @return The current node used as the RequestBodyOb child.
    * @apilevel low-level
    */
-  public RequestBodyObject getRequestBodyObjectNoTransform() {
-    return (RequestBodyObject) getChildNoTransform(0);
+  public RequestBodyOb getRequestBodyObNoTransform() {
+    return (RequestBodyOb) getChildNoTransform(0);
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

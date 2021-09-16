@@ -17,7 +17,7 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:116
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:134
  * @astdecl Implicit : ASTNode ::= OAuthFlowObject;
  * @production Implicit : {@link ASTNode} ::= <span class="component">{@link OAuthFlowObject}</span>;
 

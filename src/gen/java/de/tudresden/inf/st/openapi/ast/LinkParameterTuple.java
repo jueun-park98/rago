@@ -17,7 +17,7 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:84
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:96
  * @astdecl LinkParameterTuple : ASTNode ::= <LinkParameterKey:String> <LinkParameterValue:String>;
  * @production LinkParameterTuple : {@link ASTNode} ::= <span class="component">&lt;LinkParameterKey:String&gt;</span> <span class="component">&lt;LinkParameterValue:String&gt;</span>;
 

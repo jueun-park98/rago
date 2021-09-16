@@ -17,9 +17,9 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:24
- * @astdecl ResponseTuple : ASTNode ::= <Key:String> ResponseObject;
- * @production ResponseTuple : {@link ASTNode} ::= <span class="component">&lt;Key:String&gt;</span> <span class="component">{@link ResponseObject}</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:24
+ * @astdecl ResponseTuple : ASTNode ::= <Key:String> ResponseOb;
+ * @production ResponseTuple : {@link ASTNode} ::= <span class="component">&lt;Key:String&gt;</span> <span class="component">{@link ResponseOb}</span>;
 
  */
 public class ResponseTuple extends ASTNode<ASTNode> implements Cloneable {
@@ -43,11 +43,11 @@ public class ResponseTuple extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:13
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Key", "ResponseObject"},
-    type = {"String", "ResponseObject"},
+    name = {"Key", "ResponseOb"},
+    type = {"String", "ResponseOb"},
     kind = {"Token", "Child"}
   )
-  public ResponseTuple(String p0, ResponseObject p1) {
+  public ResponseTuple(String p0, ResponseOb p1) {
     setKey(p0);
     setChild(p1, 0);
   }
@@ -178,30 +178,30 @@ public class ResponseTuple extends ASTNode<ASTNode> implements Cloneable {
     return tokenString_Key != null ? tokenString_Key : "";
   }
   /**
-   * Replaces the ResponseObject child.
-   * @param node The new node to replace the ResponseObject child.
+   * Replaces the ResponseOb child.
+   * @param node The new node to replace the ResponseOb child.
    * @apilevel high-level
    */
-  public void setResponseObject(ResponseObject node) {
+  public void setResponseOb(ResponseOb node) {
     setChild(node, 0);
   }
   /**
-   * Retrieves the ResponseObject child.
-   * @return The current node used as the ResponseObject child.
+   * Retrieves the ResponseOb child.
+   * @return The current node used as the ResponseOb child.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Child(name="ResponseObject")
-  public ResponseObject getResponseObject() {
-    return (ResponseObject) getChild(0);
+  @ASTNodeAnnotation.Child(name="ResponseOb")
+  public ResponseOb getResponseOb() {
+    return (ResponseOb) getChild(0);
   }
   /**
-   * Retrieves the ResponseObject child.
+   * Retrieves the ResponseOb child.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The current node used as the ResponseObject child.
+   * @return The current node used as the ResponseOb child.
    * @apilevel low-level
    */
-  public ResponseObject getResponseObjectNoTransform() {
-    return (ResponseObject) getChildNoTransform(0);
+  public ResponseOb getResponseObNoTransform() {
+    return (ResponseOb) getChildNoTransform(0);
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

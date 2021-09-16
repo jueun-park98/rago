@@ -17,9 +17,9 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:30
- * @astdecl LinkTuple : ASTNode ::= <Key:String> LinkObject;
- * @production LinkTuple : {@link ASTNode} ::= <span class="component">&lt;Key:String&gt;</span> <span class="component">{@link LinkObject}</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:30
+ * @astdecl LinkTuple : ASTNode ::= <Key:String> LinkOb;
+ * @production LinkTuple : {@link ASTNode} ::= <span class="component">&lt;Key:String&gt;</span> <span class="component">{@link LinkOb}</span>;
 
  */
 public class LinkTuple extends ASTNode<ASTNode> implements Cloneable {
@@ -43,11 +43,11 @@ public class LinkTuple extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:13
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Key", "LinkObject"},
-    type = {"String", "LinkObject"},
+    name = {"Key", "LinkOb"},
+    type = {"String", "LinkOb"},
     kind = {"Token", "Child"}
   )
-  public LinkTuple(String p0, LinkObject p1) {
+  public LinkTuple(String p0, LinkOb p1) {
     setKey(p0);
     setChild(p1, 0);
   }
@@ -178,30 +178,30 @@ public class LinkTuple extends ASTNode<ASTNode> implements Cloneable {
     return tokenString_Key != null ? tokenString_Key : "";
   }
   /**
-   * Replaces the LinkObject child.
-   * @param node The new node to replace the LinkObject child.
+   * Replaces the LinkOb child.
+   * @param node The new node to replace the LinkOb child.
    * @apilevel high-level
    */
-  public void setLinkObject(LinkObject node) {
+  public void setLinkOb(LinkOb node) {
     setChild(node, 0);
   }
   /**
-   * Retrieves the LinkObject child.
-   * @return The current node used as the LinkObject child.
+   * Retrieves the LinkOb child.
+   * @return The current node used as the LinkOb child.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Child(name="LinkObject")
-  public LinkObject getLinkObject() {
-    return (LinkObject) getChild(0);
+  @ASTNodeAnnotation.Child(name="LinkOb")
+  public LinkOb getLinkOb() {
+    return (LinkOb) getChild(0);
   }
   /**
-   * Retrieves the LinkObject child.
+   * Retrieves the LinkOb child.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The current node used as the LinkObject child.
+   * @return The current node used as the LinkOb child.
    * @apilevel low-level
    */
-  public LinkObject getLinkObjectNoTransform() {
-    return (LinkObject) getChildNoTransform(0);
+  public LinkOb getLinkObNoTransform() {
+    return (LinkOb) getChildNoTransform(0);
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

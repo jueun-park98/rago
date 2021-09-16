@@ -17,7 +17,7 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:53
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:55
  * @astdecl ExternalDocObject : ASTNode ::= <Description:String> <Url:String> Extension*;
  * @production ExternalDocObject : {@link ASTNode} ::= <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;Url:String&gt;</span> <span class="component">{@link Extension}*</span>;
 
@@ -25,7 +25,7 @@ import java.util.stream.IntStream;
 public class ExternalDocObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jadd:374
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:373
    */
   public static ExternalDocs composeExternalDocs (ExternalDocObject externalDocObject){
         ExternalDocs externalDocs = new ExternalDocs();
@@ -45,7 +45,7 @@ public class ExternalDocObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:400
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:399
    */
   public static ExternalDocObject parseExternalDocs(ExternalDocs externalDocs){
         ExternalDocObject externalDocObject = new ExternalDocObject();
