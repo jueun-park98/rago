@@ -15,14 +15,15 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:95
- * @astdecl LinkObject : ASTNode ::= <OperationRef:String> <OperationID:String> LinkParameterTuple* HeaderTuple* <Description:String> [ServerObject] Extension*;
- * @production LinkObject : {@link ASTNode} ::= <span class="component">&lt;OperationRef:String&gt;</span> <span class="component">&lt;OperationID:String&gt;</span> <span class="component">{@link LinkParameterTuple}*</span> <span class="component">{@link HeaderTuple}*</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">[{@link ServerObject}]</span> <span class="component">{@link Extension}*</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:93
+ * @astdecl LinkObject : LinkOb ::= <OperationRef:String> <OperationID:String> LinkParameterTuple* HeaderTuple* <Description:String> [ServerObject] Extension*;
+ * @production LinkObject : {@link LinkOb} ::= <span class="component">&lt;OperationRef:String&gt;</span> <span class="component">&lt;OperationID:String&gt;</span> <span class="component">{@link LinkParameterTuple}*</span> <span class="component">{@link HeaderTuple}*</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">[{@link ServerObject}]</span> <span class="component">{@link Extension}*</span>;
 
  */
-public class LinkObject extends ASTNode<ASTNode> implements Cloneable {
+public class LinkObject extends LinkOb implements Cloneable {
   /**
    * @declaredat ASTNode:1
    */

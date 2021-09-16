@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:64
@@ -25,9 +26,9 @@ import java.util.stream.IntStream;
 public abstract class RequestBodyOb extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:439
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:408
    */
-  public static org.openapi4j.parser.model.v3.RequestBody composeRequestBody (RequestBodyObject requestBodyObject){
+  public static org.openapi4j.parser.model.v3.RequestBody composeRequestBody (RequestBodyOb requestBodyObject, Map<Object, ASTNode> map){
         org.openapi4j.parser.model.v3.RequestBody requestBody = new org.openapi4j.parser.model.v3.RequestBody();
 
         if( requestBodyObject.getNumContentTuple() != 0 ){
@@ -47,22 +48,32 @@ public abstract class RequestBodyOb extends ASTNode<ASTNode> implements Cloneabl
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:456
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:403
    */
-  public static RequestBodyObject parseRequestBody(org.openapi4j.parser.model.v3.RequestBody requestBody){
+  public static RequestBodyOb parseRequestBody(org.openapi4j.parser.model.v3.RequestBody requestBody, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         RequestBodyObject requestBodyObject = new RequestBodyObject();
 
+        if( requestBody.isRef() ){
+        RequestBodyReference r = new RequestBodyReference();
+        r.setRef(requestBody.getRef());
+        r.setRequestBodyOb(parseRequestBody(requestBody.getReference(context).getMappedContent(RequestBody.class), context, map));
+        return r;
+        } else {
         if( requestBody.getContentMediaTypes() != null ) {
         for (String key : requestBody.getContentMediaTypes().keySet())
-        requestBodyObject.addContentTuple(new ContentTuple(key, MediaTypeObject.parseMediaType(requestBody.getContentMediaType(key))));
+        requestBodyObject.addContentTuple(new ContentTuple(key, MediaTypeObject.parseMediaType(requestBody.getContentMediaType(key), context, map)));
         }
         if( requestBody.getDescription() != null )
         requestBodyObject.setDescription(requestBody.getDescription());
         if( requestBody.getRequired() != null )
         requestBodyObject.setRequired( requestBody.getRequired() );
-        if( requestBody.isRef() )
-        requestBodyObject.setRef(requestBody.getRef());
+        if( requestBody.getExtensions() != null ){
+        for( String key : requestBody.getExtensions().keySet() )
+        requestBodyObject.addExtension(new Extension(key, requestBody.getExtensions().get(key)));
+        }
+        }
 
+        map.put(requestBody, requestBodyObject);
         return requestBodyObject;
         }
   /**

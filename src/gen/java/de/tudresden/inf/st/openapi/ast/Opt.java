@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
  * @astdecl Opt : ASTNode;

@@ -15,9 +15,10 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:116
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:114
  * @astdecl AllOfSchema : ASTNode ::= SchemaOb;
  * @production AllOfSchema : {@link ASTNode} ::= <span class="component">{@link SchemaOb}</span>;
 

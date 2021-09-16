@@ -17,18 +17,8 @@ aspect RandomRequestGenerator {
 
      */
 
-        /*
-    syn Map<String, String> OpenAPIObject.generateUrls();
-    eq OpenAPIObject.generateUrls() {
-        Map<String, String> Urls = new HashMap<>();
-        String baseUrl = this.getServerObject(0).getUrl();
 
-        return Urls;
-    }*/
-
-        /*
-    coll Set<>*/
-
+/*
     public void OpenAPIObject.generateRequests() throws Exception {
         String baseUrl = this.getServerObject(0).getUrl();
 
@@ -183,4 +173,5 @@ aspect RandomRequestGenerator {
         return String.valueOf(rand.nextInt());
         }
 
+ */
 }

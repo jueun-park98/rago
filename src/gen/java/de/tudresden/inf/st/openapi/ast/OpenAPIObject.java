@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:2
@@ -29,39 +30,40 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
    */
   public static OpenApi3 composeOpenAPI (OpenAPIObject openapi){
         OpenApi3 api3 = new OpenApi3();
+        Map<Object, ASTNode> map = new HashMap<>();
 
         if( !openapi.getOpenAPI().isEmpty() )
         api3.setOpenapi(openapi.getOpenAPI());
         if( openapi.hasInfoObject() )
-        api3.setInfo(InfoObject.composeInfo(openapi.getInfoObject()));
+        api3.setInfo(InfoObject.composeInfo(openapi.getInfoObject(), map));
         if( openapi.getNumServerObject() != 0 ){
         List<org.openapi4j.parser.model.v3.Server> servers = new ArrayList<>();
         for( ServerObject s : openapi.getServerObjects() )
-        servers.add(ServerObject.composeServer(s));
+        servers.add(ServerObject.composeServer(s, map));
         api3.setServers(servers);
         }
         if( openapi.getNumPathsObject() != 0 ){
         Map<String, Path> paths = new HashMap<>();
         for( PathsObject p : openapi.getPathsObjects() )
-        paths.put( p.getRef(), PathItem.composePath(p.getPathItem()) );
+        paths.put( p.getRef(), PathItemOb.composePath(p.getPathItemOb(), map) );
         api3.setPaths(paths);
         }
         if( openapi.hasComponentsObject() )
-        api3.setComponents( ComponentsObject.composeComponents(openapi.getComponentsObject()) );
+        api3.setComponents( ComponentsObject.composeComponents(openapi.getComponentsObject(), map) );
         if( openapi.getNumSecurityRequirementObject() != 0 ){
         List<SecurityRequirement> securityRequirements = new ArrayList<>();
         for( SecurityRequirementObject s : openapi.getSecurityRequirementObjects() )
-        securityRequirements.add( SecurityRequirementObject.composeSecurityRequirement( s ) );
+        securityRequirements.add( SecurityRequirementObject.composeSecurityRequirement(s, map) );
         api3.setSecurityRequirements(securityRequirements);
         }
         if( openapi.getNumTagObject() != 0 ){
         List<org.openapi4j.parser.model.v3.Tag> tags = new ArrayList<>();
         for( TagObject t : openapi.getTagObjects() )
-        tags.add( TagObject.composeTag(t) );
+        tags.add( TagObject.composeTag(t, map) );
         api3.setTags( tags );
         }
         if( openapi.hasExternalDocObject() )
-        api3.setExternalDocs(ExternalDocObject.composeExternalDocs(openapi.getExternalDocObject()));
+        api3.setExternalDocs(ExternalDocObject.composeExternalDocs(openapi.getExternalDocObject(), map));
         if( openapi.getContext() != null )
         api3.setContext(openapi.getContext());
         if( openapi.getNumExtension() != 0 ){
@@ -74,54 +76,45 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
         return api3;
         }
   /**
-   * @aspect RandomRequestGenerator
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jadd:32
-   */
-  public void generateRequests() throws Exception {
-        String baseUrl = this.getServerObject(0).getUrl();
-
-        for( PathsObject p : this.getPathsObjects() )
-        p.sendRandomRequests(baseUrl);
-
-    }
-  /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:3
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:5
    */
-  public static OpenAPIObject parseOpenAPI(OpenApi3 api) throws IOException, ResolutionException, ValidationException {
+  public static OpenAPIObject parseOpenAPI(OpenApi3 api) throws IOException, ResolutionException, ValidationException, DecodeException {
         OpenAPIObject openapi = new OpenAPIObject();
+        Map<Object, ASTNode> map = new HashMap<>();
 
+        if( api.getContext() != null )
+        openapi.setContext(api.getContext());
         if( api.getOpenapi() != null )
         openapi.setOpenAPI(api.getOpenapi());
         if( api.getInfo() != null )
-        openapi.setInfoObject(InfoObject.parseInfo(api.getInfo()));
+        openapi.setInfoObject(InfoObject.parseInfo(api.getInfo(), map));
         if( api.getPaths() != null ){
         for( String key : api.getPaths().keySet() )
-        openapi.addPathsObject(new PathsObject( key, PathItem.parsePath(api.getPath(key))));
+        openapi.addPathsObject(new PathsObject( key, PathItemOb.parsePath(api.getPath(key), api.getContext(), map)));
         }
         if( api.getServers() != null ){
         for( Server s : api.getServers() )
-        openapi.addServerObject(ServerObject.parseServer(s));
+        openapi.addServerObject(ServerObject.parseServer(s, map));
         }
         if( api.getComponents() != null )
-        openapi.setComponentsObject(ComponentsObject.parseComponents(api.getComponents()));
+        openapi.setComponentsObject(ComponentsObject.parseComponents(api.getComponents(), api.getContext(), map));
         if( api.getSecurityRequirements() != null ){
         for( SecurityRequirement s : api.getSecurityRequirements() )
-        openapi.addSecurityRequirementObject(SecurityRequirementObject.parseSecurityRequirement(s));
+        openapi.addSecurityRequirementObject(SecurityRequirementObject.parseSecurityRequirement(s, map));
         }
         if( api.getTags() != null ){
         for( org.openapi4j.parser.model.v3.Tag t : api.getTags() )
-        openapi.addTagObject(TagObject.parseTag(t));
+        openapi.addTagObject(TagObject.parseTag(t, map));
         }
         if( api.getExternalDocs() != null )
-        openapi.setExternalDocObject(ExternalDocObject.parseExternalDocs(api.getExternalDocs()));
-        if( api.getContext() != null )
-        openapi.setContext(api.getContext());
+        openapi.setExternalDocObject(ExternalDocObject.parseExternalDocs(api.getExternalDocs(), map));
         if( api.getExtensions() != null ){
         for( String key : api.getExtensions().keySet() )
         openapi.addExtension(new Extension(key, api.getExtensions().get(key)));
         }
 
+        map.put(api, openapi);
         return openapi;
         }
   /**

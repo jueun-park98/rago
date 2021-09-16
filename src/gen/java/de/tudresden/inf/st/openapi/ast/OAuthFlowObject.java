@@ -15,9 +15,10 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:140
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:138
  * @astdecl OAuthFlowObject : ASTNode ::= <AuthorizationUrl:String> <TokenUrl:String> <RefreshUrl:String> ScopesTuple* <Configuration:String> Extension*;
  * @production OAuthFlowObject : {@link ASTNode} ::= <span class="component">&lt;AuthorizationUrl:String&gt;</span> <span class="component">&lt;TokenUrl:String&gt;</span> <span class="component">&lt;RefreshUrl:String&gt;</span> <span class="component">{@link ScopesTuple}*</span> <span class="component">&lt;Configuration:String&gt;</span> <span class="component">{@link Extension}*</span>;
 
@@ -25,9 +26,9 @@ import java.util.stream.IntStream;
 public class OAuthFlowObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:828
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:798
    */
-  public static OAuthFlow composeOAuthFlow (OAuthFlowObject oAuthFlowObject){
+  public static OAuthFlow composeOAuthFlow (OAuthFlowObject oAuthFlowObject, Map<Object, ASTNode> map){
         OAuthFlow oAuthFlow = new OAuthFlow();
         Map<String, String> scopes = new HashMap<>();
 
@@ -46,9 +47,9 @@ public class OAuthFlowObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:845
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:991
    */
-  public static OAuthFlowObject parseOAuthFlow(OAuthFlow oAuthFlow){
+  public static OAuthFlowObject parseOAuthFlow(OAuthFlow oAuthFlow, Map<Object, ASTNode> map){
         OAuthFlowObject oAuthFlowObject = new OAuthFlowObject();
 
         if( oAuthFlow.getAuthorizationUrl() != null )
@@ -57,10 +58,14 @@ public class OAuthFlowObject extends ASTNode<ASTNode> implements Cloneable {
         oAuthFlowObject.setTokenUrl( oAuthFlow.getTokenUrl() );
         for( String key : oAuthFlow.getScopes().keySet() )
         oAuthFlowObject.addScopesTuple( new ScopesTuple(key, oAuthFlow.getScope(key)) );
-
         if( oAuthFlow.getRefreshUrl() != null )
         oAuthFlowObject.setRefreshUrl( oAuthFlow.getRefreshUrl() );
+        if( oAuthFlow.getExtensions() != null ){
+        for( String key : oAuthFlow.getExtensions().keySet() )
+        oAuthFlowObject.addExtension(new Extension(key, oAuthFlow.getExtensions().get(key)));
+        }
 
+        map.put(oAuthFlow, oAuthFlowObject);
         return oAuthFlowObject;
         }
   /**

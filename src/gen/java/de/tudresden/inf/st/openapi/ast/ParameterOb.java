@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:58
@@ -25,9 +26,9 @@ import java.util.stream.IntStream;
 public abstract class ParameterOb extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:390
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:359
    */
-  public static Parameter composeParameter (ParameterObject parameterObject){
+  public static Parameter composeParameter (ParameterOb parameterObject, Map<Object, ASTNode> map){
         Parameter parameter = new Parameter();
 
         if( !parameterObject.getRef().isEmpty() )
@@ -77,13 +78,17 @@ public abstract class ParameterOb extends ASTNode<ASTNode> implements Cloneable 
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:415
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:356
    */
-  public static ParameterObject parseParameter(Parameter parameter){
+  public static ParameterOb parseParameter(Parameter parameter, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         ParameterObject parameterObject = new ParameterObject();
 
-        if( parameter.isRef() )
-        parameterObject.setRef(parameter.getRef());
+        if( parameter.isRef() ){
+        ParameterReference p = new ParameterReference();
+        p.setRef(parameter.getRef());
+        p.setParameterOb(parseParameter(parameter.getReference(context).getMappedContent(Parameter.class), context, map));
+        return p;
+        } else {
         if( parameter.getName() != null )
         parameterObject.setName(parameter.getName());
         if( parameter.getIn() != null )
@@ -99,24 +104,26 @@ public abstract class ParameterOb extends ASTNode<ASTNode> implements Cloneable 
         if( parameter.getAllowReserved() != null )
         parameterObject.setAllowReserved( parameter.getAllowReserved() );
         if( parameter.getSchema() != null )
-        parameterObject.setSchemaObject(SchemaObject.parseSchema(parameter.getSchema()));
+        parameterObject.setSchemaOb(SchemaOb.parseSchema(parameter.getSchema(), context, map));
         if( parameter.getExample() != null )
         parameterObject.setExample( parameter.getExample() );
         if( parameter.getExamples() != null ){
         for( String key : parameter.getExamples().keySet() )
-        parameterObject.addExampleTuple(new ExampleTuple(key, ExampleObject.parseExample(parameter.getExample(key))));
+        parameterObject.addExampleTuple(new ExampleTuple(key, ExampleObject.parseExample(parameter.getExample(key), context, map)));
         }
         if( parameter.getContentMediaTypes() != null ){
         for( String key : parameter.getContentMediaTypes().keySet() )
-        parameterObject.addContentTuple(new ContentTuple(key, MediaTypeObject.parseMediaType(parameter.getContentMediaType(key))));
+        parameterObject.addContentTuple(new ContentTuple(key, MediaTypeObject.parseMediaType(parameter.getContentMediaType(key), context, map)));
         }
         if( parameter.getRequired() != null )
-            parameterObject.setRequired(parameter.getRequired());
+        parameterObject.setRequired(parameter.getRequired());
         if( parameter.getExtensions() != null ){
         for( String key : parameter.getExtensions().keySet() )
         parameterObject.addExtension(new Extension(key, parameter.getExtensions().get(key)));
         }
+        }
 
+        map.put(parameter, parameterObject);
         return parameterObject;
         }
   /**

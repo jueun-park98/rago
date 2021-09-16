@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:11
@@ -25,30 +26,42 @@ import java.util.stream.IntStream;
 public class LicenseObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:104
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:107
    */
-  public static License composeLicense (LicenseObject licenseObject){
+  public static License composeLicense (LicenseObject licenseObject, Map<Object, ASTNode> map){
         License license = new License();
 
         if( !licenseObject.getName().isEmpty() )
         license.setName( licenseObject.getName() );
         if( !licenseObject.getUrl().isEmpty() )
         license.setUrl( licenseObject.getUrl() );
+        if( licenseObject.getNumExtension() != 0 ){
+        Map<String, Object> extensions = new HashMap<>();
+        for( Extension e : licenseObject.getExtensions() )
+        extensions.put(e.getKey(), e.getValue());
+        license.setExtensions(extensions);
+        }
 
+        map.put(license, licenseObject);
         return license;
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:80
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:86
    */
-  public static LicenseObject parseLicense(License license){
+  public static LicenseObject parseLicense(License license, Map<Object, ASTNode> map){
         LicenseObject licenseObject = new LicenseObject();
 
         if( license.getName() != null )
         licenseObject.setName( license.getName() );
         if( license.getUrl() != null )
         licenseObject.setUrl( license.getUrl() );
+        if( license.getExtensions() != null ){
+        for( String key : license.getExtensions().keySet() )
+        licenseObject.addExtension(new Extension(key, license.getExtensions().get(key)));
+        }
 
+        map.put(license, licenseObject);
         return licenseObject;
         }
   /**

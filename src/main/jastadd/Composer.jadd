@@ -12,39 +12,40 @@ aspect Composer {
 
     public static OpenApi3 OpenAPIObject.composeOpenAPI (OpenAPIObject openapi){
         OpenApi3 api3 = new OpenApi3();
+        Map<Object, ASTNode> map = new HashMap<>();
 
         if( !openapi.getOpenAPI().isEmpty() )
         api3.setOpenapi(openapi.getOpenAPI());
         if( openapi.hasInfoObject() )
-        api3.setInfo(InfoObject.composeInfo(openapi.getInfoObject()));
+        api3.setInfo(InfoObject.composeInfo(openapi.getInfoObject(), map));
         if( openapi.getNumServerObject() != 0 ){
         List<org.openapi4j.parser.model.v3.Server> servers = new ArrayList<>();
         for( ServerObject s : openapi.getServerObjects() )
-        servers.add(ServerObject.composeServer(s));
+        servers.add(ServerObject.composeServer(s, map));
         api3.setServers(servers);
         }
         if( openapi.getNumPathsObject() != 0 ){
         Map<String, Path> paths = new HashMap<>();
         for( PathsObject p : openapi.getPathsObjects() )
-        paths.put( p.getRef(), PathItem.composePath(p.getPathItem()) );
+        paths.put( p.getRef(), PathItemOb.composePath(p.getPathItemOb(), map) );
         api3.setPaths(paths);
         }
         if( openapi.hasComponentsObject() )
-        api3.setComponents( ComponentsObject.composeComponents(openapi.getComponentsObject()) );
+        api3.setComponents( ComponentsObject.composeComponents(openapi.getComponentsObject(), map) );
         if( openapi.getNumSecurityRequirementObject() != 0 ){
         List<SecurityRequirement> securityRequirements = new ArrayList<>();
         for( SecurityRequirementObject s : openapi.getSecurityRequirementObjects() )
-        securityRequirements.add( SecurityRequirementObject.composeSecurityRequirement( s ) );
+        securityRequirements.add( SecurityRequirementObject.composeSecurityRequirement(s, map) );
         api3.setSecurityRequirements(securityRequirements);
         }
         if( openapi.getNumTagObject() != 0 ){
         List<org.openapi4j.parser.model.v3.Tag> tags = new ArrayList<>();
         for( TagObject t : openapi.getTagObjects() )
-        tags.add( TagObject.composeTag(t) );
+        tags.add( TagObject.composeTag(t, map) );
         api3.setTags( tags );
         }
         if( openapi.hasExternalDocObject() )
-        api3.setExternalDocs(ExternalDocObject.composeExternalDocs(openapi.getExternalDocObject()));
+        api3.setExternalDocs(ExternalDocObject.composeExternalDocs(openapi.getExternalDocObject(), map));
         if( openapi.getContext() != null )
         api3.setContext(openapi.getContext());
         if( openapi.getNumExtension() != 0 ){
@@ -57,7 +58,7 @@ aspect Composer {
         return api3;
         }
 
-public static Info InfoObject.composeInfo (InfoObject infoObject){
+public static Info InfoObject.composeInfo (InfoObject infoObject, Map<Object, ASTNode> map){
         Info info = new Info();
 
         if( !infoObject.getTitle().isEmpty() )
@@ -79,10 +80,11 @@ public static Info InfoObject.composeInfo (InfoObject infoObject){
         info.setExtensions(extension);
         }
 
+        map.put(info, infoObject);
         return info;
         }
 
-public static Contact ContactObject.composeContact (ContactObject contactObject){
+public static Contact ContactObject.composeContact (ContactObject contactObject, Map<Object, ASTNode> map){
         Contact contact = new Contact();
 
         if( !contactObject.getName().isEmpty() )
@@ -98,21 +100,29 @@ public static Contact ContactObject.composeContact (ContactObject contactObject)
         contact.setExtensions(extensions);
         }
 
+        map.put(contact, contactObject);
         return contact;
         }
 
-public static License LicenseObject.composeLicense (LicenseObject licenseObject){
+public static License LicenseObject.composeLicense (LicenseObject licenseObject, Map<Object, ASTNode> map){
         License license = new License();
 
         if( !licenseObject.getName().isEmpty() )
         license.setName( licenseObject.getName() );
         if( !licenseObject.getUrl().isEmpty() )
         license.setUrl( licenseObject.getUrl() );
+        if( licenseObject.getNumExtension() != 0 ){
+        Map<String, Object> extensions = new HashMap<>();
+        for( Extension e : licenseObject.getExtensions() )
+        extensions.put(e.getKey(), e.getValue());
+        license.setExtensions(extensions);
+        }
 
+        map.put(license, licenseObject);
         return license;
         }
 
-public static Server ServerObject.composeServer (ServerObject serverObject){
+public static Server ServerObject.composeServer (ServerObject serverObject, Map<Object, ASTNode> map){
         Server server = new Server();
 
         if( !serverObject.getUrl().isEmpty() )
@@ -122,14 +132,21 @@ public static Server ServerObject.composeServer (ServerObject serverObject){
         if( serverObject.hasServerVariablesTuple() ){
         Map<String, ServerVariable> serverVariables = new HashMap<>();
         for( ServerVariablesTuple s : serverObject.getServerVariablesTuples() )
-        serverVariables.put( s.getName(), ServerVariableObject.composeServerVariable(s.getServerVariableObject()) );
+        serverVariables.put( s.getName(), ServerVariableObject.composeServerVariable(s.getServerVariableObject(), map) );
         server.setVariables(serverVariables);
         }
+        if( serverObject.getNumExtension() != 0 ){
+        Map<String, Object> extensions = new HashMap<>();
+        for( Extension e : serverObject.getExtensions() )
+        extensions.put(e.getKey(), e.getValue());
+        server.setExtensions(extensions);
+        }
 
+        map.put(server, serverObject);
         return server;
         }
 
-public static ServerVariable ServerVariableObject.composeServerVariable (ServerVariableObject serverVariableObject){
+public static ServerVariable ServerVariableObject.composeServerVariable (ServerVariableObject serverVariableObject, Map<Object, ASTNode> map){
         ServerVariable serverVariable = new ServerVariable();
 
         if( !serverVariableObject.getDefault().isEmpty() )
@@ -142,121 +159,72 @@ public static ServerVariable ServerVariableObject.composeServerVariable (ServerV
         enums.add( e.getEnumValue() );
         serverVariable.setEnums( enums );
         }
+        if( serverVariableObject.getNumExtension() != 0 ){
+        Map<String, Object> extensions = new HashMap<>();
+        for( Extension e : serverVariableObject.getExtensions() )
+        extensions.put(e.getKey(), e.getValue());
+        serverVariable.setExtensions(extensions);
+        }
 
+        map.put(serverVariable, serverVariableObject);
         return serverVariable;
         }
 
-public static Components ComponentsObject.composeComponents (ComponentsObject componentsObject){
+public static Components ComponentsObject.composeComponents (ComponentsObject componentsObject, Map<Object, ASTNode> map){
         Components components = new Components();
 
         if( componentsObject.getNumSchemaTuple() != 0 ){
         Map<String, org.openapi4j.parser.model.v3.Schema> schemaMap = new HashMap<>();
-        for( SchemaTuple t : componentsObject.getSchemaTuples() ){
-        if(!t.getSchemaObject().getRef().isEmpty()){
-        org.openapi4j.parser.model.v3.Schema schema=new org.openapi4j.parser.model.v3.Schema();
-        schema.setRef(t.getSchemaObject().getRef());
-        schemaMap.put(t.getKey(),schema);
-        }
-        else
-        schemaMap.put(t.getKey(),SchemaObject.composeSchema(t.getSchemaObject()));
-        }
+        for( SchemaTuple t : componentsObject.getSchemaTuples() )
+        schemaMap.put(t.getKey(), SchemaOb.composeSchema(t.getSchemaOb(), map));
         components.setSchemas(schemaMap);
         }
         if( componentsObject.getNumResponseTuple() != 0 ){
         Map<String, Response> responseMap = new HashMap<>();
-        for( ResponseTuple t : componentsObject.getResponseTuples() ){
-        if( !t.getResponseObject().getRef().isEmpty() ){
-        Response response = new Response();
-        response.setRef(t.getResponseObject().getRef());
-        responseMap.put(t.getKey(), response);
-        }
-        else
-        responseMap.put(t.getKey(), ResponseObject.composeResponse(t.getResponseObject()));
-        }
+        for( ResponseTuple t : componentsObject.getResponseTuples() )
+        responseMap.put(t.getKey(), ResponseOb.composeResponse(t.getResponseOb(), map));
         components.setResponses(responseMap);
         }
         if( componentsObject.getNumParameterTuple() != 0 ){
         Map<String, Parameter> parameterMap = new HashMap<>();
-        for( ParameterTuple t : componentsObject.getParameterTuples() ){
-        if( !t.getParameterObject().getRef().isEmpty() ){
-        Parameter parameter = new Parameter();
-        parameter.setRef(t.getParameterObject().getRef());
-        parameterMap.put(t.getKey(), parameter);
-        }
-        else
-        parameterMap.put(t.getKey(), ParameterObject.composeParameter(t.getParameterObject()));
-        }
+        for( ParameterTuple t : componentsObject.getParameterTuples() )
+        parameterMap.put(t.getKey(), ParameterOb.composeParameter(t.getParameterOb(), map));
         components.setParameters(parameterMap);
         }
         if( componentsObject.getNumExampleTuple() != 0 ){
         Map<String, Example> exampleMap = new HashMap<>();
         for( ExampleTuple t : componentsObject.getExampleTuples() )
-        exampleMap.put(t.getKey(), ExampleObject.composeExample(t.getExampleObject()));
+        exampleMap.put(t.getKey(), ExampleObject.composeExample(t.getExampleObject(), map));
         components.setExamples(exampleMap);
         }
         if( componentsObject.getNumRequestBodyTuple() != 0 ){
         Map<String, RequestBody> requestBodyMap = new HashMap<>();
-        for( RequestBodyTuple t : componentsObject.getRequestBodyTuples() ){
-        if( !t.getRequestBodyObject().getRef().isEmpty() ){
-        RequestBody requestBody = new RequestBody();
-        requestBody.setRef(t.getRequestBodyObject().getRef());
-        requestBodyMap.put(t.getKey(), requestBody);
-        }
-        else
-        requestBodyMap.put(t.getKey(), RequestBodyObject.composeRequestBody(t.getRequestBodyObject()));
-        }
+        for( RequestBodyTuple t : componentsObject.getRequestBodyTuples() )
+        requestBodyMap.put(t.getKey(), RequestBodyOb.composeRequestBody(t.getRequestBodyOb(), map));
         components.setRequestBodies(requestBodyMap);
         }
         if( componentsObject.getNumHeaderTuple() != 0 ){
         Map<String, Header> headerMap = new HashMap<>();
-        for( HeaderTuple t : componentsObject.getHeaderTuples() ){
-        if( !t.getHeaderObject().getRef().isEmpty() ){
-        Header header = new Header();
-        header.setRef(t.getHeaderObject().getRef());
-        headerMap.put(t.getKey(), header);
-        }
-        else
-        headerMap.put(t.getKey(), HeaderObject.composeHeader(t.getHeaderObject()));
-        }
+        for( HeaderTuple t : componentsObject.getHeaderTuples() )
+        headerMap.put(t.getKey(), HeaderOb.composeHeader(t.getHeaderOb(), map));
         components.setHeaders(headerMap);
         }
         if( componentsObject.getNumSecuritySchemeTuple() != 0 ){
         Map<String, SecurityScheme> securitySchemeMap = new HashMap<>();
-        for( SecuritySchemeTuple t : componentsObject.getSecuritySchemeTuples() ){
-        if( !t.getSecuritySchemeObject().getRef().isEmpty() ){
-        SecurityScheme securityScheme = new SecurityScheme();
-        securityScheme.setRef(t.getSecuritySchemeObject().getRef());
-        securitySchemeMap.put(t.getKey(), securityScheme);
-        }
-        else
-        securitySchemeMap.put(t.getKey(), SecuritySchemeObject.composeSecurityScheme(t.getSecuritySchemeObject()));
-        }
+        for( SecuritySchemeTuple t : componentsObject.getSecuritySchemeTuples() )
+        securitySchemeMap.put(t.getKey(), SecuritySchemeOb.composeSecurityScheme(t.getSecuritySchemeOb(), map));
         components.setSecuritySchemes(securitySchemeMap);
         }
         if( componentsObject.getNumLinkTuple() != 0 ){
         Map<String, Link> linkMap = new HashMap<>();
-        for( LinkTuple t : componentsObject.getLinkTuples() ){
-        if( !t.getLinkObject().getRef().isEmpty() ){
-        Link link = new Link();
-        link.setRef(t.getLinkObject().getRef());
-        linkMap.put(t.getKey(), link);
-        }
-        else
-        linkMap.put(t.getKey(), LinkObject.composeLink(t.getLinkObject()));
-        }
+        for( LinkTuple t : componentsObject.getLinkTuples() )
+        linkMap.put(t.getKey(), LinkOb.composeLink(t.getLinkOb(), map));
         components.setLinks(linkMap);
         }
         if( componentsObject.getNumCallbackTuple() != 0 ){
         Map<String, Callback> callbackMap = new HashMap<>();
-        for( CallbackTuple t : componentsObject.getCallbackTuples() ){
-        if( !t.getCallbackObject().getRef().isEmpty() ){
-        Callback callback = new Callback();
-        callback.setRef(t.getCallbackObject().getRef());
-        callbackMap.put(t.getKey(), callback);
-        }
-        else
-        callbackMap.put(t.getKey(), CallbackObject.composeCallback(t.getCallbackObject()));
-        }
+        for( CallbackTuple t : componentsObject.getCallbackTuples() )
+        callbackMap.put(t.getKey(), CallbackOb.composeCallback(t.getCallbackOb(), map));
         components.setCallbacks(callbackMap);
         }
         if( componentsObject.getNumExtension() != 0 ){
@@ -269,7 +237,7 @@ public static Components ComponentsObject.composeComponents (ComponentsObject co
         return components;
         }
 
-public static Path PathItemOb.composePath (PathItem pathItem){
+public static Path PathItemOb.composePath (PathItemOb pathItem, Map<Object, ASTNode> map){
         Path path = new Path();
 
         if( !pathItem.getRef().isEmpty() )
@@ -310,8 +278,9 @@ public static Path PathItemOb.composePath (PathItem pathItem){
         return path;
         }
 
-public static Operation OperationObject.composeOperation (OperationObject operationObject){
+public static Operation OperationObject.composeOperation (OperationObject operationObject, Map<Object, ASTNode> map){
         Operation operation = new Operation();
+
 
         if( operationObject.getNumTag() != 0 ){
         for( de.tudresden.inf.st.openapi.ast.Tag t : operationObject.getTags() )
@@ -370,7 +339,7 @@ public static Operation OperationObject.composeOperation (OperationObject operat
         return operation;
         }
 
-public static ExternalDocs ExternalDocObject.composeExternalDocs (ExternalDocObject externalDocObject){
+public static ExternalDocs ExternalDocObject.composeExternalDocs (ExternalDocObject externalDocObject, Map<Object, ASTNode> map){
         ExternalDocs externalDocs = new ExternalDocs();
 
         if( !externalDocObject.getDescription().isEmpty() )
@@ -387,7 +356,7 @@ public static ExternalDocs ExternalDocObject.composeExternalDocs (ExternalDocObj
         return externalDocs;
         }
 
-public static Parameter ParameterOb.composeParameter (ParameterObject parameterObject){
+public static Parameter ParameterOb.composeParameter (ParameterOb parameterObject, Map<Object, ASTNode> map){
         Parameter parameter = new Parameter();
 
         if( !parameterObject.getRef().isEmpty() )
@@ -436,7 +405,7 @@ public static Parameter ParameterOb.composeParameter (ParameterObject parameterO
         return parameter;
         }
 
-public static org.openapi4j.parser.model.v3.RequestBody RequestBodyOb.composeRequestBody (RequestBodyObject requestBodyObject){
+public static org.openapi4j.parser.model.v3.RequestBody RequestBodyOb.composeRequestBody (RequestBodyOb requestBodyObject, Map<Object, ASTNode> map){
         org.openapi4j.parser.model.v3.RequestBody requestBody = new org.openapi4j.parser.model.v3.RequestBody();
 
         if( requestBodyObject.getNumContentTuple() != 0 ){
@@ -455,7 +424,7 @@ public static org.openapi4j.parser.model.v3.RequestBody RequestBodyOb.composeReq
         return requestBody;
         }
 
-public static MediaType MediaTypeObject.composeMediaType (MediaTypeObject mediaTypeObject){
+public static MediaType MediaTypeObject.composeMediaType (MediaTypeObject mediaTypeObject, Map<Object, ASTNode> map){
         MediaType mediaType = new MediaType();
 
         if( mediaTypeObject.getSchemaObject() != null )
@@ -478,7 +447,7 @@ public static MediaType MediaTypeObject.composeMediaType (MediaTypeObject mediaT
         return mediaType;
         }
 
-public static EncodingProperty EncodingObject.composeEncodingProperty (EncodingObject encodingObject){
+public static EncodingProperty EncodingObject.composeEncodingProperty (EncodingObject encodingObject, Map<Object, ASTNode> map){
         EncodingProperty encodingProperty = new EncodingProperty();
 
         if( !encodingObject.getContentType().isEmpty() )
@@ -503,7 +472,7 @@ public static EncodingProperty EncodingObject.composeEncodingProperty (EncodingO
         return encodingProperty;
         }
 
-public static Response ResponseOb.composeResponse (ResponseObject responseObject){
+public static Response ResponseOb.composeResponse (ResponseObject responseObject, Map<Object, ASTNode> map){
         Response response = new Response();
 
         if( !responseObject.getRef().isEmpty() )
@@ -532,7 +501,7 @@ public static Response ResponseOb.composeResponse (ResponseObject responseObject
         return response;
         }
 
-public static Callback CallbackOb.composeCallback (CallbackObject callbackObject){
+public static Callback CallbackOb.composeCallback (CallbackObject callbackObject, Map<Object, ASTNode> map){
         Callback callback = new Callback();
 
         if( callbackObject.getNumExpression() != 0 ){
@@ -545,7 +514,7 @@ public static Callback CallbackOb.composeCallback (CallbackObject callbackObject
         return callback;
         }
 
-public static Example ExampleOb.composeExample (ExampleObject exampleObject){
+public static Example ExampleObject.composeExample (ExampleObject exampleObject, Map<Object, ASTNode> map){
         Example example = new Example();
 
         if( !exampleObject.getSummary().isEmpty() )
@@ -566,8 +535,9 @@ public static Example ExampleOb.composeExample (ExampleObject exampleObject){
         return example;
         }
 
-public static Link LinkOb.composeLink (LinkObject linkObject){
+public static Link LinkOb.composeLink (LinkObject linkObject, Map<Object, ASTNode> map){
         Link link = new Link();
+
 
         if( !linkObject.getRef().isEmpty() )
         link.setRef(linkObject.getRef());
@@ -589,7 +559,7 @@ public static Link LinkOb.composeLink (LinkObject linkObject){
         return link;
         }
 
-public static Header HeaderOb.composeHeader (HeaderObject headerObject){
+public static Header HeaderOb.composeHeader (HeaderObject headerObject, Map<Object, ASTNode> map){
         Header header = new Header();
 
         if( !headerObject.getRef().isEmpty() )
@@ -624,7 +594,7 @@ public static Header HeaderOb.composeHeader (HeaderObject headerObject){
         return header;
         }
 
-public static org.openapi4j.parser.model.v3.Tag TagObject.composeTag (TagObject tagObject){
+public static org.openapi4j.parser.model.v3.Tag TagObject.composeTag (TagObject tagObject, Map<Object, ASTNode> map){
         org.openapi4j.parser.model.v3.Tag tag = new org.openapi4j.parser.model.v3.Tag();
 
         tag.setName( tagObject.getName() );
@@ -643,7 +613,7 @@ public static org.openapi4j.parser.model.v3.Tag TagObject.composeTag (TagObject 
         return tag;
         }
 
-public static org.openapi4j.parser.model.v3.Schema SchemaOb.composeSchema (SchemaObject schemaObject) {
+public static org.openapi4j.parser.model.v3.Schema SchemaOb.composeSchema (SchemaOb schemaOb, Map<Object, ASTNode> map){
         org.openapi4j.parser.model.v3.Schema schema = new org.openapi4j.parser.model.v3.Schema();
 
         if( !schemaObject.getRef().isEmpty() )
@@ -744,7 +714,7 @@ public static org.openapi4j.parser.model.v3.Schema SchemaOb.composeSchema (Schem
         return schema;
         }
 
-public static Discriminator DiscriminatorObject.composeDiscriminator (DiscriminatorObject discriminatorObject) {
+public static Discriminator DiscriminatorObject.composeDiscriminator (DiscriminatorObject discriminatorObject, Map<Object, ASTNode> map) {
         Discriminator discriminator = new Discriminator();
 
         if( !discriminatorObject.getPropertyName().isEmpty() )
@@ -776,7 +746,7 @@ public static Xml XmlObject.composeXml (XmlObject xmlObject) {
         return xml;
         }
 
-public static SecurityScheme SecuritySchemeOb.composeSecurityScheme (SecuritySchemeObject securitySchemeObject){
+public static SecurityScheme SecuritySchemeOb.composeSecurityScheme (SecuritySchemeObject securitySchemeObject, Map<Object, ASTNode> map){
         SecurityScheme securityScheme = new SecurityScheme();
 
         if( !securitySchemeObject.getType().isEmpty() )
@@ -805,13 +775,13 @@ public static SecurityScheme SecuritySchemeOb.composeSecurityScheme (SecuritySch
         return securityScheme;
         }
 
-public static OAuthFlows OAuthFlowsObject.composeOAuthFlows (OAuthFlowsObject oAuthFlowsObject){
+public static OAuthFlows OAuthFlowsObject.composeOAuthFlows (OAuthFlowsObject oAuthFlowsObject, Map<Object, ASTNode> map){
         OAuthFlows oAuthFlows = new OAuthFlows();
 
         if( oAuthFlowsObject.hasImplicit() )
         oAuthFlows.setImplicit( OAuthFlowObject.composeOAuthFlow(oAuthFlowsObject.getImplicit().getOAuthFlowObject()) );
         if( oAuthFlowsObject.hasPassword() ){
-        //System.out.println("Password eingegangen : " + oAuthFlowsObject.getPassword().getOAuthFlowObject().getAuthorizationUrl() );
+        System.out.println("Password eingegangen : " + oAuthFlowsObject.getPassword().getOAuthFlowObject().getAuthorizationUrl() );
         System.out.println("Password eingegangen : " + oAuthFlowsObject.getPassword().getOAuthFlowObject().getConfiguration() );
         System.out.println("Password eingegangen : " + oAuthFlowsObject.getPassword().getOAuthFlowObject().getTokenUrl() );
         System.out.println("Password eingegangen : " + oAuthFlowsObject.getPassword().getOAuthFlowObject().getRefreshUrl() );
@@ -825,7 +795,7 @@ public static OAuthFlows OAuthFlowsObject.composeOAuthFlows (OAuthFlowsObject oA
         return oAuthFlows;
         }
 
-public static OAuthFlow OAuthFlowObject.composeOAuthFlow (OAuthFlowObject oAuthFlowObject){
+public static OAuthFlow OAuthFlowObject.composeOAuthFlow (OAuthFlowObject oAuthFlowObject, Map<Object, ASTNode> map){
         OAuthFlow oAuthFlow = new OAuthFlow();
         Map<String, String> scopes = new HashMap<>();
 
@@ -843,7 +813,7 @@ public static OAuthFlow OAuthFlowObject.composeOAuthFlow (OAuthFlowObject oAuthF
         return oAuthFlow;
         }
 
-public static SecurityRequirement SecurityRequirementObject.composeSecurityRequirement (SecurityRequirementObject securityRequirementObject){
+public static SecurityRequirement SecurityRequirementObject.composeSecurityRequirement (SecurityRequirementObject securityRequirementObject, Map<Object, ASTNode> map){
         SecurityRequirement securityRequirement = new SecurityRequirement();
 
         if( securityRequirementObject.getNumSecurityRequirementTuple() != 0 ){

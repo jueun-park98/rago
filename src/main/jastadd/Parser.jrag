@@ -1,43 +1,47 @@
+import org.openapi4j.core.exception.DecodeException;
+
 aspect Parser {
 
-public static OpenAPIObject OpenAPIObject.parseOpenAPI(OpenApi3 api) throws IOException, ResolutionException, ValidationException {
+public static OpenAPIObject OpenAPIObject.parseOpenAPI(OpenApi3 api) throws IOException, ResolutionException, ValidationException, DecodeException {
         OpenAPIObject openapi = new OpenAPIObject();
+        Map<Object, ASTNode> map = new HashMap<>();
 
+        if( api.getContext() != null )
+        openapi.setContext(api.getContext());
         if( api.getOpenapi() != null )
         openapi.setOpenAPI(api.getOpenapi());
         if( api.getInfo() != null )
-        openapi.setInfoObject(InfoObject.parseInfo(api.getInfo()));
+        openapi.setInfoObject(InfoObject.parseInfo(api.getInfo(), map));
         if( api.getPaths() != null ){
         for( String key : api.getPaths().keySet() )
-        openapi.addPathsObject(new PathsObject( key, PathItem.parsePath(api.getPath(key))));
+        openapi.addPathsObject(new PathsObject( key, PathItemOb.parsePath(api.getPath(key), api.getContext(), map)));
         }
         if( api.getServers() != null ){
         for( Server s : api.getServers() )
-        openapi.addServerObject(ServerObject.parseServer(s));
+        openapi.addServerObject(ServerObject.parseServer(s, map));
         }
         if( api.getComponents() != null )
-        openapi.setComponentsObject(ComponentsObject.parseComponents(api.getComponents()));
+        openapi.setComponentsObject(ComponentsObject.parseComponents(api.getComponents(), api.getContext(), map));
         if( api.getSecurityRequirements() != null ){
         for( SecurityRequirement s : api.getSecurityRequirements() )
-        openapi.addSecurityRequirementObject(SecurityRequirementObject.parseSecurityRequirement(s));
+        openapi.addSecurityRequirementObject(SecurityRequirementObject.parseSecurityRequirement(s, map));
         }
         if( api.getTags() != null ){
         for( org.openapi4j.parser.model.v3.Tag t : api.getTags() )
-        openapi.addTagObject(TagObject.parseTag(t));
+        openapi.addTagObject(TagObject.parseTag(t, map));
         }
         if( api.getExternalDocs() != null )
-        openapi.setExternalDocObject(ExternalDocObject.parseExternalDocs(api.getExternalDocs()));
-        if( api.getContext() != null )
-        openapi.setContext(api.getContext());
+        openapi.setExternalDocObject(ExternalDocObject.parseExternalDocs(api.getExternalDocs(), map));
         if( api.getExtensions() != null ){
         for( String key : api.getExtensions().keySet() )
         openapi.addExtension(new Extension(key, api.getExtensions().get(key)));
         }
 
+        map.put(api, openapi);
         return openapi;
         }
 
-public static InfoObject InfoObject.parseInfo(Info info) {
+public static InfoObject InfoObject.parseInfo(Info info, Map<Object, ASTNode> map) {
         InfoObject infoObject = new InfoObject();
 
         if( info.getTitle() != null )
@@ -49,18 +53,19 @@ public static InfoObject InfoObject.parseInfo(Info info) {
         if( info.getTermsOfService() != null )
         infoObject.setTermsOfService(info.getTermsOfService());
         if( info.getContact() != null )
-        infoObject.setContactObject(ContactObject.parseContact(info.getContact()));
+        infoObject.setContactObject(ContactObject.parseContact(info.getContact(), map));
         if( info.getLicense() != null )
-        infoObject.setLicenseObject(LicenseObject.parseLicense(info.getLicense()));
+        infoObject.setLicenseObject(LicenseObject.parseLicense(info.getLicense(), map));
         if( info.getExtensions() != null ){
         for( String key : info.getExtensions().keySet() )
         infoObject.addExtension(new Extension(key, info.getExtensions().get(key)));
         }
 
+        map.put(info, infoObject);
         return infoObject;
         }
 
-public static ContactObject ContactObject.parseContact(Contact contact){
+public static ContactObject ContactObject.parseContact(Contact contact, Map<Object, ASTNode> map){
         ContactObject contactObject = new ContactObject();
 
         if( contact.getName() != null )
@@ -74,21 +79,27 @@ public static ContactObject ContactObject.parseContact(Contact contact){
         contactObject.addExtension(new Extension(key, contact.getExtensions().get(key)));
         }
 
+        map.put(contact, contactObject);
         return contactObject;
         }
 
-public static LicenseObject LicenseObject.parseLicense(License license){
+public static LicenseObject LicenseObject.parseLicense(License license, Map<Object, ASTNode> map){
         LicenseObject licenseObject = new LicenseObject();
 
         if( license.getName() != null )
         licenseObject.setName( license.getName() );
         if( license.getUrl() != null )
         licenseObject.setUrl( license.getUrl() );
+        if( license.getExtensions() != null ){
+        for( String key : license.getExtensions().keySet() )
+        licenseObject.addExtension(new Extension(key, license.getExtensions().get(key)));
+        }
 
+        map.put(license, licenseObject);
         return licenseObject;
         }
 
-public static ServerObject ServerObject.parseServer(Server server){
+public static ServerObject ServerObject.parseServer(Server server, Map<Object, ASTNode> map){
         ServerObject serverObject = new ServerObject();
 
         if( server.getUrl() != null )
@@ -97,13 +108,18 @@ public static ServerObject ServerObject.parseServer(Server server){
         serverObject.setDescription(server.getDescription());
         if( server.getVariables() != null ){
         for (String key : server.getVariables().keySet())
-        serverObject.addServerVariablesTuple(new ServerVariablesTuple(key, ServerVariableObject.parseServerVariable(server.getVariable(key))));
+        serverObject.addServerVariablesTuple(new ServerVariablesTuple(key, ServerVariableObject.parseServerVariable(server.getVariable(key), map)));
+        }
+        if( server.getExtensions() != null ){
+        for( String key : server.getExtensions().keySet() )
+        serverObject.addExtension(new Extension(key, server.getExtensions().get(key)));
         }
 
+        map.put(server, serverObject);
         return serverObject;
         }
 
-public static ServerVariableObject ServerVariableObject.parseServerVariable(ServerVariable serverVariable){
+public static ServerVariableObject ServerVariableObject.parseServerVariable(ServerVariable serverVariable, Map<Object, ASTNode> map){
         ServerVariableObject serverVariableObject = new ServerVariableObject();
 
         if( serverVariable.getDefault() != null )
@@ -114,156 +130,79 @@ public static ServerVariableObject ServerVariableObject.parseServerVariable(Serv
         for( String e : serverVariable.getEnums() )
         serverVariableObject.addEnum(new Enum(e));
         }
+        if( serverVariable.getExtensions() != null ){
+        for( String key : serverVariable.getExtensions().keySet() )
+        serverVariableObject.addExtension(new Extension(key, serverVariable.getExtensions().get(key)));
+        }
 
+        map.put(serverVariable, serverVariableObject);
         return serverVariableObject;
         }
 
-public static ComponentsObject ComponentsObject.parseComponents(Components components){
+public static ComponentsObject ComponentsObject.parseComponents(Components components, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         ComponentsObject componentsObject = new ComponentsObject();
 
         if( components.getSchemas() != null ){
         for( String key : components.getSchemas().keySet() ){
         SchemaTuple schemaTuple = new SchemaTuple();
-        if( components.getSchema(key).isRef() ){
-        SchemaObject schemaObject = new SchemaObject();
-        schemaObject.setRef(components.getSchema(key).getRef());
         schemaTuple.setKey(key);
-        schemaTuple.setSchemaObject(schemaObject);
-        componentsObject.addSchemaTuple(schemaTuple);
-        }
-        else{
-        schemaTuple.setKey(key);
-        schemaTuple.setSchemaObject(SchemaObject.parseSchema(components.getSchema(key)));
-        componentsObject.addSchemaTuple(schemaTuple);
-        }
+        schemaTuple.setSchemaOb(SchemaOb.parseSchema(components.getSchema(key), context, map));
         }
         }
         if( components.getResponses() != null ){
         for( String key : components.getResponses().keySet() ){
         ResponseTuple responseTuple = new ResponseTuple();
-        if( components.getResponse(key).isRef() ){
-        ResponseObject responseObject = new ResponseObject();
-        responseObject.setRef(components.getResponse(key).getRef());
         responseTuple.setKey(key);
-        responseTuple.setResponseObject(responseObject);
-        componentsObject.addResponseTuple(responseTuple);
-        }
-        else{
-        responseTuple.setKey(key);
-        responseTuple.setResponseObject(ResponseObject.parseResponse(components.getResponse(key)));
-        componentsObject.addResponseTuple(responseTuple);
-        }
+        responseTuple.setResponseOb(ResponseOb.parseResponse(components.getResponse(key), context, map));
         }
         }
         if( components.getParameters() != null ){
         for( String key : components.getParameters().keySet() ){
         ParameterTuple parameterTuple = new ParameterTuple();
-        if( components.getParameter(key).isRef() ){
-        ParameterObject parameterObject = new ParameterObject();
-        parameterObject.setRef(components.getParameter(key).getRef());
         parameterTuple.setKey(key);
-        parameterTuple.setParameterObject(parameterObject);
-        componentsObject.addParameterTuple(parameterTuple);
-        }
-        else{
-        parameterTuple.setKey(key);
-        parameterTuple.setParameterObject(ParameterObject.parseParameter(components.getParameter(key)));
-        componentsObject.addParameterTuple(parameterTuple);
-        }
+        parameterTuple.setParameterOb(ParameterOb.parseParameter(components.getParameter(key), context, map));
         }
         }
         if( components.getExamples() != null ){
         for( String key : components.getExamples().keySet() ){
         ExampleTuple exampleTuple = new ExampleTuple();
-        ExampleObject exampleObject = new ExampleObject();
         exampleTuple.setKey(key);
-        exampleTuple.setExampleObject(ExampleObject.parseExample(components.getExample(key)));
-        componentsObject.addExampleTuple(exampleTuple);
+        exampleTuple.setExampleObject(ExampleObject.parseExample(components.getExample(key), context, map));
         }
         }
         if( components.getRequestBodies() != null ){
         for( String key : components.getRequestBodies().keySet() ){
         RequestBodyTuple requestBodyTuple = new RequestBodyTuple();
-        if( components.getRequestBody(key).isRef() ){
-        RequestBodyObject requestBodyObject = new RequestBodyObject();
-        requestBodyObject.setRef(components.getRequestBody(key).getRef());
         requestBodyTuple.setKey(key);
-        requestBodyTuple.setRequestBodyObject(requestBodyObject);
-        componentsObject.addRequestBodyTuple(requestBodyTuple);
-        }
-        else{
-        requestBodyTuple.setKey(key);
-        requestBodyTuple.setRequestBodyObject(RequestBodyObject.parseRequestBody(components.getRequestBody(key)));
-        componentsObject.addRequestBodyTuple(requestBodyTuple);
-        }
+        requestBodyTuple.setRequestBodyOb(RequestBodyOb.parseRequestBody(components.getRequestBody(key), context, map));
         }
         }
         if( components.getHeaders() != null ){
         for( String key : components.getHeaders().keySet() ){
         HeaderTuple headerTuple = new HeaderTuple();
-        if( components.getHeader(key).isRef() ){
-        HeaderObject headerObject = new HeaderObject();
-        headerObject.setRef(components.getHeader(key).getRef());
         headerTuple.setKey(key);
-        headerTuple.setHeaderObject(headerObject);
-        componentsObject.addHeaderTuple(headerTuple);
-        }
-        else{
-        headerTuple.setKey(key);
-        headerTuple.setHeaderObject(HeaderObject.parseHeader(components.getHeader(key)));
-        componentsObject.addHeaderTuple(headerTuple);
-        }
+        headerTuple.setHeaderOb(HeaderOb.parseHeader(components.getHeader(key), context, map));
         }
         }
         if( components.getSecuritySchemes() != null ){
         for( String key : components.getSecuritySchemes().keySet() ){
         SecuritySchemeTuple securitySchemeTuple = new SecuritySchemeTuple();
-        if( components.getSecurityScheme(key).isRef() ){
-        SecuritySchemeObject securitySchemeObject = new SecuritySchemeObject();
-        securitySchemeObject.setRef(components.getSecurityScheme(key).getRef());
         securitySchemeTuple.setKey(key);
-        securitySchemeTuple.setSecuritySchemeObject(securitySchemeObject);
-        componentsObject.addSecuritySchemeTuple(securitySchemeTuple);
-        }
-        else{
-        securitySchemeTuple.setKey(key);
-        securitySchemeTuple.setSecuritySchemeObject(SecuritySchemeObject.parseSecurityScheme(components.getSecurityScheme(key)));
-        componentsObject.addSecuritySchemeTuple(securitySchemeTuple);
-        }
+        securitySchemeTuple.setSecuritySchemeOb(SecuritySchemeOb.parseSecurityScheme(components.getSecurityScheme(key), context, map));
         }
         }
         if( components.getLinks() != null ){
         for( String key : components.getLinks().keySet() ){
         LinkTuple linkTuple = new LinkTuple();
-        if( components.getLink(key).isRef() ){
-        LinkObject linkObject = new LinkObject();
-        linkObject.setRef(components.getLink(key).getRef());
         linkTuple.setKey(key);
-        linkTuple.setLinkObject(linkObject);
-        componentsObject.addLinkTuple(linkTuple);
-        }
-        else{
-        linkTuple.setKey(key);
-        linkTuple.setLinkObject(LinkObject.parseLink(components.getLink(key)));
-        componentsObject.addLinkTuple(linkTuple);
-        }
+        linkTuple.setLinkOb(LinkOb.parseLink(components.getLink(key), context, map));
         }
         }
         if( components.getCallbacks() != null ){
         for( String key : components.getCallbacks().keySet() ){
         CallbackTuple callbackTuple = new CallbackTuple();
-        if( components.getCallback(key).isRef() ){
-        CallbackObject callbackObject = new CallbackObject();
-        callbackObject.setRef(components.getCallback(key).getRef());
         callbackTuple.setKey(key);
-        callbackTuple.setCallbackObject(callbackObject);
-        componentsObject.addCallbackTuple(callbackTuple);
-        }
-        else{
-        callbackTuple.setKey(key);
-        callbackTuple.setCallbackObject(CallbackObject.parseCallback(components.getCallback(key)));
-        componentsObject.addCallbackTuple(callbackTuple);
-        }
+        callbackTuple.setCallbackOb(CallbackOb.parseCallback(components.getCallback(key), context, map));
         }
         }
         if( components.getExtensions() != null ){
@@ -271,82 +210,82 @@ public static ComponentsObject ComponentsObject.parseComponents(Components compo
         componentsObject.addExtension(new Extension(key, components.getExtensions().get(key)));
         }
 
+        map.put(components, componentsObject);
         return componentsObject;
         }
 
-public static PathItem PathItemOb.parsePath(Path path){
-        PathItem pathItem = new PathItem();
+public static PathItemOb PathItemOb.parsePath(Path path, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
+        PathItemObject pathItem = new PathItemObject();
 
-        if( path.getRef() != null )
-        pathItem.setRef(path.getRef());
+        if( path.isRef() ){
+        PathItemReference p = new PathItemReference();
+        p.setRef(path.getRef());
+        p.setPathItemOb((PathItemObject) parsePath(path.getReference(context).getMappedContent(Path.class), context, map));
+        return p;
+        } else {
         if( path.getSummary() != null )
         pathItem.setSummary(path.getSummary());
         if( path.getDescription() != null )
         pathItem.setDescription(path.getDescription());
         if( path.getGet() != null ){
         Get get = new Get();
-        get.setOperationObject( OperationObject.parseOperation( path.getGet() ) );
+        get.setOperationObject( OperationObject.parseOperation( path.getGet(), context, map ) );
         pathItem.setGet(get);
         }
         if( path.getPut() != null ){
         Put put = new Put();
-        put.setOperationObject( OperationObject.parseOperation( path.getPut() ) );
+        put.setOperationObject( OperationObject.parseOperation( path.getPut(), context, map ) );
         pathItem.setPut(put);
         }
         if( path.getPost() != null ){
         Post post = new Post();
-        post.setOperationObject( OperationObject.parseOperation( path.getPost() ) );
+        post.setOperationObject( OperationObject.parseOperation( path.getPost(), context, map ) );
         pathItem.setPost(post);
         }
         if( path.getDelete() != null ){
         Delete delete = new Delete();
-        delete.setOperationObject( OperationObject.parseOperation( path.getDelete() ) );
+        delete.setOperationObject( OperationObject.parseOperation( path.getDelete(), context, map ) );
         pathItem.setDelete(delete);
         }
         if( path.getOptions() != null ){
         Options options = new Options();
-        options.setOperationObject( OperationObject.parseOperation( path.getOptions() ) );
+        options.setOperationObject( OperationObject.parseOperation( path.getOptions(), context, map ) );
         pathItem.setOptions(options);
         }
         if( path.getHead() != null ){
         Head head = new Head();
-        head.setOperationObject( OperationObject.parseOperation( path.getHead() ) );
+        head.setOperationObject( OperationObject.parseOperation( path.getHead(), context, map ) );
         pathItem.setHead(head);
         }
         if( path.getPatch() != null ){
         Patch patch = new Patch();
-        patch.setOperationObject( OperationObject.parseOperation( path.getPatch() ) );
+        patch.setOperationObject( OperationObject.parseOperation( path.getPatch(), context, map ) );
         pathItem.setPatch(patch);
         }
         if( path.getTrace() != null ){
         Trace trace = new Trace();
-        trace.setOperationObject( OperationObject.parseOperation( path.getTrace() ) );
+        trace.setOperationObject( OperationObject.parseOperation( path.getTrace(), context, map ) );
         pathItem.setTrace(trace);
         }
         if( path.getServers() != null ){
         for(Server s : path.getServers())
-        pathItem.addServerObject( ServerObject.parseServer(s));
+        pathItem.addServerObject( ServerObject.parseServer(s, map));
         }
         if( path.getParameters() != null ){
-        for(Parameter p : path.getParameters()){
-        if( p.isRef() ) {
-        ParameterObject parameterObject = new ParameterObject();
-        parameterObject.setRef(p.getRef());
-        pathItem.addParameterObject(parameterObject);
-        }
-        else
-        pathItem.addParameterObject(ParameterObject.parseParameter(p));
-        }
+        for(Parameter p : path.getParameters())
+        pathItem.addParameterOb(ParameterOb.parseParameter(p, context, map));
         }
         if( path.getExtensions() != null ){
         for( String key : path.getExtensions().keySet() )
         pathItem.addExtension(new Extension(key, path.getExtensions().get(key)));
         }
+        }
 
+        map.put(path, pathItem);
         return pathItem;
         }
 
-public static OperationObject OperationObject.parseOperation(Operation operation){
+public static OperationObject OperationObject.parseOperation(Operation operation, OAIContext context, Map<Object, ASTNode> map) throws DecodeException{
         OperationObject operationObject = new OperationObject();
 
         if( operation.getDeprecated() != null )
@@ -363,40 +302,41 @@ public static OperationObject OperationObject.parseOperation(Operation operation
         if( operation.getDescription() != null )
         operationObject.setDescription( operation.getDescription() );
         if( operation.getExternalDocs() != null )
-        operationObject.setExternalDocObject(ExternalDocObject.parseExternalDocs(operation.getExternalDocs()));
+        operationObject.setExternalDocObject(ExternalDocObject.parseExternalDocs(operation.getExternalDocs(), map));
         if( operation.getOperationId() != null )
         operationObject.setOperationID( operation.getOperationId() );
         if( operation.getParameters() != null ){
         for( Parameter p : operation.getParameters() )
-        operationObject.addParameterObject(ParameterObject.parseParameter(p));
+        operationObject.addParameterOb(ParameterOb.parseParameter(p, context, map));
         }
         if( operation.getRequestBody() != null )
-        operationObject.setRequestBodyObject( RequestBodyObject.parseRequestBody( operation.getRequestBody() ) );
+        operationObject.setRequestBodyOb( RequestBodyOb.parseRequestBody( operation.getRequestBody(), context, map) );
         if( operation.getResponses() != null ){
         for( String key : operation.getResponses().keySet())
-        operationObject.addResponseTuple(new ResponseTuple(key, ResponseObject.parseResponse(operation.getResponse(key))));
+        operationObject.addResponseTuple(new ResponseTuple(key, ResponseObject.parseResponse(operation.getResponse(key), context, map)));
         }
         if( operation.getCallbacks() != null ){
         for( String key : operation.getCallbacks().keySet() )
-        operationObject.addCallbackTuple(new CallbackTuple(key, CallbackObject.parseCallback(operation.getCallback(key))));
+        operationObject.addCallbackTuple(new CallbackTuple(key, CallbackObject.parseCallback(operation.getCallback(key), context, map)));
         }
         if( operation.getSecurityRequirements() != null ){
         for( SecurityRequirement s : operation.getSecurityRequirements() )
-        operationObject.addSecurityRequirementObject(SecurityRequirementObject.parseSecurityRequirement(s));
+        operationObject.addSecurityRequirementObject(SecurityRequirementObject.parseSecurityRequirement(s, map));
         }
         if( operation.getServers() != null ){
         for( Server s : operation.getServers() )
-        operationObject.addServerObject(ServerObject.parseServer(s));
+        operationObject.addServerObject(ServerObject.parseServer(s, map));
         }
         if( operation.getExtensions() != null ) {
         for( String key : operation.getExtensions().keySet() )
         operationObject.addExtension(new Extension(key, operation.getExtensions().get(key)));
         }
 
+        map.put(operation, operationObject);
         return operationObject;
         }
 
-public static ExternalDocObject ExternalDocObject.parseExternalDocs(ExternalDocs externalDocs){
+public static ExternalDocObject ExternalDocObject.parseExternalDocs(ExternalDocs externalDocs, Map<Object, ASTNode> map){
         ExternalDocObject externalDocObject = new ExternalDocObject();
 
 
@@ -409,14 +349,19 @@ public static ExternalDocObject ExternalDocObject.parseExternalDocs(ExternalDocs
         externalDocObject.addExtension(new Extension(key, externalDocs.getExtensions().get(key)));
         }
 
+        map.put(externalDocs, externalDocObject);
         return externalDocObject;
         }
 
-public static ParameterObject ParameterOb.parseParameter(Parameter parameter){
+public static ParameterOb ParameterOb.parseParameter(Parameter parameter, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         ParameterObject parameterObject = new ParameterObject();
 
-        if( parameter.isRef() )
-        parameterObject.setRef(parameter.getRef());
+        if( parameter.isRef() ){
+        ParameterReference p = new ParameterReference();
+        p.setRef(parameter.getRef());
+        p.setParameterOb(parseParameter(parameter.getReference(context).getMappedContent(Parameter.class), context, map));
+        return p;
+        } else {
         if( parameter.getName() != null )
         parameterObject.setName(parameter.getName());
         if( parameter.getIn() != null )
@@ -432,71 +377,88 @@ public static ParameterObject ParameterOb.parseParameter(Parameter parameter){
         if( parameter.getAllowReserved() != null )
         parameterObject.setAllowReserved( parameter.getAllowReserved() );
         if( parameter.getSchema() != null )
-        parameterObject.setSchemaObject(SchemaObject.parseSchema(parameter.getSchema()));
+        parameterObject.setSchemaOb(SchemaOb.parseSchema(parameter.getSchema(), context, map));
         if( parameter.getExample() != null )
         parameterObject.setExample( parameter.getExample() );
         if( parameter.getExamples() != null ){
         for( String key : parameter.getExamples().keySet() )
-        parameterObject.addExampleTuple(new ExampleTuple(key, ExampleObject.parseExample(parameter.getExample(key))));
+        parameterObject.addExampleTuple(new ExampleTuple(key, ExampleObject.parseExample(parameter.getExample(key), context, map)));
         }
         if( parameter.getContentMediaTypes() != null ){
         for( String key : parameter.getContentMediaTypes().keySet() )
-        parameterObject.addContentTuple(new ContentTuple(key, MediaTypeObject.parseMediaType(parameter.getContentMediaType(key))));
+        parameterObject.addContentTuple(new ContentTuple(key, MediaTypeObject.parseMediaType(parameter.getContentMediaType(key), context, map)));
         }
         if( parameter.getRequired() != null )
-            parameterObject.setRequired(parameter.getRequired());
+        parameterObject.setRequired(parameter.getRequired());
         if( parameter.getExtensions() != null ){
         for( String key : parameter.getExtensions().keySet() )
         parameterObject.addExtension(new Extension(key, parameter.getExtensions().get(key)));
         }
+        }
 
+        map.put(parameter, parameterObject);
         return parameterObject;
         }
 
-public static RequestBodyObject RequestBodyOb.parseRequestBody(org.openapi4j.parser.model.v3.RequestBody requestBody){
+public static RequestBodyOb RequestBodyOb.parseRequestBody(org.openapi4j.parser.model.v3.RequestBody requestBody, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         RequestBodyObject requestBodyObject = new RequestBodyObject();
 
+        if( requestBody.isRef() ){
+        RequestBodyReference r = new RequestBodyReference();
+        r.setRef(requestBody.getRef());
+        r.setRequestBodyOb(parseRequestBody(requestBody.getReference(context).getMappedContent(RequestBody.class), context, map));
+        return r;
+        } else {
         if( requestBody.getContentMediaTypes() != null ) {
         for (String key : requestBody.getContentMediaTypes().keySet())
-        requestBodyObject.addContentTuple(new ContentTuple(key, MediaTypeObject.parseMediaType(requestBody.getContentMediaType(key))));
+        requestBodyObject.addContentTuple(new ContentTuple(key, MediaTypeObject.parseMediaType(requestBody.getContentMediaType(key), context, map)));
         }
         if( requestBody.getDescription() != null )
         requestBodyObject.setDescription(requestBody.getDescription());
         if( requestBody.getRequired() != null )
         requestBodyObject.setRequired( requestBody.getRequired() );
-        if( requestBody.isRef() )
-        requestBodyObject.setRef(requestBody.getRef());
+        if( requestBody.getExtensions() != null ){
+        for( String key : requestBody.getExtensions().keySet() )
+        requestBodyObject.addExtension(new Extension(key, requestBody.getExtensions().get(key)));
+        }
+        }
 
+        map.put(requestBody, requestBodyObject);
         return requestBodyObject;
         }
 
-public static MediaTypeObject MediaTypeObject.parseMediaType(MediaType mediaType){
+public static MediaTypeObject MediaTypeObject.parseMediaType(MediaType mediaType, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         MediaTypeObject mediaTypeObject = new MediaTypeObject();
 
         if( mediaType.getSchema() != null )
-        mediaTypeObject.setSchemaObject(SchemaObject.parseSchema(mediaType.getSchema()));
+        mediaTypeObject.setSchemaOb(SchemaObject.parseSchema(mediaType.getSchema(), context, map));
         if( mediaType.getExample() != null )
         mediaTypeObject.setExample(mediaType.getExample());
         if( mediaType.getExamples() != null ){
         for( String key : mediaType.getExamples().keySet() )
-        mediaTypeObject.addExampleTuple(new ExampleTuple(key, ExampleObject.parseExample(mediaType.getExample(key))));
+        mediaTypeObject.addExampleTuple(new ExampleTuple(key, ExampleObject.parseExample(mediaType.getExample(key), context, map)));
         }
         if( mediaType.getEncodings() != null ){
         for( String key : mediaType.getEncodings().keySet() )
-        mediaTypeObject.addEncodingTuple(new EncodingTuple(key, EncodingObject.parseEncoding(mediaType.getEncoding(key))));
+        mediaTypeObject.addEncodingTuple(new EncodingTuple(key, EncodingObject.parseEncoding(mediaType.getEncoding(key), context, map)));
+        }
+        if( mediaType.getExtensions() != null ){
+        for( String key : mediaType.getExtensions().keySet() )
+        mediaTypeObject.addExtension(new Extension(key, mediaType.getExtensions().get(key)));
         }
 
+        map.put(mediaType, mediaTypeObject);
         return mediaTypeObject;
         }
 
-public static EncodingObject EncodingObject.parseEncoding(EncodingProperty encodingProperty){
+public static EncodingObject EncodingObject.parseEncoding(EncodingProperty encodingProperty, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         EncodingObject encodingObject = new EncodingObject();
 
         if( encodingProperty.getContentType() != null )
         encodingObject.setContentType( encodingProperty.getContentType() );
         if( encodingProperty.getHeaders() != null ){
         for( String key : encodingProperty.getHeaders().keySet() )
-        encodingObject.addHeaderTuple(new HeaderTuple(key, HeaderObject.parseHeader(encodingProperty.getHeader(key))));
+        encodingObject.addHeaderTuple(new HeaderTuple(key, HeaderObject.parseHeader(encodingProperty.getHeader(key), context, map)));
         }
         if( encodingProperty.getStyle() != null )
         encodingObject.setStyle( encodingProperty.getStyle() );
@@ -507,44 +469,67 @@ public static EncodingObject EncodingObject.parseEncoding(EncodingProperty encod
         encodingObject.addExtension(new Extension(key, encodingProperty.getExtensions().get(key)));
         }
 
+        map.put(encodingProperty, encodingObject);
         return encodingObject;
         }
 
-public static ResponseObject ResponseOb.parseResponse(Response response){
+public static ResponseOb ResponseOb.parseResponse(Response response, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         ResponseObject responseObject = new ResponseObject();
 
-        if( response.isRef() )
-        responseObject.setRef(response.getRef());
+        if( response.isRef() ){
+        ResponseReference r = new ResponseReference();
+        r.setRef(response.getRef());
+        r.setResponseOb(parseResponse(response.getReference(context).getMappedContent(Response.class), context, map));
+        return r;
+        } else {
         if( response.getDescription() != null )
         responseObject.setDescription(response.getDescription());
         if( response.getHeaders() != null ){
         for( String key : response.getHeaders().keySet() )
-        responseObject.addHeaderTuple( new HeaderTuple(key, HeaderObject.parseHeader(response.getHeader(key))) );
+        responseObject.addHeaderTuple( new HeaderTuple(key, HeaderObject.parseHeader(response.getHeader(key), context, map)) );
         }
         if( response.getContentMediaTypes() != null ){
         for( String key : response.getContentMediaTypes().keySet() )
-        responseObject.addContentTuple( new ContentTuple(key, MediaTypeObject.parseMediaType(response.getContentMediaType(key))) );
+        responseObject.addContentTuple( new ContentTuple(key, MediaTypeObject.parseMediaType(response.getContentMediaType(key), context, map)) );
         }
         if( response.getLinks() != null ){
         for( String key : response.getLinks().keySet() )
-        responseObject.addLinkTuple( new LinkTuple(key, LinkObject.parseLink(response.getLink(key))) );
+        responseObject.addLinkTuple( new LinkTuple(key, LinkOb.parseLink(response.getLink(key), context, map)) );
+        }
+        if( response.getExtensions() != null ){
+        for( String key : response.getExtensions().keySet() )
+        responseObject.addExtension(new Extension(key, response.getExtensions().get(key)));
+        }
         }
 
+        map.put(response, responseObject);
         return responseObject;
         }
 
-public static CallbackObject CallbackOb.parseCallback(Callback callback){
+public static CallbackOb CallbackOb.parseCallback(Callback callback, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         CallbackObject callbackObject = new CallbackObject();
 
+        if( callback.isRef() ){
+        CallbackReference c = new CallbackReference();
+        c.setRef(callback.getRef());
+        c.setCallbackOb(parseCallback(callback.getReference(context).getMappedContent(Callback.class), context, map));
+        return c;
+        } else {
         if( callback.getCallbackPaths() != null ){
         for( String key : callback.getCallbackPaths().keySet() )
-        callbackObject.addExpression(new Expression(key, PathItem.parsePath(callback.getCallbackPath(key))));
+        callbackObject.addExpression(new Expression(key, PathItemOb.parsePath(callback.getCallbackPath(key), context, map)));
+        }
+        if( callback.getExtensions() != null ){
+        for( String key : callback.getExtensions().keySet() )
+        callbackObject.addExtension(new Extension(key, callback.getExtensions().get(key)));
+        }
         }
 
+        map.put(callback, callbackObject);
         return callbackObject;
         }
 
-public static ExampleObject ExampleOb.parseExample(Example example){
+public static ExampleObject ExampleObject.parseExample(Example example, OAIContext context, Map<Object, ASTNode> map){
         ExampleObject exampleObject = new ExampleObject();
 
         if( example.getSummary() != null )
@@ -559,15 +544,25 @@ public static ExampleObject ExampleOb.parseExample(Example example){
         for( String key : example.getExtensions().keySet() )
         exampleObject.addExtension(new Extension(key, example.getExtensions().get(key)));
         }
+        if( example.getExtensions() != null ){
+        for( String key : example.getExtensions().keySet() )
+        exampleObject.addExtension(new Extension(key, example.getExtensions().get(key)));
+        }
 
+
+        map.put(example, exampleObject);
         return exampleObject;
         }
 
-public static LinkObject LinkOb.parseLink(Link link){
+public static LinkOb LinkOb.parseLink(Link link, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         LinkObject linkObject = new LinkObject();
 
-        if( link.isRef() )
-        linkObject.setRef(link.getRef());
+        if( link.isRef() ){
+        LinkReference l = new LinkReference();
+        l.setRef(link.getRef());
+        l.setLinkOb(parseLink(link.getReference(context).getMappedContent(Link.class), context, map));
+        return l;
+        } else {
         if( link.getOperationRef() != null )
         linkObject.setOperationRef( link.getOperationRef() );
         if( link.getOperationId() != null )
@@ -579,16 +574,26 @@ public static LinkObject LinkOb.parseLink(Link link){
         if( link.getDescription() != null )
         linkObject.setDescription( link.getDescription() );
         if( link.getServer() != null )
-        linkObject.setServerObject( ServerObject.parseServer(link.getServer()) );
+        linkObject.setServerObject( ServerObject.parseServer(link.getServer(), map) );
+        if( link.getExtensions() != null ){
+        for( String key : link.getExtensions().keySet() )
+        linkObject.addExtension(new Extension(key, link.getExtensions().get(key)));
+        }
+        }
 
+        map.put(link, linkObject);
         return linkObject;
         }
 
-public static HeaderObject HeaderOb.parseHeader(Header header){
+public static HeaderOb HeaderOb.parseHeader(Header header, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         HeaderObject headerObject = new HeaderObject();
 
-        if( header.isRef() )
-        headerObject.setRef(header.getRef());
+        if( header.isRef() ){
+        HeaderReference h = new HeaderReference();
+        h.setRef(header.getRef());
+        h.setHeaderOb(parseHeader(header.getReference(context).getMappedContent(Header.class), context, map));
+        return h;
+        } else {
         if( header.getRequired() != null )
         headerObject.setRequired( header.getRequired() );
         if( header.getDescription() != null )
@@ -605,19 +610,25 @@ public static HeaderObject HeaderOb.parseHeader(Header header){
         headerObject.setExample( header.getExample() );
         if( header.getExamples() != null ){
         for( String key : header.getExamples().keySet() )
-        headerObject.addExampleTuple(new ExampleTuple(key, ExampleObject.parseExample(header.getExample(key))));
+        headerObject.addExampleTuple(new ExampleTuple(key, ExampleObject.parseExample(header.getExample(key), context, map)));
         }
         if( header.getContentMediaTypes() != null ){
         for( String key : header.getContentMediaTypes().keySet() )
-        headerObject.addContentTuple(new ContentTuple(key, MediaTypeObject.parseMediaType(header.getContentMediaType(key))));
+        headerObject.addContentTuple(new ContentTuple(key, MediaTypeObject.parseMediaType(header.getContentMediaType(key), context, map)));
         }
         if( header.getSchema() != null )
-            headerObject.setSchemaObject(SchemaObject.parseSchema(header.getSchema()));
+        headerObject.setSchemaOb(SchemaOb.parseSchema(header.getSchema(), context, map));
+        if( header.getExtensions() != null ){
+        for( String key : header.getExtensions().keySet() )
+        headerObject.addExtension(new Extension(key, header.getExtensions().get(key)));
+        }
+        }
 
+        map.put(header, headerObject);
         return headerObject;
         }
 
-public static TagObject TagObject.parseTag(org.openapi4j.parser.model.v3.Tag tag){
+public static TagObject TagObject.parseTag(org.openapi4j.parser.model.v3.Tag tag, Map<Object, ASTNode> map){
         TagObject tagObject = new TagObject();
 
         tagObject.setName( tag.getName() );
@@ -625,22 +636,31 @@ public static TagObject TagObject.parseTag(org.openapi4j.parser.model.v3.Tag tag
         if( tag.getDescription() != null )
         tagObject.setDescription( tag.getDescription() );
         if( tag.getExternalDocs() != null )
-        tagObject.setExternalDocObject( ExternalDocObject.parseExternalDocs(tag.getExternalDocs()) );
+        tagObject.setExternalDocObject( ExternalDocObject.parseExternalDocs(tag.getExternalDocs(), map) );
+        if( tag.getExtensions() != null ){
+        for( String key : tag.getExtensions().keySet() )
+        tagObject.addExtension(new Extension(key, tag.getExtensions().get(key)));
+        }
         if( tag.getExtensions() != null ){
         for( String key : tag.getExtensions().keySet() )
         tagObject.addExtension(new Extension(key, tag.getExtensions().get(key)));
         }
 
+        map.put(tag, tagObject);
         return tagObject;
         }
 
-public static SchemaObject SchemaOb.parseSchema (org.openapi4j.parser.model.v3.Schema schema) {
+public static SchemaOb SchemaOb.parseSchema (org.openapi4j.parser.model.v3.Schema schema, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         SchemaObject schemaObject = new SchemaObject();
 
-        if( schema.isRef() )
-        schemaObject.setRef(schema.getRef());
+        if( schema.isRef() ){
+        SchemaReference s = new SchemaReference();
+        s.setRef(schema.getRef());
+        s.setSchemaOb(parseSchema(schema.getReference(context).getMappedContent(Schema.class), context, map));
+        return s;
+        } else {
         if( schema.getAdditionalProperties() != null )
-        schemaObject.setAdditionalProperties(parseSchema(schema.getAdditionalProperties()));
+        schemaObject.setAdditionalProperties(parseSchema(schema.getAdditionalProperties(), context, map));
         if( schema.getAdditionalProperties() == null && schema.getAdditionalPropertiesAllowed() != null )
         schemaObject.setAdditionalPropertiesAllowed(schema.getAdditionalPropertiesAllowed());
         if( schema.getDefault() != null )
@@ -650,7 +670,7 @@ public static SchemaObject SchemaOb.parseSchema (org.openapi4j.parser.model.v3.S
         if( schema.getDeprecated() != null )
         schemaObject.setDeprecatedBoolean(schema.getDeprecated());
         if( schema.getDiscriminator() != null )
-        schemaObject.setDiscriminatorObject(DiscriminatorObject.parseDiscriminator(schema.getDiscriminator()));
+        schemaObject.setDiscriminatorObject(DiscriminatorObject.parseDiscriminator(schema.getDiscriminator(), map));
         if( schema.getEnums() != null ){
         for( Object o : schema.getEnums() ){
         EnumObj enumObj = new EnumObj();
@@ -665,12 +685,12 @@ public static SchemaObject SchemaOb.parseSchema (org.openapi4j.parser.model.v3.S
         if( schema.getExclusiveMinimum() != null )
         schemaObject.setExclusiveMinimum(schema.getExclusiveMinimum());
         if( schema.getExternalDocs() != null )
-        schemaObject.setExternalDocObject(ExternalDocObject.parseExternalDocs(schema.getExternalDocs()));
+        schemaObject.setExternalDocObject(ExternalDocObject.parseExternalDocs(schema.getExternalDocs(), map));
         if( schema.getFormat() != null )
         schemaObject.setFormat(schema.getFormat());
         if( schema.getItemsSchema() != null ){
         ItemsSchema itemsSchema = new ItemsSchema();
-        itemsSchema.setSchemaObject(parseSchema(schema.getItemsSchema()));
+        itemsSchema.setSchemaOb(parseSchema(schema.getItemsSchema(), context, map));
         schemaObject.setItemsSchema(itemsSchema);
         }
         if( schema.getMaximum() != null )
@@ -693,7 +713,7 @@ public static SchemaObject SchemaOb.parseSchema (org.openapi4j.parser.model.v3.S
         schemaObject.setMultipleOf(schema.getMultipleOf());
         if( schema.getNotSchema() != null ){
         NotSchema notSchema = new NotSchema();
-        notSchema.setSchemaObject(parseSchema(schema.getNotSchema()));
+        notSchema.setSchemaOb(parseSchema(schema.getNotSchema(), context, map));
         schemaObject.setNotSchema(notSchema);
         }
         if( schema.getNullable() != null )
@@ -703,7 +723,7 @@ public static SchemaObject SchemaOb.parseSchema (org.openapi4j.parser.model.v3.S
         if( schema.getProperties() != null  ){
         for( String key : schema.getProperties().keySet() ){
         PropertyItem propertyItem = new PropertyItem();
-        schemaObject.addPropertyItem(new PropertyItem(key, parseSchema(schema.getProperty(key))));
+        schemaObject.addPropertyItem(new PropertyItem(key, parseSchema(schema.getProperty(key), context, map)));
         }
         }
         if( schema.getRequiredFields() != null ){
@@ -716,21 +736,21 @@ public static SchemaObject SchemaOb.parseSchema (org.openapi4j.parser.model.v3.S
         if( schema.getAllOfSchemas() != null ){
         for(org.openapi4j.parser.model.v3.Schema schemaItem : schema.getAllOfSchemas()){
         AllOfSchema allOfSchema = new AllOfSchema();
-        allOfSchema.setSchemaObject(parseSchema(schemaItem));
+        allOfSchema.setSchemaOb(parseSchema(schemaItem, context, map));
         schemaObject.addAllOfSchema(allOfSchema);
         }
         }
         if( schema.getAnyOfSchemas() != null ){
         for(org.openapi4j.parser.model.v3.Schema schemaItem : schema.getAnyOfSchemas()){
         AnyOfSchema anyOfSchema = new AnyOfSchema();
-        anyOfSchema.setSchemaObject(parseSchema(schemaItem));
+        anyOfSchema.setSchemaOb(parseSchema(schemaItem, context, map));
         schemaObject.addAnyOfSchema(anyOfSchema);
         }
         }
         if( schema.getOneOfSchemas() != null ){
         for(org.openapi4j.parser.model.v3.Schema schemaItem : schema.getOneOfSchemas()){
         OneOfSchema oneOfSchema = new OneOfSchema();
-        oneOfSchema.setSchemaObject(parseSchema(schemaItem));
+        oneOfSchema.setSchemaOb(parseSchema(schemaItem, context, map));
         schemaObject.addOneOfSchema(oneOfSchema);
         }
         }
@@ -745,16 +765,130 @@ public static SchemaObject SchemaOb.parseSchema (org.openapi4j.parser.model.v3.S
         if( schema.getUniqueItems() != null )
         schemaObject.setUniqueItems(schema.getUniqueItems());
         if( schema.getXml() != null )
-        schemaObject.setXmlObject(XmlObject.parseXml(schema.getXml()));
+        schemaObject.setXmlObject(XmlObject.parseXml(schema.getXml(), map));
+        if( schema.getExtensions() != null ){
+        for( String key : schema.getExtensions().keySet() )
+        schemaObject.addExtension(new Extension(key, schema.getExtensions().get(key)));
+        }
+        }
+
+        if( schema.getAdditionalProperties() != null )
+        schemaObject.setAdditionalProperties(parseSchema(schema.getAdditionalProperties(), context, map));
+        if( schema.getAdditionalProperties() == null && schema.getAdditionalPropertiesAllowed() != null )
+        schemaObject.setAdditionalPropertiesAllowed(schema.getAdditionalPropertiesAllowed());
+        if( schema.getDefault() != null )
+        schemaObject.setDefaultValue(schema.getDefault());
+        if( schema.getDescription() != null )
+        schemaObject.setDescription(schema.getDescription());
+        if( schema.getDeprecated() != null )
+        schemaObject.setDeprecatedBoolean(schema.getDeprecated());
+        if( schema.getDiscriminator() != null )
+        schemaObject.setDiscriminatorObject(DiscriminatorObject.parseDiscriminator(schema.getDiscriminator(), map));
+        if( schema.getEnums() != null ){
+        for( Object o : schema.getEnums() ){
+        EnumObj enumObj = new EnumObj();
+        enumObj.setEnumOb(o);
+        schemaObject.addEnumObj(enumObj);
+        }
+        }
+        if( schema.getExample() != null )
+        schemaObject.setExample(schema.getExample());
+        if( schema.getExclusiveMaximum() != null )
+        schemaObject.setExclusiveMaximum(schema.getExclusiveMaximum());
+        if( schema.getExclusiveMinimum() != null )
+        schemaObject.setExclusiveMinimum(schema.getExclusiveMinimum());
+        if( schema.getExternalDocs() != null )
+        schemaObject.setExternalDocObject(ExternalDocObject.parseExternalDocs(schema.getExternalDocs(), map));
+        if( schema.getFormat() != null )
+        schemaObject.setFormat(schema.getFormat());
+        if( schema.getItemsSchema() != null ){
+        ItemsSchema itemsSchema = new ItemsSchema();
+        itemsSchema.setSchemaOb(parseSchema(schema.getItemsSchema(), context, map));
+        schemaObject.setItemsSchema(itemsSchema);
+        }
+        if( schema.getMaximum() != null )
+        schemaObject.setMaximum(schema.getMaximum());
+        if( schema.getMinimum() != null )
+        schemaObject.setMinimum(schema.getMinimum());
+        if( schema.getMaxItems() != null )
+        schemaObject.setMaxItems(schema.getMaxItems());
+        if( schema.getMinItems() != null )
+        schemaObject.setMinItems(schema.getMinItems());
+        if( schema.getMaxLength() != null )
+        schemaObject.setMaxLength(schema.getMaxLength());
+        if( schema.getMinLength() != null )
+        schemaObject.setMinLength(schema.getMinLength());
+        if( schema.getMaxProperties() != null )
+        schemaObject.setMaxProperties(schema.getMaxProperties());
+        if( schema.getMinProperties() != null )
+        schemaObject.setMinProperties(schema.getMinProperties());
+        if( schema.getMultipleOf() != null )
+        schemaObject.setMultipleOf(schema.getMultipleOf());
+        if( schema.getNotSchema() != null ){
+        NotSchema notSchema = new NotSchema();
+        notSchema.setSchemaOb(parseSchema(schema.getNotSchema(), context, map));
+        schemaObject.setNotSchema(notSchema);
+        }
+        if( schema.getNullable() != null )
+        schemaObject.setNullable(schema.getNullable());
+        if( schema.getPattern() != null )
+        schemaObject.setPattern(schema.getPattern());
+        if( schema.getProperties() != null  ){
+        for( String key : schema.getProperties().keySet() ){
+        PropertyItem propertyItem = new PropertyItem();
+        schemaObject.addPropertyItem(new PropertyItem(key, parseSchema(schema.getProperty(key), context, map)));
+        }
+        }
+        if( schema.getRequiredFields() != null ){
+        for( String s : schema.getRequiredFields() ){
+        RequiredField requiredField = new RequiredField();
+        requiredField.setValue(s);
+        schemaObject.addRequiredField(requiredField);
+        }
+        }
+        if( schema.getAllOfSchemas() != null ){
+        for(org.openapi4j.parser.model.v3.Schema schemaItem : schema.getAllOfSchemas()){
+        AllOfSchema allOfSchema = new AllOfSchema();
+        allOfSchema.setSchemaOb(parseSchema(schemaItem, context, map));
+        schemaObject.addAllOfSchema(allOfSchema);
+        }
+        }
+        if( schema.getAnyOfSchemas() != null ){
+        for(org.openapi4j.parser.model.v3.Schema schemaItem : schema.getAnyOfSchemas()){
+        AnyOfSchema anyOfSchema = new AnyOfSchema();
+        anyOfSchema.setSchemaOb(parseSchema(schemaItem, context, map));
+        schemaObject.addAnyOfSchema(anyOfSchema);
+        }
+        }
+        if( schema.getOneOfSchemas() != null ){
+        for(org.openapi4j.parser.model.v3.Schema schemaItem : schema.getOneOfSchemas()){
+        OneOfSchema oneOfSchema = new OneOfSchema();
+        oneOfSchema.setSchemaOb(parseSchema(schemaItem, context, map));
+        schemaObject.addOneOfSchema(oneOfSchema);
+        }
+        }
+        if( schema.getReadOnly() != null )
+        schemaObject.setReadOnly(schema.getReadOnly());
+        if( schema.getWriteOnly() != null )
+        schemaObject.setWriteOnly(schema.getWriteOnly());
+        if( schema.getType() != null )
+        schemaObject.setType(schema.getType());
+        if( schema.getTitle() != null )
+        schemaObject.setTitle(schema.getTitle());
+        if( schema.getUniqueItems() != null )
+        schemaObject.setUniqueItems(schema.getUniqueItems());
+        if( schema.getXml() != null )
+        schemaObject.setXmlObject(XmlObject.parseXml(schema.getXml(), map));
         if( schema.getExtensions() != null ){
         for( String key : schema.getExtensions().keySet() )
         schemaObject.addExtension(new Extension(key, schema.getExtensions().get(key)));
         }
 
+        map.put(schema, schemaObject);
         return schemaObject;
         }
 
-public static DiscriminatorObject DiscriminatorObject.parseDiscriminator (Discriminator discriminator) {
+public static DiscriminatorObject DiscriminatorObject.parseDiscriminator (Discriminator discriminator, Map<Object, ASTNode> map) {
         DiscriminatorObject discriminatorObject = new DiscriminatorObject();
 
         if( discriminator.getPropertyName() != null )
@@ -767,11 +901,12 @@ public static DiscriminatorObject DiscriminatorObject.parseDiscriminator (Discri
         discriminatorObject.addMappingTuple(mapping);
         }
         }
+        map.put(discriminator, discriminatorObject);
 
         return discriminatorObject;
         }
 
-public static XmlObject XmlObject.parseXml (Xml xml) {
+public static XmlObject XmlObject.parseXml (Xml xml, Map<Object, ASTNode> map) {
         XmlObject xmlObject = new XmlObject();
 
         if( xml.getName() != null )
@@ -784,11 +919,16 @@ public static XmlObject XmlObject.parseXml (Xml xml) {
         xmlObject.setAttribute(xml.getAttribute());
         if( xml.getWrapped() != null )
         xmlObject.setWrapped(xml.getWrapped());
+        map.put(xml, xmlObject);
+        if( xml.getExtensions() != null ){
+        for( String key : xml.getExtensions().keySet() )
+        xmlObject.addExtension(new Extension(key, xml.getExtensions().get(key)));
+        }
 
         return xmlObject;
         }
 
-public static SecuritySchemeObject SecuritySchemeOb.parseSecurityScheme(SecurityScheme securityScheme){
+public static SecuritySchemeOb SecuritySchemeOb.parseSecurityScheme(SecurityScheme securityScheme, OAIContext context, Map<Object, ASTNode> map){
         SecuritySchemeObject securitySchemeObject = new SecuritySchemeObject();
 
         if( securityScheme.getType() != null )
@@ -802,7 +942,7 @@ public static SecuritySchemeObject SecuritySchemeOb.parseSecurityScheme(Security
         if( securityScheme.getOpenIdConnectUrl() != null )
         securitySchemeObject.setOpenIdConnectUrl(securityScheme.getOpenIdConnectUrl());
         if( securityScheme.getFlows() != null )
-        securitySchemeObject.setOAuthFlowsObject( OAuthFlowsObject.parseOAuthFlows(securityScheme.getFlows()) );
+        securitySchemeObject.setOAuthFlowsObject( OAuthFlowsObject.parseOAuthFlows(securityScheme.getFlows(), map) );
         if( securityScheme.getDescription() != null )
         securitySchemeObject.setDescription( securityScheme.getDescription() );
         if( securityScheme.getBearerFormat() != null )
@@ -812,10 +952,11 @@ public static SecuritySchemeObject SecuritySchemeOb.parseSecurityScheme(Security
         securitySchemeObject.addExtension(new Extension(key, securityScheme.getExtensions().get(key)));
         }
 
+        map.put(securityScheme, securitySchemeObject);
         return securitySchemeObject;
         }
 
-public static OAuthFlowsObject OAuthFlowsObject.parseOAuthFlows(OAuthFlows oAuthFlows){
+public static OAuthFlowsObject OAuthFlowsObject.parseOAuthFlows(OAuthFlows oAuthFlows, Map<Object, ASTNode> map){
         OAuthFlowsObject oAuthFlowsObject = new OAuthFlowsObject();
         Implicit implicit = new Implicit();
         Password password = new Password();
@@ -823,26 +964,31 @@ public static OAuthFlowsObject OAuthFlowsObject.parseOAuthFlows(OAuthFlows oAuth
         AuthorizationCode authorizationCode = new AuthorizationCode();
 
         if( oAuthFlows.getImplicit() != null ){
-        implicit.setOAuthFlowObject( OAuthFlowObject.parseOAuthFlow(oAuthFlows.getImplicit()) );
+        implicit.setOAuthFlowObject( OAuthFlowObject.parseOAuthFlow(oAuthFlows.getImplicit(), map) );
         oAuthFlowsObject.setImplicit(implicit);
         }
         if( oAuthFlows.getPassword() != null ){
-            password.setOAuthFlowObject(OAuthFlowObject.parseOAuthFlow(oAuthFlows.getPassword()));
-            oAuthFlowsObject.setPassword(password);
+        password.setOAuthFlowObject(OAuthFlowObject.parseOAuthFlow(oAuthFlows.getPassword(), map));
+        oAuthFlowsObject.setPassword(password);
         }
         if( oAuthFlows.getClientCredentials() != null ){
-        clientCredentials.setOAuthFlowObject(OAuthFlowObject.parseOAuthFlow(oAuthFlows.getClientCredentials()));
+        clientCredentials.setOAuthFlowObject(OAuthFlowObject.parseOAuthFlow(oAuthFlows.getClientCredentials(), map));
         oAuthFlowsObject.setClientCredentials(clientCredentials);
         }
         if( oAuthFlows.getAuthorizationCode() != null ){
-        authorizationCode.setOAuthFlowObject(OAuthFlowObject.parseOAuthFlow(oAuthFlows.getAuthorizationCode()));
+        authorizationCode.setOAuthFlowObject(OAuthFlowObject.parseOAuthFlow(oAuthFlows.getAuthorizationCode(), map));
         oAuthFlowsObject.setAuthorizationCode(authorizationCode);
         }
+        if( oAuthFlows.getExtensions() != null ){
+        for( String key : oAuthFlows.getExtensions().keySet() )
+        oAuthFlowsObject.addExtension(new Extension(key, oAuthFlows.getExtensions().get(key)));
+        }
 
+        map.put(oAuthFlows, oAuthFlowsObject);
         return oAuthFlowsObject;
         }
 
-public static OAuthFlowObject OAuthFlowObject.parseOAuthFlow(OAuthFlow oAuthFlow){
+public static OAuthFlowObject OAuthFlowObject.parseOAuthFlow(OAuthFlow oAuthFlow, Map<Object, ASTNode> map){
         OAuthFlowObject oAuthFlowObject = new OAuthFlowObject();
 
         if( oAuthFlow.getAuthorizationUrl() != null )
@@ -851,14 +997,18 @@ public static OAuthFlowObject OAuthFlowObject.parseOAuthFlow(OAuthFlow oAuthFlow
         oAuthFlowObject.setTokenUrl( oAuthFlow.getTokenUrl() );
         for( String key : oAuthFlow.getScopes().keySet() )
         oAuthFlowObject.addScopesTuple( new ScopesTuple(key, oAuthFlow.getScope(key)) );
-
         if( oAuthFlow.getRefreshUrl() != null )
         oAuthFlowObject.setRefreshUrl( oAuthFlow.getRefreshUrl() );
+        if( oAuthFlow.getExtensions() != null ){
+        for( String key : oAuthFlow.getExtensions().keySet() )
+        oAuthFlowObject.addExtension(new Extension(key, oAuthFlow.getExtensions().get(key)));
+        }
 
+        map.put(oAuthFlow, oAuthFlowObject);
         return oAuthFlowObject;
         }
 
-public static SecurityRequirementObject SecurityRequirementObject.parseSecurityRequirement(SecurityRequirement securityRequirement){
+public static SecurityRequirementObject SecurityRequirementObject.parseSecurityRequirement(SecurityRequirement securityRequirement, Map<Object, ASTNode> map){
         SecurityRequirementObject securityRequirementObject = new SecurityRequirementObject();
 
         if( securityRequirement.getRequirements() != null ){
@@ -870,6 +1020,7 @@ public static SecurityRequirementObject SecurityRequirementObject.parseSecurityR
         }
         }
 
+        map.put(securityRequirement, securityRequirementObject);
         return securityRequirementObject;
         }
 }

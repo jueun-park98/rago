@@ -15,9 +15,10 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:93
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:91
  * @astdecl LinkOb : ASTNode;
  * @production LinkOb : {@link ASTNode};
 
@@ -25,10 +26,11 @@ import java.util.stream.IntStream;
 public abstract class LinkOb extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:569
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:538
    */
-  public static Link composeLink (LinkObject linkObject){
+  public static Link composeLink (LinkObject linkObject, Map<Object, ASTNode> map){
         Link link = new Link();
+
 
         if( !linkObject.getRef().isEmpty() )
         link.setRef(linkObject.getRef());
@@ -51,13 +53,17 @@ public abstract class LinkOb extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:566
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:557
    */
-  public static LinkObject parseLink(Link link){
+  public static LinkOb parseLink(Link link, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         LinkObject linkObject = new LinkObject();
 
-        if( link.isRef() )
-        linkObject.setRef(link.getRef());
+        if( link.isRef() ){
+        LinkReference l = new LinkReference();
+        l.setRef(link.getRef());
+        l.setLinkOb(parseLink(link.getReference(context).getMappedContent(Link.class), context, map));
+        return l;
+        } else {
         if( link.getOperationRef() != null )
         linkObject.setOperationRef( link.getOperationRef() );
         if( link.getOperationId() != null )
@@ -69,8 +75,14 @@ public abstract class LinkOb extends ASTNode<ASTNode> implements Cloneable {
         if( link.getDescription() != null )
         linkObject.setDescription( link.getDescription() );
         if( link.getServer() != null )
-        linkObject.setServerObject( ServerObject.parseServer(link.getServer()) );
+        linkObject.setServerObject( ServerObject.parseServer(link.getServer(), map) );
+        if( link.getExtensions() != null ){
+        for( String key : link.getExtensions().keySet() )
+        linkObject.addExtension(new Extension(key, link.getExtensions().get(key)));
+        }
+        }
 
+        map.put(link, linkObject);
         return linkObject;
         }
   /**

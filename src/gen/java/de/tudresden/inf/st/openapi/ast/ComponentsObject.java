@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:22
@@ -25,119 +26,63 @@ import java.util.stream.IntStream;
 public class ComponentsObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:149
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:173
    */
-  public static Components composeComponents (ComponentsObject componentsObject){
+  public static Components composeComponents (ComponentsObject componentsObject, Map<Object, ASTNode> map){
         Components components = new Components();
 
         if( componentsObject.getNumSchemaTuple() != 0 ){
         Map<String, org.openapi4j.parser.model.v3.Schema> schemaMap = new HashMap<>();
-        for( SchemaTuple t : componentsObject.getSchemaTuples() ){
-        if(!t.getSchemaObject().getRef().isEmpty()){
-        org.openapi4j.parser.model.v3.Schema schema=new org.openapi4j.parser.model.v3.Schema();
-        schema.setRef(t.getSchemaObject().getRef());
-        schemaMap.put(t.getKey(),schema);
-        }
-        else
-        schemaMap.put(t.getKey(),SchemaObject.composeSchema(t.getSchemaObject()));
-        }
+        for( SchemaTuple t : componentsObject.getSchemaTuples() )
+        schemaMap.put(t.getKey(), SchemaOb.composeSchema(t.getSchemaOb(), map));
         components.setSchemas(schemaMap);
         }
         if( componentsObject.getNumResponseTuple() != 0 ){
         Map<String, Response> responseMap = new HashMap<>();
-        for( ResponseTuple t : componentsObject.getResponseTuples() ){
-        if( !t.getResponseObject().getRef().isEmpty() ){
-        Response response = new Response();
-        response.setRef(t.getResponseObject().getRef());
-        responseMap.put(t.getKey(), response);
-        }
-        else
-        responseMap.put(t.getKey(), ResponseObject.composeResponse(t.getResponseObject()));
-        }
+        for( ResponseTuple t : componentsObject.getResponseTuples() )
+        responseMap.put(t.getKey(), ResponseOb.composeResponse(t.getResponseOb(), map));
         components.setResponses(responseMap);
         }
         if( componentsObject.getNumParameterTuple() != 0 ){
         Map<String, Parameter> parameterMap = new HashMap<>();
-        for( ParameterTuple t : componentsObject.getParameterTuples() ){
-        if( !t.getParameterObject().getRef().isEmpty() ){
-        Parameter parameter = new Parameter();
-        parameter.setRef(t.getParameterObject().getRef());
-        parameterMap.put(t.getKey(), parameter);
-        }
-        else
-        parameterMap.put(t.getKey(), ParameterObject.composeParameter(t.getParameterObject()));
-        }
+        for( ParameterTuple t : componentsObject.getParameterTuples() )
+        parameterMap.put(t.getKey(), ParameterOb.composeParameter(t.getParameterOb(), map));
         components.setParameters(parameterMap);
         }
         if( componentsObject.getNumExampleTuple() != 0 ){
         Map<String, Example> exampleMap = new HashMap<>();
         for( ExampleTuple t : componentsObject.getExampleTuples() )
-        exampleMap.put(t.getKey(), ExampleObject.composeExample(t.getExampleObject()));
+        exampleMap.put(t.getKey(), ExampleObject.composeExample(t.getExampleObject(), map));
         components.setExamples(exampleMap);
         }
         if( componentsObject.getNumRequestBodyTuple() != 0 ){
         Map<String, RequestBody> requestBodyMap = new HashMap<>();
-        for( RequestBodyTuple t : componentsObject.getRequestBodyTuples() ){
-        if( !t.getRequestBodyObject().getRef().isEmpty() ){
-        RequestBody requestBody = new RequestBody();
-        requestBody.setRef(t.getRequestBodyObject().getRef());
-        requestBodyMap.put(t.getKey(), requestBody);
-        }
-        else
-        requestBodyMap.put(t.getKey(), RequestBodyObject.composeRequestBody(t.getRequestBodyObject()));
-        }
+        for( RequestBodyTuple t : componentsObject.getRequestBodyTuples() )
+        requestBodyMap.put(t.getKey(), RequestBodyOb.composeRequestBody(t.getRequestBodyOb(), map));
         components.setRequestBodies(requestBodyMap);
         }
         if( componentsObject.getNumHeaderTuple() != 0 ){
         Map<String, Header> headerMap = new HashMap<>();
-        for( HeaderTuple t : componentsObject.getHeaderTuples() ){
-        if( !t.getHeaderObject().getRef().isEmpty() ){
-        Header header = new Header();
-        header.setRef(t.getHeaderObject().getRef());
-        headerMap.put(t.getKey(), header);
-        }
-        else
-        headerMap.put(t.getKey(), HeaderObject.composeHeader(t.getHeaderObject()));
-        }
+        for( HeaderTuple t : componentsObject.getHeaderTuples() )
+        headerMap.put(t.getKey(), HeaderOb.composeHeader(t.getHeaderOb(), map));
         components.setHeaders(headerMap);
         }
         if( componentsObject.getNumSecuritySchemeTuple() != 0 ){
         Map<String, SecurityScheme> securitySchemeMap = new HashMap<>();
-        for( SecuritySchemeTuple t : componentsObject.getSecuritySchemeTuples() ){
-        if( !t.getSecuritySchemeObject().getRef().isEmpty() ){
-        SecurityScheme securityScheme = new SecurityScheme();
-        securityScheme.setRef(t.getSecuritySchemeObject().getRef());
-        securitySchemeMap.put(t.getKey(), securityScheme);
-        }
-        else
-        securitySchemeMap.put(t.getKey(), SecuritySchemeObject.composeSecurityScheme(t.getSecuritySchemeObject()));
-        }
+        for( SecuritySchemeTuple t : componentsObject.getSecuritySchemeTuples() )
+        securitySchemeMap.put(t.getKey(), SecuritySchemeOb.composeSecurityScheme(t.getSecuritySchemeOb(), map));
         components.setSecuritySchemes(securitySchemeMap);
         }
         if( componentsObject.getNumLinkTuple() != 0 ){
         Map<String, Link> linkMap = new HashMap<>();
-        for( LinkTuple t : componentsObject.getLinkTuples() ){
-        if( !t.getLinkObject().getRef().isEmpty() ){
-        Link link = new Link();
-        link.setRef(t.getLinkObject().getRef());
-        linkMap.put(t.getKey(), link);
-        }
-        else
-        linkMap.put(t.getKey(), LinkObject.composeLink(t.getLinkObject()));
-        }
+        for( LinkTuple t : componentsObject.getLinkTuples() )
+        linkMap.put(t.getKey(), LinkOb.composeLink(t.getLinkOb(), map));
         components.setLinks(linkMap);
         }
         if( componentsObject.getNumCallbackTuple() != 0 ){
         Map<String, Callback> callbackMap = new HashMap<>();
-        for( CallbackTuple t : componentsObject.getCallbackTuples() ){
-        if( !t.getCallbackObject().getRef().isEmpty() ){
-        Callback callback = new Callback();
-        callback.setRef(t.getCallbackObject().getRef());
-        callbackMap.put(t.getKey(), callback);
-        }
-        else
-        callbackMap.put(t.getKey(), CallbackObject.composeCallback(t.getCallbackObject()));
-        }
+        for( CallbackTuple t : componentsObject.getCallbackTuples() )
+        callbackMap.put(t.getKey(), CallbackOb.composeCallback(t.getCallbackOb(), map));
         components.setCallbacks(callbackMap);
         }
         if( componentsObject.getNumExtension() != 0 ){
@@ -151,154 +96,72 @@ public class ComponentsObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:121
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:142
    */
-  public static ComponentsObject parseComponents(Components components){
+  public static ComponentsObject parseComponents(Components components, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         ComponentsObject componentsObject = new ComponentsObject();
 
         if( components.getSchemas() != null ){
         for( String key : components.getSchemas().keySet() ){
         SchemaTuple schemaTuple = new SchemaTuple();
-        if( components.getSchema(key).isRef() ){
-        SchemaObject schemaObject = new SchemaObject();
-        schemaObject.setRef(components.getSchema(key).getRef());
         schemaTuple.setKey(key);
-        schemaTuple.setSchemaObject(schemaObject);
-        componentsObject.addSchemaTuple(schemaTuple);
-        }
-        else{
-        schemaTuple.setKey(key);
-        schemaTuple.setSchemaObject(SchemaObject.parseSchema(components.getSchema(key)));
-        componentsObject.addSchemaTuple(schemaTuple);
-        }
+        schemaTuple.setSchemaOb(SchemaOb.parseSchema(components.getSchema(key), context, map));
         }
         }
         if( components.getResponses() != null ){
         for( String key : components.getResponses().keySet() ){
         ResponseTuple responseTuple = new ResponseTuple();
-        if( components.getResponse(key).isRef() ){
-        ResponseObject responseObject = new ResponseObject();
-        responseObject.setRef(components.getResponse(key).getRef());
         responseTuple.setKey(key);
-        responseTuple.setResponseObject(responseObject);
-        componentsObject.addResponseTuple(responseTuple);
-        }
-        else{
-        responseTuple.setKey(key);
-        responseTuple.setResponseObject(ResponseObject.parseResponse(components.getResponse(key)));
-        componentsObject.addResponseTuple(responseTuple);
-        }
+        responseTuple.setResponseOb(ResponseOb.parseResponse(components.getResponse(key), context, map));
         }
         }
         if( components.getParameters() != null ){
         for( String key : components.getParameters().keySet() ){
         ParameterTuple parameterTuple = new ParameterTuple();
-        if( components.getParameter(key).isRef() ){
-        ParameterObject parameterObject = new ParameterObject();
-        parameterObject.setRef(components.getParameter(key).getRef());
         parameterTuple.setKey(key);
-        parameterTuple.setParameterObject(parameterObject);
-        componentsObject.addParameterTuple(parameterTuple);
-        }
-        else{
-        parameterTuple.setKey(key);
-        parameterTuple.setParameterObject(ParameterObject.parseParameter(components.getParameter(key)));
-        componentsObject.addParameterTuple(parameterTuple);
-        }
+        parameterTuple.setParameterOb(ParameterOb.parseParameter(components.getParameter(key), context, map));
         }
         }
         if( components.getExamples() != null ){
         for( String key : components.getExamples().keySet() ){
         ExampleTuple exampleTuple = new ExampleTuple();
-        ExampleObject exampleObject = new ExampleObject();
         exampleTuple.setKey(key);
-        exampleTuple.setExampleObject(ExampleObject.parseExample(components.getExample(key)));
-        componentsObject.addExampleTuple(exampleTuple);
+        exampleTuple.setExampleObject(ExampleObject.parseExample(components.getExample(key), context, map));
         }
         }
         if( components.getRequestBodies() != null ){
         for( String key : components.getRequestBodies().keySet() ){
         RequestBodyTuple requestBodyTuple = new RequestBodyTuple();
-        if( components.getRequestBody(key).isRef() ){
-        RequestBodyObject requestBodyObject = new RequestBodyObject();
-        requestBodyObject.setRef(components.getRequestBody(key).getRef());
         requestBodyTuple.setKey(key);
-        requestBodyTuple.setRequestBodyObject(requestBodyObject);
-        componentsObject.addRequestBodyTuple(requestBodyTuple);
-        }
-        else{
-        requestBodyTuple.setKey(key);
-        requestBodyTuple.setRequestBodyObject(RequestBodyObject.parseRequestBody(components.getRequestBody(key)));
-        componentsObject.addRequestBodyTuple(requestBodyTuple);
-        }
+        requestBodyTuple.setRequestBodyOb(RequestBodyOb.parseRequestBody(components.getRequestBody(key), context, map));
         }
         }
         if( components.getHeaders() != null ){
         for( String key : components.getHeaders().keySet() ){
         HeaderTuple headerTuple = new HeaderTuple();
-        if( components.getHeader(key).isRef() ){
-        HeaderObject headerObject = new HeaderObject();
-        headerObject.setRef(components.getHeader(key).getRef());
         headerTuple.setKey(key);
-        headerTuple.setHeaderObject(headerObject);
-        componentsObject.addHeaderTuple(headerTuple);
-        }
-        else{
-        headerTuple.setKey(key);
-        headerTuple.setHeaderObject(HeaderObject.parseHeader(components.getHeader(key)));
-        componentsObject.addHeaderTuple(headerTuple);
-        }
+        headerTuple.setHeaderOb(HeaderOb.parseHeader(components.getHeader(key), context, map));
         }
         }
         if( components.getSecuritySchemes() != null ){
         for( String key : components.getSecuritySchemes().keySet() ){
         SecuritySchemeTuple securitySchemeTuple = new SecuritySchemeTuple();
-        if( components.getSecurityScheme(key).isRef() ){
-        SecuritySchemeObject securitySchemeObject = new SecuritySchemeObject();
-        securitySchemeObject.setRef(components.getSecurityScheme(key).getRef());
         securitySchemeTuple.setKey(key);
-        securitySchemeTuple.setSecuritySchemeObject(securitySchemeObject);
-        componentsObject.addSecuritySchemeTuple(securitySchemeTuple);
-        }
-        else{
-        securitySchemeTuple.setKey(key);
-        securitySchemeTuple.setSecuritySchemeObject(SecuritySchemeObject.parseSecurityScheme(components.getSecurityScheme(key)));
-        componentsObject.addSecuritySchemeTuple(securitySchemeTuple);
-        }
+        securitySchemeTuple.setSecuritySchemeOb(SecuritySchemeOb.parseSecurityScheme(components.getSecurityScheme(key), context, map));
         }
         }
         if( components.getLinks() != null ){
         for( String key : components.getLinks().keySet() ){
         LinkTuple linkTuple = new LinkTuple();
-        if( components.getLink(key).isRef() ){
-        LinkObject linkObject = new LinkObject();
-        linkObject.setRef(components.getLink(key).getRef());
         linkTuple.setKey(key);
-        linkTuple.setLinkObject(linkObject);
-        componentsObject.addLinkTuple(linkTuple);
-        }
-        else{
-        linkTuple.setKey(key);
-        linkTuple.setLinkObject(LinkObject.parseLink(components.getLink(key)));
-        componentsObject.addLinkTuple(linkTuple);
-        }
+        linkTuple.setLinkOb(LinkOb.parseLink(components.getLink(key), context, map));
         }
         }
         if( components.getCallbacks() != null ){
         for( String key : components.getCallbacks().keySet() ){
         CallbackTuple callbackTuple = new CallbackTuple();
-        if( components.getCallback(key).isRef() ){
-        CallbackObject callbackObject = new CallbackObject();
-        callbackObject.setRef(components.getCallback(key).getRef());
         callbackTuple.setKey(key);
-        callbackTuple.setCallbackObject(callbackObject);
-        componentsObject.addCallbackTuple(callbackTuple);
-        }
-        else{
-        callbackTuple.setKey(key);
-        callbackTuple.setCallbackObject(CallbackObject.parseCallback(components.getCallback(key)));
-        componentsObject.addCallbackTuple(callbackTuple);
-        }
+        callbackTuple.setCallbackOb(CallbackOb.parseCallback(components.getCallback(key), context, map));
         }
         }
         if( components.getExtensions() != null ){
@@ -306,6 +169,7 @@ public class ComponentsObject extends ASTNode<ASTNode> implements Cloneable {
         componentsObject.addExtension(new Extension(key, components.getExtensions().get(key)));
         }
 
+        map.put(components, componentsObject);
         return componentsObject;
         }
   /**

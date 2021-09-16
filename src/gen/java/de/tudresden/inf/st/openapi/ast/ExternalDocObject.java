@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:55
@@ -25,9 +26,9 @@ import java.util.stream.IntStream;
 public class ExternalDocObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:373
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:342
    */
-  public static ExternalDocs composeExternalDocs (ExternalDocObject externalDocObject){
+  public static ExternalDocs composeExternalDocs (ExternalDocObject externalDocObject, Map<Object, ASTNode> map){
         ExternalDocs externalDocs = new ExternalDocs();
 
         if( !externalDocObject.getDescription().isEmpty() )
@@ -45,9 +46,9 @@ public class ExternalDocObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:399
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:339
    */
-  public static ExternalDocObject parseExternalDocs(ExternalDocs externalDocs){
+  public static ExternalDocObject parseExternalDocs(ExternalDocs externalDocs, Map<Object, ASTNode> map){
         ExternalDocObject externalDocObject = new ExternalDocObject();
 
 
@@ -60,6 +61,7 @@ public class ExternalDocObject extends ASTNode<ASTNode> implements Cloneable {
         externalDocObject.addExtension(new Extension(key, externalDocs.getExtensions().get(key)));
         }
 
+        map.put(externalDocs, externalDocObject);
         return externalDocObject;
         }
   /**

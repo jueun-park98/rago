@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:81
@@ -25,9 +26,9 @@ import java.util.stream.IntStream;
 public abstract class CallbackOb extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:535
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:504
    */
-  public static Callback composeCallback (CallbackObject callbackObject){
+  public static Callback composeCallback (CallbackObject callbackObject, Map<Object, ASTNode> map){
         Callback callback = new Callback();
 
         if( callbackObject.getNumExpression() != 0 ){
@@ -41,16 +42,28 @@ public abstract class CallbackOb extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:536
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:509
    */
-  public static CallbackObject parseCallback(Callback callback){
+  public static CallbackOb parseCallback(Callback callback, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         CallbackObject callbackObject = new CallbackObject();
 
+        if( callback.isRef() ){
+        CallbackReference c = new CallbackReference();
+        c.setRef(callback.getRef());
+        c.setCallbackOb(parseCallback(callback.getReference(context).getMappedContent(Callback.class), context, map));
+        return c;
+        } else {
         if( callback.getCallbackPaths() != null ){
         for( String key : callback.getCallbackPaths().keySet() )
-        callbackObject.addExpression(new Expression(key, PathItem.parsePath(callback.getCallbackPath(key))));
+        callbackObject.addExpression(new Expression(key, PathItemOb.parsePath(callback.getCallbackPath(key), context, map)));
+        }
+        if( callback.getExtensions() != null ){
+        for( String key : callback.getExtensions().keySet() )
+        callbackObject.addExtension(new Extension(key, callback.getExtensions().get(key)));
+        }
         }
 
+        map.put(callback, callbackObject);
         return callbackObject;
         }
   /**

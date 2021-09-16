@@ -15,9 +15,10 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:104
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:102
  * @astdecl TagObject : ASTNode ::= <Name:String> <Description:String> [ExternalDocObject] Extension*;
  * @production TagObject : {@link ASTNode} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">[{@link ExternalDocObject}]</span> <span class="component">{@link Extension}*</span>;
 
@@ -25,9 +26,9 @@ import java.util.stream.IntStream;
 public class TagObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:627
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:597
    */
-  public static org.openapi4j.parser.model.v3.Tag composeTag (TagObject tagObject){
+  public static org.openapi4j.parser.model.v3.Tag composeTag (TagObject tagObject, Map<Object, ASTNode> map){
         org.openapi4j.parser.model.v3.Tag tag = new org.openapi4j.parser.model.v3.Tag();
 
         tag.setName( tagObject.getName() );
@@ -47,9 +48,9 @@ public class TagObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:620
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:631
    */
-  public static TagObject parseTag(org.openapi4j.parser.model.v3.Tag tag){
+  public static TagObject parseTag(org.openapi4j.parser.model.v3.Tag tag, Map<Object, ASTNode> map){
         TagObject tagObject = new TagObject();
 
         tagObject.setName( tag.getName() );
@@ -57,12 +58,17 @@ public class TagObject extends ASTNode<ASTNode> implements Cloneable {
         if( tag.getDescription() != null )
         tagObject.setDescription( tag.getDescription() );
         if( tag.getExternalDocs() != null )
-        tagObject.setExternalDocObject( ExternalDocObject.parseExternalDocs(tag.getExternalDocs()) );
+        tagObject.setExternalDocObject( ExternalDocObject.parseExternalDocs(tag.getExternalDocs(), map) );
+        if( tag.getExtensions() != null ){
+        for( String key : tag.getExtensions().keySet() )
+        tagObject.addExtension(new Extension(key, tag.getExtensions().get(key)));
+        }
         if( tag.getExtensions() != null ){
         for( String key : tag.getExtensions().keySet() )
         tagObject.addExtension(new Extension(key, tag.getExtensions().get(key)));
         }
 
+        map.put(tag, tagObject);
         return tagObject;
         }
   /**

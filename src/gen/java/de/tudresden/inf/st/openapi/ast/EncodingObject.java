@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:73
@@ -25,9 +26,9 @@ import java.util.stream.IntStream;
 public class EncodingObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:481
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:450
    */
-  public static EncodingProperty composeEncodingProperty (EncodingObject encodingObject){
+  public static EncodingProperty composeEncodingProperty (EncodingObject encodingObject, Map<Object, ASTNode> map){
         EncodingProperty encodingProperty = new EncodingProperty();
 
         if( !encodingObject.getContentType().isEmpty() )
@@ -53,16 +54,16 @@ public class EncodingObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:492
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:454
    */
-  public static EncodingObject parseEncoding(EncodingProperty encodingProperty){
+  public static EncodingObject parseEncoding(EncodingProperty encodingProperty, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         EncodingObject encodingObject = new EncodingObject();
 
         if( encodingProperty.getContentType() != null )
         encodingObject.setContentType( encodingProperty.getContentType() );
         if( encodingProperty.getHeaders() != null ){
         for( String key : encodingProperty.getHeaders().keySet() )
-        encodingObject.addHeaderTuple(new HeaderTuple(key, HeaderObject.parseHeader(encodingProperty.getHeader(key))));
+        encodingObject.addHeaderTuple(new HeaderTuple(key, HeaderObject.parseHeader(encodingProperty.getHeader(key), context, map)));
         }
         if( encodingProperty.getStyle() != null )
         encodingObject.setStyle( encodingProperty.getStyle() );
@@ -73,6 +74,7 @@ public class EncodingObject extends ASTNode<ASTNode> implements Cloneable {
         encodingObject.addExtension(new Extension(key, encodingProperty.getExtensions().get(key)));
         }
 
+        map.put(encodingProperty, encodingObject);
         return encodingObject;
         }
   /**

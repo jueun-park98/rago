@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:8
@@ -25,9 +26,9 @@ import java.util.stream.IntStream;
 public class ContactObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:85
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:87
    */
-  public static Contact composeContact (ContactObject contactObject){
+  public static Contact composeContact (ContactObject contactObject, Map<Object, ASTNode> map){
         Contact contact = new Contact();
 
         if( !contactObject.getName().isEmpty() )
@@ -43,13 +44,14 @@ public class ContactObject extends ASTNode<ASTNode> implements Cloneable {
         contact.setExtensions(extensions);
         }
 
+        map.put(contact, contactObject);
         return contact;
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:63
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:68
    */
-  public static ContactObject parseContact(Contact contact){
+  public static ContactObject parseContact(Contact contact, Map<Object, ASTNode> map){
         ContactObject contactObject = new ContactObject();
 
         if( contact.getName() != null )
@@ -63,6 +65,7 @@ public class ContactObject extends ASTNode<ASTNode> implements Cloneable {
         contactObject.addExtension(new Extension(key, contact.getExtensions().get(key)));
         }
 
+        map.put(contact, contactObject);
         return contactObject;
         }
   /**

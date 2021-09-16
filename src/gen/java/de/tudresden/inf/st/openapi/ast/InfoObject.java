@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:5
@@ -25,9 +26,9 @@ import java.util.stream.IntStream;
 public class InfoObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:60
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:61
    */
-  public static Info composeInfo (InfoObject infoObject){
+  public static Info composeInfo (InfoObject infoObject, Map<Object, ASTNode> map){
         Info info = new Info();
 
         if( !infoObject.getTitle().isEmpty() )
@@ -49,13 +50,14 @@ public class InfoObject extends ASTNode<ASTNode> implements Cloneable {
         info.setExtensions(extension);
         }
 
+        map.put(info, infoObject);
         return info;
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:40
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:44
    */
-  public static InfoObject parseInfo(Info info) {
+  public static InfoObject parseInfo(Info info, Map<Object, ASTNode> map) {
         InfoObject infoObject = new InfoObject();
 
         if( info.getTitle() != null )
@@ -67,14 +69,15 @@ public class InfoObject extends ASTNode<ASTNode> implements Cloneable {
         if( info.getTermsOfService() != null )
         infoObject.setTermsOfService(info.getTermsOfService());
         if( info.getContact() != null )
-        infoObject.setContactObject(ContactObject.parseContact(info.getContact()));
+        infoObject.setContactObject(ContactObject.parseContact(info.getContact(), map));
         if( info.getLicense() != null )
-        infoObject.setLicenseObject(LicenseObject.parseLicense(info.getLicense()));
+        infoObject.setLicenseObject(LicenseObject.parseLicense(info.getLicense(), map));
         if( info.getExtensions() != null ){
         for( String key : info.getExtensions().keySet() )
         infoObject.addExtension(new Extension(key, info.getExtensions().get(key)));
         }
 
+        map.put(info, infoObject);
         return infoObject;
         }
   /**

@@ -15,14 +15,15 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:130
- * @astdecl SecuritySchemeObject : ASTNode ::= <Type:String> <Description:String> <Name:String> <In:String> <Scheme:String> <BearerFormat:String> OAuthFlowsObject <OpenIdConnectUrl:String> Extension*;
- * @production SecuritySchemeObject : {@link ASTNode} ::= <span class="component">&lt;Type:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;In:String&gt;</span> <span class="component">&lt;Scheme:String&gt;</span> <span class="component">&lt;BearerFormat:String&gt;</span> <span class="component">{@link OAuthFlowsObject}</span> <span class="component">&lt;OpenIdConnectUrl:String&gt;</span> <span class="component">{@link Extension}*</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:128
+ * @astdecl SecuritySchemeObject : SecuritySchemeOb ::= <Type:String> <Description:String> <Name:String> <In:String> <Scheme:String> <BearerFormat:String> OAuthFlowsObject <OpenIdConnectUrl:String> Extension*;
+ * @production SecuritySchemeObject : {@link SecuritySchemeOb} ::= <span class="component">&lt;Type:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;In:String&gt;</span> <span class="component">&lt;Scheme:String&gt;</span> <span class="component">&lt;BearerFormat:String&gt;</span> <span class="component">{@link OAuthFlowsObject}</span> <span class="component">&lt;OpenIdConnectUrl:String&gt;</span> <span class="component">{@link Extension}*</span>;
 
  */
-public class SecuritySchemeObject extends ASTNode<ASTNode> implements Cloneable {
+public class SecuritySchemeObject extends SecuritySchemeOb implements Cloneable {
   /**
    * @declaredat ASTNode:1
    */

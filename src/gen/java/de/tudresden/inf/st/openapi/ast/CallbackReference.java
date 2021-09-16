@@ -15,11 +15,12 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:82
- * @astdecl CallbackReference : CallbackOb ::= <Ref:String> <CallbackObject:CallbackObject>;
- * @production CallbackReference : {@link CallbackOb} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;CallbackObject:CallbackObject&gt;</span>;
+ * @astdecl CallbackReference : CallbackOb ::= <Ref:String> <CallbackOb:CallbackOb>;
+ * @production CallbackReference : {@link CallbackOb} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;CallbackOb:CallbackOb&gt;</span>;
 
  */
 public class CallbackReference extends CallbackOb implements Cloneable {
@@ -42,13 +43,13 @@ public class CallbackReference extends CallbackOb implements Cloneable {
    * @declaredat ASTNode:12
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Ref", "CallbackObject"},
-    type = {"String", "CallbackObject"},
+    name = {"Ref", "CallbackOb"},
+    type = {"String", "CallbackOb"},
     kind = {"Token", "Token"}
   )
-  public CallbackReference(String p0, CallbackObject p1) {
+  public CallbackReference(String p0, CallbackOb p1) {
     setRef(p0);
-    setCallbackObject(p1);
+    setCallbackOb(p1);
   }
   /** @apilevel low-level 
    * @declaredat ASTNode:22
@@ -154,7 +155,7 @@ public class CallbackReference extends CallbackOb implements Cloneable {
    * @declaredat ASTNode:108
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node) && (tokenString_Ref == ((CallbackReference) node).tokenString_Ref) && (tokenCallbackObject_CallbackObject == ((CallbackReference) node).tokenCallbackObject_CallbackObject);    
+    return super.is$Equal(node) && (tokenString_Ref == ((CallbackReference) node).tokenString_Ref) && (tokenCallbackOb_CallbackOb == ((CallbackReference) node).tokenCallbackOb_CallbackOb);    
   }
   /**
    * Replaces the lexeme Ref.
@@ -177,24 +178,24 @@ public class CallbackReference extends CallbackOb implements Cloneable {
     return tokenString_Ref != null ? tokenString_Ref : "";
   }
   /**
-   * Replaces the lexeme CallbackObject.
-   * @param value The new value for the lexeme CallbackObject.
+   * Replaces the lexeme CallbackOb.
+   * @param value The new value for the lexeme CallbackOb.
    * @apilevel high-level
    */
-  public void setCallbackObject(CallbackObject value) {
-    tokenCallbackObject_CallbackObject = value;
+  public void setCallbackOb(CallbackOb value) {
+    tokenCallbackOb_CallbackOb = value;
   }
   /** @apilevel internal 
    */
-  protected CallbackObject tokenCallbackObject_CallbackObject;
+  protected CallbackOb tokenCallbackOb_CallbackOb;
   /**
-   * Retrieves the value for the lexeme CallbackObject.
-   * @return The value for the lexeme CallbackObject.
+   * Retrieves the value for the lexeme CallbackOb.
+   * @return The value for the lexeme CallbackOb.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Token(name="CallbackObject")
-  public CallbackObject getCallbackObject() {
-    return tokenCallbackObject_CallbackObject;
+  @ASTNodeAnnotation.Token(name="CallbackOb")
+  public CallbackOb getCallbackOb() {
+    return tokenCallbackOb_CallbackOb;
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

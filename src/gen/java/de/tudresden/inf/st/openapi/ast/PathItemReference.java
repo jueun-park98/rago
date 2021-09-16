@@ -15,11 +15,12 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:39
- * @astdecl PathItemReference : PathItemOb ::= <Ref:String> <PathItemObject:PathItemObject>;
- * @production PathItemReference : {@link PathItemOb} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;PathItemObject:PathItemObject&gt;</span>;
+ * @astdecl PathItemReference : PathItemOb ::= <Ref:String> <PathItemOb:PathItemOb>;
+ * @production PathItemReference : {@link PathItemOb} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;PathItemOb:PathItemOb&gt;</span>;
 
  */
 public class PathItemReference extends PathItemOb implements Cloneable {
@@ -42,13 +43,13 @@ public class PathItemReference extends PathItemOb implements Cloneable {
    * @declaredat ASTNode:12
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Ref", "PathItemObject"},
-    type = {"String", "PathItemObject"},
+    name = {"Ref", "PathItemOb"},
+    type = {"String", "PathItemOb"},
     kind = {"Token", "Token"}
   )
-  public PathItemReference(String p0, PathItemObject p1) {
+  public PathItemReference(String p0, PathItemOb p1) {
     setRef(p0);
-    setPathItemObject(p1);
+    setPathItemOb(p1);
   }
   /** @apilevel low-level 
    * @declaredat ASTNode:22
@@ -154,7 +155,7 @@ public class PathItemReference extends PathItemOb implements Cloneable {
    * @declaredat ASTNode:108
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node) && (tokenString_Ref == ((PathItemReference) node).tokenString_Ref) && (tokenPathItemObject_PathItemObject == ((PathItemReference) node).tokenPathItemObject_PathItemObject);    
+    return super.is$Equal(node) && (tokenString_Ref == ((PathItemReference) node).tokenString_Ref) && (tokenPathItemOb_PathItemOb == ((PathItemReference) node).tokenPathItemOb_PathItemOb);    
   }
   /**
    * Replaces the lexeme Ref.
@@ -177,24 +178,24 @@ public class PathItemReference extends PathItemOb implements Cloneable {
     return tokenString_Ref != null ? tokenString_Ref : "";
   }
   /**
-   * Replaces the lexeme PathItemObject.
-   * @param value The new value for the lexeme PathItemObject.
+   * Replaces the lexeme PathItemOb.
+   * @param value The new value for the lexeme PathItemOb.
    * @apilevel high-level
    */
-  public void setPathItemObject(PathItemObject value) {
-    tokenPathItemObject_PathItemObject = value;
+  public void setPathItemOb(PathItemOb value) {
+    tokenPathItemOb_PathItemOb = value;
   }
   /** @apilevel internal 
    */
-  protected PathItemObject tokenPathItemObject_PathItemObject;
+  protected PathItemOb tokenPathItemOb_PathItemOb;
   /**
-   * Retrieves the value for the lexeme PathItemObject.
-   * @return The value for the lexeme PathItemObject.
+   * Retrieves the value for the lexeme PathItemOb.
+   * @return The value for the lexeme PathItemOb.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Token(name="PathItemObject")
-  public PathItemObject getPathItemObject() {
-    return tokenPathItemObject_PathItemObject;
+  @ASTNodeAnnotation.Token(name="PathItemOb")
+  public PathItemOb getPathItemOb() {
+    return tokenPathItemOb_PathItemOb;
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

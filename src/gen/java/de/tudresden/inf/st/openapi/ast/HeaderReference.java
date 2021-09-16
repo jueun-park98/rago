@@ -15,11 +15,12 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:100
- * @astdecl HeaderReference : HeaderOb ::= <Ref:String> <HeaderObject:HeaderObject>;
- * @production HeaderReference : {@link HeaderOb} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;HeaderObject:HeaderObject&gt;</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:98
+ * @astdecl HeaderReference : HeaderOb ::= <Ref:String> <HeaderOb:HeaderOb>;
+ * @production HeaderReference : {@link HeaderOb} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;HeaderOb:HeaderOb&gt;</span>;
 
  */
 public class HeaderReference extends HeaderOb implements Cloneable {
@@ -42,13 +43,13 @@ public class HeaderReference extends HeaderOb implements Cloneable {
    * @declaredat ASTNode:12
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Ref", "HeaderObject"},
-    type = {"String", "HeaderObject"},
+    name = {"Ref", "HeaderOb"},
+    type = {"String", "HeaderOb"},
     kind = {"Token", "Token"}
   )
-  public HeaderReference(String p0, HeaderObject p1) {
+  public HeaderReference(String p0, HeaderOb p1) {
     setRef(p0);
-    setHeaderObject(p1);
+    setHeaderOb(p1);
   }
   /** @apilevel low-level 
    * @declaredat ASTNode:22
@@ -154,7 +155,7 @@ public class HeaderReference extends HeaderOb implements Cloneable {
    * @declaredat ASTNode:108
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node) && (tokenString_Ref == ((HeaderReference) node).tokenString_Ref) && (tokenHeaderObject_HeaderObject == ((HeaderReference) node).tokenHeaderObject_HeaderObject);    
+    return super.is$Equal(node) && (tokenString_Ref == ((HeaderReference) node).tokenString_Ref) && (tokenHeaderOb_HeaderOb == ((HeaderReference) node).tokenHeaderOb_HeaderOb);    
   }
   /**
    * Replaces the lexeme Ref.
@@ -177,24 +178,24 @@ public class HeaderReference extends HeaderOb implements Cloneable {
     return tokenString_Ref != null ? tokenString_Ref : "";
   }
   /**
-   * Replaces the lexeme HeaderObject.
-   * @param value The new value for the lexeme HeaderObject.
+   * Replaces the lexeme HeaderOb.
+   * @param value The new value for the lexeme HeaderOb.
    * @apilevel high-level
    */
-  public void setHeaderObject(HeaderObject value) {
-    tokenHeaderObject_HeaderObject = value;
+  public void setHeaderOb(HeaderOb value) {
+    tokenHeaderOb_HeaderOb = value;
   }
   /** @apilevel internal 
    */
-  protected HeaderObject tokenHeaderObject_HeaderObject;
+  protected HeaderOb tokenHeaderOb_HeaderOb;
   /**
-   * Retrieves the value for the lexeme HeaderObject.
-   * @return The value for the lexeme HeaderObject.
+   * Retrieves the value for the lexeme HeaderOb.
+   * @return The value for the lexeme HeaderOb.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Token(name="HeaderObject")
-  public HeaderObject getHeaderObject() {
-    return tokenHeaderObject_HeaderObject;
+  @ASTNodeAnnotation.Token(name="HeaderOb")
+  public HeaderOb getHeaderOb() {
+    return tokenHeaderOb_HeaderOb;
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

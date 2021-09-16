@@ -15,9 +15,10 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:99
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:97
  * @astdecl HeaderOb : ASTNode;
  * @production HeaderOb : {@link ASTNode};
 
@@ -25,9 +26,9 @@ import java.util.stream.IntStream;
 public abstract class HeaderOb extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:592
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:562
    */
-  public static Header composeHeader (HeaderObject headerObject){
+  public static Header composeHeader (HeaderObject headerObject, Map<Object, ASTNode> map){
         Header header = new Header();
 
         if( !headerObject.getRef().isEmpty() )
@@ -63,13 +64,17 @@ public abstract class HeaderOb extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:587
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:588
    */
-  public static HeaderObject parseHeader(Header header){
+  public static HeaderOb parseHeader(Header header, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         HeaderObject headerObject = new HeaderObject();
 
-        if( header.isRef() )
-        headerObject.setRef(header.getRef());
+        if( header.isRef() ){
+        HeaderReference h = new HeaderReference();
+        h.setRef(header.getRef());
+        h.setHeaderOb(parseHeader(header.getReference(context).getMappedContent(Header.class), context, map));
+        return h;
+        } else {
         if( header.getRequired() != null )
         headerObject.setRequired( header.getRequired() );
         if( header.getDescription() != null )
@@ -86,15 +91,21 @@ public abstract class HeaderOb extends ASTNode<ASTNode> implements Cloneable {
         headerObject.setExample( header.getExample() );
         if( header.getExamples() != null ){
         for( String key : header.getExamples().keySet() )
-        headerObject.addExampleTuple(new ExampleTuple(key, ExampleObject.parseExample(header.getExample(key))));
+        headerObject.addExampleTuple(new ExampleTuple(key, ExampleObject.parseExample(header.getExample(key), context, map)));
         }
         if( header.getContentMediaTypes() != null ){
         for( String key : header.getContentMediaTypes().keySet() )
-        headerObject.addContentTuple(new ContentTuple(key, MediaTypeObject.parseMediaType(header.getContentMediaType(key))));
+        headerObject.addContentTuple(new ContentTuple(key, MediaTypeObject.parseMediaType(header.getContentMediaType(key), context, map)));
         }
         if( header.getSchema() != null )
-            headerObject.setSchemaObject(SchemaObject.parseSchema(header.getSchema()));
+        headerObject.setSchemaOb(SchemaOb.parseSchema(header.getSchema(), context, map));
+        if( header.getExtensions() != null ){
+        for( String key : header.getExtensions().keySet() )
+        headerObject.addExtension(new Extension(key, header.getExtensions().get(key)));
+        }
+        }
 
+        map.put(header, headerObject);
         return headerObject;
         }
   /**

@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:76
@@ -25,9 +26,9 @@ import java.util.stream.IntStream;
 public abstract class ResponseOb extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:506
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:475
    */
-  public static Response composeResponse (ResponseObject responseObject){
+  public static Response composeResponse (ResponseObject responseObject, Map<Object, ASTNode> map){
         Response response = new Response();
 
         if( !responseObject.getRef().isEmpty() )
@@ -57,28 +58,38 @@ public abstract class ResponseOb extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:513
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:476
    */
-  public static ResponseObject parseResponse(Response response){
+  public static ResponseOb parseResponse(Response response, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         ResponseObject responseObject = new ResponseObject();
 
-        if( response.isRef() )
-        responseObject.setRef(response.getRef());
+        if( response.isRef() ){
+        ResponseReference r = new ResponseReference();
+        r.setRef(response.getRef());
+        r.setResponseOb(parseResponse(response.getReference(context).getMappedContent(Response.class), context, map));
+        return r;
+        } else {
         if( response.getDescription() != null )
         responseObject.setDescription(response.getDescription());
         if( response.getHeaders() != null ){
         for( String key : response.getHeaders().keySet() )
-        responseObject.addHeaderTuple( new HeaderTuple(key, HeaderObject.parseHeader(response.getHeader(key))) );
+        responseObject.addHeaderTuple( new HeaderTuple(key, HeaderObject.parseHeader(response.getHeader(key), context, map)) );
         }
         if( response.getContentMediaTypes() != null ){
         for( String key : response.getContentMediaTypes().keySet() )
-        responseObject.addContentTuple( new ContentTuple(key, MediaTypeObject.parseMediaType(response.getContentMediaType(key))) );
+        responseObject.addContentTuple( new ContentTuple(key, MediaTypeObject.parseMediaType(response.getContentMediaType(key), context, map)) );
         }
         if( response.getLinks() != null ){
         for( String key : response.getLinks().keySet() )
-        responseObject.addLinkTuple( new LinkTuple(key, LinkObject.parseLink(response.getLink(key))) );
+        responseObject.addLinkTuple( new LinkTuple(key, LinkOb.parseLink(response.getLink(key), context, map)) );
+        }
+        if( response.getExtensions() != null ){
+        for( String key : response.getExtensions().keySet() )
+        responseObject.addExtension(new Extension(key, response.getExtensions().get(key)));
+        }
         }
 
+        map.put(response, responseObject);
         return responseObject;
         }
   /**

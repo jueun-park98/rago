@@ -15,9 +15,10 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:128
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:126
  * @astdecl SecuritySchemeOb : ASTNode;
  * @production SecuritySchemeOb : {@link ASTNode};
 
@@ -25,9 +26,9 @@ import java.util.stream.IntStream;
 public abstract class SecuritySchemeOb extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:779
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:749
    */
-  public static SecurityScheme composeSecurityScheme (SecuritySchemeObject securitySchemeObject){
+  public static SecurityScheme composeSecurityScheme (SecuritySchemeObject securitySchemeObject, Map<Object, ASTNode> map){
         SecurityScheme securityScheme = new SecurityScheme();
 
         if( !securitySchemeObject.getType().isEmpty() )
@@ -57,9 +58,9 @@ public abstract class SecuritySchemeOb extends ASTNode<ASTNode> implements Clone
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:791
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:931
    */
-  public static SecuritySchemeObject parseSecurityScheme(SecurityScheme securityScheme){
+  public static SecuritySchemeOb parseSecurityScheme(SecurityScheme securityScheme, OAIContext context, Map<Object, ASTNode> map){
         SecuritySchemeObject securitySchemeObject = new SecuritySchemeObject();
 
         if( securityScheme.getType() != null )
@@ -73,7 +74,7 @@ public abstract class SecuritySchemeOb extends ASTNode<ASTNode> implements Clone
         if( securityScheme.getOpenIdConnectUrl() != null )
         securitySchemeObject.setOpenIdConnectUrl(securityScheme.getOpenIdConnectUrl());
         if( securityScheme.getFlows() != null )
-        securitySchemeObject.setOAuthFlowsObject( OAuthFlowsObject.parseOAuthFlows(securityScheme.getFlows()) );
+        securitySchemeObject.setOAuthFlowsObject( OAuthFlowsObject.parseOAuthFlows(securityScheme.getFlows(), map) );
         if( securityScheme.getDescription() != null )
         securitySchemeObject.setDescription( securityScheme.getDescription() );
         if( securityScheme.getBearerFormat() != null )
@@ -83,6 +84,7 @@ public abstract class SecuritySchemeOb extends ASTNode<ASTNode> implements Clone
         securitySchemeObject.addExtension(new Extension(key, securityScheme.getExtensions().get(key)));
         }
 
+        map.put(securityScheme, securitySchemeObject);
         return securitySchemeObject;
         }
   /**

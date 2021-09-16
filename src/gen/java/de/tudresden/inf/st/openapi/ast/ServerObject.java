@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:14
@@ -25,9 +26,9 @@ import java.util.stream.IntStream;
 public class ServerObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:115
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:125
    */
-  public static Server composeServer (ServerObject serverObject){
+  public static Server composeServer (ServerObject serverObject, Map<Object, ASTNode> map){
         Server server = new Server();
 
         if( !serverObject.getUrl().isEmpty() )
@@ -37,17 +38,24 @@ public class ServerObject extends ASTNode<ASTNode> implements Cloneable {
         if( serverObject.hasServerVariablesTuple() ){
         Map<String, ServerVariable> serverVariables = new HashMap<>();
         for( ServerVariablesTuple s : serverObject.getServerVariablesTuples() )
-        serverVariables.put( s.getName(), ServerVariableObject.composeServerVariable(s.getServerVariableObject()) );
+        serverVariables.put( s.getName(), ServerVariableObject.composeServerVariable(s.getServerVariableObject(), map) );
         server.setVariables(serverVariables);
         }
+        if( serverObject.getNumExtension() != 0 ){
+        Map<String, Object> extensions = new HashMap<>();
+        for( Extension e : serverObject.getExtensions() )
+        extensions.put(e.getKey(), e.getValue());
+        server.setExtensions(extensions);
+        }
 
+        map.put(server, serverObject);
         return server;
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:91
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:102
    */
-  public static ServerObject parseServer(Server server){
+  public static ServerObject parseServer(Server server, Map<Object, ASTNode> map){
         ServerObject serverObject = new ServerObject();
 
         if( server.getUrl() != null )
@@ -56,9 +64,14 @@ public class ServerObject extends ASTNode<ASTNode> implements Cloneable {
         serverObject.setDescription(server.getDescription());
         if( server.getVariables() != null ){
         for (String key : server.getVariables().keySet())
-        serverObject.addServerVariablesTuple(new ServerVariablesTuple(key, ServerVariableObject.parseServerVariable(server.getVariable(key))));
+        serverObject.addServerVariablesTuple(new ServerVariablesTuple(key, ServerVariableObject.parseServerVariable(server.getVariable(key), map)));
+        }
+        if( server.getExtensions() != null ){
+        for( String key : server.getExtensions().keySet() )
+        serverObject.addExtension(new Extension(key, server.getExtensions().get(key)));
         }
 
+        map.put(server, serverObject);
         return serverObject;
         }
   /**

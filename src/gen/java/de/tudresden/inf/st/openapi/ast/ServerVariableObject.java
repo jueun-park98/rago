@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:18
@@ -25,9 +26,9 @@ import java.util.stream.IntStream;
 public class ServerVariableObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:132
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:149
    */
-  public static ServerVariable composeServerVariable (ServerVariableObject serverVariableObject){
+  public static ServerVariable composeServerVariable (ServerVariableObject serverVariableObject, Map<Object, ASTNode> map){
         ServerVariable serverVariable = new ServerVariable();
 
         if( !serverVariableObject.getDefault().isEmpty() )
@@ -40,14 +41,21 @@ public class ServerVariableObject extends ASTNode<ASTNode> implements Cloneable 
         enums.add( e.getEnumValue() );
         serverVariable.setEnums( enums );
         }
+        if( serverVariableObject.getNumExtension() != 0 ){
+        Map<String, Object> extensions = new HashMap<>();
+        for( Extension e : serverVariableObject.getExtensions() )
+        extensions.put(e.getKey(), e.getValue());
+        serverVariable.setExtensions(extensions);
+        }
 
+        map.put(serverVariable, serverVariableObject);
         return serverVariable;
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:106
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:122
    */
-  public static ServerVariableObject parseServerVariable(ServerVariable serverVariable){
+  public static ServerVariableObject parseServerVariable(ServerVariable serverVariable, Map<Object, ASTNode> map){
         ServerVariableObject serverVariableObject = new ServerVariableObject();
 
         if( serverVariable.getDefault() != null )
@@ -58,7 +66,12 @@ public class ServerVariableObject extends ASTNode<ASTNode> implements Cloneable 
         for( String e : serverVariable.getEnums() )
         serverVariableObject.addEnum(new Enum(e));
         }
+        if( serverVariable.getExtensions() != null ){
+        for( String key : serverVariable.getExtensions().keySet() )
+        serverVariableObject.addExtension(new Extension(key, serverVariable.getExtensions().get(key)));
+        }
 
+        map.put(serverVariable, serverVariableObject);
         return serverVariableObject;
         }
   /**

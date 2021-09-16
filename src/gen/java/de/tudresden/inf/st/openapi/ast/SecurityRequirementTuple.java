@@ -15,9 +15,10 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:145
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:143
  * @astdecl SecurityRequirementTuple : ASTNode ::= <Name:String> SecurityRequirementValue*;
  * @production SecurityRequirementTuple : {@link ASTNode} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">{@link SecurityRequirementValue}*</span>;
 

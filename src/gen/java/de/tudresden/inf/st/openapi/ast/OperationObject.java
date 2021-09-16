@@ -15,20 +15,22 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:51
- * @astdecl OperationObject : ASTNode ::= Tag* <Summary:String> <Description:String> [ExternalDocObject] <OperationID:String> ParameterObject* [RequestBodyOb] ResponseTuple* CallbackTuple* <DeprecatedBoolean:Boolean> SecurityRequirementObject* ServerObject* <Required:Boolean> Extension*;
- * @production OperationObject : {@link ASTNode} ::= <span class="component">{@link Tag}*</span> <span class="component">&lt;Summary:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">[{@link ExternalDocObject}]</span> <span class="component">&lt;OperationID:String&gt;</span> <span class="component">{@link ParameterObject}*</span> <span class="component">[{@link RequestBodyOb}]</span> <span class="component">{@link ResponseTuple}*</span> <span class="component">{@link CallbackTuple}*</span> <span class="component">&lt;DeprecatedBoolean:Boolean&gt;</span> <span class="component">{@link SecurityRequirementObject}*</span> <span class="component">{@link ServerObject}*</span> <span class="component">&lt;Required:Boolean&gt;</span> <span class="component">{@link Extension}*</span>;
+ * @astdecl OperationObject : ASTNode ::= Tag* <Summary:String> <Description:String> [ExternalDocObject] <OperationID:String> ParameterOb* [RequestBodyOb] ResponseTuple* CallbackTuple* <DeprecatedBoolean:Boolean> SecurityRequirementObject* ServerObject* <Required:Boolean> Extension*;
+ * @production OperationObject : {@link ASTNode} ::= <span class="component">{@link Tag}*</span> <span class="component">&lt;Summary:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">[{@link ExternalDocObject}]</span> <span class="component">&lt;OperationID:String&gt;</span> <span class="component">{@link ParameterOb}*</span> <span class="component">[{@link RequestBodyOb}]</span> <span class="component">{@link ResponseTuple}*</span> <span class="component">{@link CallbackTuple}*</span> <span class="component">&lt;DeprecatedBoolean:Boolean&gt;</span> <span class="component">{@link SecurityRequirementObject}*</span> <span class="component">{@link ServerObject}*</span> <span class="component">&lt;Required:Boolean&gt;</span> <span class="component">{@link Extension}*</span>;
 
  */
 public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:313
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:281
    */
-  public static Operation composeOperation (OperationObject operationObject){
+  public static Operation composeOperation (OperationObject operationObject, Map<Object, ASTNode> map){
         Operation operation = new Operation();
+
 
         if( operationObject.getNumTag() != 0 ){
         for( de.tudresden.inf.st.openapi.ast.Tag t : operationObject.getTags() )
@@ -87,148 +89,10 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
         return operation;
         }
   /**
-   * @aspect RandomRequestGenerator
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jadd:60
-   */
-  public void sendRandomGET(String targetUrl) throws Exception {
-        Random rand = new Random();
-
-        for( ParameterObject p : this.getParameterObjects() ){
-        if( p.getIn().equals("path") ){
-        String pathPart = targetUrl.substring(targetUrl.indexOf("{") ,targetUrl.indexOf("}") + 1);
-
-        if( p.getSchemaObject().getType().equals("string") )
-        targetUrl = targetUrl.replace(pathPart, this.generateRandomString(rand, p.getSchemaObject().getEnumObjs()));
-        else if( p.getSchemaObject().getType().equals("integer") )
-        targetUrl = targetUrl.replace(pathPart, this.generateRandomInt( rand,
-        -1, // p.getSchemaObject().getMinimum() != null ? p.getSchemaObject().getMinimum().intValue() : -1,
-        10 // p.getSchemaObject().getMaximum() != null ? p.getSchemaObject().getMaximum().intValue() : -1
-        ));
-        }
-        else if( p.getIn().equals("query") ){
-
-        if( p.getSchemaObject().getType().equals("string") )
-        targetUrl = targetUrl + "&" + p.getName() + "=" + this.generateRandomString(rand, p.getSchemaObject().getEnumObjs());
-        else if( p.getSchemaObject().getType().equals("integer") )
-        targetUrl = targetUrl + "&" + p.getName() + "=" + this.generateRandomInt(  rand,
-        -1, // p.getSchemaObject().getMinimum() != null ? p.getSchemaObject().getMinimum().intValue() : -1,
-        10); // p.getSchemaObject().getMaximum() != null ? p.getSchemaObject().getMaximum().intValue() : -1
-        else if( p.getSchemaObject().getType().equals("array") ){
-        if( p.getSchemaObject().getItemsSchema().getSchemaObject().getType().equals("string") ){
-        for( EnumObj e : p.getSchemaObject().getItemsSchema().getSchemaObject().getEnumObjs() )
-        targetUrl=rand.nextDouble()< 0.5?targetUrl+"&"+p.getName()+"="+e.getEnumOb():targetUrl;
-        }
-        else if( p.getSchemaObject().getItemsSchema().getSchemaObject().getType().equals("integer") ){
-        for( int i = 0 ; i < 5 ; i++ )
-        targetUrl = targetUrl + "&" + p.getName() + "=" + this.generateRandomInt(  rand,
-        -1, // p.getSchemaObject().getMinimum() != null ? p.getSchemaObject().getMinimum().intValue() : -1,
-        10); // p.getSchemaObject().getMaximum() != null ? p.getSchemaObject().getMaximum().intValue() : -1
-        }
-
-        }
-        }
-        }
-        targetUrl = targetUrl.replaceFirst("&", "?");
-        System.out.println(targetUrl);
-
-        URL url = new URL(targetUrl);
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-
-        con.setRequestMethod("GET"); // optional default is GET
-        int responseCode = con.getResponseCode();
-
-        // print result
-        System.out.println("HTTP status code (GET) : " + responseCode);
-    }
-  /**
-   * @aspect RandomRequestGenerator
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jadd:111
-   */
-  public void sendRandomPOST(String targetUrl) throws Exception {
-        Random rand = new Random();
-
-        for( ParameterObject p : this.getParameterObjects() ){
-        if( p.getIn().equals("path") ){
-        String pathPart = targetUrl.substring(targetUrl.indexOf("{") ,targetUrl.indexOf("}") + 1);
-
-        if( p.getSchemaObject().getType().equals("string") )
-        targetUrl = targetUrl.replace(pathPart, this.generateRandomString(rand, p.getSchemaObject().getEnumObjs()));
-        else if( p.getSchemaObject().getType().equals("integer") )
-        targetUrl = targetUrl.replace(pathPart, this.generateRandomInt( rand,
-        -1, // p.getSchemaObject().getMinimum() != null ? p.getSchemaObject().getMinimum().intValue() : -1,
-        10 // p.getSchemaObject().getMaximum() != null ? p.getSchemaObject().getMaximum().intValue() : -1
-        ));
-        }
-        else if( p.getIn().equals("query") ){
-
-        if( p.getSchemaObject().getType().equals("string") )
-        targetUrl = targetUrl + "&" + p.getName() + "=" + this.generateRandomString(rand, p.getSchemaObject().getEnumObjs());
-        else if( p.getSchemaObject().getType().equals("integer") )
-        targetUrl = targetUrl + "&" + p.getName() + "=" + this.generateRandomInt(  rand,
-        -1, // p.getSchemaObject().getMinimum() != null ? p.getSchemaObject().getMinimum().intValue() : -1,
-        10); // p.getSchemaObject().getMaximum() != null ? p.getSchemaObject().getMaximum().intValue() : -1
-        else if( p.getSchemaObject().getType().equals("array") ){
-        if( p.getSchemaObject().getItemsSchema().getSchemaObject().getType().equals("string") ){
-        for( EnumObj e : p.getSchemaObject().getItemsSchema().getSchemaObject().getEnumObjs() )
-        targetUrl=rand.nextDouble()< 0.5?targetUrl+"&"+p.getName()+"="+e.getEnumOb():targetUrl;
-        }
-        else if( p.getSchemaObject().getItemsSchema().getSchemaObject().getType().equals("integer") ){
-        for( int i = 0 ; i < 5 ; i++ )
-        targetUrl = targetUrl + "&" + p.getName() + "=" + this.generateRandomInt(  rand,
-        -1, // p.getSchemaObject().getMinimum() != null ? p.getSchemaObject().getMinimum().intValue() : -1,
-        10); // p.getSchemaObject().getMaximum() != null ? p.getSchemaObject().getMaximum().intValue() : -1
-        }
-
-        }
-        }
-        }
-        targetUrl = targetUrl.replaceFirst("&", "?");
-        System.out.println(targetUrl);
-
-        URL url = new URL(targetUrl);
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-
-        con.setRequestMethod("POST"); // HTTP POST
-        con.setDoOutput(true); // POST
-
-        int responseCode = con.getResponseCode();
-
-        // print result
-        System.out.println("HTTP status code (POST) : " + responseCode);
-    }
-  /**
-   * @aspect RandomRequestGenerator
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jadd:164
-   */
-  public String generateRandomString(Random rand, JastAddList<EnumObj> objs) {
-        if( objs.getNumChild() != 0 )
-        return objs.getChild(rand.nextInt(objs.getNumChild())).getEnumOb().toString();
-
-
-        return rand
-        .ints(97, 123)
-        .limit(10)
-        .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-        .toString();
-    }
-  /**
-   * @aspect RandomRequestGenerator
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jadd:176
-   */
-  public String generateRandomInt(Random rand, int minimum, int maximum){
-        if( minimum > -1 && maximum > 0 )
-        return String.valueOf(rand.nextInt(minimum+maximum)-minimum);
-        else if( minimum > -1 )
-        return String.valueOf(rand.nextInt()+minimum);
-        else if( maximum > 0 )
-        return String.valueOf(rand.nextInt(maximum));
-        return String.valueOf(rand.nextInt());
-        }
-  /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:349
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:288
    */
-  public static OperationObject parseOperation(Operation operation){
+  public static OperationObject parseOperation(Operation operation, OAIContext context, Map<Object, ASTNode> map) throws DecodeException{
         OperationObject operationObject = new OperationObject();
 
         if( operation.getDeprecated() != null )
@@ -245,36 +109,37 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
         if( operation.getDescription() != null )
         operationObject.setDescription( operation.getDescription() );
         if( operation.getExternalDocs() != null )
-        operationObject.setExternalDocObject(ExternalDocObject.parseExternalDocs(operation.getExternalDocs()));
+        operationObject.setExternalDocObject(ExternalDocObject.parseExternalDocs(operation.getExternalDocs(), map));
         if( operation.getOperationId() != null )
         operationObject.setOperationID( operation.getOperationId() );
         if( operation.getParameters() != null ){
         for( Parameter p : operation.getParameters() )
-        operationObject.addParameterObject(ParameterObject.parseParameter(p));
+        operationObject.addParameterOb(ParameterOb.parseParameter(p, context, map));
         }
         if( operation.getRequestBody() != null )
-        operationObject.setRequestBodyObject( RequestBodyObject.parseRequestBody( operation.getRequestBody() ) );
+        operationObject.setRequestBodyOb( RequestBodyOb.parseRequestBody( operation.getRequestBody(), context, map) );
         if( operation.getResponses() != null ){
         for( String key : operation.getResponses().keySet())
-        operationObject.addResponseTuple(new ResponseTuple(key, ResponseObject.parseResponse(operation.getResponse(key))));
+        operationObject.addResponseTuple(new ResponseTuple(key, ResponseObject.parseResponse(operation.getResponse(key), context, map)));
         }
         if( operation.getCallbacks() != null ){
         for( String key : operation.getCallbacks().keySet() )
-        operationObject.addCallbackTuple(new CallbackTuple(key, CallbackObject.parseCallback(operation.getCallback(key))));
+        operationObject.addCallbackTuple(new CallbackTuple(key, CallbackObject.parseCallback(operation.getCallback(key), context, map)));
         }
         if( operation.getSecurityRequirements() != null ){
         for( SecurityRequirement s : operation.getSecurityRequirements() )
-        operationObject.addSecurityRequirementObject(SecurityRequirementObject.parseSecurityRequirement(s));
+        operationObject.addSecurityRequirementObject(SecurityRequirementObject.parseSecurityRequirement(s, map));
         }
         if( operation.getServers() != null ){
         for( Server s : operation.getServers() )
-        operationObject.addServerObject(ServerObject.parseServer(s));
+        operationObject.addServerObject(ServerObject.parseServer(s, map));
         }
         if( operation.getExtensions() != null ) {
         for( String key : operation.getExtensions().keySet() )
         operationObject.addExtension(new Extension(key, operation.getExtensions().get(key)));
         }
 
+        map.put(operation, operationObject);
         return operationObject;
         }
   /**
@@ -306,11 +171,11 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:22
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Tag", "Summary", "Description", "ExternalDocObject", "OperationID", "ParameterObject", "RequestBodyOb", "ResponseTuple", "CallbackTuple", "DeprecatedBoolean", "SecurityRequirementObject", "ServerObject", "Required", "Extension"},
-    type = {"JastAddList<Tag>", "String", "String", "Opt<ExternalDocObject>", "String", "JastAddList<ParameterObject>", "Opt<RequestBodyOb>", "JastAddList<ResponseTuple>", "JastAddList<CallbackTuple>", "Boolean", "JastAddList<SecurityRequirementObject>", "JastAddList<ServerObject>", "Boolean", "JastAddList<Extension>"},
+    name = {"Tag", "Summary", "Description", "ExternalDocObject", "OperationID", "ParameterOb", "RequestBodyOb", "ResponseTuple", "CallbackTuple", "DeprecatedBoolean", "SecurityRequirementObject", "ServerObject", "Required", "Extension"},
+    type = {"JastAddList<Tag>", "String", "String", "Opt<ExternalDocObject>", "String", "JastAddList<ParameterOb>", "Opt<RequestBodyOb>", "JastAddList<ResponseTuple>", "JastAddList<CallbackTuple>", "Boolean", "JastAddList<SecurityRequirementObject>", "JastAddList<ServerObject>", "Boolean", "JastAddList<Extension>"},
     kind = {"List", "Token", "Token", "Opt", "Token", "List", "Opt", "List", "List", "Token", "List", "List", "Token", "List"}
   )
-  public OperationObject(JastAddList<Tag> p0, String p1, String p2, Opt<ExternalDocObject> p3, String p4, JastAddList<ParameterObject> p5, Opt<RequestBodyOb> p6, JastAddList<ResponseTuple> p7, JastAddList<CallbackTuple> p8, Boolean p9, JastAddList<SecurityRequirementObject> p10, JastAddList<ServerObject> p11, Boolean p12, JastAddList<Extension> p13) {
+  public OperationObject(JastAddList<Tag> p0, String p1, String p2, Opt<ExternalDocObject> p3, String p4, JastAddList<ParameterOb> p5, Opt<RequestBodyOb> p6, JastAddList<ResponseTuple> p7, JastAddList<CallbackTuple> p8, Boolean p9, JastAddList<SecurityRequirementObject> p10, JastAddList<ServerObject> p11, Boolean p12, JastAddList<Extension> p13) {
     setChild(p0, 0);
     setSummary(p1);
     setDescription(p2);
@@ -654,114 +519,114 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
     return tokenString_OperationID != null ? tokenString_OperationID : "";
   }
   /**
-   * Replaces the ParameterObject list.
-   * @param list The new list node to be used as the ParameterObject list.
+   * Replaces the ParameterOb list.
+   * @param list The new list node to be used as the ParameterOb list.
    * @apilevel high-level
    */
-  public void setParameterObjectList(JastAddList<ParameterObject> list) {
+  public void setParameterObList(JastAddList<ParameterOb> list) {
     setChild(list, 2);
   }
   /**
-   * Retrieves the number of children in the ParameterObject list.
-   * @return Number of children in the ParameterObject list.
+   * Retrieves the number of children in the ParameterOb list.
+   * @return Number of children in the ParameterOb list.
    * @apilevel high-level
    */
-  public int getNumParameterObject() {
-    return getParameterObjectList().getNumChild();
+  public int getNumParameterOb() {
+    return getParameterObList().getNumChild();
   }
   /**
-   * Retrieves the number of children in the ParameterObject list.
+   * Retrieves the number of children in the ParameterOb list.
    * Calling this method will not trigger rewrites.
-   * @return Number of children in the ParameterObject list.
+   * @return Number of children in the ParameterOb list.
    * @apilevel low-level
    */
-  public int getNumParameterObjectNoTransform() {
-    return getParameterObjectListNoTransform().getNumChildNoTransform();
+  public int getNumParameterObNoTransform() {
+    return getParameterObListNoTransform().getNumChildNoTransform();
   }
   /**
-   * Retrieves the element at index {@code i} in the ParameterObject list.
+   * Retrieves the element at index {@code i} in the ParameterOb list.
    * @param i Index of the element to return.
-   * @return The element at position {@code i} in the ParameterObject list.
+   * @return The element at position {@code i} in the ParameterOb list.
    * @apilevel high-level
    */
-  public ParameterObject getParameterObject(int i) {
-    return (ParameterObject) getParameterObjectList().getChild(i);
+  public ParameterOb getParameterOb(int i) {
+    return (ParameterOb) getParameterObList().getChild(i);
   }
   /**
-   * Check whether the ParameterObject list has any children.
+   * Check whether the ParameterOb list has any children.
    * @return {@code true} if it has at least one child, {@code false} otherwise.
    * @apilevel high-level
    */
-  public boolean hasParameterObject() {
-    return getParameterObjectList().getNumChild() != 0;
+  public boolean hasParameterOb() {
+    return getParameterObList().getNumChild() != 0;
   }
   /**
-   * Append an element to the ParameterObject list.
-   * @param node The element to append to the ParameterObject list.
+   * Append an element to the ParameterOb list.
+   * @param node The element to append to the ParameterOb list.
    * @apilevel high-level
    */
-  public void addParameterObject(ParameterObject node) {
-    JastAddList<ParameterObject> list = (parent == null) ? getParameterObjectListNoTransform() : getParameterObjectList();
+  public void addParameterOb(ParameterOb node) {
+    JastAddList<ParameterOb> list = (parent == null) ? getParameterObListNoTransform() : getParameterObList();
     list.addChild(node);
   }
   /** @apilevel low-level 
    */
-  public void addParameterObjectNoTransform(ParameterObject node) {
-    JastAddList<ParameterObject> list = getParameterObjectListNoTransform();
+  public void addParameterObNoTransform(ParameterOb node) {
+    JastAddList<ParameterOb> list = getParameterObListNoTransform();
     list.addChild(node);
   }
   /**
-   * Replaces the ParameterObject list element at index {@code i} with the new node {@code node}.
+   * Replaces the ParameterOb list element at index {@code i} with the new node {@code node}.
    * @param node The new node to replace the old list element.
    * @param i The list index of the node to be replaced.
    * @apilevel high-level
    */
-  public void setParameterObject(ParameterObject node, int i) {
-    JastAddList<ParameterObject> list = getParameterObjectList();
+  public void setParameterOb(ParameterOb node, int i) {
+    JastAddList<ParameterOb> list = getParameterObList();
     list.setChild(node, i);
   }
   /**
-   * Retrieves the ParameterObject list.
-   * @return The node representing the ParameterObject list.
+   * Retrieves the ParameterOb list.
+   * @return The node representing the ParameterOb list.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.ListChild(name="ParameterObject")
-  public JastAddList<ParameterObject> getParameterObjectList() {
-    JastAddList<ParameterObject> list = (JastAddList<ParameterObject>) getChild(2);
+  @ASTNodeAnnotation.ListChild(name="ParameterOb")
+  public JastAddList<ParameterOb> getParameterObList() {
+    JastAddList<ParameterOb> list = (JastAddList<ParameterOb>) getChild(2);
     return list;
   }
   /**
-   * Retrieves the ParameterObject list.
+   * Retrieves the ParameterOb list.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The node representing the ParameterObject list.
+   * @return The node representing the ParameterOb list.
    * @apilevel low-level
    */
-  public JastAddList<ParameterObject> getParameterObjectListNoTransform() {
-    return (JastAddList<ParameterObject>) getChildNoTransform(2);
+  public JastAddList<ParameterOb> getParameterObListNoTransform() {
+    return (JastAddList<ParameterOb>) getChildNoTransform(2);
   }
   /**
-   * @return the element at index {@code i} in the ParameterObject list without
+   * @return the element at index {@code i} in the ParameterOb list without
    * triggering rewrites.
    */
-  public ParameterObject getParameterObjectNoTransform(int i) {
-    return (ParameterObject) getParameterObjectListNoTransform().getChildNoTransform(i);
+  public ParameterOb getParameterObNoTransform(int i) {
+    return (ParameterOb) getParameterObListNoTransform().getChildNoTransform(i);
   }
   /**
-   * Retrieves the ParameterObject list.
-   * @return The node representing the ParameterObject list.
+   * Retrieves the ParameterOb list.
+   * @return The node representing the ParameterOb list.
    * @apilevel high-level
    */
-  public JastAddList<ParameterObject> getParameterObjects() {
-    return getParameterObjectList();
+  public JastAddList<ParameterOb> getParameterObs() {
+    return getParameterObList();
   }
   /**
-   * Retrieves the ParameterObject list.
+   * Retrieves the ParameterOb list.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The node representing the ParameterObject list.
+   * @return The node representing the ParameterOb list.
    * @apilevel low-level
    */
-  public JastAddList<ParameterObject> getParameterObjectsNoTransform() {
-    return getParameterObjectListNoTransform();
+  public JastAddList<ParameterOb> getParameterObsNoTransform() {
+    return getParameterObListNoTransform();
   }
   /**
    * Replaces the optional node for the RequestBodyOb child. This is the <code>Opt</code>

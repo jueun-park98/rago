@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:69
@@ -25,9 +26,9 @@ import java.util.stream.IntStream;
 public class MediaTypeObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:458
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:427
    */
-  public static MediaType composeMediaType (MediaTypeObject mediaTypeObject){
+  public static MediaType composeMediaType (MediaTypeObject mediaTypeObject, Map<Object, ASTNode> map){
         MediaType mediaType = new MediaType();
 
         if( mediaTypeObject.getSchemaObject() != null )
@@ -51,24 +52,29 @@ public class MediaTypeObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:473
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:430
    */
-  public static MediaTypeObject parseMediaType(MediaType mediaType){
+  public static MediaTypeObject parseMediaType(MediaType mediaType, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         MediaTypeObject mediaTypeObject = new MediaTypeObject();
 
         if( mediaType.getSchema() != null )
-        mediaTypeObject.setSchemaObject(SchemaObject.parseSchema(mediaType.getSchema()));
+        mediaTypeObject.setSchemaOb(SchemaObject.parseSchema(mediaType.getSchema(), context, map));
         if( mediaType.getExample() != null )
         mediaTypeObject.setExample(mediaType.getExample());
         if( mediaType.getExamples() != null ){
         for( String key : mediaType.getExamples().keySet() )
-        mediaTypeObject.addExampleTuple(new ExampleTuple(key, ExampleObject.parseExample(mediaType.getExample(key))));
+        mediaTypeObject.addExampleTuple(new ExampleTuple(key, ExampleObject.parseExample(mediaType.getExample(key), context, map)));
         }
         if( mediaType.getEncodings() != null ){
         for( String key : mediaType.getEncodings().keySet() )
-        mediaTypeObject.addEncodingTuple(new EncodingTuple(key, EncodingObject.parseEncoding(mediaType.getEncoding(key))));
+        mediaTypeObject.addEncodingTuple(new EncodingTuple(key, EncodingObject.parseEncoding(mediaType.getEncoding(key), context, map)));
+        }
+        if( mediaType.getExtensions() != null ){
+        for( String key : mediaType.getExtensions().keySet() )
+        mediaTypeObject.addExtension(new Extension(key, mediaType.getExtensions().get(key)));
         }
 
+        map.put(mediaType, mediaTypeObject);
         return mediaTypeObject;
         }
   /**

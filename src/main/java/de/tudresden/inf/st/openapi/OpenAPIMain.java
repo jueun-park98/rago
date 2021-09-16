@@ -56,6 +56,7 @@ public class OpenAPIMain {
                 Schema s = api.getPaths().get("/pet").getPost().getResponse("200").getContentMediaType("application/xml").getSchema();
                 System.out.println(api.getPaths().get("/pet").getPost().getResponse("200").getContentMediaType("application/xml").getSchema().getRef());
                 System.out.println(s.getReference(api.getContext()).getMappedContent(Schema.class).getTitle());
+                System.out.println(s.getReference(api.getContext()).getMappedContent(Schema.class));
                 //System.out.println(s.getReference(new OAI3Context(new URL(s.getRef()))).getMappedContent(Schema.class).getTitle());
 
                 //System.out.println(api.getPaths().get("/pet").getPost().getResponse("'200'").getContentMediaType("application/xml").getSchema().isRef());

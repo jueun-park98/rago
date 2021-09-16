@@ -15,9 +15,10 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:121
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:119
  * @astdecl DiscriminatorObject : ASTNode ::= <PropertyName:String> MappingTuple*;
  * @production DiscriminatorObject : {@link ASTNode} ::= <span class="component">&lt;PropertyName:String&gt;</span> <span class="component">{@link MappingTuple}*</span>;
 
@@ -25,9 +26,9 @@ import java.util.stream.IntStream;
 public class DiscriminatorObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:747
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:717
    */
-  public static Discriminator composeDiscriminator (DiscriminatorObject discriminatorObject) {
+  public static Discriminator composeDiscriminator (DiscriminatorObject discriminatorObject, Map<Object, ASTNode> map) {
         Discriminator discriminator = new Discriminator();
 
         if( !discriminatorObject.getPropertyName().isEmpty() )
@@ -43,9 +44,9 @@ public class DiscriminatorObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:757
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:891
    */
-  public static DiscriminatorObject parseDiscriminator (Discriminator discriminator) {
+  public static DiscriminatorObject parseDiscriminator (Discriminator discriminator, Map<Object, ASTNode> map) {
         DiscriminatorObject discriminatorObject = new DiscriminatorObject();
 
         if( discriminator.getPropertyName() != null )
@@ -58,6 +59,7 @@ public class DiscriminatorObject extends ASTNode<ASTNode> implements Cloneable {
         discriminatorObject.addMappingTuple(mapping);
         }
         }
+        map.put(discriminator, discriminatorObject);
 
         return discriminatorObject;
         }

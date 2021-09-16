@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:35
@@ -23,29 +24,6 @@ import java.util.stream.IntStream;
 
  */
 public class PathsObject extends ASTNode<ASTNode> implements Cloneable {
-  /**
-   * @aspect RandomRequestGenerator
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jadd:40
-   */
-  public void sendRandomRequests(String baseUrl) throws Exception {
-        if( this.getPathItem().hasGet() ){
-        IntStream.range(0, 1).forEach( i -> {
-        try {
-        this.getPathItem().getGet().getOperationObject().sendRandomGET(baseUrl+this.getRef());
-        } catch (Exception e) {
-        e.printStackTrace();
-        }
-        });
-        }
-        if( this.getPathItem().hasPost() ){
-        IntStream.range(0, 1).forEach( i -> {
-        try {
-        this.getPathItem().getPost().getOperationObject().sendRandomPOST(baseUrl+this.getRef());
-        } catch (Exception e) {
-        e.printStackTrace();
-        }
-        });}
-    }
   /**
    * @declaredat ASTNode:1
    */

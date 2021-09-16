@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:38
@@ -25,10 +26,12 @@ import java.util.stream.IntStream;
 public abstract class PathItemOb extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:272
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:240
    */
-  public static Path composePath (PathItem pathItem){
+  public static Path composePath (PathItemOb pathItem, Map<Object, ASTNode> map){
         Path path = new Path();
+
+        
 
         if( !pathItem.getRef().isEmpty() )
         path.setRef(pathItem.getRef());
@@ -69,77 +72,76 @@ public abstract class PathItemOb extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:277
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:217
    */
-  public static PathItem parsePath(Path path){
-        PathItem pathItem = new PathItem();
+  public static PathItemOb parsePath(Path path, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
+        PathItemObject pathItem = new PathItemObject();
 
-        if( path.getRef() != null )
-        pathItem.setRef(path.getRef());
+        if( path.isRef() ){
+        PathItemReference p = new PathItemReference();
+        p.setRef(path.getRef());
+        p.setPathItemOb((PathItemObject) parsePath(path.getReference(context).getMappedContent(Path.class), context, map));
+        return p;
+        } else {
         if( path.getSummary() != null )
         pathItem.setSummary(path.getSummary());
         if( path.getDescription() != null )
         pathItem.setDescription(path.getDescription());
         if( path.getGet() != null ){
         Get get = new Get();
-        get.setOperationObject( OperationObject.parseOperation( path.getGet() ) );
+        get.setOperationObject( OperationObject.parseOperation( path.getGet(), context, map ) );
         pathItem.setGet(get);
         }
         if( path.getPut() != null ){
         Put put = new Put();
-        put.setOperationObject( OperationObject.parseOperation( path.getPut() ) );
+        put.setOperationObject( OperationObject.parseOperation( path.getPut(), context, map ) );
         pathItem.setPut(put);
         }
         if( path.getPost() != null ){
         Post post = new Post();
-        post.setOperationObject( OperationObject.parseOperation( path.getPost() ) );
+        post.setOperationObject( OperationObject.parseOperation( path.getPost(), context, map ) );
         pathItem.setPost(post);
         }
         if( path.getDelete() != null ){
         Delete delete = new Delete();
-        delete.setOperationObject( OperationObject.parseOperation( path.getDelete() ) );
+        delete.setOperationObject( OperationObject.parseOperation( path.getDelete(), context, map ) );
         pathItem.setDelete(delete);
         }
         if( path.getOptions() != null ){
         Options options = new Options();
-        options.setOperationObject( OperationObject.parseOperation( path.getOptions() ) );
+        options.setOperationObject( OperationObject.parseOperation( path.getOptions(), context, map ) );
         pathItem.setOptions(options);
         }
         if( path.getHead() != null ){
         Head head = new Head();
-        head.setOperationObject( OperationObject.parseOperation( path.getHead() ) );
+        head.setOperationObject( OperationObject.parseOperation( path.getHead(), context, map ) );
         pathItem.setHead(head);
         }
         if( path.getPatch() != null ){
         Patch patch = new Patch();
-        patch.setOperationObject( OperationObject.parseOperation( path.getPatch() ) );
+        patch.setOperationObject( OperationObject.parseOperation( path.getPatch(), context, map ) );
         pathItem.setPatch(patch);
         }
         if( path.getTrace() != null ){
         Trace trace = new Trace();
-        trace.setOperationObject( OperationObject.parseOperation( path.getTrace() ) );
+        trace.setOperationObject( OperationObject.parseOperation( path.getTrace(), context, map ) );
         pathItem.setTrace(trace);
         }
         if( path.getServers() != null ){
         for(Server s : path.getServers())
-        pathItem.addServerObject( ServerObject.parseServer(s));
+        pathItem.addServerObject( ServerObject.parseServer(s, map));
         }
         if( path.getParameters() != null ){
-        for(Parameter p : path.getParameters()){
-        if( p.isRef() ) {
-        ParameterObject parameterObject = new ParameterObject();
-        parameterObject.setRef(p.getRef());
-        pathItem.addParameterObject(parameterObject);
-        }
-        else
-        pathItem.addParameterObject(ParameterObject.parseParameter(p));
-        }
+        for(Parameter p : path.getParameters())
+        pathItem.addParameterOb(ParameterOb.parseParameter(p, context, map));
         }
         if( path.getExtensions() != null ){
         for( String key : path.getExtensions().keySet() )
         pathItem.addExtension(new Extension(key, path.getExtensions().get(key)));
         }
+        }
 
+        map.put(path, pathItem);
         return pathItem;
         }
   /**

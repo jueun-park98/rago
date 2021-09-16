@@ -15,11 +15,12 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:65
- * @astdecl RequestBodyReference : RequestBodyOb ::= <Ref:String> <RequestBodyObject:RequestBodyObject>;
- * @production RequestBodyReference : {@link RequestBodyOb} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;RequestBodyObject:RequestBodyObject&gt;</span>;
+ * @astdecl RequestBodyReference : RequestBodyOb ::= <Ref:String> <RequestBodyOb:RequestBodyOb>;
+ * @production RequestBodyReference : {@link RequestBodyOb} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;RequestBodyOb:RequestBodyOb&gt;</span>;
 
  */
 public class RequestBodyReference extends RequestBodyOb implements Cloneable {
@@ -42,13 +43,13 @@ public class RequestBodyReference extends RequestBodyOb implements Cloneable {
    * @declaredat ASTNode:12
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Ref", "RequestBodyObject"},
-    type = {"String", "RequestBodyObject"},
+    name = {"Ref", "RequestBodyOb"},
+    type = {"String", "RequestBodyOb"},
     kind = {"Token", "Token"}
   )
-  public RequestBodyReference(String p0, RequestBodyObject p1) {
+  public RequestBodyReference(String p0, RequestBodyOb p1) {
     setRef(p0);
-    setRequestBodyObject(p1);
+    setRequestBodyOb(p1);
   }
   /** @apilevel low-level 
    * @declaredat ASTNode:22
@@ -154,7 +155,7 @@ public class RequestBodyReference extends RequestBodyOb implements Cloneable {
    * @declaredat ASTNode:108
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node) && (tokenString_Ref == ((RequestBodyReference) node).tokenString_Ref) && (tokenRequestBodyObject_RequestBodyObject == ((RequestBodyReference) node).tokenRequestBodyObject_RequestBodyObject);    
+    return super.is$Equal(node) && (tokenString_Ref == ((RequestBodyReference) node).tokenString_Ref) && (tokenRequestBodyOb_RequestBodyOb == ((RequestBodyReference) node).tokenRequestBodyOb_RequestBodyOb);    
   }
   /**
    * Replaces the lexeme Ref.
@@ -177,24 +178,24 @@ public class RequestBodyReference extends RequestBodyOb implements Cloneable {
     return tokenString_Ref != null ? tokenString_Ref : "";
   }
   /**
-   * Replaces the lexeme RequestBodyObject.
-   * @param value The new value for the lexeme RequestBodyObject.
+   * Replaces the lexeme RequestBodyOb.
+   * @param value The new value for the lexeme RequestBodyOb.
    * @apilevel high-level
    */
-  public void setRequestBodyObject(RequestBodyObject value) {
-    tokenRequestBodyObject_RequestBodyObject = value;
+  public void setRequestBodyOb(RequestBodyOb value) {
+    tokenRequestBodyOb_RequestBodyOb = value;
   }
   /** @apilevel internal 
    */
-  protected RequestBodyObject tokenRequestBodyObject_RequestBodyObject;
+  protected RequestBodyOb tokenRequestBodyOb_RequestBodyOb;
   /**
-   * Retrieves the value for the lexeme RequestBodyObject.
-   * @return The value for the lexeme RequestBodyObject.
+   * Retrieves the value for the lexeme RequestBodyOb.
+   * @return The value for the lexeme RequestBodyOb.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Token(name="RequestBodyObject")
-  public RequestBodyObject getRequestBodyObject() {
-    return tokenRequestBodyObject_RequestBodyObject;
+  @ASTNodeAnnotation.Token(name="RequestBodyOb")
+  public RequestBodyOb getRequestBodyOb() {
+    return tokenRequestBodyOb_RequestBodyOb;
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

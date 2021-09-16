@@ -15,11 +15,12 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:94
- * @astdecl LinkReference : LinkOb ::= <Ref:String> <LinkObject:LinkObject>;
- * @production LinkReference : {@link LinkOb} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;LinkObject:LinkObject&gt;</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:92
+ * @astdecl LinkReference : LinkOb ::= <Ref:String> <LinkOb:LinkOb>;
+ * @production LinkReference : {@link LinkOb} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;LinkOb:LinkOb&gt;</span>;
 
  */
 public class LinkReference extends LinkOb implements Cloneable {
@@ -42,13 +43,13 @@ public class LinkReference extends LinkOb implements Cloneable {
    * @declaredat ASTNode:12
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Ref", "LinkObject"},
-    type = {"String", "LinkObject"},
+    name = {"Ref", "LinkOb"},
+    type = {"String", "LinkOb"},
     kind = {"Token", "Token"}
   )
-  public LinkReference(String p0, LinkObject p1) {
+  public LinkReference(String p0, LinkOb p1) {
     setRef(p0);
-    setLinkObject(p1);
+    setLinkOb(p1);
   }
   /** @apilevel low-level 
    * @declaredat ASTNode:22
@@ -154,7 +155,7 @@ public class LinkReference extends LinkOb implements Cloneable {
    * @declaredat ASTNode:108
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node) && (tokenString_Ref == ((LinkReference) node).tokenString_Ref) && (tokenLinkObject_LinkObject == ((LinkReference) node).tokenLinkObject_LinkObject);    
+    return super.is$Equal(node) && (tokenString_Ref == ((LinkReference) node).tokenString_Ref) && (tokenLinkOb_LinkOb == ((LinkReference) node).tokenLinkOb_LinkOb);    
   }
   /**
    * Replaces the lexeme Ref.
@@ -177,24 +178,24 @@ public class LinkReference extends LinkOb implements Cloneable {
     return tokenString_Ref != null ? tokenString_Ref : "";
   }
   /**
-   * Replaces the lexeme LinkObject.
-   * @param value The new value for the lexeme LinkObject.
+   * Replaces the lexeme LinkOb.
+   * @param value The new value for the lexeme LinkOb.
    * @apilevel high-level
    */
-  public void setLinkObject(LinkObject value) {
-    tokenLinkObject_LinkObject = value;
+  public void setLinkOb(LinkOb value) {
+    tokenLinkOb_LinkOb = value;
   }
   /** @apilevel internal 
    */
-  protected LinkObject tokenLinkObject_LinkObject;
+  protected LinkOb tokenLinkOb_LinkOb;
   /**
-   * Retrieves the value for the lexeme LinkObject.
-   * @return The value for the lexeme LinkObject.
+   * Retrieves the value for the lexeme LinkOb.
+   * @return The value for the lexeme LinkOb.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Token(name="LinkObject")
-  public LinkObject getLinkObject() {
-    return tokenLinkObject_LinkObject;
+  @ASTNodeAnnotation.Token(name="LinkOb")
+  public LinkOb getLinkOb() {
+    return tokenLinkOb_LinkOb;
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

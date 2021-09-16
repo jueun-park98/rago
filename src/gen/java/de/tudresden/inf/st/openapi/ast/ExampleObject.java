@@ -15,14 +15,67 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:90
- * @astdecl ExampleObject : ExampleOb ::= <Summary:String> <Description:String> <Value:Object> <ExternalValue:String> Extension*;
- * @production ExampleObject : {@link ExampleOb} ::= <span class="component">&lt;Summary:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;Value:Object&gt;</span> <span class="component">&lt;ExternalValue:String&gt;</span> <span class="component">{@link Extension}*</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:88
+ * @astdecl ExampleObject : ASTNode ::= <Summary:String> <Description:String> <Value:Object> <ExternalValue:String> Extension*;
+ * @production ExampleObject : {@link ASTNode} ::= <span class="component">&lt;Summary:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;Value:Object&gt;</span> <span class="component">&lt;ExternalValue:String&gt;</span> <span class="component">{@link Extension}*</span>;
 
  */
-public class ExampleObject extends ExampleOb implements Cloneable {
+public class ExampleObject extends ASTNode<ASTNode> implements Cloneable {
+  /**
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:517
+   */
+  public static Example composeExample (ExampleObject exampleObject, Map<Object, ASTNode> map){
+        Example example = new Example();
+
+        if( !exampleObject.getSummary().isEmpty() )
+        example.setSummary( exampleObject.getSummary() );
+        if( !exampleObject.getDescription().isEmpty() )
+        example.setDescription( exampleObject.getDescription() );
+        if( exampleObject.getValue() != null )
+        example.setValue( exampleObject.getValue() );
+        if( !exampleObject.getExternalValue().isEmpty() )
+        example.setExternalValue( exampleObject.getExternalValue() );
+        if( exampleObject.getNumExtension() != 0 ){
+        Map<String, Object> extension = new HashMap<>();
+        for( Extension e : exampleObject.getExtensions() )
+        extension.put(e.getKey(), e.getValue());
+        example.setExtensions(extension);
+        }
+
+        return example;
+        }
+  /**
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:532
+   */
+  public static ExampleObject parseExample(Example example, OAIContext context, Map<Object, ASTNode> map){
+        ExampleObject exampleObject = new ExampleObject();
+
+        if( example.getSummary() != null )
+        exampleObject.setSummary( example.getSummary() );
+        if( example.getDescription() != null )
+        exampleObject.setDescription( example.getDescription() );
+        if( example.getValue() != null )
+        exampleObject.setValue( example.getValue() );
+        if( example.getExternalValue() != null )
+        exampleObject.setExternalValue( example.getExternalValue() );
+        if( example.getExtensions() != null ){
+        for( String key : example.getExtensions().keySet() )
+        exampleObject.addExtension(new Extension(key, example.getExtensions().get(key)));
+        }
+        if( example.getExtensions() != null ){
+        for( String key : example.getExtensions().keySet() )
+        exampleObject.addExtension(new Extension(key, example.getExtensions().get(key)));
+        }
+
+
+        map.put(example, exampleObject);
+        return exampleObject;
+        }
   /**
    * @declaredat ASTNode:1
    */

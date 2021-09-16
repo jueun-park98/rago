@@ -15,11 +15,12 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:59
- * @astdecl ParameterReference : ParameterOb ::= <Ref:String> <ParameterObject:ParameterObject>;
- * @production ParameterReference : {@link ParameterOb} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;ParameterObject:ParameterObject&gt;</span>;
+ * @astdecl ParameterReference : ParameterOb ::= <Ref:String> <ParameterOb:ParameterOb>;
+ * @production ParameterReference : {@link ParameterOb} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;ParameterOb:ParameterOb&gt;</span>;
 
  */
 public class ParameterReference extends ParameterOb implements Cloneable {
@@ -42,13 +43,13 @@ public class ParameterReference extends ParameterOb implements Cloneable {
    * @declaredat ASTNode:12
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Ref", "ParameterObject"},
-    type = {"String", "ParameterObject"},
+    name = {"Ref", "ParameterOb"},
+    type = {"String", "ParameterOb"},
     kind = {"Token", "Token"}
   )
-  public ParameterReference(String p0, ParameterObject p1) {
+  public ParameterReference(String p0, ParameterOb p1) {
     setRef(p0);
-    setParameterObject(p1);
+    setParameterOb(p1);
   }
   /** @apilevel low-level 
    * @declaredat ASTNode:22
@@ -154,7 +155,7 @@ public class ParameterReference extends ParameterOb implements Cloneable {
    * @declaredat ASTNode:108
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node) && (tokenString_Ref == ((ParameterReference) node).tokenString_Ref) && (tokenParameterObject_ParameterObject == ((ParameterReference) node).tokenParameterObject_ParameterObject);    
+    return super.is$Equal(node) && (tokenString_Ref == ((ParameterReference) node).tokenString_Ref) && (tokenParameterOb_ParameterOb == ((ParameterReference) node).tokenParameterOb_ParameterOb);    
   }
   /**
    * Replaces the lexeme Ref.
@@ -177,24 +178,24 @@ public class ParameterReference extends ParameterOb implements Cloneable {
     return tokenString_Ref != null ? tokenString_Ref : "";
   }
   /**
-   * Replaces the lexeme ParameterObject.
-   * @param value The new value for the lexeme ParameterObject.
+   * Replaces the lexeme ParameterOb.
+   * @param value The new value for the lexeme ParameterOb.
    * @apilevel high-level
    */
-  public void setParameterObject(ParameterObject value) {
-    tokenParameterObject_ParameterObject = value;
+  public void setParameterOb(ParameterOb value) {
+    tokenParameterOb_ParameterOb = value;
   }
   /** @apilevel internal 
    */
-  protected ParameterObject tokenParameterObject_ParameterObject;
+  protected ParameterOb tokenParameterOb_ParameterOb;
   /**
-   * Retrieves the value for the lexeme ParameterObject.
-   * @return The value for the lexeme ParameterObject.
+   * Retrieves the value for the lexeme ParameterOb.
+   * @return The value for the lexeme ParameterOb.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Token(name="ParameterObject")
-  public ParameterObject getParameterObject() {
-    return tokenParameterObject_ParameterObject;
+  @ASTNodeAnnotation.Token(name="ParameterOb")
+  public ParameterOb getParameterOb() {
+    return tokenParameterOb_ParameterOb;
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

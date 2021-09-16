@@ -15,9 +15,10 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:144
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:142
  * @astdecl SecurityRequirementObject : ASTNode ::= SecurityRequirementTuple*;
  * @production SecurityRequirementObject : {@link ASTNode} ::= <span class="component">{@link SecurityRequirementTuple}*</span>;
 
@@ -25,9 +26,9 @@ import java.util.stream.IntStream;
 public class SecurityRequirementObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:846
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:816
    */
-  public static SecurityRequirement composeSecurityRequirement (SecurityRequirementObject securityRequirementObject){
+  public static SecurityRequirement composeSecurityRequirement (SecurityRequirementObject securityRequirementObject, Map<Object, ASTNode> map){
         SecurityRequirement securityRequirement = new SecurityRequirement();
 
         if( securityRequirementObject.getNumSecurityRequirementTuple() != 0 ){
@@ -45,9 +46,9 @@ public class SecurityRequirementObject extends ASTNode<ASTNode> implements Clone
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:861
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:1011
    */
-  public static SecurityRequirementObject parseSecurityRequirement(SecurityRequirement securityRequirement){
+  public static SecurityRequirementObject parseSecurityRequirement(SecurityRequirement securityRequirement, Map<Object, ASTNode> map){
         SecurityRequirementObject securityRequirementObject = new SecurityRequirementObject();
 
         if( securityRequirement.getRequirements() != null ){
@@ -59,6 +60,7 @@ public class SecurityRequirementObject extends ASTNode<ASTNode> implements Clone
         }
         }
 
+        map.put(securityRequirement, securityRequirementObject);
         return securityRequirementObject;
         }
   /**

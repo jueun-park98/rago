@@ -15,11 +15,12 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:129
- * @astdecl SecuritySchemeReference : SecuritySchemeOb ::= <Ref:String> <SecuritySchemeObject:SecuritySchemeObject>;
- * @production SecuritySchemeReference : {@link SecuritySchemeOb} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;SecuritySchemeObject:SecuritySchemeObject&gt;</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:127
+ * @astdecl SecuritySchemeReference : SecuritySchemeOb ::= <Ref:String> <SecuritySchemeOb:SecuritySchemeOb>;
+ * @production SecuritySchemeReference : {@link SecuritySchemeOb} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;SecuritySchemeOb:SecuritySchemeOb&gt;</span>;
 
  */
 public class SecuritySchemeReference extends SecuritySchemeOb implements Cloneable {
@@ -42,13 +43,13 @@ public class SecuritySchemeReference extends SecuritySchemeOb implements Cloneab
    * @declaredat ASTNode:12
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Ref", "SecuritySchemeObject"},
-    type = {"String", "SecuritySchemeObject"},
+    name = {"Ref", "SecuritySchemeOb"},
+    type = {"String", "SecuritySchemeOb"},
     kind = {"Token", "Token"}
   )
-  public SecuritySchemeReference(String p0, SecuritySchemeObject p1) {
+  public SecuritySchemeReference(String p0, SecuritySchemeOb p1) {
     setRef(p0);
-    setSecuritySchemeObject(p1);
+    setSecuritySchemeOb(p1);
   }
   /** @apilevel low-level 
    * @declaredat ASTNode:22
@@ -154,7 +155,7 @@ public class SecuritySchemeReference extends SecuritySchemeOb implements Cloneab
    * @declaredat ASTNode:108
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node) && (tokenString_Ref == ((SecuritySchemeReference) node).tokenString_Ref) && (tokenSecuritySchemeObject_SecuritySchemeObject == ((SecuritySchemeReference) node).tokenSecuritySchemeObject_SecuritySchemeObject);    
+    return super.is$Equal(node) && (tokenString_Ref == ((SecuritySchemeReference) node).tokenString_Ref) && (tokenSecuritySchemeOb_SecuritySchemeOb == ((SecuritySchemeReference) node).tokenSecuritySchemeOb_SecuritySchemeOb);    
   }
   /**
    * Replaces the lexeme Ref.
@@ -177,24 +178,24 @@ public class SecuritySchemeReference extends SecuritySchemeOb implements Cloneab
     return tokenString_Ref != null ? tokenString_Ref : "";
   }
   /**
-   * Replaces the lexeme SecuritySchemeObject.
-   * @param value The new value for the lexeme SecuritySchemeObject.
+   * Replaces the lexeme SecuritySchemeOb.
+   * @param value The new value for the lexeme SecuritySchemeOb.
    * @apilevel high-level
    */
-  public void setSecuritySchemeObject(SecuritySchemeObject value) {
-    tokenSecuritySchemeObject_SecuritySchemeObject = value;
+  public void setSecuritySchemeOb(SecuritySchemeOb value) {
+    tokenSecuritySchemeOb_SecuritySchemeOb = value;
   }
   /** @apilevel internal 
    */
-  protected SecuritySchemeObject tokenSecuritySchemeObject_SecuritySchemeObject;
+  protected SecuritySchemeOb tokenSecuritySchemeOb_SecuritySchemeOb;
   /**
-   * Retrieves the value for the lexeme SecuritySchemeObject.
-   * @return The value for the lexeme SecuritySchemeObject.
+   * Retrieves the value for the lexeme SecuritySchemeOb.
+   * @return The value for the lexeme SecuritySchemeOb.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Token(name="SecuritySchemeObject")
-  public SecuritySchemeObject getSecuritySchemeObject() {
-    return tokenSecuritySchemeObject_SecuritySchemeObject;
+  @ASTNodeAnnotation.Token(name="SecuritySchemeOb")
+  public SecuritySchemeOb getSecuritySchemeOb() {
+    return tokenSecuritySchemeOb_SecuritySchemeOb;
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

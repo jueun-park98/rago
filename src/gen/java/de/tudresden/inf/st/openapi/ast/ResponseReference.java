@@ -15,11 +15,12 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:77
- * @astdecl ResponseReference : ResponseOb ::= <Ref:String> <ResponseObject:ResponseObject>;
- * @production ResponseReference : {@link ResponseOb} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;ResponseObject:ResponseObject&gt;</span>;
+ * @astdecl ResponseReference : ResponseOb ::= <Ref:String> <ResponseOb:ResponseOb>;
+ * @production ResponseReference : {@link ResponseOb} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;ResponseOb:ResponseOb&gt;</span>;
 
  */
 public class ResponseReference extends ResponseOb implements Cloneable {
@@ -42,13 +43,13 @@ public class ResponseReference extends ResponseOb implements Cloneable {
    * @declaredat ASTNode:12
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Ref", "ResponseObject"},
-    type = {"String", "ResponseObject"},
+    name = {"Ref", "ResponseOb"},
+    type = {"String", "ResponseOb"},
     kind = {"Token", "Token"}
   )
-  public ResponseReference(String p0, ResponseObject p1) {
+  public ResponseReference(String p0, ResponseOb p1) {
     setRef(p0);
-    setResponseObject(p1);
+    setResponseOb(p1);
   }
   /** @apilevel low-level 
    * @declaredat ASTNode:22
@@ -154,7 +155,7 @@ public class ResponseReference extends ResponseOb implements Cloneable {
    * @declaredat ASTNode:108
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node) && (tokenString_Ref == ((ResponseReference) node).tokenString_Ref) && (tokenResponseObject_ResponseObject == ((ResponseReference) node).tokenResponseObject_ResponseObject);    
+    return super.is$Equal(node) && (tokenString_Ref == ((ResponseReference) node).tokenString_Ref) && (tokenResponseOb_ResponseOb == ((ResponseReference) node).tokenResponseOb_ResponseOb);    
   }
   /**
    * Replaces the lexeme Ref.
@@ -177,24 +178,24 @@ public class ResponseReference extends ResponseOb implements Cloneable {
     return tokenString_Ref != null ? tokenString_Ref : "";
   }
   /**
-   * Replaces the lexeme ResponseObject.
-   * @param value The new value for the lexeme ResponseObject.
+   * Replaces the lexeme ResponseOb.
+   * @param value The new value for the lexeme ResponseOb.
    * @apilevel high-level
    */
-  public void setResponseObject(ResponseObject value) {
-    tokenResponseObject_ResponseObject = value;
+  public void setResponseOb(ResponseOb value) {
+    tokenResponseOb_ResponseOb = value;
   }
   /** @apilevel internal 
    */
-  protected ResponseObject tokenResponseObject_ResponseObject;
+  protected ResponseOb tokenResponseOb_ResponseOb;
   /**
-   * Retrieves the value for the lexeme ResponseObject.
-   * @return The value for the lexeme ResponseObject.
+   * Retrieves the value for the lexeme ResponseOb.
+   * @return The value for the lexeme ResponseOb.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Token(name="ResponseObject")
-  public ResponseObject getResponseObject() {
-    return tokenResponseObject_ResponseObject;
+  @ASTNodeAnnotation.Token(name="ResponseOb")
+  public ResponseOb getResponseOb() {
+    return tokenResponseOb_ResponseOb;
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

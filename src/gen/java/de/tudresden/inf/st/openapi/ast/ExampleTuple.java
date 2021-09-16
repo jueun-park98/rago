@@ -15,11 +15,12 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:26
- * @astdecl ExampleTuple : ASTNode ::= <Key:String> ExampleOb;
- * @production ExampleTuple : {@link ASTNode} ::= <span class="component">&lt;Key:String&gt;</span> <span class="component">{@link ExampleOb}</span>;
+ * @astdecl ExampleTuple : ASTNode ::= <Key:String> ExampleObject;
+ * @production ExampleTuple : {@link ASTNode} ::= <span class="component">&lt;Key:String&gt;</span> <span class="component">{@link ExampleObject}</span>;
 
  */
 public class ExampleTuple extends ASTNode<ASTNode> implements Cloneable {
@@ -43,11 +44,11 @@ public class ExampleTuple extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:13
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Key", "ExampleOb"},
-    type = {"String", "ExampleOb"},
+    name = {"Key", "ExampleObject"},
+    type = {"String", "ExampleObject"},
     kind = {"Token", "Child"}
   )
-  public ExampleTuple(String p0, ExampleOb p1) {
+  public ExampleTuple(String p0, ExampleObject p1) {
     setKey(p0);
     setChild(p1, 0);
   }
@@ -178,30 +179,30 @@ public class ExampleTuple extends ASTNode<ASTNode> implements Cloneable {
     return tokenString_Key != null ? tokenString_Key : "";
   }
   /**
-   * Replaces the ExampleOb child.
-   * @param node The new node to replace the ExampleOb child.
+   * Replaces the ExampleObject child.
+   * @param node The new node to replace the ExampleObject child.
    * @apilevel high-level
    */
-  public void setExampleOb(ExampleOb node) {
+  public void setExampleObject(ExampleObject node) {
     setChild(node, 0);
   }
   /**
-   * Retrieves the ExampleOb child.
-   * @return The current node used as the ExampleOb child.
+   * Retrieves the ExampleObject child.
+   * @return The current node used as the ExampleObject child.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Child(name="ExampleOb")
-  public ExampleOb getExampleOb() {
-    return (ExampleOb) getChild(0);
+  @ASTNodeAnnotation.Child(name="ExampleObject")
+  public ExampleObject getExampleObject() {
+    return (ExampleObject) getChild(0);
   }
   /**
-   * Retrieves the ExampleOb child.
+   * Retrieves the ExampleObject child.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The current node used as the ExampleOb child.
+   * @return The current node used as the ExampleObject child.
    * @apilevel low-level
    */
-  public ExampleOb getExampleObNoTransform() {
-    return (ExampleOb) getChildNoTransform(0);
+  public ExampleObject getExampleObjectNoTransform() {
+    return (ExampleObject) getChildNoTransform(0);
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

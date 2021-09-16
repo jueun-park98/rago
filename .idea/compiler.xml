@@ -7,9 +7,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="jastadd-openapi" />
-        <module name="openapi-parser" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="1.8" />
+    <bytecodeTargetLevel target="1.8">
+      <module name="openapi-parser" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

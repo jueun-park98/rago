@@ -15,11 +15,12 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
+import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:108
- * @astdecl SchemaReference : SchemaOb ::= <Ref:String> <SchemaObject:SchemaObject>;
- * @production SchemaReference : {@link SchemaOb} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;SchemaObject:SchemaObject&gt;</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:106
+ * @astdecl SchemaReference : SchemaOb ::= <Ref:String> <SchemaOb:SchemaOb>;
+ * @production SchemaReference : {@link SchemaOb} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;SchemaOb:SchemaOb&gt;</span>;
 
  */
 public class SchemaReference extends SchemaOb implements Cloneable {
@@ -42,13 +43,13 @@ public class SchemaReference extends SchemaOb implements Cloneable {
    * @declaredat ASTNode:12
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Ref", "SchemaObject"},
-    type = {"String", "SchemaObject"},
+    name = {"Ref", "SchemaOb"},
+    type = {"String", "SchemaOb"},
     kind = {"Token", "Token"}
   )
-  public SchemaReference(String p0, SchemaObject p1) {
+  public SchemaReference(String p0, SchemaOb p1) {
     setRef(p0);
-    setSchemaObject(p1);
+    setSchemaOb(p1);
   }
   /** @apilevel low-level 
    * @declaredat ASTNode:22
@@ -154,7 +155,7 @@ public class SchemaReference extends SchemaOb implements Cloneable {
    * @declaredat ASTNode:108
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node) && (tokenString_Ref == ((SchemaReference) node).tokenString_Ref) && (tokenSchemaObject_SchemaObject == ((SchemaReference) node).tokenSchemaObject_SchemaObject);    
+    return super.is$Equal(node) && (tokenString_Ref == ((SchemaReference) node).tokenString_Ref) && (tokenSchemaOb_SchemaOb == ((SchemaReference) node).tokenSchemaOb_SchemaOb);    
   }
   /**
    * Replaces the lexeme Ref.
@@ -177,24 +178,24 @@ public class SchemaReference extends SchemaOb implements Cloneable {
     return tokenString_Ref != null ? tokenString_Ref : "";
   }
   /**
-   * Replaces the lexeme SchemaObject.
-   * @param value The new value for the lexeme SchemaObject.
+   * Replaces the lexeme SchemaOb.
+   * @param value The new value for the lexeme SchemaOb.
    * @apilevel high-level
    */
-  public void setSchemaObject(SchemaObject value) {
-    tokenSchemaObject_SchemaObject = value;
+  public void setSchemaOb(SchemaOb value) {
+    tokenSchemaOb_SchemaOb = value;
   }
   /** @apilevel internal 
    */
-  protected SchemaObject tokenSchemaObject_SchemaObject;
+  protected SchemaOb tokenSchemaOb_SchemaOb;
   /**
-   * Retrieves the value for the lexeme SchemaObject.
-   * @return The value for the lexeme SchemaObject.
+   * Retrieves the value for the lexeme SchemaOb.
+   * @return The value for the lexeme SchemaOb.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Token(name="SchemaObject")
-  public SchemaObject getSchemaObject() {
-    return tokenSchemaObject_SchemaObject;
+  @ASTNodeAnnotation.Token(name="SchemaOb")
+  public SchemaOb getSchemaOb() {
+    return tokenSchemaOb_SchemaOb;
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {
