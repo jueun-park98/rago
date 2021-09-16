@@ -5,6 +5,7 @@ import de.tudresden.inf.st.openapi.ast.*;
 import de.tudresden.inf.st.openapi.ast.Enum;
 import org.openapi4j.core.exception.EncodeException;
 import org.openapi4j.core.exception.ResolutionException;
+import org.openapi4j.core.model.v3.OAI3Context;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.core.validation.ValidationResults;
 import org.openapi4j.parser.OpenApi3Parser;
@@ -19,6 +20,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.ref.Reference;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.*;
@@ -50,7 +52,14 @@ public class OpenAPIMain {
             System.out.println("Loading expression DSL file '" + file + "'.");
 
             openApi = OpenAPIObject.parseOpenAPI(api);
-            openApi.generateRequests();
+            if( file.equals("petstore-v2.yaml") ){
+                Schema s = api.getPaths().get("/pet").getPost().getResponse("200").getContentMediaType("application/xml").getSchema();
+                System.out.println(api.getPaths().get("/pet").getPost().getResponse("200").getContentMediaType("application/xml").getSchema().getRef());
+                System.out.println(s.getReference(api.getContext()).getMappedContent(Schema.class).getTitle());
+                //System.out.println(s.getReference(new OAI3Context(new URL(s.getRef()))).getMappedContent(Schema.class).getTitle());
+
+                //System.out.println(api.getPaths().get("/pet").getPost().getResponse("'200'").getContentMediaType("application/xml").getSchema().isRef());
+            }
 
         }
 
