@@ -8,6 +8,7 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -15,10 +16,9 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
-import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:99
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:100
  * @astdecl HeaderObject : HeaderOb ::= <Description:String> <Required:Boolean> <DeprecatedBoolean:Boolean> <AllowEmptyValue:Boolean> <Style:String> <Explode:Boolean> <AllowReserved:Boolean> [SchemaOb] <Example:Object> ExampleTuple* ContentTuple* Extension*;
  * @production HeaderObject : {@link HeaderOb} ::= <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;Required:Boolean&gt;</span> <span class="component">&lt;DeprecatedBoolean:Boolean&gt;</span> <span class="component">&lt;AllowEmptyValue:Boolean&gt;</span> <span class="component">&lt;Style:String&gt;</span> <span class="component">&lt;Explode:Boolean&gt;</span> <span class="component">&lt;AllowReserved:Boolean&gt;</span> <span class="component">[{@link SchemaOb}]</span> <span class="component">&lt;Example:Object&gt;</span> <span class="component">{@link ExampleTuple}*</span> <span class="component">{@link ContentTuple}*</span> <span class="component">{@link Extension}*</span>;
 
@@ -712,6 +712,61 @@ public class HeaderObject extends HeaderOb implements Cloneable {
    */
   public JastAddList<Extension> getExtensionsNoTransform() {
     return getExtensionListNoTransform();
+  }
+/** @apilevel internal */
+protected java.util.Set composeHeader_HeaderOb_Map_Object__ASTNode__visited;
+  /**
+   * @attribute syn
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:638
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:638")
+  public Header composeHeader(HeaderOb headerOb, Map<Object, ASTNode> map) {
+    java.util.List _parameters = new java.util.ArrayList(2);
+    _parameters.add(headerOb);
+    _parameters.add(map);
+    if (composeHeader_HeaderOb_Map_Object__ASTNode__visited == null) composeHeader_HeaderOb_Map_Object__ASTNode__visited = new java.util.HashSet(4);
+    if (composeHeader_HeaderOb_Map_Object__ASTNode__visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute HeaderOb.composeHeader(HeaderOb,Map_Object__ASTNode_).");
+    }
+    composeHeader_HeaderOb_Map_Object__ASTNode__visited.add(_parameters);
+    try {
+            Header header = new Header();
+            HeaderObject h = (HeaderObject) headerOb;
+    
+            if( h.getRequired() != null )
+            header.setRequired(h.getRequired());
+            if( !h.getDescription().isEmpty() )
+            header.setDescription( h.getDescription() );
+            if( !h.getStyle().isEmpty() )
+            header.setStyle(h.getStyle());
+            if( h.getExplode() != null )
+            header.setExplode(h.getExplode());
+            if( h.getAllowReserved() != null )
+            header.setAllowReserved(h.getAllowReserved());
+            if( h.getExample() != null )
+            header.setExample(h.getExample());
+            if( h.getNumExampleTuple() != 0 ){
+            Map<String, Example> examples = new HashMap<>();
+            for( ExampleTuple t : h.getExampleTuples() )
+            examples.put(t.getKey(), ExampleObject.composeExample(t.getExampleObject(), map));
+            header.setExample(examples);
+            }
+            if( h.getNumContentTuple() != 0 ){
+            Map<String, MediaType> contents = new HashMap<>();
+            for( ContentTuple t : h.getContentTuples() )
+            contents.put(t.getKey(), MediaTypeObject.composeMediaType(t.getMediaTypeObject(), map));
+            header.setContentMediaTypes(contents);
+            }
+            if( h.hasSchemaOb() )
+            header.setSchema(h.getSchemaOb().composeSchema(h.getSchemaOb(), map));
+    
+            return header;
+            }
+    finally {
+      composeHeader_HeaderOb_Map_Object__ASTNode__visited.remove(_parameters);
+    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

@@ -8,6 +8,7 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -15,10 +16,9 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
-import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:128
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:129
  * @astdecl SecuritySchemeObject : SecuritySchemeOb ::= <Type:String> <Description:String> <Name:String> <In:String> <Scheme:String> <BearerFormat:String> OAuthFlowsObject <OpenIdConnectUrl:String> Extension*;
  * @production SecuritySchemeObject : {@link SecuritySchemeOb} ::= <span class="component">&lt;Type:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;In:String&gt;</span> <span class="component">&lt;Scheme:String&gt;</span> <span class="component">&lt;BearerFormat:String&gt;</span> <span class="component">{@link OAuthFlowsObject}</span> <span class="component">&lt;OpenIdConnectUrl:String&gt;</span> <span class="component">{@link Extension}*</span>;
 
@@ -441,6 +441,57 @@ public class SecuritySchemeObject extends SecuritySchemeOb implements Cloneable 
    */
   public JastAddList<Extension> getExtensionsNoTransform() {
     return getExtensionListNoTransform();
+  }
+/** @apilevel internal */
+protected java.util.Set composeSecurityScheme_SecuritySchemeOb_Map_Object__ASTNode__visited;
+  /**
+   * @attribute syn
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:872
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:872")
+  public SecurityScheme composeSecurityScheme(SecuritySchemeOb securitySchemeOb, Map<Object, ASTNode> map) {
+    java.util.List _parameters = new java.util.ArrayList(2);
+    _parameters.add(securitySchemeOb);
+    _parameters.add(map);
+    if (composeSecurityScheme_SecuritySchemeOb_Map_Object__ASTNode__visited == null) composeSecurityScheme_SecuritySchemeOb_Map_Object__ASTNode__visited = new java.util.HashSet(4);
+    if (composeSecurityScheme_SecuritySchemeOb_Map_Object__ASTNode__visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute SecuritySchemeOb.composeSecurityScheme(SecuritySchemeOb,Map_Object__ASTNode_).");
+    }
+    composeSecurityScheme_SecuritySchemeOb_Map_Object__ASTNode__visited.add(_parameters);
+    try {
+            SecurityScheme securityScheme = new SecurityScheme();
+            SecuritySchemeObject s = (SecuritySchemeObject) securitySchemeOb;
+    
+            if( !s.getType().isEmpty() )
+            securityScheme.setType(s.getType());
+            if( !s.getName().isEmpty() )
+            securityScheme.setName(s.getName());
+            if( !s.getIn().isEmpty() )
+            securityScheme.setIn(s.getIn());
+            if( !s.getScheme().isEmpty() )
+            securityScheme.setScheme(s.getScheme());
+            if( !s.getOpenIdConnectUrl().isEmpty() )
+            securityScheme.setOpenIdConnectUrl(s.getOpenIdConnectUrl());
+            if( s.getOAuthFlowsObject() != null )
+            securityScheme.setFlows(OAuthFlowsObject.composeOAuthFlows(s.getOAuthFlowsObject(), map));
+            if( !s.getDescription().isEmpty() )
+            securityScheme.setDescription( s.getDescription() );
+            if( !s.getBearerFormat().isEmpty() )
+            securityScheme.setBearerFormat( s.getBearerFormat() );
+            if( s.getNumExtension() != 0 ){
+            Map<String, Object> extensionMap = new HashMap<>();
+            for( Extension e : s.getExtensions() )
+            extensionMap.put(e.getKey(), e.getValue());
+            securityScheme.setExtensions(extensionMap);
+            }
+    
+            return securityScheme;
+            }
+    finally {
+      composeSecurityScheme_SecuritySchemeOb_Map_Object__ASTNode__visited.remove(_parameters);
+    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

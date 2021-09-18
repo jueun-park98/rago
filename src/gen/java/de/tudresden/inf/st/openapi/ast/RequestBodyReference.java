@@ -8,6 +8,7 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -15,10 +16,9 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
-import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:65
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:66
  * @astdecl RequestBodyReference : RequestBodyOb ::= <Ref:String> <RequestBodyOb:RequestBodyOb>;
  * @production RequestBodyReference : {@link RequestBodyOb} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;RequestBodyOb:RequestBodyOb&gt;</span>;
 
@@ -196,6 +196,37 @@ public class RequestBodyReference extends RequestBodyOb implements Cloneable {
   @ASTNodeAnnotation.Token(name="RequestBodyOb")
   public RequestBodyOb getRequestBodyOb() {
     return tokenRequestBodyOb_RequestBodyOb;
+  }
+/** @apilevel internal */
+protected java.util.Set composeRequestBody_RequestBodyOb_Map_Object__ASTNode__visited;
+  /**
+   * @attribute syn
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:440
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:440")
+  public RequestBody composeRequestBody(RequestBodyOb requestBodyOb, Map<Object, ASTNode> map) {
+    java.util.List _parameters = new java.util.ArrayList(2);
+    _parameters.add(requestBodyOb);
+    _parameters.add(map);
+    if (composeRequestBody_RequestBodyOb_Map_Object__ASTNode__visited == null) composeRequestBody_RequestBodyOb_Map_Object__ASTNode__visited = new java.util.HashSet(4);
+    if (composeRequestBody_RequestBodyOb_Map_Object__ASTNode__visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute RequestBodyOb.composeRequestBody(RequestBodyOb,Map_Object__ASTNode_).");
+    }
+    composeRequestBody_RequestBodyOb_Map_Object__ASTNode__visited.add(_parameters);
+    try {
+            RequestBody requestBody = new RequestBody();
+            RequestBodyReference r = (RequestBodyReference) requestBodyOb;
+    
+            if( !r.getRef().isEmpty() )
+            requestBody.setRef(r.getRef());
+    
+            return requestBody;
+            }
+    finally {
+      composeRequestBody_RequestBodyOb_Map_Object__ASTNode__visited.remove(_parameters);
+    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

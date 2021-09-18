@@ -8,6 +8,7 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -15,10 +16,9 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
-import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:60
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:61
  * @astdecl ParameterObject : ParameterOb ::= <Name:String> <In:String> <Description:String> <Required:Boolean> <DeprecatedBoolean:Boolean> <AllowEmptyValue:Boolean> <Style:String> <Explode:Boolean> <AllowReserved:Boolean> [SchemaOb] <Example:Object> ExampleTuple* ContentTuple* Extension*;
  * @production ParameterObject : {@link ParameterOb} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;In:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;Required:Boolean&gt;</span> <span class="component">&lt;DeprecatedBoolean:Boolean&gt;</span> <span class="component">&lt;AllowEmptyValue:Boolean&gt;</span> <span class="component">&lt;Style:String&gt;</span> <span class="component">&lt;Explode:Boolean&gt;</span> <span class="component">&lt;AllowReserved:Boolean&gt;</span> <span class="component">[{@link SchemaOb}]</span> <span class="component">&lt;Example:Object&gt;</span> <span class="component">{@link ExampleTuple}*</span> <span class="component">{@link ContentTuple}*</span> <span class="component">{@link Extension}*</span>;
 
@@ -754,6 +754,93 @@ public class ParameterObject extends ParameterOb implements Cloneable {
    */
   public JastAddList<Extension> getExtensionsNoTransform() {
     return getExtensionListNoTransform();
+  }
+/** @apilevel internal */
+protected java.util.Set composeParameter_ParameterOb_Map_Object__ASTNode__visited;
+  /**
+   * @attribute syn
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:382
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:382")
+  public Parameter composeParameter(ParameterOb parameterOb, Map<Object, ASTNode> map) {
+    java.util.List _parameters = new java.util.ArrayList(2);
+    _parameters.add(parameterOb);
+    _parameters.add(map);
+    if (composeParameter_ParameterOb_Map_Object__ASTNode__visited == null) composeParameter_ParameterOb_Map_Object__ASTNode__visited = new java.util.HashSet(4);
+    if (composeParameter_ParameterOb_Map_Object__ASTNode__visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute ParameterOb.composeParameter(ParameterOb,Map_Object__ASTNode_).");
+    }
+    composeParameter_ParameterOb_Map_Object__ASTNode__visited.add(_parameters);
+    try {
+            Parameter parameter = new Parameter();
+            ParameterObject p = (ParameterObject) parameterOb;
+    
+            if( !p.getName().isEmpty() )
+            parameter.setName(p.getName());
+            if( !p.getIn().isEmpty() )
+            parameter.setIn(p.getIn());
+            if( p.getRequired() != null )
+            parameter.setRequired(p.getRequired());
+            if( !p.getDescription().isEmpty() )
+            parameter.setDescription(p.getDescription());
+            if( p.getDeprecatedBoolean() != null )
+            parameter.setDeprecated(p.getDeprecatedBoolean());
+            if( !p.getStyle().isEmpty() )
+            parameter.setStyle(p.getStyle());
+            if( p.getAllowReserved() != null )
+            parameter.setAllowReserved(p.getAllowReserved());
+            if( p.getExplode() != null )
+            parameter.setExplode(p.getExplode());
+            if( p.getSchemaOb() != null )
+            parameter.setSchema(p.getSchemaOb().composeSchema(p.getSchemaOb(), map));
+            if( p.getExample() != null )
+            parameter.setExample(p.getExample());
+            if( p.getNumExampleTuple() != 0 ){
+            Map<String, Example> exampleMap = new HashMap<>();
+            for( ExampleTuple t : p.getExampleTuples() )
+            exampleMap.put(t.getKey(), ExampleObject.composeExample(t.getExampleObject(), map));
+            parameter.setExamples(exampleMap);
+            }
+            if( p.getNumContentTuple() != 0 ){
+            Map<String, MediaType> contentMap = new HashMap<>();
+            for( ContentTuple t : p.getContentTuples() )
+            contentMap.put(t.getKey(), MediaTypeObject.composeMediaType(t.getMediaTypeObject(), map));
+            parameter.setContentMediaTypes(contentMap);
+            }
+            if( p.getRequired() != null )
+            parameter.setRequired(p.getRequired());
+            if( p.getNumExtension() != 0 ){
+            Map<String, Object> extensionMap = new HashMap<>();
+            for( Extension e : p.getExtensions() )
+            extensionMap.put(e.getKey(), e.getValue());
+            parameter.setExtensions(extensionMap);
+            }
+    
+            return parameter;
+            }
+    finally {
+      composeParameter_ParameterOb_Map_Object__ASTNode__visited.remove(_parameters);
+    }
+  }
+/** @apilevel internal */
+protected boolean parameterObject_visited = false;
+  /**
+   * @attribute syn
+   * @aspect ReferenceGet
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\ReferenceGet.jrag:4
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="ReferenceGet", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\ReferenceGet.jrag:3")
+  public ParameterObject parameterObject() {
+    if (parameterObject_visited) {
+      throw new RuntimeException("Circular definition of attribute ParameterOb.parameterObject().");
+    }
+    parameterObject_visited = true;
+    ParameterObject parameterObject_value = this;
+    parameterObject_visited = false;
+    return parameterObject_value;
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

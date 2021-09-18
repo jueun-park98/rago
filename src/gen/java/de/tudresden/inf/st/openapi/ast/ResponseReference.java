@@ -8,6 +8,7 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -15,10 +16,9 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
-import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:77
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:78
  * @astdecl ResponseReference : ResponseOb ::= <Ref:String> <ResponseOb:ResponseOb>;
  * @production ResponseReference : {@link ResponseOb} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;ResponseOb:ResponseOb&gt;</span>;
 
@@ -196,6 +196,37 @@ public class ResponseReference extends ResponseOb implements Cloneable {
   @ASTNodeAnnotation.Token(name="ResponseOb")
   public ResponseOb getResponseOb() {
     return tokenResponseOb_ResponseOb;
+  }
+/** @apilevel internal */
+protected java.util.Set composeResponse_ResponseOb_Map_Object__ASTNode__visited;
+  /**
+   * @attribute syn
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:520
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:520")
+  public Response composeResponse(ResponseOb responseOb, Map<Object, ASTNode> map) {
+    java.util.List _parameters = new java.util.ArrayList(2);
+    _parameters.add(responseOb);
+    _parameters.add(map);
+    if (composeResponse_ResponseOb_Map_Object__ASTNode__visited == null) composeResponse_ResponseOb_Map_Object__ASTNode__visited = new java.util.HashSet(4);
+    if (composeResponse_ResponseOb_Map_Object__ASTNode__visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute ResponseOb.composeResponse(ResponseOb,Map_Object__ASTNode_).");
+    }
+    composeResponse_ResponseOb_Map_Object__ASTNode__visited.add(_parameters);
+    try {
+            Response response = new Response();
+            ResponseReference r = (ResponseReference) responseOb;
+    
+            if( !r.getRef().isEmpty() )
+            response.setRef(r.getRef());
+    
+            return response;
+            }
+    finally {
+      composeResponse_ResponseOb_Map_Object__ASTNode__visited.remove(_parameters);
+    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

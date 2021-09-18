@@ -8,6 +8,7 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -15,10 +16,9 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
-import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:73
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:74
  * @astdecl EncodingObject : ASTNode ::= <ContentType:String> HeaderTuple* <Style:String> <Explode:Boolean> <AllowReserved:Boolean> Extension*;
  * @production EncodingObject : {@link ASTNode} ::= <span class="component">&lt;ContentType:String&gt;</span> <span class="component">{@link HeaderTuple}*</span> <span class="component">&lt;Style:String&gt;</span> <span class="component">&lt;Explode:Boolean&gt;</span> <span class="component">&lt;AllowReserved:Boolean&gt;</span> <span class="component">{@link Extension}*</span>;
 
@@ -26,18 +26,20 @@ import org.openapi4j.core.exception.DecodeException;
 public class EncodingObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:450
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:493
    */
   public static EncodingProperty composeEncodingProperty (EncodingObject encodingObject, Map<Object, ASTNode> map){
         EncodingProperty encodingProperty = new EncodingProperty();
+        HeaderOb h;
 
         if( !encodingObject.getContentType().isEmpty() )
         encodingProperty.setContentType( encodingObject.getContentType() );
         if( encodingObject.getNumHeaderTuple() != 0 ){
         Map<String, Header> headers = new HashMap<>();
-        for( HeaderTuple t : encodingObject.getHeaderTuples() )
-        headers.put(t.getKey(), HeaderObject.composeHeader(t.getHeaderObject()));
-        encodingProperty.setHeaders(headers);
+        for( HeaderTuple t : encodingObject.getHeaderTuples() ) {
+        h = t.getHeaderOb();
+        headers.put(t.getKey(), h.composeHeader(h, map));
+        }        encodingProperty.setHeaders(headers);
         }
         if( !encodingObject.getStyle().isEmpty() )
         encodingProperty.setStyle(encodingObject.getStyle());
@@ -54,7 +56,7 @@ public class EncodingObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:454
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:427
    */
   public static EncodingObject parseEncoding(EncodingProperty encodingProperty, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         EncodingObject encodingObject = new EncodingObject();

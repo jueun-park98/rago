@@ -1,0 +1,31 @@
+aspect ReferenceGet {
+
+    syn ParameterObject ParameterOb.parameterObject();
+    eq ParameterObject.parameterObject() = this;
+    eq ParameterReference.parameterObject() {
+        if( getParameterOb() instanceof ParameterObject )
+        return (ParameterObject) getParameterOb();
+        else
+        return getParameterOb().parameterObject();
+    }
+
+    syn SchemaObject SchemaOb.schemaObject();
+    eq SchemaObject.schemaObject() = this;
+    eq SchemaReference.schemaObject() {
+    if( getSchemaOb() instanceof SchemaObject )
+        return (SchemaObject) getSchemaOb();
+    else
+        return getSchemaOb().schemaObject();
+    }
+
+    syn PathItemObject PathItemOb.pathItemObject();
+    eq PathItemObject.pathItemObject() = this;
+    eq PathItemReference.pathItemObject() {
+        if( getPathItemOb() instanceof PathItemObject )
+            return (PathItemObject) getPathItemOb();
+        else
+            return getPathItemOb().pathItemObject();
+    }
+
+
+}

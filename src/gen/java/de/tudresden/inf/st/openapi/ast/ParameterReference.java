@@ -8,6 +8,7 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -15,10 +16,9 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
-import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:59
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:60
  * @astdecl ParameterReference : ParameterOb ::= <Ref:String> <ParameterOb:ParameterOb>;
  * @production ParameterReference : {@link ParameterOb} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;ParameterOb:ParameterOb&gt;</span>;
 
@@ -196,6 +196,61 @@ public class ParameterReference extends ParameterOb implements Cloneable {
   @ASTNodeAnnotation.Token(name="ParameterOb")
   public ParameterOb getParameterOb() {
     return tokenParameterOb_ParameterOb;
+  }
+/** @apilevel internal */
+protected java.util.Set composeParameter_ParameterOb_Map_Object__ASTNode__visited;
+  /**
+   * @attribute syn
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:382
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:382")
+  public Parameter composeParameter(ParameterOb parameterOb, Map<Object, ASTNode> map) {
+    java.util.List _parameters = new java.util.ArrayList(2);
+    _parameters.add(parameterOb);
+    _parameters.add(map);
+    if (composeParameter_ParameterOb_Map_Object__ASTNode__visited == null) composeParameter_ParameterOb_Map_Object__ASTNode__visited = new java.util.HashSet(4);
+    if (composeParameter_ParameterOb_Map_Object__ASTNode__visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute ParameterOb.composeParameter(ParameterOb,Map_Object__ASTNode_).");
+    }
+    composeParameter_ParameterOb_Map_Object__ASTNode__visited.add(_parameters);
+    try {
+            Parameter parameter = new Parameter();
+            ParameterReference p = (ParameterReference) parameterOb;
+    
+            if( !p.getRef().isEmpty() )
+            parameter.setRef(p.getRef());
+    
+            return parameter;
+            }
+    finally {
+      composeParameter_ParameterOb_Map_Object__ASTNode__visited.remove(_parameters);
+    }
+  }
+/** @apilevel internal */
+protected boolean parameterObject_visited = false;
+  /**
+   * @attribute syn
+   * @aspect ReferenceGet
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\ReferenceGet.jrag:3
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="ReferenceGet", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\ReferenceGet.jrag:3")
+  public ParameterObject parameterObject() {
+    if (parameterObject_visited) {
+      throw new RuntimeException("Circular definition of attribute ParameterOb.parameterObject().");
+    }
+    parameterObject_visited = true;
+    try {
+            if( getParameterOb() instanceof ParameterObject )
+            return (ParameterObject) getParameterOb();
+            else
+            return getParameterOb().parameterObject();
+        }
+    finally {
+      parameterObject_visited = false;
+    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

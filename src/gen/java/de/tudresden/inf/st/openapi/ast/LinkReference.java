@@ -8,6 +8,7 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -15,10 +16,9 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
-import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:92
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:93
  * @astdecl LinkReference : LinkOb ::= <Ref:String> <LinkOb:LinkOb>;
  * @production LinkReference : {@link LinkOb} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;LinkOb:LinkOb&gt;</span>;
 
@@ -196,6 +196,37 @@ public class LinkReference extends LinkOb implements Cloneable {
   @ASTNodeAnnotation.Token(name="LinkOb")
   public LinkOb getLinkOb() {
     return tokenLinkOb_LinkOb;
+  }
+/** @apilevel internal */
+protected java.util.Set composeLink_LinkOb_Map_Object__ASTNode__visited;
+  /**
+   * @attribute syn
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:606
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:606")
+  public Link composeLink(LinkOb linkOb, Map<Object, ASTNode> map) {
+    java.util.List _parameters = new java.util.ArrayList(2);
+    _parameters.add(linkOb);
+    _parameters.add(map);
+    if (composeLink_LinkOb_Map_Object__ASTNode__visited == null) composeLink_LinkOb_Map_Object__ASTNode__visited = new java.util.HashSet(4);
+    if (composeLink_LinkOb_Map_Object__ASTNode__visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute LinkOb.composeLink(LinkOb,Map_Object__ASTNode_).");
+    }
+    composeLink_LinkOb_Map_Object__ASTNode__visited.add(_parameters);
+    try {
+            Link link = new Link();
+            LinkReference l = (LinkReference) linkOb;
+    
+            if( !l.getRef().isEmpty() )
+            link.setRef(l.getRef());
+    
+            return link;
+            }
+    finally {
+      composeLink_LinkOb_Map_Object__ASTNode__visited.remove(_parameters);
+    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

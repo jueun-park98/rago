@@ -8,6 +8,7 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -15,10 +16,9 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
-import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:127
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:128
  * @astdecl SecuritySchemeReference : SecuritySchemeOb ::= <Ref:String> <SecuritySchemeOb:SecuritySchemeOb>;
  * @production SecuritySchemeReference : {@link SecuritySchemeOb} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;SecuritySchemeOb:SecuritySchemeOb&gt;</span>;
 
@@ -196,6 +196,37 @@ public class SecuritySchemeReference extends SecuritySchemeOb implements Cloneab
   @ASTNodeAnnotation.Token(name="SecuritySchemeOb")
   public SecuritySchemeOb getSecuritySchemeOb() {
     return tokenSecuritySchemeOb_SecuritySchemeOb;
+  }
+/** @apilevel internal */
+protected java.util.Set composeSecurityScheme_SecuritySchemeOb_Map_Object__ASTNode__visited;
+  /**
+   * @attribute syn
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:872
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:872")
+  public SecurityScheme composeSecurityScheme(SecuritySchemeOb securitySchemeOb, Map<Object, ASTNode> map) {
+    java.util.List _parameters = new java.util.ArrayList(2);
+    _parameters.add(securitySchemeOb);
+    _parameters.add(map);
+    if (composeSecurityScheme_SecuritySchemeOb_Map_Object__ASTNode__visited == null) composeSecurityScheme_SecuritySchemeOb_Map_Object__ASTNode__visited = new java.util.HashSet(4);
+    if (composeSecurityScheme_SecuritySchemeOb_Map_Object__ASTNode__visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute SecuritySchemeOb.composeSecurityScheme(SecuritySchemeOb,Map_Object__ASTNode_).");
+    }
+    composeSecurityScheme_SecuritySchemeOb_Map_Object__ASTNode__visited.add(_parameters);
+    try {
+            SecurityScheme securityScheme = new SecurityScheme();
+            SecuritySchemeReference s = (SecuritySchemeReference) securitySchemeOb;
+    
+            if( !s.getRef().isEmpty() )
+            securityScheme.setRef(s.getRef());
+    
+            return securityScheme;
+            }
+    finally {
+      composeSecurityScheme_SecuritySchemeOb_Map_Object__ASTNode__visited.remove(_parameters);
+    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

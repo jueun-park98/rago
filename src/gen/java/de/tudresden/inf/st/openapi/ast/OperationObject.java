@@ -8,6 +8,7 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -15,22 +16,20 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
-import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:51
- * @astdecl OperationObject : ASTNode ::= Tag* <Summary:String> <Description:String> [ExternalDocObject] <OperationID:String> ParameterOb* [RequestBodyOb] ResponseTuple* CallbackTuple* <DeprecatedBoolean:Boolean> SecurityRequirementObject* ServerObject* <Required:Boolean> Extension*;
- * @production OperationObject : {@link ASTNode} ::= <span class="component">{@link Tag}*</span> <span class="component">&lt;Summary:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">[{@link ExternalDocObject}]</span> <span class="component">&lt;OperationID:String&gt;</span> <span class="component">{@link ParameterOb}*</span> <span class="component">[{@link RequestBodyOb}]</span> <span class="component">{@link ResponseTuple}*</span> <span class="component">{@link CallbackTuple}*</span> <span class="component">&lt;DeprecatedBoolean:Boolean&gt;</span> <span class="component">{@link SecurityRequirementObject}*</span> <span class="component">{@link ServerObject}*</span> <span class="component">&lt;Required:Boolean&gt;</span> <span class="component">{@link Extension}*</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:44
+ * @astdecl OperationObject : OperationOb ::= Tag* <Summary:String> <Description:String> [ExternalDocObject] <OperationID:String> ParameterOb* [RequestBodyOb] ResponseTuple* CallbackTuple* <DeprecatedBoolean:Boolean> SecurityRequirementObject* ServerObject* <Required:Boolean> Extension*;
+ * @production OperationObject : {@link OperationOb} ::= <span class="component">{@link Tag}*</span> <span class="component">&lt;Summary:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">[{@link ExternalDocObject}]</span> <span class="component">&lt;OperationID:String&gt;</span> <span class="component">{@link ParameterOb}*</span> <span class="component">[{@link RequestBodyOb}]</span> <span class="component">{@link ResponseTuple}*</span> <span class="component">{@link CallbackTuple}*</span> <span class="component">&lt;DeprecatedBoolean:Boolean&gt;</span> <span class="component">{@link SecurityRequirementObject}*</span> <span class="component">{@link ServerObject}*</span> <span class="component">&lt;Required:Boolean&gt;</span> <span class="component">{@link Extension}*</span>;
 
  */
-public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
+public class OperationObject extends OperationOb implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:281
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:312
    */
   public static Operation composeOperation (OperationObject operationObject, Map<Object, ASTNode> map){
         Operation operation = new Operation();
-
 
         if( operationObject.getNumTag() != 0 ){
         for( de.tudresden.inf.st.openapi.ast.Tag t : operationObject.getTags() )
@@ -41,43 +40,36 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
         if( !operationObject.getDescription().isEmpty() )
         operation.setDescription( operationObject.getDescription() );
         if( operationObject.hasExternalDocObject() )
-        operation.setExternalDocs( ExternalDocObject.composeExternalDocs(operationObject.getExternalDocObject()) );
+        operation.setExternalDocs( ExternalDocObject.composeExternalDocs(operationObject.getExternalDocObject(), map) );
         if( !operationObject.getOperationID().isEmpty() )
         operation.setOperationId( operationObject.getOperationID() );
-        if( operationObject.getNumParameterObject() != 0 ){
-        for( ParameterObject p : operationObject.getParameterObjects() )
-        operation.addParameter( ParameterObject.composeParameter(p) );
+        if( operationObject.getNumParameterOb() != 0 ){
+        for( ParameterOb p : operationObject.getParameterObs() )
+        operation.addParameter(p.composeParameter(p, map));
         }
-        if( operationObject.hasRequestBodyObject() )
-        operation.setRequestBody( RequestBodyObject.composeRequestBody(operationObject.getRequestBodyObject()));
+        if( operationObject.hasRequestBodyOb() )
+        operation.setRequestBody(operationObject.getRequestBodyOb().composeRequestBody(operationObject.getRequestBodyOb(), map));
         if( operationObject.getNumResponseTuple() != 0){
         Map<String, Response> responseMap = new HashMap<>();
         for( ResponseTuple t : operationObject.getResponseTuples() )
-        responseMap.put(t.getKey(), ResponseObject.composeResponse(t.getResponseObject()));
+        responseMap.put(t.getKey(), t.getResponseOb().composeResponse(t.getResponseOb(), map));
         operation.setResponses(responseMap);
         }
         if( operationObject.getNumCallbackTuple() != 0 ){
         Map<String, Callback> callbacks = new HashMap<>();
-        for( CallbackTuple t : operationObject.getCallbackTuples() ) {
-        if( !t.getCallbackObject().getRef().isEmpty() ){
-        Callback callback = new Callback();
-        callback.setRef(t.getCallbackObject().getRef());
-        callbacks.put(t.getKey(), callback);
-        }
-        else
-        callbacks.put(t.getKey(), CallbackObject.composeCallback(t.getCallbackObject()));
+        for( CallbackTuple t : operationObject.getCallbackTuples() )
+        callbacks.put(t.getKey(), t.getCallbackOb().composeCallback(t.getCallbackOb(), map));
         operation.setCallbacks(callbacks);
-        }
         }
         if( operationObject.getDeprecatedBoolean() != null )
         operation.setDeprecated(operationObject.getDeprecatedBoolean());
         if( operationObject.getSecurityRequirementObjects() != null ){
         for( SecurityRequirementObject s : operationObject.getSecurityRequirementObjects() )
-        operation.addSecurityRequirement( SecurityRequirementObject.composeSecurityRequirement(s) );
+        operation.addSecurityRequirement( SecurityRequirementObject.composeSecurityRequirement(s, map) );
         }
         if( operationObject.getNumServerObject() != 0 ){
         for( ServerObject s : operationObject.getServerObjects() )
-        operation.addServer( ServerObject.composeServer(s) );
+        operation.addServer( ServerObject.composeServer(s, map) );
         }
         if( operationObject.getNumExtension() != 0 ){
         Map<String, Object> extensionMap = new HashMap<>();
@@ -90,7 +82,7 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:288
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:261
    */
   public static OperationObject parseOperation(Operation operation, OAIContext context, Map<Object, ASTNode> map) throws DecodeException{
         OperationObject operationObject = new OperationObject();
@@ -141,6 +133,148 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
 
         map.put(operation, operationObject);
         return operationObject;
+        }
+  /**
+   * @aspect RandomRequestGenerator
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:53
+   */
+  public void sendRandomGET(String targetUrl) throws Exception {
+        Random rand = new Random();
+
+        for( ParameterOb o : this.getParameterObs() ){
+        ParameterObject p = o.parameterObject();
+        SchemaObject s = p.getSchemaOb().schemaObject();
+        if( p.getIn().equals("path") ){
+        String pathPart = targetUrl.substring(targetUrl.indexOf("{") ,targetUrl.indexOf("}") + 1);
+
+        if( s.getType().equals("string") )
+        targetUrl = targetUrl.replace(pathPart, this.generateRandomString(rand, s.getEnumObjs()));
+        else if( s.getType().equals("integer") )
+        targetUrl = targetUrl.replace(pathPart, this.generateRandomInt( rand,
+        -1, // s.getMinimum() != null ? s.getMinimum().intValue() : -1,
+        10 // s.getMaximum() != null ? s.getMaximum().intValue() : -1
+        ));
+        }
+        else if( p.getIn().equals("query") ){
+
+        if( s.getType().equals("string") )
+        targetUrl = targetUrl + "&" + p.getName() + "=" + this.generateRandomString(rand, s.getEnumObjs());
+        else if( s.getType().equals("integer") )
+        targetUrl = targetUrl + "&" + p.getName() + "=" + this.generateRandomInt(  rand,
+        -1, // s.getMinimum() != null ? s.getMinimum().intValue() : -1,
+        10); // s.getMaximum() != null ? s.getMaximum().intValue() : -1
+        else if( s.getType().equals("array") ){
+        if( s.getItemsSchema().getSchemaOb().schemaObject().getType().equals("string") ){
+        for( EnumObj e : s.getItemsSchema().getSchemaOb().schemaObject().getEnumObjs() )
+        targetUrl=rand.nextDouble()< 0.5?targetUrl+"&"+p.getName()+"="+e.getEnumOb():targetUrl;
+        }
+        else if( s.getItemsSchema().getSchemaOb().schemaObject().getType().equals("integer") ){
+        for( int i = 0 ; i < 5 ; i++ )
+        targetUrl = targetUrl + "&" + p.getName() + "=" + this.generateRandomInt(  rand,
+        -1, // s.getMinimum() != null ? s.getMinimum().intValue() : -1,
+        10); // s.getMaximum() != null ? s.getMaximum().intValue() : -1
+        }
+
+        }
+        }
+        }
+        targetUrl = targetUrl.replaceFirst("&", "?");
+        System.out.println(targetUrl);
+
+        URL url = new URL(targetUrl);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+        con.setRequestMethod("GET"); // optional default is GET
+        int responseCode = con.getResponseCode();
+
+        // print result
+        System.out.println("HTTP status code (GET) : " + responseCode);
+    }
+  /**
+   * @aspect RandomRequestGenerator
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:106
+   */
+  public void sendRandomPOST(String targetUrl) throws Exception {
+        Random rand = new Random();
+
+        for( ParameterOb o : this.getParameterObs() ){
+        ParameterObject p = o.parameterObject();
+        SchemaObject s = p.getSchemaOb().schemaObject();
+        if( p.getIn().equals("path") ){
+        String pathPart = targetUrl.substring(targetUrl.indexOf("{") ,targetUrl.indexOf("}") + 1);
+
+        if( s.getType().equals("string") )
+        targetUrl = targetUrl.replace(pathPart, this.generateRandomString(rand, s.getEnumObjs()));
+        else if( s.getType().equals("integer") )
+        targetUrl = targetUrl.replace(pathPart, this.generateRandomInt( rand,
+        -1, // s.getMinimum() != null ? s.getMinimum().intValue() : -1,
+        10 // s.getMaximum() != null ? s.getMaximum().intValue() : -1
+        ));
+        }
+        else if( p.getIn().equals("query") ){
+
+        if( s.getType().equals("string") )
+        targetUrl = targetUrl + "&" + p.getName() + "=" + this.generateRandomString(rand, s.getEnumObjs());
+        else if( s.getType().equals("integer") )
+        targetUrl = targetUrl + "&" + p.getName() + "=" + this.generateRandomInt(  rand,
+        -1, // s.getMinimum() != null ? s.getMinimum().intValue() : -1,
+        10); // s.getMaximum() != null ? s.getMaximum().intValue() : -1
+        else if( s.getType().equals("array") ){
+        if( s.getItemsSchema().getSchemaOb().schemaObject().getType().equals("string") ){
+        for( EnumObj e : s.getItemsSchema().getSchemaOb().schemaObject().getEnumObjs() )
+        targetUrl=rand.nextDouble()< 0.5?targetUrl+"&"+p.getName()+"="+e.getEnumOb():targetUrl;
+        }
+        else if( s.getItemsSchema().getSchemaOb().schemaObject().getType().equals("integer") ){
+        for( int i = 0 ; i < 5 ; i++ )
+        targetUrl = targetUrl + "&" + p.getName() + "=" + this.generateRandomInt(  rand,
+        -1, // s.getMinimum() != null ? s.getMinimum().intValue() : -1,
+        10); // s.getMaximum() != null ? s.getMaximum().intValue() : -1
+        }
+
+        }
+        }
+        }
+        targetUrl = targetUrl.replaceFirst("&", "?");
+        System.out.println(targetUrl);
+
+        URL url = new URL(targetUrl);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+        con.setRequestMethod("POST"); // HTTP POST
+        con.setDoOutput(true); // POST
+
+        int responseCode = con.getResponseCode();
+
+        // print result
+        System.out.println("HTTP status code (POST) : " + responseCode);
+    }
+  /**
+   * @aspect RandomRequestGenerator
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:161
+   */
+  public String generateRandomString(Random rand, JastAddList<EnumObj> objs) {
+        if( objs.getNumChild() != 0 )
+        return objs.getChild(rand.nextInt(objs.getNumChild())).getEnumOb().toString();
+
+
+        return rand
+        .ints(97, 123)
+        .limit(10)
+        .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+        .toString();
+    }
+  /**
+   * @aspect RandomRequestGenerator
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:173
+   */
+  public String generateRandomInt(Random rand, int minimum, int maximum){
+        if( minimum > -1 && maximum > 0 )
+        return String.valueOf(rand.nextInt(minimum+maximum)-minimum);
+        else if( minimum > -1 )
+        return String.valueOf(rand.nextInt()+minimum);
+        else if( maximum > 0 )
+        return String.valueOf(rand.nextInt(maximum));
+        return String.valueOf(rand.nextInt());
         }
   /**
    * @declaredat ASTNode:1

@@ -8,6 +8,7 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -15,7 +16,6 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
-import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:35
@@ -24,6 +24,29 @@ import org.openapi4j.core.exception.DecodeException;
 
  */
 public class PathsObject extends ASTNode<ASTNode> implements Cloneable {
+  /**
+   * @aspect RandomRequestGenerator
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:33
+   */
+  public void sendRandomRequests(String baseUrl) throws Exception {
+        if( this.getPathItemOb().pathItemObject().hasGet() ){
+        IntStream.range(0, 1).forEach( i -> {
+        try {
+        this.getPathItemOb().pathItemObject().getGet().getOperationObject().sendRandomGET(baseUrl+this.getRef());
+        } catch (Exception e) {
+        e.printStackTrace();
+        }
+        });
+        }
+        if( this.getPathItemOb().pathItemObject().hasPost() ){
+        IntStream.range(0, 1).forEach( i -> {
+        try {
+        this.getPathItemOb().pathItemObject().getPost().getOperationObject().sendRandomPOST(baseUrl+this.getRef());
+        } catch (Exception e) {
+        e.printStackTrace();
+        }
+        });}
+    }
   /**
    * @declaredat ASTNode:1
    */

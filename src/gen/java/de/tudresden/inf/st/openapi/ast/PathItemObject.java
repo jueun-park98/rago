@@ -8,6 +8,7 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -15,7 +16,6 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
-import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:40
@@ -957,6 +957,85 @@ public class PathItemObject extends PathItemOb implements Cloneable {
    */
   public JastAddList<Extension> getExtensionsNoTransform() {
     return getExtensionListNoTransform();
+  }
+/** @apilevel internal */
+protected java.util.Set composePath_PathItemOb_Map_Object__ASTNode__visited;
+  /**
+   * @attribute syn
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:262
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:262")
+  public Path composePath(PathItemOb pathItem, Map<Object, ASTNode> map) {
+    java.util.List _parameters = new java.util.ArrayList(2);
+    _parameters.add(pathItem);
+    _parameters.add(map);
+    if (composePath_PathItemOb_Map_Object__ASTNode__visited == null) composePath_PathItemOb_Map_Object__ASTNode__visited = new java.util.HashSet(4);
+    if (composePath_PathItemOb_Map_Object__ASTNode__visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute PathItemOb.composePath(PathItemOb,Map_Object__ASTNode_).");
+    }
+    composePath_PathItemOb_Map_Object__ASTNode__visited.add(_parameters);
+    try {
+            Path path = new Path();
+            PathItemObject p = (PathItemObject) pathItem;
+    
+            if( !p.getSummary().isEmpty())
+            path.setSummary(p.getSummary());
+            if( !p.getDescription().isEmpty() )
+            path.setDescription(p.getDescription());
+            if( p.hasGet() )
+            path.setGet( OperationObject.composeOperation(p.getGet().getOperationObject(), map) );
+            if( p.hasPut() )
+            path.setPut( OperationObject.composeOperation(p.getPut().getOperationObject(), map) );
+            if( p.hasPost() )
+            path.setPost( OperationObject.composeOperation(p.getPost().getOperationObject(), map) );
+            if( p.hasDelete() )
+            path.setDelete( OperationObject.composeOperation(p.getDelete().getOperationObject(), map) );
+            if( p.hasOptions() )
+            path.setOptions( OperationObject.composeOperation(p.getOptions().getOperationObject(), map) );
+            if( p.hasHead() )
+            path.setHead( OperationObject.composeOperation(p.getHead().getOperationObject(), map) );
+            if( p.hasPatch() )
+            path.setPatch( OperationObject.composeOperation(p.getPatch().getOperationObject(), map) );
+            if( p.getNumServerObject() != 0 ){
+            for( ServerObject s : p.getServerObjects() )
+            path.addServer( ServerObject.composeServer(s, map) );
+            }
+            if( p.getNumParameterOb() != 0 ){
+            for( ParameterOb e : p.getParameterObs() )
+            path.addParameter( e.composeParameter(e, map) );
+            }
+            if( p.getNumExtension() != 0 ){
+            Map<String, Object> extensionMap = new HashMap<>();
+            for( Extension e : p.getExtensions() )
+            extensionMap.put(e.getKey(), e.getValue());
+            path.setExtensions(extensionMap);
+            }
+    
+            return path;
+            }
+    finally {
+      composePath_PathItemOb_Map_Object__ASTNode__visited.remove(_parameters);
+    }
+  }
+/** @apilevel internal */
+protected boolean pathItemObject_visited = false;
+  /**
+   * @attribute syn
+   * @aspect ReferenceGet
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\ReferenceGet.jrag:22
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="ReferenceGet", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\ReferenceGet.jrag:21")
+  public PathItemObject pathItemObject() {
+    if (pathItemObject_visited) {
+      throw new RuntimeException("Circular definition of attribute PathItemOb.pathItemObject().");
+    }
+    pathItemObject_visited = true;
+    PathItemObject pathItemObject_value = this;
+    pathItemObject_visited = false;
+    return pathItemObject_value;
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

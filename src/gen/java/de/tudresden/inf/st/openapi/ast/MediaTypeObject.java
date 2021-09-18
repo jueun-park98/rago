@@ -8,6 +8,7 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -15,10 +16,9 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
-import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:69
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:70
  * @astdecl MediaTypeObject : ASTNode ::= [SchemaOb] <Example:Object> ExampleTuple* EncodingTuple* Extension*;
  * @production MediaTypeObject : {@link ASTNode} ::= <span class="component">[{@link SchemaOb}]</span> <span class="component">&lt;Example:Object&gt;</span> <span class="component">{@link ExampleTuple}*</span> <span class="component">{@link EncodingTuple}*</span> <span class="component">{@link Extension}*</span>;
 
@@ -26,25 +26,27 @@ import org.openapi4j.core.exception.DecodeException;
 public class MediaTypeObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:427
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:468
    */
   public static MediaType composeMediaType (MediaTypeObject mediaTypeObject, Map<Object, ASTNode> map){
         MediaType mediaType = new MediaType();
+        SchemaOb s;
 
-        if( mediaTypeObject.getSchemaObject() != null )
-        mediaType.setSchema(SchemaObject.composeSchema(mediaTypeObject.getSchemaObject()));
+        if( mediaTypeObject.getSchemaOb() != null ){
+        s = mediaTypeObject.getSchemaOb();
+        mediaType.setSchema(s.composeSchema(s, map));}
         if( mediaTypeObject.getExample() != null )
         mediaType.setExample(mediaTypeObject.getExample());
         if( mediaTypeObject.getNumExampleTuple() != 0 ){
         Map<String, Example> exampleMap = new HashMap<>();
         for( ExampleTuple t : mediaTypeObject.getExampleTuples() )
-        exampleMap.put(t.getKey(), ExampleObject.composeExample(t.getExampleObject()));
+        exampleMap.put(t.getKey(), ExampleObject.composeExample(t.getExampleObject(), map));
         mediaType.setExamples(exampleMap);
         }
         if( mediaTypeObject.getNumEncodingTuple() != 0 ){
         Map<String, EncodingProperty> encodingMap = new HashMap<>();
         for( EncodingTuple t : mediaTypeObject.getEncodingTuples() )
-        encodingMap.put(t.getKey(), EncodingObject.composeEncodingProperty(t.getEncodingObject()));
+        encodingMap.put(t.getKey(), EncodingObject.composeEncodingProperty(t.getEncodingObject(), map));
         mediaType.setEncodings(encodingMap);
         }
 
@@ -52,7 +54,7 @@ public class MediaTypeObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:430
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:403
    */
   public static MediaTypeObject parseMediaType(MediaType mediaType, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         MediaTypeObject mediaTypeObject = new MediaTypeObject();

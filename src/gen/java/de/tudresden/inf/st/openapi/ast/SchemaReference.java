@@ -8,6 +8,7 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -15,10 +16,9 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
-import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:106
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:107
  * @astdecl SchemaReference : SchemaOb ::= <Ref:String> <SchemaOb:SchemaOb>;
  * @production SchemaReference : {@link SchemaOb} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;SchemaOb:SchemaOb&gt;</span>;
 
@@ -196,6 +196,61 @@ public class SchemaReference extends SchemaOb implements Cloneable {
   @ASTNodeAnnotation.Token(name="SchemaOb")
   public SchemaOb getSchemaOb() {
     return tokenSchemaOb_SchemaOb;
+  }
+/** @apilevel internal */
+protected java.util.Set composeSchema_SchemaOb_Map_Object__ASTNode__visited;
+  /**
+   * @attribute syn
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:701
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:701")
+  public org.openapi4j.parser.model.v3.Schema composeSchema(SchemaOb schemaOb, Map<Object, ASTNode> map) {
+    java.util.List _parameters = new java.util.ArrayList(2);
+    _parameters.add(schemaOb);
+    _parameters.add(map);
+    if (composeSchema_SchemaOb_Map_Object__ASTNode__visited == null) composeSchema_SchemaOb_Map_Object__ASTNode__visited = new java.util.HashSet(4);
+    if (composeSchema_SchemaOb_Map_Object__ASTNode__visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute SchemaOb.composeSchema(SchemaOb,Map_Object__ASTNode_).");
+    }
+    composeSchema_SchemaOb_Map_Object__ASTNode__visited.add(_parameters);
+    try {
+            org.openapi4j.parser.model.v3.Schema schema = new org.openapi4j.parser.model.v3.Schema();
+            SchemaReference s = (SchemaReference) schemaOb;
+    
+            if( !s.getRef().isEmpty() )
+            schema.setRef(s.getRef());
+    
+            return schema;
+            }
+    finally {
+      composeSchema_SchemaOb_Map_Object__ASTNode__visited.remove(_parameters);
+    }
+  }
+/** @apilevel internal */
+protected boolean schemaObject_visited = false;
+  /**
+   * @attribute syn
+   * @aspect ReferenceGet
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\ReferenceGet.jrag:12
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="ReferenceGet", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\ReferenceGet.jrag:12")
+  public SchemaObject schemaObject() {
+    if (schemaObject_visited) {
+      throw new RuntimeException("Circular definition of attribute SchemaOb.schemaObject().");
+    }
+    schemaObject_visited = true;
+    try {
+        if( getSchemaOb() instanceof SchemaObject )
+            return (SchemaObject) getSchemaOb();
+        else
+            return getSchemaOb().schemaObject();
+        }
+    finally {
+      schemaObject_visited = false;
+    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

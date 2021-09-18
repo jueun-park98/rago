@@ -8,6 +8,7 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -15,10 +16,9 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
-import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:78
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:79
  * @astdecl ResponseObject : ResponseOb ::= <Description:String> HeaderTuple* ContentTuple* LinkTuple* Extension*;
  * @production ResponseObject : {@link ResponseOb} ::= <span class="component">&lt;Description:String&gt;</span> <span class="component">{@link HeaderTuple}*</span> <span class="component">{@link ContentTuple}*</span> <span class="component">{@link LinkTuple}*</span> <span class="component">{@link Extension}*</span>;
 
@@ -624,6 +624,55 @@ public class ResponseObject extends ResponseOb implements Cloneable {
    */
   public JastAddList<Extension> getExtensionsNoTransform() {
     return getExtensionListNoTransform();
+  }
+/** @apilevel internal */
+protected java.util.Set composeResponse_ResponseOb_Map_Object__ASTNode__visited;
+  /**
+   * @attribute syn
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:520
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:520")
+  public Response composeResponse(ResponseOb responseOb, Map<Object, ASTNode> map) {
+    java.util.List _parameters = new java.util.ArrayList(2);
+    _parameters.add(responseOb);
+    _parameters.add(map);
+    if (composeResponse_ResponseOb_Map_Object__ASTNode__visited == null) composeResponse_ResponseOb_Map_Object__ASTNode__visited = new java.util.HashSet(4);
+    if (composeResponse_ResponseOb_Map_Object__ASTNode__visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute ResponseOb.composeResponse(ResponseOb,Map_Object__ASTNode_).");
+    }
+    composeResponse_ResponseOb_Map_Object__ASTNode__visited.add(_parameters);
+    try {
+            Response response = new Response();
+            ResponseObject r = (ResponseObject) responseOb;
+    
+            if( !r.getDescription().isEmpty() )
+            response.setDescription(r.getDescription());
+            if( r.getNumHeaderTuple() != 0 ){
+            Map<String, Header> headers = new HashMap<>();
+            for( HeaderTuple t : r.getHeaderTuples() )
+            headers.put(t.getKey(), t.getHeaderOb().composeHeader(t.getHeaderOb(), map));
+            response.setHeaders(headers);
+            }
+            if( r.getNumContentTuple() != 0 ){
+            Map<String, MediaType> contents = new HashMap<>();
+            for( ContentTuple t : r.getContentTuples() )
+            contents.put(t.getKey(), MediaTypeObject.composeMediaType(t.getMediaTypeObject(), map));
+            response.setContentMediaTypes(contents);
+            }
+            if( r.getNumLinkTuple() != 0 ){
+            Map<String, Link> links = new HashMap<>();
+            for( LinkTuple t : r.getLinkTuples() )
+            links.put(t.getKey(), t.getLinkOb().composeLink(t.getLinkOb(), map));
+            response.setLinks(links);
+            }
+    
+            return response;
+            }
+    finally {
+      composeResponse_ResponseOb_Map_Object__ASTNode__visited.remove(_parameters);
+    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

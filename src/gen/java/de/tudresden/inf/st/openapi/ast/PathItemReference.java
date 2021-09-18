@@ -8,6 +8,7 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -15,7 +16,6 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
-import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:39
@@ -196,6 +196,61 @@ public class PathItemReference extends PathItemOb implements Cloneable {
   @ASTNodeAnnotation.Token(name="PathItemOb")
   public PathItemOb getPathItemOb() {
     return tokenPathItemOb_PathItemOb;
+  }
+/** @apilevel internal */
+protected java.util.Set composePath_PathItemOb_Map_Object__ASTNode__visited;
+  /**
+   * @attribute syn
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:262
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:262")
+  public Path composePath(PathItemOb pathItem, Map<Object, ASTNode> map) {
+    java.util.List _parameters = new java.util.ArrayList(2);
+    _parameters.add(pathItem);
+    _parameters.add(map);
+    if (composePath_PathItemOb_Map_Object__ASTNode__visited == null) composePath_PathItemOb_Map_Object__ASTNode__visited = new java.util.HashSet(4);
+    if (composePath_PathItemOb_Map_Object__ASTNode__visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute PathItemOb.composePath(PathItemOb,Map_Object__ASTNode_).");
+    }
+    composePath_PathItemOb_Map_Object__ASTNode__visited.add(_parameters);
+    try {
+                Path path = new Path();
+            PathItemReference p = (PathItemReference) pathItem;
+    
+            if( !p.getRef().isEmpty() )
+            path.setRef(p.getRef());
+    
+            return path;
+            }
+    finally {
+      composePath_PathItemOb_Map_Object__ASTNode__visited.remove(_parameters);
+    }
+  }
+/** @apilevel internal */
+protected boolean pathItemObject_visited = false;
+  /**
+   * @attribute syn
+   * @aspect ReferenceGet
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\ReferenceGet.jrag:21
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="ReferenceGet", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\ReferenceGet.jrag:21")
+  public PathItemObject pathItemObject() {
+    if (pathItemObject_visited) {
+      throw new RuntimeException("Circular definition of attribute PathItemOb.pathItemObject().");
+    }
+    pathItemObject_visited = true;
+    try {
+            if( getPathItemOb() instanceof PathItemObject )
+                return (PathItemObject) getPathItemOb();
+            else
+                return getPathItemOb().pathItemObject();
+        }
+    finally {
+      pathItemObject_visited = false;
+    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

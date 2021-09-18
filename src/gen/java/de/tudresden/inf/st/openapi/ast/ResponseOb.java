@@ -8,6 +8,7 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -15,50 +16,17 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
-import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:76
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:77
  * @astdecl ResponseOb : ASTNode;
  * @production ResponseOb : {@link ASTNode};
 
  */
 public abstract class ResponseOb extends ASTNode<ASTNode> implements Cloneable {
   /**
-   * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:475
-   */
-  public static Response composeResponse (ResponseObject responseObject, Map<Object, ASTNode> map){
-        Response response = new Response();
-
-        if( !responseObject.getRef().isEmpty() )
-        response.setRef(responseObject.getRef());
-        if( !responseObject.getDescription().isEmpty() )
-        response.setDescription(responseObject.getDescription());
-        if( responseObject.getNumHeaderTuple() != 0 ){
-        Map<String, Header> headers = new HashMap<>();
-        for( HeaderTuple t : responseObject.getHeaderTuples() )
-        headers.put(t.getKey(), HeaderObject.composeHeader(t.getHeaderObject()));
-        response.setHeaders(headers);
-        }
-        if( responseObject.getNumContentTuple() != 0 ){
-        Map<String, MediaType> contents = new HashMap<>();
-        for( ContentTuple t : responseObject.getContentTuples() )
-        contents.put(t.getKey(), MediaTypeObject.composeMediaType(t.getMediaTypeObject()));
-        response.setContentMediaTypes(contents);
-        }
-        if( responseObject.getNumLinkTuple() != 0 ){
-        Map<String, Link> links = new HashMap<>();
-        for( LinkTuple t : responseObject.getLinkTuples() )
-        links.put(t.getKey(), LinkObject.composeLink(t.getLinkObject()));
-        response.setLinks(links);
-        }
-
-        return response;
-        }
-  /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:476
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:449
    */
   public static ResponseOb parseResponse(Response response, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         ResponseObject responseObject = new ResponseObject();
@@ -166,6 +134,14 @@ public abstract class ResponseOb extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:58
    */
   public abstract ResponseOb treeCopy();
+  /**
+   * @attribute syn
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:520
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:520")
+  public abstract Response composeResponse(ResponseOb responseOb, Map<Object, ASTNode> map);
   /** @apilevel internal */
   public ASTNode rewriteTo() {
     return super.rewriteTo();

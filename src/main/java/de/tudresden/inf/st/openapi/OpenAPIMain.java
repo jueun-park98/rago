@@ -52,15 +52,8 @@ public class OpenAPIMain {
             System.out.println("Loading expression DSL file '" + file + "'.");
 
             openApi = OpenAPIObject.parseOpenAPI(api);
-            if( file.equals("petstore-v2.yaml") ){
-                Schema s = api.getPaths().get("/pet").getPost().getResponse("200").getContentMediaType("application/xml").getSchema();
-                System.out.println(api.getPaths().get("/pet").getPost().getResponse("200").getContentMediaType("application/xml").getSchema().getRef());
-                System.out.println(s.getReference(api.getContext()).getMappedContent(Schema.class).getTitle());
-                System.out.println(s.getReference(api.getContext()).getMappedContent(Schema.class));
-                //System.out.println(s.getReference(new OAI3Context(new URL(s.getRef()))).getMappedContent(Schema.class).getTitle());
-
-                //System.out.println(api.getPaths().get("/pet").getPost().getResponse("'200'").getContentMediaType("application/xml").getSchema().isRef());
-            }
+            api3 = OpenAPIObject.composeOpenAPI(openApi);
+            openApi.generateRequests();
 
         }
 

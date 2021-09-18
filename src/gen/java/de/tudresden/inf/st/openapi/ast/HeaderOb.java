@@ -8,6 +8,7 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -15,56 +16,17 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
-import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:97
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:98
  * @astdecl HeaderOb : ASTNode;
  * @production HeaderOb : {@link ASTNode};
 
  */
 public abstract class HeaderOb extends ASTNode<ASTNode> implements Cloneable {
   /**
-   * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:562
-   */
-  public static Header composeHeader (HeaderObject headerObject, Map<Object, ASTNode> map){
-        Header header = new Header();
-
-        if( !headerObject.getRef().isEmpty() )
-        header.setRef(headerObject.getRef());
-        if( headerObject.getRequired() != null )
-        header.setRequired(headerObject.getRequired());
-        if( !headerObject.getDescription().isEmpty() )
-        header.setDescription( headerObject.getDescription() );
-        if( !headerObject.getStyle().isEmpty() )
-        header.setStyle(headerObject.getStyle());
-        if( headerObject.getExplode() != null )
-        header.setExplode(headerObject.getExplode());
-        if( headerObject.getAllowReserved() != null )
-        header.setAllowReserved(headerObject.getAllowReserved());
-        if( headerObject.getExample() != null )
-        header.setExample(headerObject.getExample());
-        if( headerObject.getNumExampleTuple() != 0 ){
-        Map<String, Example> examples = new HashMap<>();
-        for( ExampleTuple t : headerObject.getExampleTuples() )
-        examples.put(t.getKey(), ExampleObject.composeExample(t.getExampleObject()));
-        header.setExample(examples);
-        }
-        if( headerObject.getNumContentTuple() != 0 ){
-        Map<String, MediaType> contents = new HashMap<>();
-        for( ContentTuple t : headerObject.getContentTuples() )
-        contents.put(t.getKey(), MediaTypeObject.composeMediaType(t.getMediaTypeObject()));
-        header.setContentMediaTypes(contents);
-        }
-        if( headerObject.hasSchemaObject() )
-            header.setSchema(SchemaObject.composeSchema(headerObject.getSchemaObject()));
-
-        return header;
-        }
-  /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:588
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:561
    */
   public static HeaderOb parseHeader(Header header, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         HeaderObject headerObject = new HeaderObject();
@@ -182,6 +144,14 @@ public abstract class HeaderOb extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:58
    */
   public abstract HeaderOb treeCopy();
+  /**
+   * @attribute syn
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:638
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:638")
+  public abstract Header composeHeader(HeaderOb headerOb, Map<Object, ASTNode> map);
   /** @apilevel internal */
   public ASTNode rewriteTo() {
     return super.rewriteTo();

@@ -8,6 +8,7 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -15,7 +16,6 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
-import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:5
@@ -26,23 +26,23 @@ import org.openapi4j.core.exception.DecodeException;
 public class InfoObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:61
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:61
    */
   public static Info composeInfo (InfoObject infoObject, Map<Object, ASTNode> map){
         Info info = new Info();
 
         if( !infoObject.getTitle().isEmpty() )
-            info.setTitle(infoObject.getTitle());
+        info.setTitle(infoObject.getTitle());
         if( !infoObject.getVersion().isEmpty() )
-            info.setVersion(infoObject.getVersion());
+        info.setVersion(infoObject.getVersion());
         if( !infoObject.getDescription().isEmpty() )
         info.setDescription(infoObject.getDescription());
         if( !infoObject.getTermsOfService().isEmpty() )
         info.setTermsOfService(infoObject.getTermsOfService());
         if( infoObject.hasContactObject() )
-        info.setContact(ContactObject.composeContact(infoObject.getContactObject()));
+        info.setContact(ContactObject.composeContact(infoObject.getContactObject(), map));
         if( infoObject.hasLicenseObject() )
-        info.setLicense(LicenseObject.composeLicense(infoObject.getLicenseObject()));
+        info.setLicense(LicenseObject.composeLicense(infoObject.getLicenseObject(), map));
         if( infoObject.getNumExtension() != 0 ){
         Map<String, Object> extension = new HashMap<>();
         for( Extension e : infoObject.getExtensions() )

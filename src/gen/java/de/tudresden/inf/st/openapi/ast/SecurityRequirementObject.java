@@ -8,6 +8,7 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -15,10 +16,9 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
-import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:142
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:143
  * @astdecl SecurityRequirementObject : ASTNode ::= SecurityRequirementTuple*;
  * @production SecurityRequirementObject : {@link ASTNode} ::= <span class="component">{@link SecurityRequirementTuple}*</span>;
 
@@ -26,7 +26,7 @@ import org.openapi4j.core.exception.DecodeException;
 public class SecurityRequirementObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:816
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:945
    */
   public static SecurityRequirement composeSecurityRequirement (SecurityRequirementObject securityRequirementObject, Map<Object, ASTNode> map){
         SecurityRequirement securityRequirement = new SecurityRequirement();
@@ -46,7 +46,7 @@ public class SecurityRequirementObject extends ASTNode<ASTNode> implements Clone
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:1011
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:872
    */
   public static SecurityRequirementObject parseSecurityRequirement(SecurityRequirement securityRequirement, Map<Object, ASTNode> map){
         SecurityRequirementObject securityRequirementObject = new SecurityRequirementObject();

@@ -8,6 +8,7 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -15,50 +16,17 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
-import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:126
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:127
  * @astdecl SecuritySchemeOb : ASTNode;
  * @production SecuritySchemeOb : {@link ASTNode};
 
  */
 public abstract class SecuritySchemeOb extends ASTNode<ASTNode> implements Cloneable {
   /**
-   * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:749
-   */
-  public static SecurityScheme composeSecurityScheme (SecuritySchemeObject securitySchemeObject, Map<Object, ASTNode> map){
-        SecurityScheme securityScheme = new SecurityScheme();
-
-        if( !securitySchemeObject.getType().isEmpty() )
-        securityScheme.setType(securitySchemeObject.getType());
-        if( !securitySchemeObject.getName().isEmpty() )
-        securityScheme.setName(securitySchemeObject.getName());
-        if( !securitySchemeObject.getIn().isEmpty() )
-        securityScheme.setIn(securitySchemeObject.getIn());
-        if( !securitySchemeObject.getScheme().isEmpty() )
-        securityScheme.setScheme(securitySchemeObject.getScheme());
-        if( !securitySchemeObject.getOpenIdConnectUrl().isEmpty() )
-        securityScheme.setOpenIdConnectUrl(securitySchemeObject.getOpenIdConnectUrl());
-        if( securitySchemeObject.getOAuthFlowsObject() != null )
-        securityScheme.setFlows(OAuthFlowsObject.composeOAuthFlows(securitySchemeObject.getOAuthFlowsObject()));
-        if( !securitySchemeObject.getDescription().isEmpty() )
-        securityScheme.setDescription( securitySchemeObject.getDescription() );
-        if( !securitySchemeObject.getBearerFormat().isEmpty() )
-        securityScheme.setBearerFormat( securitySchemeObject.getBearerFormat() );
-        if( securitySchemeObject.getNumExtension() != 0 ){
-        Map<String, Object> extensionMap = new HashMap<>();
-        for( Extension e : securitySchemeObject.getExtensions() )
-        extensionMap.put(e.getKey(), e.getValue());
-        securityScheme.setExtensions(extensionMap);
-        }
-
-        return securityScheme;
-        }
-  /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:931
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:792
    */
   public static SecuritySchemeOb parseSecurityScheme(SecurityScheme securityScheme, OAIContext context, Map<Object, ASTNode> map){
         SecuritySchemeObject securitySchemeObject = new SecuritySchemeObject();
@@ -161,6 +129,14 @@ public abstract class SecuritySchemeOb extends ASTNode<ASTNode> implements Clone
    * @declaredat ASTNode:58
    */
   public abstract SecuritySchemeOb treeCopy();
+  /**
+   * @attribute syn
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:872
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:872")
+  public abstract SecurityScheme composeSecurityScheme(SecuritySchemeOb securitySchemeOb, Map<Object, ASTNode> map);
   /** @apilevel internal */
   public ASTNode rewriteTo() {
     return super.rewriteTo();

@@ -8,6 +8,7 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -15,7 +16,6 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
-import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:2
@@ -26,7 +26,7 @@ import org.openapi4j.core.exception.DecodeException;
 public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:13
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:13
    */
   public static OpenApi3 composeOpenAPI (OpenAPIObject openapi){
         OpenApi3 api3 = new OpenApi3();
@@ -45,7 +45,7 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
         if( openapi.getNumPathsObject() != 0 ){
         Map<String, Path> paths = new HashMap<>();
         for( PathsObject p : openapi.getPathsObjects() )
-        paths.put( p.getRef(), PathItemOb.composePath(p.getPathItemOb(), map) );
+        paths.put( p.getRef(), p.getPathItemOb().composePath(p.getPathItemOb(), map) );
         api3.setPaths(paths);
         }
         if( openapi.hasComponentsObject() )
@@ -117,6 +117,17 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
         map.put(api, openapi);
         return openapi;
         }
+  /**
+   * @aspect RandomRequestGenerator
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:25
+   */
+  public String generateRequests() throws Exception {
+        String baseUrl = this.getServerObject(0).getUrl();
+
+        for( PathsObject p : this.getPathsObjects() )
+        p.sendRandomRequests(baseUrl);
+        return "";
+    }
   /**
    * @declaredat ASTNode:1
    */

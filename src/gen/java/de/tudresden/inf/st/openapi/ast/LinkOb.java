@@ -8,6 +8,7 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -15,45 +16,17 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
-import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:91
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:92
  * @astdecl LinkOb : ASTNode;
  * @production LinkOb : {@link ASTNode};
 
  */
 public abstract class LinkOb extends ASTNode<ASTNode> implements Cloneable {
   /**
-   * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:538
-   */
-  public static Link composeLink (LinkObject linkObject, Map<Object, ASTNode> map){
-        Link link = new Link();
-
-
-        if( !linkObject.getRef().isEmpty() )
-        link.setRef(linkObject.getRef());
-        if( !linkObject.getOperationRef().isEmpty() )
-        link.setOperationRef( linkObject.getOperationRef() );
-        if( !linkObject.getOperationID().isEmpty() )
-        link.setOperationId( linkObject.getOperationID() );
-        if( linkObject.getNumLinkParameterTuple() != 0 ){
-        Map<String, String> parameters = new HashMap<>();
-        for( LinkParameterTuple t : linkObject.getLinkParameterTuples() )
-        parameters.put( t.getLinkParameterKey(), t.getLinkParameterValue() );
-        link.setParameters(parameters);
-        }
-        if( !linkObject.getDescription().isEmpty() )
-        link.setDescription( linkObject.getDescription() );
-        if( linkObject.hasServerObject() )
-        link.setServer( ServerObject.composeServer(linkObject.getServerObject()) );
-
-        return link;
-        }
-  /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:557
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:530
    */
   public static LinkOb parseLink(Link link, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         LinkObject linkObject = new LinkObject();
@@ -159,6 +132,14 @@ public abstract class LinkOb extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:58
    */
   public abstract LinkOb treeCopy();
+  /**
+   * @attribute syn
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:606
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:606")
+  public abstract Link composeLink(LinkOb linkOb, Map<Object, ASTNode> map);
   /** @apilevel internal */
   public ASTNode rewriteTo() {
     return super.rewriteTo();

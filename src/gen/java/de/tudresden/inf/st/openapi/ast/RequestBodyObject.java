@@ -8,6 +8,7 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -15,10 +16,9 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
-import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:66
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:67
  * @astdecl RequestBodyObject : RequestBodyOb ::= <Description:String> ContentTuple* <Required:Boolean> Extension*;
  * @production RequestBodyObject : {@link RequestBodyOb} ::= <span class="component">&lt;Description:String&gt;</span> <span class="component">{@link ContentTuple}*</span> <span class="component">&lt;Required:Boolean&gt;</span> <span class="component">{@link Extension}*</span>;
 
@@ -421,6 +421,45 @@ public class RequestBodyObject extends RequestBodyOb implements Cloneable {
    */
   public JastAddList<Extension> getExtensionsNoTransform() {
     return getExtensionListNoTransform();
+  }
+/** @apilevel internal */
+protected java.util.Set composeRequestBody_RequestBodyOb_Map_Object__ASTNode__visited;
+  /**
+   * @attribute syn
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:440
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:440")
+  public RequestBody composeRequestBody(RequestBodyOb requestBodyOb, Map<Object, ASTNode> map) {
+    java.util.List _parameters = new java.util.ArrayList(2);
+    _parameters.add(requestBodyOb);
+    _parameters.add(map);
+    if (composeRequestBody_RequestBodyOb_Map_Object__ASTNode__visited == null) composeRequestBody_RequestBodyOb_Map_Object__ASTNode__visited = new java.util.HashSet(4);
+    if (composeRequestBody_RequestBodyOb_Map_Object__ASTNode__visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute RequestBodyOb.composeRequestBody(RequestBodyOb,Map_Object__ASTNode_).");
+    }
+    composeRequestBody_RequestBodyOb_Map_Object__ASTNode__visited.add(_parameters);
+    try {
+            RequestBody requestBody = new RequestBody();
+            RequestBodyObject r = (RequestBodyObject) requestBodyOb;
+    
+            if( r.getNumContentTuple() != 0 ){
+            Map<String, MediaType> contents = new HashMap<>();
+            for( ContentTuple t : r.getContentTuples())
+            contents.put(t.getKey(), MediaTypeObject.composeMediaType(t.getMediaTypeObject(), map));
+            requestBody.setContentMediaTypes(contents);
+            }
+            if( !r.getDescription().isEmpty() )
+            requestBody.setDescription(r.getDescription());
+            if( r.getRequired() != null )
+            requestBody.setRequired(r.getRequired());
+    
+            return requestBody;
+            }
+    finally {
+      composeRequestBody_RequestBodyOb_Map_Object__ASTNode__visited.remove(_parameters);
+    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

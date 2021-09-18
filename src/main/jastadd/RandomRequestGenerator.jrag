@@ -17,30 +17,33 @@ aspect RandomRequestGenerator {
 
      */
 
+    //coll Set<MappingTuple> OpenAPIObject.getRandomUrl() [new HashSet<>()];
+    //    MappingTuple contributes this when generateRequests() to OpenAPIObject.getRandomUrl();
 
-/*
-    public void OpenAPIObject.generateRequests() throws Exception {
+    //inh MappingTuple
+
+    public String OpenAPIObject.generateRequests() throws Exception {
         String baseUrl = this.getServerObject(0).getUrl();
 
         for( PathsObject p : this.getPathsObjects() )
         p.sendRandomRequests(baseUrl);
-
+        return "";
     }
 
     public void PathsObject.sendRandomRequests(String baseUrl) throws Exception {
-        if( this.getPathItem().hasGet() ){
+        if( this.getPathItemOb().pathItemObject().hasGet() ){
         IntStream.range(0, 1).forEach( i -> {
         try {
-        this.getPathItem().getGet().getOperationObject().sendRandomGET(baseUrl+this.getRef());
+        this.getPathItemOb().pathItemObject().getGet().getOperationObject().sendRandomGET(baseUrl+this.getRef());
         } catch (Exception e) {
         e.printStackTrace();
         }
         });
         }
-        if( this.getPathItem().hasPost() ){
+        if( this.getPathItemOb().pathItemObject().hasPost() ){
         IntStream.range(0, 1).forEach( i -> {
         try {
-        this.getPathItem().getPost().getOperationObject().sendRandomPOST(baseUrl+this.getRef());
+        this.getPathItemOb().pathItemObject().getPost().getOperationObject().sendRandomPOST(baseUrl+this.getRef());
         } catch (Exception e) {
         e.printStackTrace();
         }
@@ -50,36 +53,38 @@ aspect RandomRequestGenerator {
     public void OperationObject.sendRandomGET(String targetUrl) throws Exception {
         Random rand = new Random();
 
-        for( ParameterObject p : this.getParameterObjects() ){
+        for( ParameterOb o : this.getParameterObs() ){
+        ParameterObject p = o.parameterObject();
+        SchemaObject s = p.getSchemaOb().schemaObject();
         if( p.getIn().equals("path") ){
         String pathPart = targetUrl.substring(targetUrl.indexOf("{") ,targetUrl.indexOf("}") + 1);
 
-        if( p.getSchemaObject().getType().equals("string") )
-        targetUrl = targetUrl.replace(pathPart, this.generateRandomString(rand, p.getSchemaObject().getEnumObjs()));
-        else if( p.getSchemaObject().getType().equals("integer") )
+        if( s.getType().equals("string") )
+        targetUrl = targetUrl.replace(pathPart, this.generateRandomString(rand, s.getEnumObjs()));
+        else if( s.getType().equals("integer") )
         targetUrl = targetUrl.replace(pathPart, this.generateRandomInt( rand,
-        -1, // p.getSchemaObject().getMinimum() != null ? p.getSchemaObject().getMinimum().intValue() : -1,
-        10 // p.getSchemaObject().getMaximum() != null ? p.getSchemaObject().getMaximum().intValue() : -1
+        -1, // s.getMinimum() != null ? s.getMinimum().intValue() : -1,
+        10 // s.getMaximum() != null ? s.getMaximum().intValue() : -1
         ));
         }
         else if( p.getIn().equals("query") ){
 
-        if( p.getSchemaObject().getType().equals("string") )
-        targetUrl = targetUrl + "&" + p.getName() + "=" + this.generateRandomString(rand, p.getSchemaObject().getEnumObjs());
-        else if( p.getSchemaObject().getType().equals("integer") )
+        if( s.getType().equals("string") )
+        targetUrl = targetUrl + "&" + p.getName() + "=" + this.generateRandomString(rand, s.getEnumObjs());
+        else if( s.getType().equals("integer") )
         targetUrl = targetUrl + "&" + p.getName() + "=" + this.generateRandomInt(  rand,
-        -1, // p.getSchemaObject().getMinimum() != null ? p.getSchemaObject().getMinimum().intValue() : -1,
-        10); // p.getSchemaObject().getMaximum() != null ? p.getSchemaObject().getMaximum().intValue() : -1
-        else if( p.getSchemaObject().getType().equals("array") ){
-        if( p.getSchemaObject().getItemsSchema().getSchemaObject().getType().equals("string") ){
-        for( EnumObj e : p.getSchemaObject().getItemsSchema().getSchemaObject().getEnumObjs() )
+        -1, // s.getMinimum() != null ? s.getMinimum().intValue() : -1,
+        10); // s.getMaximum() != null ? s.getMaximum().intValue() : -1
+        else if( s.getType().equals("array") ){
+        if( s.getItemsSchema().getSchemaOb().schemaObject().getType().equals("string") ){
+        for( EnumObj e : s.getItemsSchema().getSchemaOb().schemaObject().getEnumObjs() )
         targetUrl=rand.nextDouble()< 0.5?targetUrl+"&"+p.getName()+"="+e.getEnumOb():targetUrl;
         }
-        else if( p.getSchemaObject().getItemsSchema().getSchemaObject().getType().equals("integer") ){
+        else if( s.getItemsSchema().getSchemaOb().schemaObject().getType().equals("integer") ){
         for( int i = 0 ; i < 5 ; i++ )
         targetUrl = targetUrl + "&" + p.getName() + "=" + this.generateRandomInt(  rand,
-        -1, // p.getSchemaObject().getMinimum() != null ? p.getSchemaObject().getMinimum().intValue() : -1,
-        10); // p.getSchemaObject().getMaximum() != null ? p.getSchemaObject().getMaximum().intValue() : -1
+        -1, // s.getMinimum() != null ? s.getMinimum().intValue() : -1,
+        10); // s.getMaximum() != null ? s.getMaximum().intValue() : -1
         }
 
         }
@@ -101,36 +106,38 @@ aspect RandomRequestGenerator {
     public void OperationObject.sendRandomPOST(String targetUrl) throws Exception {
         Random rand = new Random();
 
-        for( ParameterObject p : this.getParameterObjects() ){
+        for( ParameterOb o : this.getParameterObs() ){
+        ParameterObject p = o.parameterObject();
+        SchemaObject s = p.getSchemaOb().schemaObject();
         if( p.getIn().equals("path") ){
         String pathPart = targetUrl.substring(targetUrl.indexOf("{") ,targetUrl.indexOf("}") + 1);
 
-        if( p.getSchemaObject().getType().equals("string") )
-        targetUrl = targetUrl.replace(pathPart, this.generateRandomString(rand, p.getSchemaObject().getEnumObjs()));
-        else if( p.getSchemaObject().getType().equals("integer") )
+        if( s.getType().equals("string") )
+        targetUrl = targetUrl.replace(pathPart, this.generateRandomString(rand, s.getEnumObjs()));
+        else if( s.getType().equals("integer") )
         targetUrl = targetUrl.replace(pathPart, this.generateRandomInt( rand,
-        -1, // p.getSchemaObject().getMinimum() != null ? p.getSchemaObject().getMinimum().intValue() : -1,
-        10 // p.getSchemaObject().getMaximum() != null ? p.getSchemaObject().getMaximum().intValue() : -1
+        -1, // s.getMinimum() != null ? s.getMinimum().intValue() : -1,
+        10 // s.getMaximum() != null ? s.getMaximum().intValue() : -1
         ));
         }
         else if( p.getIn().equals("query") ){
 
-        if( p.getSchemaObject().getType().equals("string") )
-        targetUrl = targetUrl + "&" + p.getName() + "=" + this.generateRandomString(rand, p.getSchemaObject().getEnumObjs());
-        else if( p.getSchemaObject().getType().equals("integer") )
+        if( s.getType().equals("string") )
+        targetUrl = targetUrl + "&" + p.getName() + "=" + this.generateRandomString(rand, s.getEnumObjs());
+        else if( s.getType().equals("integer") )
         targetUrl = targetUrl + "&" + p.getName() + "=" + this.generateRandomInt(  rand,
-        -1, // p.getSchemaObject().getMinimum() != null ? p.getSchemaObject().getMinimum().intValue() : -1,
-        10); // p.getSchemaObject().getMaximum() != null ? p.getSchemaObject().getMaximum().intValue() : -1
-        else if( p.getSchemaObject().getType().equals("array") ){
-        if( p.getSchemaObject().getItemsSchema().getSchemaObject().getType().equals("string") ){
-        for( EnumObj e : p.getSchemaObject().getItemsSchema().getSchemaObject().getEnumObjs() )
+        -1, // s.getMinimum() != null ? s.getMinimum().intValue() : -1,
+        10); // s.getMaximum() != null ? s.getMaximum().intValue() : -1
+        else if( s.getType().equals("array") ){
+        if( s.getItemsSchema().getSchemaOb().schemaObject().getType().equals("string") ){
+        for( EnumObj e : s.getItemsSchema().getSchemaOb().schemaObject().getEnumObjs() )
         targetUrl=rand.nextDouble()< 0.5?targetUrl+"&"+p.getName()+"="+e.getEnumOb():targetUrl;
         }
-        else if( p.getSchemaObject().getItemsSchema().getSchemaObject().getType().equals("integer") ){
+        else if( s.getItemsSchema().getSchemaOb().schemaObject().getType().equals("integer") ){
         for( int i = 0 ; i < 5 ; i++ )
         targetUrl = targetUrl + "&" + p.getName() + "=" + this.generateRandomInt(  rand,
-        -1, // p.getSchemaObject().getMinimum() != null ? p.getSchemaObject().getMinimum().intValue() : -1,
-        10); // p.getSchemaObject().getMaximum() != null ? p.getSchemaObject().getMaximum().intValue() : -1
+        -1, // s.getMinimum() != null ? s.getMinimum().intValue() : -1,
+        10); // s.getMaximum() != null ? s.getMaximum().intValue() : -1
         }
 
         }
@@ -172,6 +179,4 @@ aspect RandomRequestGenerator {
         return String.valueOf(rand.nextInt(maximum));
         return String.valueOf(rand.nextInt());
         }
-
- */
 }

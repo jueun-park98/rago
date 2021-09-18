@@ -8,6 +8,7 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -15,70 +16,17 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
-import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:58
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:59
  * @astdecl ParameterOb : ASTNode;
  * @production ParameterOb : {@link ASTNode};
 
  */
 public abstract class ParameterOb extends ASTNode<ASTNode> implements Cloneable {
   /**
-   * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:359
-   */
-  public static Parameter composeParameter (ParameterOb parameterObject, Map<Object, ASTNode> map){
-        Parameter parameter = new Parameter();
-
-        if( !parameterObject.getRef().isEmpty() )
-        parameter.setRef(parameterObject.getRef());
-        if( !parameterObject.getName().isEmpty() )
-        parameter.setName(parameterObject.getName());
-        if( !parameterObject.getIn().isEmpty() )
-        parameter.setIn(parameterObject.getIn());
-        if( parameterObject.getRequired() != null )
-        parameter.setRequired(parameterObject.getRequired());
-        if( !parameterObject.getDescription().isEmpty() )
-        parameter.setDescription(parameterObject.getDescription());
-        if( parameterObject.getDeprecatedBoolean() != null )
-        parameter.setDeprecated(parameterObject.getDeprecatedBoolean());
-        if( !parameterObject.getStyle().isEmpty() )
-        parameter.setStyle(parameterObject.getStyle());
-        if( parameterObject.getAllowReserved() != null )
-        parameter.setAllowReserved(parameterObject.getAllowReserved());
-        if( parameterObject.getExplode() != null )
-        parameter.setExplode(parameterObject.getExplode());
-        if( parameterObject.getSchemaObject() != null )
-        parameter.setSchema(SchemaObject.composeSchema(parameterObject.getSchemaObject()));
-        if( parameterObject.getExample() != null )
-        parameter.setExample(parameterObject.getExample());
-        if( parameterObject.getNumExampleTuple() != 0 ){
-        Map<String, Example> exampleMap = new HashMap<>();
-        for( ExampleTuple t : parameterObject.getExampleTuples() )
-        exampleMap.put(t.getKey(), ExampleObject.composeExample(t.getExampleObject()));
-        parameter.setExamples(exampleMap);
-        }
-        if( parameterObject.getNumContentTuple() != 0 ){
-        Map<String, MediaType> contentMap = new HashMap<>();
-        for( ContentTuple t : parameterObject.getContentTuples() )
-        contentMap.put(t.getKey(), MediaTypeObject.composeMediaType(t.getMediaTypeObject()));
-        parameter.setContentMediaTypes(contentMap);
-        }
-        if( parameterObject.getRequired() != null )
-            parameter.setRequired(parameterObject.getRequired());
-        if( parameterObject.getNumExtension() != 0 ){
-        Map<String, Object> extensionMap = new HashMap<>();
-        for( Extension e : parameterObject.getExtensions() )
-        extensionMap.put(e.getKey(), e.getValue());
-        parameter.setExtensions(extensionMap);
-        }
-
-        return parameter;
-        }
-  /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:356
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:329
    */
   public static ParameterOb parseParameter(Parameter parameter, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         ParameterObject parameterObject = new ParameterObject();
@@ -200,6 +148,22 @@ public abstract class ParameterOb extends ASTNode<ASTNode> implements Cloneable 
    * @declaredat ASTNode:58
    */
   public abstract ParameterOb treeCopy();
+  /**
+   * @attribute syn
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:382
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:382")
+  public abstract Parameter composeParameter(ParameterOb parameterOb, Map<Object, ASTNode> map);
+  /**
+   * @attribute syn
+   * @aspect ReferenceGet
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\ReferenceGet.jrag:3
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="ReferenceGet", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\ReferenceGet.jrag:3")
+  public abstract ParameterObject parameterObject();
   /** @apilevel internal */
   public ASTNode rewriteTo() {
     return super.rewriteTo();

@@ -8,6 +8,7 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -15,40 +16,17 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
-import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:64
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:65
  * @astdecl RequestBodyOb : ASTNode;
  * @production RequestBodyOb : {@link ASTNode};
 
  */
 public abstract class RequestBodyOb extends ASTNode<ASTNode> implements Cloneable {
   /**
-   * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:408
-   */
-  public static org.openapi4j.parser.model.v3.RequestBody composeRequestBody (RequestBodyOb requestBodyObject, Map<Object, ASTNode> map){
-        org.openapi4j.parser.model.v3.RequestBody requestBody = new org.openapi4j.parser.model.v3.RequestBody();
-
-        if( requestBodyObject.getNumContentTuple() != 0 ){
-        Map<String, MediaType> contents = new HashMap<>();
-        for( ContentTuple t : requestBodyObject.getContentTuples())
-        contents.put(t.getKey(), MediaTypeObject.composeMediaType(t.getMediaTypeObject()));
-        requestBody.setContentMediaTypes(contents);
-        }
-        if( !requestBodyObject.getDescription().isEmpty() )
-        requestBody.setDescription(requestBodyObject.getDescription());
-        if( requestBodyObject.getRequired() != null )
-        requestBody.setRequired(requestBodyObject.getRequired());
-        if( !requestBodyObject.getRef().isEmpty() )
-        requestBody.setRef(requestBodyObject.getRef());
-
-        return requestBody;
-        }
-  /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:403
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:376
    */
   public static RequestBodyOb parseRequestBody(org.openapi4j.parser.model.v3.RequestBody requestBody, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         RequestBodyObject requestBodyObject = new RequestBodyObject();
@@ -150,6 +128,14 @@ public abstract class RequestBodyOb extends ASTNode<ASTNode> implements Cloneabl
    * @declaredat ASTNode:58
    */
   public abstract RequestBodyOb treeCopy();
+  /**
+   * @attribute syn
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:440
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:440")
+  public abstract RequestBody composeRequestBody(RequestBodyOb requestBodyOb, Map<Object, ASTNode> map);
   /** @apilevel internal */
   public ASTNode rewriteTo() {
     return super.rewriteTo();

@@ -8,6 +8,7 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -15,10 +16,9 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
-import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:98
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:99
  * @astdecl HeaderReference : HeaderOb ::= <Ref:String> <HeaderOb:HeaderOb>;
  * @production HeaderReference : {@link HeaderOb} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;HeaderOb:HeaderOb&gt;</span>;
 
@@ -196,6 +196,37 @@ public class HeaderReference extends HeaderOb implements Cloneable {
   @ASTNodeAnnotation.Token(name="HeaderOb")
   public HeaderOb getHeaderOb() {
     return tokenHeaderOb_HeaderOb;
+  }
+/** @apilevel internal */
+protected java.util.Set composeHeader_HeaderOb_Map_Object__ASTNode__visited;
+  /**
+   * @attribute syn
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:638
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:638")
+  public Header composeHeader(HeaderOb headerOb, Map<Object, ASTNode> map) {
+    java.util.List _parameters = new java.util.ArrayList(2);
+    _parameters.add(headerOb);
+    _parameters.add(map);
+    if (composeHeader_HeaderOb_Map_Object__ASTNode__visited == null) composeHeader_HeaderOb_Map_Object__ASTNode__visited = new java.util.HashSet(4);
+    if (composeHeader_HeaderOb_Map_Object__ASTNode__visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute HeaderOb.composeHeader(HeaderOb,Map_Object__ASTNode_).");
+    }
+    composeHeader_HeaderOb_Map_Object__ASTNode__visited.add(_parameters);
+    try {
+            Header header = new Header();
+            HeaderReference h = new HeaderReference();
+    
+            if( !h.getRef().isEmpty() )
+            header.setRef(h.getRef());
+    
+            return header;
+            }
+    finally {
+      composeHeader_HeaderOb_Map_Object__ASTNode__visited.remove(_parameters);
+    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

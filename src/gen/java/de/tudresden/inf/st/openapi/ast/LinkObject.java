@@ -8,6 +8,7 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -15,10 +16,9 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
-import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:93
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:94
  * @astdecl LinkObject : LinkOb ::= <OperationRef:String> <OperationID:String> LinkParameterTuple* HeaderTuple* <Description:String> [ServerObject] Extension*;
  * @production LinkObject : {@link LinkOb} ::= <span class="component">&lt;OperationRef:String&gt;</span> <span class="component">&lt;OperationID:String&gt;</span> <span class="component">{@link LinkParameterTuple}*</span> <span class="component">{@link HeaderTuple}*</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">[{@link ServerObject}]</span> <span class="component">{@link Extension}*</span>;
 
@@ -607,6 +607,49 @@ public class LinkObject extends LinkOb implements Cloneable {
    */
   public JastAddList<Extension> getExtensionsNoTransform() {
     return getExtensionListNoTransform();
+  }
+/** @apilevel internal */
+protected java.util.Set composeLink_LinkOb_Map_Object__ASTNode__visited;
+  /**
+   * @attribute syn
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:606
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:606")
+  public Link composeLink(LinkOb linkOb, Map<Object, ASTNode> map) {
+    java.util.List _parameters = new java.util.ArrayList(2);
+    _parameters.add(linkOb);
+    _parameters.add(map);
+    if (composeLink_LinkOb_Map_Object__ASTNode__visited == null) composeLink_LinkOb_Map_Object__ASTNode__visited = new java.util.HashSet(4);
+    if (composeLink_LinkOb_Map_Object__ASTNode__visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute LinkOb.composeLink(LinkOb,Map_Object__ASTNode_).");
+    }
+    composeLink_LinkOb_Map_Object__ASTNode__visited.add(_parameters);
+    try {
+            Link link = new Link();
+            LinkObject l = (LinkObject) linkOb;
+    
+            if( !l.getOperationRef().isEmpty() )
+            link.setOperationRef( l.getOperationRef() );
+            if( !l.getOperationID().isEmpty() )
+            link.setOperationId( l.getOperationID() );
+            if( l.getNumLinkParameterTuple() != 0 ){
+            Map<String, String> parameters = new HashMap<>();
+            for( LinkParameterTuple t : l.getLinkParameterTuples() )
+            parameters.put( t.getLinkParameterKey(), t.getLinkParameterValue() );
+            link.setParameters(parameters);
+            }
+            if( !l.getDescription().isEmpty() )
+            link.setDescription( l.getDescription() );
+            if( l.hasServerObject() )
+            link.setServer( ServerObject.composeServer(l.getServerObject(), map) );
+    
+            return link;
+            }
+    finally {
+      composeLink_LinkOb_Map_Object__ASTNode__visited.remove(_parameters);
+    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

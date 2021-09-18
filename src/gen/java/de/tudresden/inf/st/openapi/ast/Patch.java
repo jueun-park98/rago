@@ -8,6 +8,7 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -15,15 +16,14 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
-import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:47
- * @astdecl Patch : ASTNode ::= OperationObject;
- * @production Patch : {@link ASTNode} ::= <span class="component">{@link OperationObject}</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:51
+ * @astdecl Patch : OperationOb ::= <OperationObject:OperationObject>;
+ * @production Patch : {@link OperationOb} ::= <span class="component">&lt;OperationObject:OperationObject&gt;</span>;
 
  */
-public class Patch extends ASTNode<ASTNode> implements Cloneable {
+public class Patch extends OperationOb implements Cloneable {
   /**
    * @declaredat ASTNode:1
    */
@@ -38,53 +38,52 @@ public class Patch extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:10
    */
   public void init$Children() {
-    children = new ASTNode[1];
   }
   /**
-   * @declaredat ASTNode:13
+   * @declaredat ASTNode:12
    */
   @ASTNodeAnnotation.Constructor(
     name = {"OperationObject"},
     type = {"OperationObject"},
-    kind = {"Child"}
+    kind = {"Token"}
   )
   public Patch(OperationObject p0) {
-    setChild(p0, 0);
+    setOperationObject(p0);
   }
   /** @apilevel low-level 
-   * @declaredat ASTNode:22
+   * @declaredat ASTNode:21
    */
   protected int numChildren() {
-    return 1;
+    return 0;
   }
   /**
    * @apilevel internal
-   * @declaredat ASTNode:28
+   * @declaredat ASTNode:27
    */
   public boolean mayHaveRewrite() {
     return false;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:32
+   * @declaredat ASTNode:31
    */
   public void flushAttrCache() {
     super.flushAttrCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:36
+   * @declaredat ASTNode:35
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:40
+   * @declaredat ASTNode:39
    */
   public Patch clone() throws CloneNotSupportedException {
     Patch node = (Patch) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:45
+   * @declaredat ASTNode:44
    */
   public Patch copy() {
     try {
@@ -104,7 +103,7 @@ public class Patch extends ASTNode<ASTNode> implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:64
+   * @declaredat ASTNode:63
    */
   @Deprecated
   public Patch fullCopy() {
@@ -115,7 +114,7 @@ public class Patch extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:74
+   * @declaredat ASTNode:73
    */
   public Patch treeCopyNoTransform() {
     Patch tree = (Patch) copy();
@@ -136,7 +135,7 @@ public class Patch extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:94
+   * @declaredat ASTNode:93
    */
   public Patch treeCopy() {
     Patch tree = (Patch) copy();
@@ -152,36 +151,30 @@ public class Patch extends ASTNode<ASTNode> implements Cloneable {
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:108
+   * @declaredat ASTNode:107
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node);    
+    return super.is$Equal(node) && (tokenOperationObject_OperationObject == ((Patch) node).tokenOperationObject_OperationObject);    
   }
   /**
-   * Replaces the OperationObject child.
-   * @param node The new node to replace the OperationObject child.
+   * Replaces the lexeme OperationObject.
+   * @param value The new value for the lexeme OperationObject.
    * @apilevel high-level
    */
-  public void setOperationObject(OperationObject node) {
-    setChild(node, 0);
+  public void setOperationObject(OperationObject value) {
+    tokenOperationObject_OperationObject = value;
   }
+  /** @apilevel internal 
+   */
+  protected OperationObject tokenOperationObject_OperationObject;
   /**
-   * Retrieves the OperationObject child.
-   * @return The current node used as the OperationObject child.
+   * Retrieves the value for the lexeme OperationObject.
+   * @return The value for the lexeme OperationObject.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Child(name="OperationObject")
+  @ASTNodeAnnotation.Token(name="OperationObject")
   public OperationObject getOperationObject() {
-    return (OperationObject) getChild(0);
-  }
-  /**
-   * Retrieves the OperationObject child.
-   * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The current node used as the OperationObject child.
-   * @apilevel low-level
-   */
-  public OperationObject getOperationObjectNoTransform() {
-    return (OperationObject) getChildNoTransform(0);
+    return tokenOperationObject_OperationObject;
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

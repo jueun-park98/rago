@@ -8,6 +8,7 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -15,7 +16,6 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
-import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:38
@@ -25,54 +25,8 @@ import org.openapi4j.core.exception.DecodeException;
  */
 public abstract class PathItemOb extends ASTNode<ASTNode> implements Cloneable {
   /**
-   * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:240
-   */
-  public static Path composePath (PathItemOb pathItem, Map<Object, ASTNode> map){
-        Path path = new Path();
-
-        
-
-        if( !pathItem.getRef().isEmpty() )
-        path.setRef(pathItem.getRef());
-        if( !pathItem.getSummary().isEmpty())
-        path.setSummary(pathItem.getSummary());
-        if( !pathItem.getDescription().isEmpty() )
-        path.setDescription(pathItem.getDescription());
-        if( pathItem.hasGet() )
-        path.setGet( OperationObject.composeOperation(pathItem.getGet().getOperationObject()) );
-        if( pathItem.hasPut() )
-        path.setPut( OperationObject.composeOperation(pathItem.getPut().getOperationObject()) );
-        if( pathItem.hasPost() )
-        path.setPost( OperationObject.composeOperation(pathItem.getPost().getOperationObject()) );
-        if( pathItem.hasDelete() )
-        path.setDelete( OperationObject.composeOperation(pathItem.getDelete().getOperationObject()) );
-        if( pathItem.hasOptions() )
-        path.setOptions( OperationObject.composeOperation(pathItem.getOptions().getOperationObject()) );
-        if( pathItem.hasHead() )
-        path.setHead( OperationObject.composeOperation(pathItem.getHead().getOperationObject()) );
-        if( pathItem.hasPatch() )
-        path.setPatch( OperationObject.composeOperation(pathItem.getPatch().getOperationObject()) );
-        if( pathItem.getNumServerObject() != 0 ){
-        for( ServerObject s : pathItem.getServerObjects() )
-        path.addServer( ServerObject.composeServer(s) );
-        }
-        if( pathItem.getNumParameterObject() != 0 ){
-        for( ParameterObject p : pathItem.getParameterObjects() )
-        path.addParameter( ParameterObject.composeParameter(p) );
-        }
-        if( pathItem.getNumExtension() != 0 ){
-        Map<String, Object> extensionMap = new HashMap<>();
-        for( Extension e : pathItem.getExtensions() )
-        extensionMap.put(e.getKey(), e.getValue());
-        path.setExtensions(extensionMap);
-        }
-
-        return path;
-        }
-  /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:217
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:190
    */
   public static PathItemOb parsePath(Path path, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         PathItemObject pathItem = new PathItemObject();
@@ -218,6 +172,22 @@ public abstract class PathItemOb extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:58
    */
   public abstract PathItemOb treeCopy();
+  /**
+   * @attribute syn
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:262
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:262")
+  public abstract Path composePath(PathItemOb pathItem, Map<Object, ASTNode> map);
+  /**
+   * @attribute syn
+   * @aspect ReferenceGet
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\ReferenceGet.jrag:21
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="ReferenceGet", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\ReferenceGet.jrag:21")
+  public abstract PathItemObject pathItemObject();
   /** @apilevel internal */
   public ASTNode rewriteTo() {
     return super.rewriteTo();

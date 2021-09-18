@@ -143,67 +143,40 @@ public static ComponentsObject ComponentsObject.parseComponents(Components compo
         ComponentsObject componentsObject = new ComponentsObject();
 
         if( components.getSchemas() != null ){
-        for( String key : components.getSchemas().keySet() ){
-        SchemaTuple schemaTuple = new SchemaTuple();
-        schemaTuple.setKey(key);
-        schemaTuple.setSchemaOb(SchemaOb.parseSchema(components.getSchema(key), context, map));
-        }
+        for( String key : components.getSchemas().keySet() )
+        componentsObject.addSchemaTuple(new SchemaTuple(key, SchemaOb.parseSchema(components.getSchema(key), context, map)));
         }
         if( components.getResponses() != null ){
-        for( String key : components.getResponses().keySet() ){
-        ResponseTuple responseTuple = new ResponseTuple();
-        responseTuple.setKey(key);
-        responseTuple.setResponseOb(ResponseOb.parseResponse(components.getResponse(key), context, map));
-        }
+        for( String key : components.getResponses().keySet() )
+        componentsObject.addResponseTuple(new ResponseTuple(key, ResponseOb.parseResponse(components.getResponse(key), context, map)));
         }
         if( components.getParameters() != null ){
-        for( String key : components.getParameters().keySet() ){
-        ParameterTuple parameterTuple = new ParameterTuple();
-        parameterTuple.setKey(key);
-        parameterTuple.setParameterOb(ParameterOb.parseParameter(components.getParameter(key), context, map));
-        }
+        for( String key : components.getParameters().keySet() )
+        componentsObject.addParameterTuple(new ParameterTuple(key, ParameterOb.parseParameter(components.getParameter(key), context, map)));
         }
         if( components.getExamples() != null ){
-        for( String key : components.getExamples().keySet() ){
-        ExampleTuple exampleTuple = new ExampleTuple();
-        exampleTuple.setKey(key);
-        exampleTuple.setExampleObject(ExampleObject.parseExample(components.getExample(key), context, map));
-        }
+        for( String key : components.getExamples().keySet() )
+        componentsObject.addExampleTuple(new ExampleTuple(key, ExampleObject.parseExample(components.getExample(key), context, map)));
         }
         if( components.getRequestBodies() != null ){
-        for( String key : components.getRequestBodies().keySet() ){
-        RequestBodyTuple requestBodyTuple = new RequestBodyTuple();
-        requestBodyTuple.setKey(key);
-        requestBodyTuple.setRequestBodyOb(RequestBodyOb.parseRequestBody(components.getRequestBody(key), context, map));
-        }
+        for( String key : components.getRequestBodies().keySet() )
+        componentsObject.addRequestBodyTuple(new RequestBodyTuple(key, RequestBodyOb.parseRequestBody(components.getRequestBody(key), context, map)));
         }
         if( components.getHeaders() != null ){
-        for( String key : components.getHeaders().keySet() ){
-        HeaderTuple headerTuple = new HeaderTuple();
-        headerTuple.setKey(key);
-        headerTuple.setHeaderOb(HeaderOb.parseHeader(components.getHeader(key), context, map));
-        }
+        for( String key : components.getHeaders().keySet() )
+        componentsObject.addHeaderTuple(new HeaderTuple(key, HeaderOb.parseHeader(components.getHeader(key), context, map)));
         }
         if( components.getSecuritySchemes() != null ){
-        for( String key : components.getSecuritySchemes().keySet() ){
-        SecuritySchemeTuple securitySchemeTuple = new SecuritySchemeTuple();
-        securitySchemeTuple.setKey(key);
-        securitySchemeTuple.setSecuritySchemeOb(SecuritySchemeOb.parseSecurityScheme(components.getSecurityScheme(key), context, map));
-        }
+        for( String key : components.getSecuritySchemes().keySet() )
+        componentsObject.addSecuritySchemeTuple(new SecuritySchemeTuple(key, SecuritySchemeOb.parseSecurityScheme(components.getSecurityScheme(key), context, map)));
         }
         if( components.getLinks() != null ){
-        for( String key : components.getLinks().keySet() ){
-        LinkTuple linkTuple = new LinkTuple();
-        linkTuple.setKey(key);
-        linkTuple.setLinkOb(LinkOb.parseLink(components.getLink(key), context, map));
-        }
+        for( String key : components.getLinks().keySet() )
+        componentsObject.addLinkTuple(new LinkTuple(key, LinkOb.parseLink(components.getLink(key), context, map)));
         }
         if( components.getCallbacks() != null ){
-        for( String key : components.getCallbacks().keySet() ){
-        CallbackTuple callbackTuple = new CallbackTuple();
-        callbackTuple.setKey(key);
-        callbackTuple.setCallbackOb(CallbackOb.parseCallback(components.getCallback(key), context, map));
-        }
+        for( String key : components.getCallbacks().keySet() )
+        componentsObject.addCallbackTuple(new CallbackTuple(key, CallbackOb.parseCallback(components.getCallback(key), context, map)));
         }
         if( components.getExtensions() != null ){
         for( String key : components.getExtensions().keySet() )
@@ -660,7 +633,7 @@ public static SchemaOb SchemaOb.parseSchema (org.openapi4j.parser.model.v3.Schem
         return s;
         } else {
         if( schema.getAdditionalProperties() != null )
-        schemaObject.setAdditionalProperties(parseSchema(schema.getAdditionalProperties(), context, map));
+        schemaObject.setAdditionalProperties(new AdditionalProperties(parseSchema(schema.getAdditionalProperties(), context, map)));
         if( schema.getAdditionalProperties() == null && schema.getAdditionalPropertiesAllowed() != null )
         schemaObject.setAdditionalPropertiesAllowed(schema.getAdditionalPropertiesAllowed());
         if( schema.getDefault() != null )
@@ -770,118 +743,6 @@ public static SchemaOb SchemaOb.parseSchema (org.openapi4j.parser.model.v3.Schem
         for( String key : schema.getExtensions().keySet() )
         schemaObject.addExtension(new Extension(key, schema.getExtensions().get(key)));
         }
-        }
-
-        if( schema.getAdditionalProperties() != null )
-        schemaObject.setAdditionalProperties(parseSchema(schema.getAdditionalProperties(), context, map));
-        if( schema.getAdditionalProperties() == null && schema.getAdditionalPropertiesAllowed() != null )
-        schemaObject.setAdditionalPropertiesAllowed(schema.getAdditionalPropertiesAllowed());
-        if( schema.getDefault() != null )
-        schemaObject.setDefaultValue(schema.getDefault());
-        if( schema.getDescription() != null )
-        schemaObject.setDescription(schema.getDescription());
-        if( schema.getDeprecated() != null )
-        schemaObject.setDeprecatedBoolean(schema.getDeprecated());
-        if( schema.getDiscriminator() != null )
-        schemaObject.setDiscriminatorObject(DiscriminatorObject.parseDiscriminator(schema.getDiscriminator(), map));
-        if( schema.getEnums() != null ){
-        for( Object o : schema.getEnums() ){
-        EnumObj enumObj = new EnumObj();
-        enumObj.setEnumOb(o);
-        schemaObject.addEnumObj(enumObj);
-        }
-        }
-        if( schema.getExample() != null )
-        schemaObject.setExample(schema.getExample());
-        if( schema.getExclusiveMaximum() != null )
-        schemaObject.setExclusiveMaximum(schema.getExclusiveMaximum());
-        if( schema.getExclusiveMinimum() != null )
-        schemaObject.setExclusiveMinimum(schema.getExclusiveMinimum());
-        if( schema.getExternalDocs() != null )
-        schemaObject.setExternalDocObject(ExternalDocObject.parseExternalDocs(schema.getExternalDocs(), map));
-        if( schema.getFormat() != null )
-        schemaObject.setFormat(schema.getFormat());
-        if( schema.getItemsSchema() != null ){
-        ItemsSchema itemsSchema = new ItemsSchema();
-        itemsSchema.setSchemaOb(parseSchema(schema.getItemsSchema(), context, map));
-        schemaObject.setItemsSchema(itemsSchema);
-        }
-        if( schema.getMaximum() != null )
-        schemaObject.setMaximum(schema.getMaximum());
-        if( schema.getMinimum() != null )
-        schemaObject.setMinimum(schema.getMinimum());
-        if( schema.getMaxItems() != null )
-        schemaObject.setMaxItems(schema.getMaxItems());
-        if( schema.getMinItems() != null )
-        schemaObject.setMinItems(schema.getMinItems());
-        if( schema.getMaxLength() != null )
-        schemaObject.setMaxLength(schema.getMaxLength());
-        if( schema.getMinLength() != null )
-        schemaObject.setMinLength(schema.getMinLength());
-        if( schema.getMaxProperties() != null )
-        schemaObject.setMaxProperties(schema.getMaxProperties());
-        if( schema.getMinProperties() != null )
-        schemaObject.setMinProperties(schema.getMinProperties());
-        if( schema.getMultipleOf() != null )
-        schemaObject.setMultipleOf(schema.getMultipleOf());
-        if( schema.getNotSchema() != null ){
-        NotSchema notSchema = new NotSchema();
-        notSchema.setSchemaOb(parseSchema(schema.getNotSchema(), context, map));
-        schemaObject.setNotSchema(notSchema);
-        }
-        if( schema.getNullable() != null )
-        schemaObject.setNullable(schema.getNullable());
-        if( schema.getPattern() != null )
-        schemaObject.setPattern(schema.getPattern());
-        if( schema.getProperties() != null  ){
-        for( String key : schema.getProperties().keySet() ){
-        PropertyItem propertyItem = new PropertyItem();
-        schemaObject.addPropertyItem(new PropertyItem(key, parseSchema(schema.getProperty(key), context, map)));
-        }
-        }
-        if( schema.getRequiredFields() != null ){
-        for( String s : schema.getRequiredFields() ){
-        RequiredField requiredField = new RequiredField();
-        requiredField.setValue(s);
-        schemaObject.addRequiredField(requiredField);
-        }
-        }
-        if( schema.getAllOfSchemas() != null ){
-        for(org.openapi4j.parser.model.v3.Schema schemaItem : schema.getAllOfSchemas()){
-        AllOfSchema allOfSchema = new AllOfSchema();
-        allOfSchema.setSchemaOb(parseSchema(schemaItem, context, map));
-        schemaObject.addAllOfSchema(allOfSchema);
-        }
-        }
-        if( schema.getAnyOfSchemas() != null ){
-        for(org.openapi4j.parser.model.v3.Schema schemaItem : schema.getAnyOfSchemas()){
-        AnyOfSchema anyOfSchema = new AnyOfSchema();
-        anyOfSchema.setSchemaOb(parseSchema(schemaItem, context, map));
-        schemaObject.addAnyOfSchema(anyOfSchema);
-        }
-        }
-        if( schema.getOneOfSchemas() != null ){
-        for(org.openapi4j.parser.model.v3.Schema schemaItem : schema.getOneOfSchemas()){
-        OneOfSchema oneOfSchema = new OneOfSchema();
-        oneOfSchema.setSchemaOb(parseSchema(schemaItem, context, map));
-        schemaObject.addOneOfSchema(oneOfSchema);
-        }
-        }
-        if( schema.getReadOnly() != null )
-        schemaObject.setReadOnly(schema.getReadOnly());
-        if( schema.getWriteOnly() != null )
-        schemaObject.setWriteOnly(schema.getWriteOnly());
-        if( schema.getType() != null )
-        schemaObject.setType(schema.getType());
-        if( schema.getTitle() != null )
-        schemaObject.setTitle(schema.getTitle());
-        if( schema.getUniqueItems() != null )
-        schemaObject.setUniqueItems(schema.getUniqueItems());
-        if( schema.getXml() != null )
-        schemaObject.setXmlObject(XmlObject.parseXml(schema.getXml(), map));
-        if( schema.getExtensions() != null ){
-        for( String key : schema.getExtensions().keySet() )
-        schemaObject.addExtension(new Extension(key, schema.getExtensions().get(key)));
         }
 
         map.put(schema, schemaObject);

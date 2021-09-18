@@ -8,6 +8,7 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -15,10 +16,9 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
-import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:82
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:83
  * @astdecl CallbackReference : CallbackOb ::= <Ref:String> <CallbackOb:CallbackOb>;
  * @production CallbackReference : {@link CallbackOb} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;CallbackOb:CallbackOb&gt;</span>;
 
@@ -196,6 +196,37 @@ public class CallbackReference extends CallbackOb implements Cloneable {
   @ASTNodeAnnotation.Token(name="CallbackOb")
   public CallbackOb getCallbackOb() {
     return tokenCallbackOb_CallbackOb;
+  }
+/** @apilevel internal */
+protected java.util.Set composeCallback_CallbackOb_Map_Object__ASTNode__visited;
+  /**
+   * @attribute syn
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:558
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:558")
+  public Callback composeCallback(CallbackOb callbackOb, Map<Object, ASTNode> map) {
+    java.util.List _parameters = new java.util.ArrayList(2);
+    _parameters.add(callbackOb);
+    _parameters.add(map);
+    if (composeCallback_CallbackOb_Map_Object__ASTNode__visited == null) composeCallback_CallbackOb_Map_Object__ASTNode__visited = new java.util.HashSet(4);
+    if (composeCallback_CallbackOb_Map_Object__ASTNode__visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute CallbackOb.composeCallback(CallbackOb,Map_Object__ASTNode_).");
+    }
+    composeCallback_CallbackOb_Map_Object__ASTNode__visited.add(_parameters);
+    try {
+            Callback callback = new Callback();
+            CallbackReference c = (CallbackReference) callbackOb;
+    
+            if( !c.getRef().isEmpty() )
+            callback.setRef(c.getRef());
+    
+            return callback;
+            }
+    finally {
+      composeCallback_CallbackOb_Map_Object__ASTNode__visited.remove(_parameters);
+    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

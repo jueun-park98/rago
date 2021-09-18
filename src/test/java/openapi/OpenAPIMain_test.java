@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.flipkart.zjsonpatch.JsonDiff;
 import de.tudresden.inf.st.openapi.ast.*;
 import org.junit.jupiter.api.Assertions;
+import org.openapi4j.core.exception.DecodeException;
 import org.openapi4j.core.exception.EncodeException;
 import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
@@ -33,7 +34,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class OpenAPIMain_test {
 
     @Test
-    public void test() throws IOException, ResolutionException, ValidationException, EncodeException {
+    public void test() throws IOException, ResolutionException, ValidationException, EncodeException, DecodeException {
         OpenAPIObject openApi;
         OpenApi3 api3;
         ValidationResults results;
@@ -85,7 +86,6 @@ public class OpenAPIMain_test {
         }
 
         // clean all generated jsons
-
         contents = genDirectory.listFiles();
         if (contents != null) {
             for (File file : contents)

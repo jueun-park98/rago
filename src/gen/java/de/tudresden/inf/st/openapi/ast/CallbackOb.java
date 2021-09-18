@@ -8,6 +8,7 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -15,34 +16,17 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.util.Random;
 import java.util.stream.IntStream;
-import org.openapi4j.core.exception.DecodeException;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:81
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:82
  * @astdecl CallbackOb : ASTNode;
  * @production CallbackOb : {@link ASTNode};
 
  */
 public abstract class CallbackOb extends ASTNode<ASTNode> implements Cloneable {
   /**
-   * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jadd:504
-   */
-  public static Callback composeCallback (CallbackObject callbackObject, Map<Object, ASTNode> map){
-        Callback callback = new Callback();
-
-        if( callbackObject.getNumExpression() != 0 ){
-        Map<String, Path> paths = new HashMap<>();
-        for( Expression e : callbackObject.getExpressions() )
-        paths.put( e.getName(), PathItem.composePath( e.getPathItem() ));
-        callback.setCallbackPaths(paths);
-        }
-
-        return callback;
-        }
-  /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:509
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:482
    */
   public static CallbackOb parseCallback(Callback callback, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         CallbackObject callbackObject = new CallbackObject();
@@ -140,6 +124,14 @@ public abstract class CallbackOb extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:58
    */
   public abstract CallbackOb treeCopy();
+  /**
+   * @attribute syn
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:558
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:558")
+  public abstract Callback composeCallback(CallbackOb callbackOb, Map<Object, ASTNode> map);
   /** @apilevel internal */
   public ASTNode rewriteTo() {
     return super.rewriteTo();
