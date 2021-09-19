@@ -1,13 +1,5 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import javax.net.ssl.HttpsURLConnection;
-import java.util.Random;
-import java.util.stream.IntStream;
 import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
@@ -15,29 +7,26 @@ import org.openapi4j.core.model.reference.Reference;
 import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
+import java.net.URL;
 import org.openapi4j.core.exception.DecodeException;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import javax.net.ssl.HttpsURLConnection;
+import java.util.Random;
+import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:2
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:2
  * @astdecl OpenAPIObject : ASTNode ::= <OpenAPI:String> [InfoObject] ServerObject* PathsObject* [ComponentsObject] SecurityRequirementObject* TagObject* [ExternalDocObject] <Context:OAIContext> Extension*;
  * @production OpenAPIObject : {@link ASTNode} ::= <span class="component">&lt;OpenAPI:String&gt;</span> <span class="component">[{@link InfoObject}]</span> <span class="component">{@link ServerObject}*</span> <span class="component">{@link PathsObject}*</span> <span class="component">[{@link ComponentsObject}]</span> <span class="component">{@link SecurityRequirementObject}*</span> <span class="component">{@link TagObject}*</span> <span class="component">[{@link ExternalDocObject}]</span> <span class="component">&lt;Context:OAIContext&gt;</span> <span class="component">{@link Extension}*</span>;
 
  */
 public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
   /**
-   * @aspect RandomRequestGenerator
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/RandomRequestGenerator.jrag:25
-   */
-  public String generateRequests() throws Exception {
-        String baseUrl = this.getServerObject(0).getUrl();
-
-        for( PathsObject p : this.getPathsObjects() )
-        p.sendRandomRequests(baseUrl);
-        return "";
-    }
-  /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jrag:13
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:13
    */
   public static OpenApi3 composeOpenAPI (OpenAPIObject openapi){
         OpenApi3 api3 = new OpenApi3();
@@ -88,7 +77,7 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:5
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:5
    */
   public static OpenAPIObject parseOpenAPI(OpenApi3 api) throws IOException, ResolutionException, ValidationException, DecodeException {
         OpenAPIObject openapi = new OpenAPIObject();
@@ -128,6 +117,53 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
         map.put(api, openapi);
         return openapi;
         }
+  /**
+   * @aspect RandomRequestGenerator
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:20
+   */
+  public String generateRequests() throws Exception {
+        Set<String> urls = new HashSet<>();
+
+        for( PathsObject p : this.getPathsObjects() )
+        p.generateUrl(urls);
+
+        for( String path : urls ){
+        if( path.endsWith("GET") ){
+        System.out.println(this.getServerObject(0).getUrl() + path.substring(0, path.length()-3));
+        /*
+        URL url = new URL(this.getServerObject(0).getUrl() + path.substring(0, path.length()-3));
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+        con.setRequestMethod("GET"); // HTTP GET
+        con.setDoOutput(true); // GET
+
+        int responseCode = con.getResponseCode();
+
+        // print result
+        System.out.println("HTTP status code (GET) : " + responseCode);
+
+         */
+        } else if( path.endsWith("POST") ) {
+        System.out.println(this.getServerObject(0).getUrl() + path.substring(0, path.length()-4));
+        /*
+        URL url = new URL(this.getServerObject(0).getUrl() + path.substring(0, path.length()-4));
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+        con.setRequestMethod("POST"); // HTTP POST
+        con.setDoOutput(true); // POST
+
+        int responseCode = con.getResponseCode();
+
+        // print result
+        System.out.println("HTTP status code (POST) : " + responseCode);
+
+         */
+        }
+
+        }
+
+        return "";
+    }
   /**
    * @declaredat ASTNode:1
    */
@@ -1020,6 +1056,36 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
    */
   public JastAddList<Extension> getExtensionsNoTransform() {
     return getExtensionListNoTransform();
+  }
+  /**
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:64
+   * @apilevel internal
+   */
+  public Set<String> Define_generateUrl(ASTNode _callerNode, ASTNode _childNode, Set<String> urls) {
+    if (_callerNode == getPathsObjectListNoTransform()) {
+      // @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:65
+      int i = _callerNode.getIndexOfChild(_childNode);
+      {
+              PathItemObject p = ((PathsObject) _childNode).getPathItemOb().pathItemObject();
+              if( p.hasGet() )
+              urls.add(p.getGet().generateRandomUrl(((PathsObject) _childNode).getRef(), p.getGet().getOperationObject()));
+              else if( p.hasPost() )
+              urls.add(p.getPost().generateRandomUrl(((PathsObject) _childNode).getRef(), p.getPost().getOperationObject()));
+      
+              return urls;
+              }
+    }
+    else {
+      return getParent().Define_generateUrl(this, _callerNode, urls);
+    }
+  }
+  /**
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:64
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute generateUrl
+   */
+  protected boolean canDefine_generateUrl(ASTNode _callerNode, ASTNode _childNode, Set<String> urls) {
+    return true;
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

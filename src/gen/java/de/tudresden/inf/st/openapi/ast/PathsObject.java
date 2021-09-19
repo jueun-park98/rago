@@ -1,13 +1,5 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import javax.net.ssl.HttpsURLConnection;
-import java.util.Random;
-import java.util.stream.IntStream;
 import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
@@ -15,41 +7,23 @@ import org.openapi4j.core.model.reference.Reference;
 import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
+import java.net.URL;
 import org.openapi4j.core.exception.DecodeException;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import javax.net.ssl.HttpsURLConnection;
+import java.util.Random;
+import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:35
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:35
  * @astdecl PathsObject : ASTNode ::= <Ref:String> PathItemOb;
  * @production PathsObject : {@link ASTNode} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">{@link PathItemOb}</span>;
 
  */
 public class PathsObject extends ASTNode<ASTNode> implements Cloneable {
-  /**
-   * @aspect RandomRequestGenerator
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/RandomRequestGenerator.jrag:33
-   */
-  public Set<String> sendRandomRequests(String baseUrl) throws Exception {
-        Set<String> generatedUrls = new HashSet<>();
-        if( this.getPathItemOb().pathItemObject().hasGet() ){
-        IntStream.range(0, 1).forEach( i -> {
-        try {
-        generatedUrls.add(this.getPathItemOb().pathItemObject().getGet().generateRandomUrl(this.getRef(), this.getPathItemOb().pathItemObject().getGet().getOperationObject()));
-        } catch (Exception e) {
-        e.printStackTrace();
-        }
-        });
-        }
-        if( this.getPathItemOb().pathItemObject().hasPost() ){
-        IntStream.range(0, 1).forEach( i -> {
-        try {
-        generatedUrls.add(this.getPathItemOb().pathItemObject().getPost().generateRandomUrl(this.getRef(), this.getPathItemOb().pathItemObject().getPost().getOperationObject()));
-        } catch (Exception e) {
-        e.printStackTrace();
-        }
-        });}
-
-        return generatedUrls;
-    }
   /**
    * @declaredat ASTNode:1
    */
@@ -230,6 +204,26 @@ public class PathsObject extends ASTNode<ASTNode> implements Cloneable {
   public PathItemOb getPathItemObNoTransform() {
     return (PathItemOb) getChildNoTransform(0);
   }
+  /**
+   * @attribute inh
+   * @aspect RandomRequestGenerator
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:64
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
+  @ASTNodeAnnotation.Source(aspect="RandomRequestGenerator", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:64")
+  public Set<String> generateUrl(Set<String> urls) {
+    Object _parameters = urls;
+    if (generateUrl_Set_String__visited == null) generateUrl_Set_String__visited = new java.util.HashSet(4);
+    if (generateUrl_Set_String__visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute PathsObject.generateUrl(Set_String_).");
+    }
+    generateUrl_Set_String__visited.add(_parameters);
+    Set<String> generateUrl_Set_String__value = getParent().Define_generateUrl(this, null, urls);
+    generateUrl_Set_String__visited.remove(_parameters);
+    return generateUrl_Set_String__value;
+  }
+/** @apilevel internal */
+protected java.util.Set generateUrl_Set_String__visited;
   /** @apilevel internal */
   public ASTNode rewriteTo() {
     return super.rewriteTo();
