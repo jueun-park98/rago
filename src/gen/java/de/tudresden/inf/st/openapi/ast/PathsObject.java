@@ -1,5 +1,13 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import javax.net.ssl.HttpsURLConnection;
+import java.util.Random;
+import java.util.stream.IntStream;
 import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
@@ -7,18 +15,10 @@ import org.openapi4j.core.model.reference.Reference;
 import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
-import java.net.URL;
 import org.openapi4j.core.exception.DecodeException;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import javax.net.ssl.HttpsURLConnection;
-import java.util.Random;
-import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:35
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:35
  * @astdecl PathsObject : ASTNode ::= <Ref:String> PathItemOb;
  * @production PathsObject : {@link ASTNode} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">{@link PathItemOb}</span>;
 
@@ -26,13 +26,14 @@ import java.util.stream.IntStream;
 public class PathsObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect RandomRequestGenerator
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:33
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/RandomRequestGenerator.jrag:33
    */
-  public void sendRandomRequests(String baseUrl) throws Exception {
+  public Set<String> sendRandomRequests(String baseUrl) throws Exception {
+        Set<String> generatedUrls = new HashSet<>();
         if( this.getPathItemOb().pathItemObject().hasGet() ){
         IntStream.range(0, 1).forEach( i -> {
         try {
-        this.getPathItemOb().pathItemObject().getGet().getOperationObject().sendRandomGET(baseUrl+this.getRef());
+        generatedUrls.add(this.getPathItemOb().pathItemObject().getGet().generateRandomUrl(this.getRef(), this.getPathItemOb().pathItemObject().getGet().getOperationObject()));
         } catch (Exception e) {
         e.printStackTrace();
         }
@@ -41,11 +42,13 @@ public class PathsObject extends ASTNode<ASTNode> implements Cloneable {
         if( this.getPathItemOb().pathItemObject().hasPost() ){
         IntStream.range(0, 1).forEach( i -> {
         try {
-        this.getPathItemOb().pathItemObject().getPost().getOperationObject().sendRandomPOST(baseUrl+this.getRef());
+        generatedUrls.add(this.getPathItemOb().pathItemObject().getPost().generateRandomUrl(this.getRef(), this.getPathItemOb().pathItemObject().getPost().getOperationObject()));
         } catch (Exception e) {
         e.printStackTrace();
         }
         });}
+
+        return generatedUrls;
     }
   /**
    * @declaredat ASTNode:1

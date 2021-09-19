@@ -1,5 +1,13 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import javax.net.ssl.HttpsURLConnection;
+import java.util.Random;
+import java.util.stream.IntStream;
 import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
@@ -7,18 +15,10 @@ import org.openapi4j.core.model.reference.Reference;
 import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
-import java.net.URL;
 import org.openapi4j.core.exception.DecodeException;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import javax.net.ssl.HttpsURLConnection;
-import java.util.Random;
-import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:46
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:46
  * @astdecl Put : OperationOb ::= <OperationObject:OperationObject>;
  * @production Put : {@link OperationOb} ::= <span class="component">&lt;OperationObject:OperationObject&gt;</span>;
 
@@ -175,6 +175,31 @@ public class Put extends OperationOb implements Cloneable {
   @ASTNodeAnnotation.Token(name="OperationObject")
   public OperationObject getOperationObject() {
     return tokenOperationObject_OperationObject;
+  }
+/** @apilevel internal */
+protected java.util.Set generateRandomUrl_String_OperationObject_visited;
+  /**
+   * @attribute syn
+   * @aspect RandomRequestGenerator
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/RandomRequestGenerator.jrag:56
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="RandomRequestGenerator", declaredAt="/Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/RandomRequestGenerator.jrag:56")
+  public String generateRandomUrl(String pathRef, OperationObject operationObject) {
+    java.util.List _parameters = new java.util.ArrayList(2);
+    _parameters.add(pathRef);
+    _parameters.add(operationObject);
+    if (generateRandomUrl_String_OperationObject_visited == null) generateRandomUrl_String_OperationObject_visited = new java.util.HashSet(4);
+    if (generateRandomUrl_String_OperationObject_visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute OperationOb.generateRandomUrl(String,OperationObject).");
+    }
+    generateRandomUrl_String_OperationObject_visited.add(_parameters);
+    try {
+            return "";
+            }
+    finally {
+      generateRandomUrl_String_OperationObject_visited.remove(_parameters);
+    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

@@ -17,7 +17,7 @@ aspect RandomRequestGenerator {
 
      */
 
-    //coll Set<MappingTuple> OpenAPIObject.getRandomUrl() [new HashSet<>()];
+    //coll Set<String> PathsObject.randomUrls() [new HashSet<>()];
     //    MappingTuple contributes this when generateRequests() to OpenAPIObject.getRandomUrl();
 
     //inh MappingTuple
@@ -30,11 +30,12 @@ aspect RandomRequestGenerator {
         return "";
     }
 
-    public void PathsObject.sendRandomRequests(String baseUrl) throws Exception {
+    public Set<String> PathsObject.sendRandomRequests(String baseUrl) throws Exception {
+        Set<String> generatedUrls = new HashSet<>();
         if( this.getPathItemOb().pathItemObject().hasGet() ){
         IntStream.range(0, 1).forEach( i -> {
         try {
-        this.getPathItemOb().pathItemObject().getGet().getOperationObject().sendRandomGET(baseUrl+this.getRef());
+        generatedUrls.add(this.getPathItemOb().pathItemObject().getGet().generateRandomUrl(this.getRef(), this.getPathItemOb().pathItemObject().getGet().getOperationObject()));
         } catch (Exception e) {
         e.printStackTrace();
         }
@@ -43,14 +44,153 @@ aspect RandomRequestGenerator {
         if( this.getPathItemOb().pathItemObject().hasPost() ){
         IntStream.range(0, 1).forEach( i -> {
         try {
-        this.getPathItemOb().pathItemObject().getPost().getOperationObject().sendRandomPOST(baseUrl+this.getRef());
+        generatedUrls.add(this.getPathItemOb().pathItemObject().getPost().generateRandomUrl(this.getRef(), this.getPathItemOb().pathItemObject().getPost().getOperationObject()));
         } catch (Exception e) {
         e.printStackTrace();
         }
         });}
+
+        return generatedUrls;
     }
 
-    public void OperationObject.sendRandomGET(String targetUrl) throws Exception {
+    syn String OperationOb.generateRandomUrl(String pathRef, OperationObject operationObject);
+    eq Get.generateRandomUrl(String pathRef, OperationObject operationObject) {
+        Random rand = new Random();
+
+        for( ParameterOb o : operationObject.getParameterObs() ){
+        ParameterObject p = o.parameterObject();
+        SchemaObject s = p.getSchemaOb().schemaObject();
+        if( p.getIn().equals("path") ){
+        String pathPart = pathRef.substring(pathRef.indexOf("{") ,pathRef.indexOf("}") + 1);
+
+        if( s.getType().equals("string") )
+        pathRef = pathRef.replace(pathPart, operationObject.generateRandomString(rand, s.getEnumObjs()));
+        else if( s.getType().equals("integer") )
+        pathRef = pathRef.replace(pathPart, operationObject.generateRandomInt( rand,
+        -1, // s.getMinimum() != null ? s.getMinimum().intValue() : -1,
+        10 // s.getMaximum() != null ? s.getMaximum().intValue() : -1
+        ));
+        }
+        else if( p.getIn().equals("query") ){
+
+        if( s.getType().equals("string") )
+        pathRef = pathRef + "&" + p.getName() + "=" + operationObject.generateRandomString(rand, s.getEnumObjs());
+        else if( s.getType().equals("integer") )
+        pathRef = pathRef + "&" + p.getName() + "=" + operationObject.generateRandomInt(  rand,
+        -1, // s.getMinimum() != null ? s.getMinimum().intValue() : -1,
+        10); // s.getMaximum() != null ? s.getMaximum().intValue() : -1
+        else if( s.getType().equals("array") ){
+        if( s.getItemsSchema().getSchemaOb().schemaObject().getType().equals("string") ){
+        for( EnumObj e : s.getItemsSchema().getSchemaOb().schemaObject().getEnumObjs() )
+        pathRef=rand.nextDouble()< 0.5?pathRef+"&"+p.getName()+"="+e.getEnumOb():pathRef;
+        }
+        else if( s.getItemsSchema().getSchemaOb().schemaObject().getType().equals("integer") ){
+        for( int i = 0 ; i < 5 ; i++ )
+        pathRef = pathRef + "&" + p.getName() + "=" + operationObject.generateRandomInt(  rand,
+        -1, // s.getMinimum() != null ? s.getMinimum().intValue() : -1,
+        10); // s.getMaximum() != null ? s.getMaximum().intValue() : -1
+        }
+
+        }
+        }
+        }
+        pathRef = pathRef.replaceFirst("&", "?");
+        System.out.println(pathRef);
+
+            /*
+            URL url = new URL(pathRef);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+            con.setRequestMethod("GET"); // HTTP GET
+            con.setDoOutput(true); // GET
+
+            int responseCode = con.getResponseCode();
+
+            // print result
+            System.out.println("HTTP status code (GET) : " + responseCode);*/
+        return pathRef;
+        }
+        eq Post.generateRandomUrl(String pathRef, OperationObject operationObject){
+        Random rand = new Random();
+
+        for( ParameterOb o : operationObject.getParameterObs() ){
+        ParameterObject p = o.parameterObject();
+        SchemaObject s = p.getSchemaOb().schemaObject();
+        if( p.getIn().equals("path") ){
+        String pathPart = pathRef.substring(pathRef.indexOf("{") ,pathRef.indexOf("}") + 1);
+
+        if( s.getType().equals("string") )
+        pathRef = pathRef.replace(pathPart, operationObject.generateRandomString(rand, s.getEnumObjs()));
+        else if( s.getType().equals("integer") )
+        pathRef = pathRef.replace(pathPart, operationObject.generateRandomInt( rand,
+        -1, // s.getMinimum() != null ? s.getMinimum().intValue() : -1,
+        10 // s.getMaximum() != null ? s.getMaximum().intValue() : -1
+        ));
+        }
+        else if( p.getIn().equals("query") ){
+
+        if( s.getType().equals("string") )
+        pathRef = pathRef + "&" + p.getName() + "=" + operationObject.generateRandomString(rand, s.getEnumObjs());
+        else if( s.getType().equals("integer") )
+        pathRef = pathRef + "&" + p.getName() + "=" + operationObject.generateRandomInt(  rand,
+        -1, // s.getMinimum() != null ? s.getMinimum().intValue() : -1,
+        10); // s.getMaximum() != null ? s.getMaximum().intValue() : -1
+        else if( s.getType().equals("array") ){
+        if( s.getItemsSchema().getSchemaOb().schemaObject().getType().equals("string") ){
+        for( EnumObj e : s.getItemsSchema().getSchemaOb().schemaObject().getEnumObjs() )
+        pathRef=rand.nextDouble()< 0.5?pathRef+"&"+p.getName()+"="+e.getEnumOb():pathRef;
+        }
+        else if( s.getItemsSchema().getSchemaOb().schemaObject().getType().equals("integer") ){
+        for( int i = 0 ; i < 5 ; i++ )
+        pathRef = pathRef + "&" + p.getName() + "=" + operationObject.generateRandomInt(  rand,
+        -1, // s.getMinimum() != null ? s.getMinimum().intValue() : -1,
+        10); // s.getMaximum() != null ? s.getMaximum().intValue() : -1
+        }
+
+        }
+        }
+        }
+        pathRef = pathRef.replaceFirst("&", "?");
+        System.out.println(pathRef);
+
+            /*
+            URL url = new URL(pathRef);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+            con.setRequestMethod("POST"); // HTTP POST
+            con.setDoOutput(true); // POST
+
+            int responseCode = con.getResponseCode();
+
+            // print result
+            System.out.println("HTTP status code (POST) : " + responseCode);*/
+        return pathRef;
+        }
+
+        eq Put.generateRandomUrl(String pathRef, OperationObject operationObject){
+        return "";
+        }
+        eq Delete.generateRandomUrl(String pathRef, OperationObject operationObject){
+        return "";
+        }
+        eq Options.generateRandomUrl(String pathRef, OperationObject operationObject){
+        return "";
+        }
+        eq Head.generateRandomUrl(String pathRef, OperationObject operationObject){
+        return "";
+        }
+        eq Patch.generateRandomUrl(String pathRef, OperationObject operationObject){
+        return "";
+        }
+        eq Trace.generateRandomUrl(String pathRef, OperationObject operationObject){
+        return "";
+        }
+        eq OperationObject.generateRandomUrl(String pathRef, OperationObject operationObject){
+        return "";
+        }
+
+/*
+public void OperationObject.sendRandomGET(String targetUrl) throws Exception {
         Random rand = new Random();
 
         for( ParameterOb o : this.getParameterObs() ){
@@ -157,6 +297,8 @@ aspect RandomRequestGenerator {
         // print result
         System.out.println("HTTP status code (POST) : " + responseCode);
     }
+
+ */
 
     public String OperationObject.generateRandomString(Random rand, JastAddList<EnumObj> objs) {
         if( objs.getNumChild() != 0 )

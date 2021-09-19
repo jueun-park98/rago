@@ -1,5 +1,13 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import javax.net.ssl.HttpsURLConnection;
+import java.util.Random;
+import java.util.stream.IntStream;
 import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
@@ -7,18 +15,10 @@ import org.openapi4j.core.model.reference.Reference;
 import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
-import java.net.URL;
 import org.openapi4j.core.exception.DecodeException;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import javax.net.ssl.HttpsURLConnection;
-import java.util.Random;
-import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:39
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:39
  * @astdecl PathItemReference : PathItemOb ::= <Ref:String> <PathItemOb:PathItemOb>;
  * @production PathItemReference : {@link PathItemOb} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;PathItemOb:PathItemOb&gt;</span>;
 
@@ -198,14 +198,38 @@ public class PathItemReference extends PathItemOb implements Cloneable {
     return tokenPathItemOb_PathItemOb;
   }
 /** @apilevel internal */
+protected boolean pathItemObject_visited = false;
+  /**
+   * @attribute syn
+   * @aspect ReferenceGet
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/ReferenceGet.jrag:21
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="ReferenceGet", declaredAt="/Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/ReferenceGet.jrag:21")
+  public PathItemObject pathItemObject() {
+    if (pathItemObject_visited) {
+      throw new RuntimeException("Circular definition of attribute PathItemOb.pathItemObject().");
+    }
+    pathItemObject_visited = true;
+    try {
+            if( getPathItemOb() instanceof PathItemObject )
+                return (PathItemObject) getPathItemOb();
+            else
+                return getPathItemOb().pathItemObject();
+        }
+    finally {
+      pathItemObject_visited = false;
+    }
+  }
+/** @apilevel internal */
 protected java.util.Set composePath_PathItemOb_Map_Object__ASTNode__visited;
   /**
    * @attribute syn
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:262
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jrag:262
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:262")
+  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="/Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jrag:262")
   public Path composePath(PathItemOb pathItem, Map<Object, ASTNode> map) {
     java.util.List _parameters = new java.util.ArrayList(2);
     _parameters.add(pathItem);
@@ -226,30 +250,6 @@ protected java.util.Set composePath_PathItemOb_Map_Object__ASTNode__visited;
             }
     finally {
       composePath_PathItemOb_Map_Object__ASTNode__visited.remove(_parameters);
-    }
-  }
-/** @apilevel internal */
-protected boolean pathItemObject_visited = false;
-  /**
-   * @attribute syn
-   * @aspect ReferenceGet
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\ReferenceGet.jrag:21
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="ReferenceGet", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\ReferenceGet.jrag:21")
-  public PathItemObject pathItemObject() {
-    if (pathItemObject_visited) {
-      throw new RuntimeException("Circular definition of attribute PathItemOb.pathItemObject().");
-    }
-    pathItemObject_visited = true;
-    try {
-            if( getPathItemOb() instanceof PathItemObject )
-                return (PathItemObject) getPathItemOb();
-            else
-                return getPathItemOb().pathItemObject();
-        }
-    finally {
-      pathItemObject_visited = false;
     }
   }
   /** @apilevel internal */

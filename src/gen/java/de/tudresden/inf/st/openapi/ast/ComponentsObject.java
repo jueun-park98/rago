@@ -1,5 +1,13 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import javax.net.ssl.HttpsURLConnection;
+import java.util.Random;
+import java.util.stream.IntStream;
 import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
@@ -7,18 +15,10 @@ import org.openapi4j.core.model.reference.Reference;
 import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
-import java.net.URL;
 import org.openapi4j.core.exception.DecodeException;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import javax.net.ssl.HttpsURLConnection;
-import java.util.Random;
-import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:22
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:22
  * @astdecl ComponentsObject : ASTNode ::= SchemaTuple* ResponseTuple* ParameterTuple* ExampleTuple* RequestBodyTuple* HeaderTuple* SecuritySchemeTuple* LinkTuple* CallbackTuple* Extension*;
  * @production ComponentsObject : {@link ASTNode} ::= <span class="component">{@link SchemaTuple}*</span> <span class="component">{@link ResponseTuple}*</span> <span class="component">{@link ParameterTuple}*</span> <span class="component">{@link ExampleTuple}*</span> <span class="component">{@link RequestBodyTuple}*</span> <span class="component">{@link HeaderTuple}*</span> <span class="component">{@link SecuritySchemeTuple}*</span> <span class="component">{@link LinkTuple}*</span> <span class="component">{@link CallbackTuple}*</span> <span class="component">{@link Extension}*</span>;
 
@@ -26,7 +26,7 @@ import java.util.stream.IntStream;
 public class ComponentsObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:173
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jrag:173
    */
   public static Components composeComponents (ComponentsObject componentsObject, Map<Object, ASTNode> map){
         Components components = new Components();
@@ -118,7 +118,7 @@ public class ComponentsObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:142
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:142
    */
   public static ComponentsObject parseComponents(Components components, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         ComponentsObject componentsObject = new ComponentsObject();
