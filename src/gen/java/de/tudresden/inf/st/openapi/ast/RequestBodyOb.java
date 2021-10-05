@@ -136,6 +136,14 @@ public abstract class RequestBodyOb extends ASTNode<ASTNode> implements Cloneabl
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
   @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:440")
   public abstract RequestBody composeRequestBody(RequestBodyOb requestBodyOb, Map<Object, ASTNode> map);
+  /**
+   * @attribute syn
+   * @aspect RefGet
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RefGet.jrag:30
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="RefGet", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RefGet.jrag:30")
+  public abstract RequestBodyObject requestBodyObject();
   /** @apilevel internal */
   public ASTNode rewriteTo() {
     return super.rewriteTo();

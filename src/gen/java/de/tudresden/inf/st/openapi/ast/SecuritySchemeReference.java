@@ -228,6 +228,30 @@ protected java.util.Set composeSecurityScheme_SecuritySchemeOb_Map_Object__ASTNo
       composeSecurityScheme_SecuritySchemeOb_Map_Object__ASTNode__visited.remove(_parameters);
     }
   }
+/** @apilevel internal */
+protected boolean securitySchemeObject_visited = false;
+  /**
+   * @attribute syn
+   * @aspect RefGet
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RefGet.jrag:75
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="RefGet", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RefGet.jrag:75")
+  public SecuritySchemeObject securitySchemeObject() {
+    if (securitySchemeObject_visited) {
+      throw new RuntimeException("Circular definition of attribute SecuritySchemeOb.securitySchemeObject().");
+    }
+    securitySchemeObject_visited = true;
+    try {
+            if( getSecuritySchemeOb() instanceof SecuritySchemeObject )
+                return (SecuritySchemeObject) getSecuritySchemeOb();
+            else
+                return getSecuritySchemeOb().securitySchemeObject();
+        }
+    finally {
+      securitySchemeObject_visited = false;
+    }
+  }
   /** @apilevel internal */
   public ASTNode rewriteTo() {
     return super.rewriteTo();

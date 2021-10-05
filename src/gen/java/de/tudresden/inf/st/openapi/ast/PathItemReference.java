@@ -232,11 +232,11 @@ protected java.util.Set composePath_PathItemOb_Map_Object__ASTNode__visited;
 protected boolean pathItemObject_visited = false;
   /**
    * @attribute syn
-   * @aspect ReferenceGet
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\ReferenceGet.jrag:21
+   * @aspect RefGet
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RefGet.jrag:21
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="ReferenceGet", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\ReferenceGet.jrag:21")
+  @ASTNodeAnnotation.Source(aspect="RefGet", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RefGet.jrag:21")
   public PathItemObject pathItemObject() {
     if (pathItemObject_visited) {
       throw new RuntimeException("Circular definition of attribute PathItemOb.pathItemObject().");

@@ -130,7 +130,8 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
         for( String path : urls ){
         if( path.endsWith("GET") ){
         System.out.println(this.getServerObject(0).getUrl() + path.substring(0, path.length()-3));
-        /*
+
+        /* */
         URL url = new URL(this.getServerObject(0).getUrl() + path.substring(0, path.length()-3));
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
@@ -138,14 +139,23 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
         con.setDoOutput(true); // GET
 
         int responseCode = con.getResponseCode();
-
-        // print result
         System.out.println("HTTP status code (GET) : " + responseCode);
+        if( responseCode < 300 ){
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
 
-         */
+        while ((inputLine = in.readLine()) != null) {
+        response.append(inputLine);
+        }
+        in.close();
+
+        System.out.println("HTTP body : " + response.toString());
+        }/* */
         } else if( path.endsWith("POST") ) {
         System.out.println(this.getServerObject(0).getUrl() + path.substring(0, path.length()-4));
-        /*
+
+        /* */
         URL url = new URL(this.getServerObject(0).getUrl() + path.substring(0, path.length()-4));
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
@@ -153,11 +163,21 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
         con.setDoOutput(true); // POST
 
         int responseCode = con.getResponseCode();
-
-        // print result
         System.out.println("HTTP status code (POST) : " + responseCode);
 
-         */
+        if( responseCode < 300 ){
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        while ((inputLine = in.readLine()) != null) {
+        response.append(inputLine);
+        }
+        in.close();
+
+
+        System.out.println("HTTP body : " + response.toString());
+        }/* */
         }
 
         }
@@ -1058,12 +1078,12 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
     return getExtensionListNoTransform();
   }
   /**
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:64
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:84
    * @apilevel internal
    */
   public Set<String> Define_generateUrl(ASTNode _callerNode, ASTNode _childNode, Set<String> urls) {
     if (_callerNode == getPathsObjectListNoTransform()) {
-      // @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:65
+      // @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:85
       int i = _callerNode.getIndexOfChild(_childNode);
       {
               PathItemObject p = ((PathsObject) _childNode).getPathItemOb().pathItemObject();
@@ -1080,7 +1100,7 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
     }
   }
   /**
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:64
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:84
    * @apilevel internal
    * @return {@code true} if this node has an equation for the inherited attribute generateUrl
    */

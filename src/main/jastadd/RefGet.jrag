@@ -1,0 +1,84 @@
+aspect RefGet {
+
+    syn ParameterObject ParameterOb.parameterObject();
+    eq ParameterObject.parameterObject() = this;
+    eq ParameterReference.parameterObject() {
+        if( getParameterOb() instanceof ParameterObject )
+        return (ParameterObject) getParameterOb();
+        else
+        return getParameterOb().parameterObject();
+    }
+
+    syn SchemaObject SchemaOb.schemaObject();
+    eq SchemaObject.schemaObject() = this;
+    eq SchemaReference.schemaObject() {
+    if( getSchemaOb() instanceof SchemaObject )
+        return (SchemaObject) getSchemaOb();
+    else
+        return getSchemaOb().schemaObject();
+    }
+
+    syn PathItemObject PathItemOb.pathItemObject();
+    eq PathItemObject.pathItemObject() = this;
+    eq PathItemReference.pathItemObject() {
+        if( getPathItemOb() instanceof PathItemObject )
+            return (PathItemObject) getPathItemOb();
+        else
+            return getPathItemOb().pathItemObject();
+    }
+
+    syn RequestBodyObject RequestBodyOb.requestBodyObject();
+    eq RequestBodyObject.requestBodyObject() = this;
+    eq RequestBodyReference.requestBodyObject() {
+    if( getRequestBodyOb() instanceof RequestBodyObject )
+    return (RequestBodyObject) getRequestBodyOb();
+    else
+    return getRequestBodyOb().requestBodyObject();
+    }
+
+    syn ResponseObject ResponseOb.responseObject();
+    eq ResponseObject.responseObject() = this;
+    eq ResponseReference.responseObject() {
+        if( getResponseOb() instanceof ResponseObject )
+            return (ResponseObject) getResponseOb();
+        else
+            return getResponseOb().responseObject();
+    }
+
+    syn CallbackObject CallbackOb.callbackObject();
+    eq CallbackObject.callbackObject() = this;
+    eq CallbackReference.callbackObject() {
+        if( getCallbackOb() instanceof CallbackObject )
+            return (CallbackObject) getCallbackOb();
+        else
+            return getCallbackOb().callbackObject();
+    }
+
+    syn LinkObject LinkOb.linkObject();
+    eq LinkObject.linkObject() = this;
+    eq LinkReference.linkObject() {
+        if( getLinkOb() instanceof LinkObject )
+            return (LinkObject) getLinkOb();
+        else
+            return getLinkOb().linkObject();
+    }
+
+    syn HeaderObject HeaderOb.headerObject();
+    eq HeaderObject.headerObject() = this;
+    eq HeaderReference.headerObject() {
+        if( getHeaderOb() instanceof HeaderObject )
+            return (HeaderObject) getHeaderOb();
+        else
+            return getHeaderOb().headerObject();
+    }
+
+    syn SecuritySchemeObject SecuritySchemeOb.securitySchemeObject();
+    eq SecuritySchemeObject.securitySchemeObject() = this;
+    eq SecuritySchemeReference.securitySchemeObject() {
+        if( getSecuritySchemeOb() instanceof SecuritySchemeObject )
+            return (SecuritySchemeObject) getSecuritySchemeOb();
+        else
+            return getSecuritySchemeOb().securitySchemeObject();
+    }
+
+}

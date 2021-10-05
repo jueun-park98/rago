@@ -768,6 +768,24 @@ protected java.util.Set composeHeader_HeaderOb_Map_Object__ASTNode__visited;
       composeHeader_HeaderOb_Map_Object__ASTNode__visited.remove(_parameters);
     }
   }
+/** @apilevel internal */
+protected boolean headerObject_visited = false;
+  /**
+   * @attribute syn
+   * @aspect RefGet
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RefGet.jrag:67
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="RefGet", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RefGet.jrag:66")
+  public HeaderObject headerObject() {
+    if (headerObject_visited) {
+      throw new RuntimeException("Circular definition of attribute HeaderOb.headerObject().");
+    }
+    headerObject_visited = true;
+    HeaderObject headerObject_value = this;
+    headerObject_visited = false;
+    return headerObject_value;
+  }
   /** @apilevel internal */
   public ASTNode rewriteTo() {
     return super.rewriteTo();

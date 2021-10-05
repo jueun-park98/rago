@@ -228,6 +228,30 @@ protected java.util.Set composeResponse_ResponseOb_Map_Object__ASTNode__visited;
       composeResponse_ResponseOb_Map_Object__ASTNode__visited.remove(_parameters);
     }
   }
+/** @apilevel internal */
+protected boolean responseObject_visited = false;
+  /**
+   * @attribute syn
+   * @aspect RefGet
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RefGet.jrag:39
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="RefGet", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RefGet.jrag:39")
+  public ResponseObject responseObject() {
+    if (responseObject_visited) {
+      throw new RuntimeException("Circular definition of attribute ResponseOb.responseObject().");
+    }
+    responseObject_visited = true;
+    try {
+            if( getResponseOb() instanceof ResponseObject )
+                return (ResponseObject) getResponseOb();
+            else
+                return getResponseOb().responseObject();
+        }
+    finally {
+      responseObject_visited = false;
+    }
+  }
   /** @apilevel internal */
   public ASTNode rewriteTo() {
     return super.rewriteTo();

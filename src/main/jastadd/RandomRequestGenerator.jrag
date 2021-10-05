@@ -26,7 +26,8 @@ aspect RandomRequestGenerator {
         for( String path : urls ){
         if( path.endsWith("GET") ){
         System.out.println(this.getServerObject(0).getUrl() + path.substring(0, path.length()-3));
-        /*
+
+        /* */
         URL url = new URL(this.getServerObject(0).getUrl() + path.substring(0, path.length()-3));
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
@@ -34,14 +35,23 @@ aspect RandomRequestGenerator {
         con.setDoOutput(true); // GET
 
         int responseCode = con.getResponseCode();
-
-        // print result
         System.out.println("HTTP status code (GET) : " + responseCode);
+        if( responseCode < 300 ){
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
 
-         */
+        while ((inputLine = in.readLine()) != null) {
+        response.append(inputLine);
+        }
+        in.close();
+
+        System.out.println("HTTP body : " + response.toString());
+        }/* */
         } else if( path.endsWith("POST") ) {
         System.out.println(this.getServerObject(0).getUrl() + path.substring(0, path.length()-4));
-        /*
+
+        /* */
         URL url = new URL(this.getServerObject(0).getUrl() + path.substring(0, path.length()-4));
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
@@ -49,11 +59,21 @@ aspect RandomRequestGenerator {
         con.setDoOutput(true); // POST
 
         int responseCode = con.getResponseCode();
-
-        // print result
         System.out.println("HTTP status code (POST) : " + responseCode);
 
-         */
+        if( responseCode < 300 ){
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        while ((inputLine = in.readLine()) != null) {
+        response.append(inputLine);
+        }
+        in.close();
+
+
+        System.out.println("HTTP body : " + response.toString());
+        }/* */
         }
 
         }

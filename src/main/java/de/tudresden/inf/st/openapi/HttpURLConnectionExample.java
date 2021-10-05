@@ -48,7 +48,7 @@ public class HttpURLConnectionExample {
 
         // print result
         System.out.println("HTTP status code : " + responseCode);
-        //System.out.println("HTTP body : " + response.toString());
+        System.out.println("HTTP body : " + response.toString());
     }
 
     // HTTP POST request
@@ -63,14 +63,12 @@ public class HttpURLConnectionExample {
         //con.addRequestProperty("status", "available");
         con.setDoOutput(true); // POST
         // Send post request
-        /*
         DataOutputStream wr = new DataOutputStream(con.getOutputStream());
         wr.writeBytes(parameters);
         wr.flush();
-        wr.close();*/
+        wr.close();
 
         int responseCode = con.getResponseCode();
-        /*
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String inputLine;
         StringBuffer response = new StringBuffer();
@@ -78,11 +76,11 @@ public class HttpURLConnectionExample {
         while ((inputLine = in.readLine()) != null) {
             response.append(inputLine);
         }
-        in.close();*/
+        in.close();
 
         // print result
-        System.out.println("HTTP status code : " + responseCode);
-        //System.out.println("HTTP body : " + response.toString());
+        System.out.println("HTTP status code (POST) : " + responseCode);
+        System.out.println("HTTP body : " + response.toString());
 
     }
 

@@ -232,11 +232,11 @@ protected java.util.Set composeSchema_SchemaOb_Map_Object__ASTNode__visited;
 protected boolean schemaObject_visited = false;
   /**
    * @attribute syn
-   * @aspect ReferenceGet
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\ReferenceGet.jrag:12
+   * @aspect RefGet
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RefGet.jrag:12
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="ReferenceGet", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\ReferenceGet.jrag:12")
+  @ASTNodeAnnotation.Source(aspect="RefGet", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RefGet.jrag:12")
   public SchemaObject schemaObject() {
     if (schemaObject_visited) {
       throw new RuntimeException("Circular definition of attribute SchemaOb.schemaObject().");

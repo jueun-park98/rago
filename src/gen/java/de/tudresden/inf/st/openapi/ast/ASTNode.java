@@ -505,7 +505,7 @@ public class ASTNode<T extends ASTNode> implements Cloneable {
   }
 
   /**
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:65
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:85
    * @apilevel internal
    * @return {@code true} if this node has an equation for the inherited attribute generateUrl
    */

@@ -232,11 +232,11 @@ protected java.util.Set composeParameter_ParameterOb_Map_Object__ASTNode__visite
 protected boolean parameterObject_visited = false;
   /**
    * @attribute syn
-   * @aspect ReferenceGet
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\ReferenceGet.jrag:3
+   * @aspect RefGet
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RefGet.jrag:3
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="ReferenceGet", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\ReferenceGet.jrag:3")
+  @ASTNodeAnnotation.Source(aspect="RefGet", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RefGet.jrag:3")
   public ParameterObject parameterObject() {
     if (parameterObject_visited) {
       throw new RuntimeException("Circular definition of attribute ParameterOb.parameterObject().");

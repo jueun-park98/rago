@@ -1,0 +1,6 @@
+aspect InfSchema {
+
+    syn SchemaObject ParameterObject.schemaObject () = getSchemaOb().schemaObject();
+
+    // syn Set<SchemaObject> ResponseObject.schemaObject () = for( ContentTuple c : getContentTuples() ) add.SchemaObject();
+}
