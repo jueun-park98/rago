@@ -26,7 +26,7 @@ import java.util.stream.IntStream;
 public abstract class HeaderOb extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:561
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:585
    */
   public static HeaderOb parseHeader(Header header, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         HeaderObject headerObject = new HeaderObject();

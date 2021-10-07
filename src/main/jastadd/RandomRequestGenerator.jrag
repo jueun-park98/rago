@@ -92,30 +92,6 @@ aspect RandomRequestGenerator {
         return urls;
         }
 
-        /*
-    public Set<String> PathsObject.sendRandomRequests(Set<String> generatedUrls) throws Exception {
-        if( this.getPathItemOb().pathItemObject().hasGet() ){
-        IntStream.range(0, 1).forEach( i -> {
-        try {
-        generatedUrls.add(this.getPathItemOb().pathItemObject().getGet().generateRandomUrl(this.getRef(), this.getPathItemOb().pathItemObject().getGet().getOperationObject()));
-        } catch (Exception e) {
-        e.printStackTrace();
-        }
-        });
-        }
-        if( this.getPathItemOb().pathItemObject().hasPost() ){
-        IntStream.range(0, 1).forEach( i -> {
-        try {
-        generatedUrls.add(this.getPathItemOb().pathItemObject().getPost().generateRandomUrl(this.getRef(), this.getPathItemOb().pathItemObject().getPost().getOperationObject()));
-        } catch (Exception e) {
-        e.printStackTrace();
-        }
-        });}
-
-        return generatedUrls;
-    }
-         */
-
     syn String OperationOb.generateRandomUrl(String pathRef, OperationObject operationObject);
     eq Get.generateRandomUrl(String pathRef, OperationObject operationObject) {
         Random rand = new Random();

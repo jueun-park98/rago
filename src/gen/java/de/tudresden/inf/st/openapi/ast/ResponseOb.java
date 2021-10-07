@@ -26,7 +26,7 @@ import java.util.stream.IntStream;
 public abstract class ResponseOb extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:449
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:473
    */
   public static ResponseOb parseResponse(Response response, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         ResponseObject responseObject = new ResponseObject();

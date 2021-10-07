@@ -38,6 +38,7 @@ public static OpenAPIObject OpenAPIObject.parseOpenAPI(OpenApi3 api) throws IOEx
         }
 
         map.put(api, openapi);
+
         return openapi;
         }
 

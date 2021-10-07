@@ -115,6 +115,30 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
         }
 
         map.put(api, openapi);
+        int a = 0;
+        Set<ResponseObject> responseObjects = new HashSet<>();
+        Set<Response> responses = new HashSet<>();
+        for( Object o : map.keySet() ){
+
+        if( map.get(o) instanceof ResponseObject ){
+        if(!responseObjects.contains(map.get(o))){
+        responseObjects.add((ResponseObject) map.get(o));
+        a++;
+        }
+        }
+
+            /*
+        if( map.get(o) instanceof SchemaObject ){
+        if(schemas.contains(map.get(o))){
+        schemas.add((SchemaObject) map.get(o));
+        a++;
+        }
+        }
+
+             */
+        }
+
+        System.out.println("size of ResponseObjects: " + a);
         return openapi;
         }
   /**
@@ -252,16 +276,20 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
+    OpenAPIObject_schemas_visited = false;
+    OpenAPIObject_schemas_computed = null;
+    OpenAPIObject_schemas_value = null;
+    contributorMap_OpenAPIObject_schemas = null;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:57
+   * @declaredat ASTNode:61
    */
   public OpenAPIObject clone() throws CloneNotSupportedException {
     OpenAPIObject node = (OpenAPIObject) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:62
+   * @declaredat ASTNode:66
    */
   public OpenAPIObject copy() {
     try {
@@ -281,7 +309,7 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:81
+   * @declaredat ASTNode:85
    */
   @Deprecated
   public OpenAPIObject fullCopy() {
@@ -292,7 +320,7 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:91
+   * @declaredat ASTNode:95
    */
   public OpenAPIObject treeCopyNoTransform() {
     OpenAPIObject tree = (OpenAPIObject) copy();
@@ -313,7 +341,7 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:111
+   * @declaredat ASTNode:115
    */
   public OpenAPIObject treeCopy() {
     OpenAPIObject tree = (OpenAPIObject) copy();
@@ -329,7 +357,7 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:125
+   * @declaredat ASTNode:129
    */
   protected boolean is$Equal(ASTNode node) {
     return super.is$Equal(node) && (tokenString_OpenAPI == ((OpenAPIObject) node).tokenString_OpenAPI) && (tokenOAIContext_Context == ((OpenAPIObject) node).tokenOAIContext_Context);    
@@ -1078,6 +1106,21 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
     return getExtensionListNoTransform();
   }
   /**
+   * @aspect <NoAspect>
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:14
+   */
+  /** @apilevel internal */
+protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIObject_schemas = null;
+
+  /** @apilevel internal */
+  protected void survey_OpenAPIObject_schemas() {
+    if (contributorMap_OpenAPIObject_schemas == null) {
+      contributorMap_OpenAPIObject_schemas = new java.util.IdentityHashMap<ASTNode, java.util.Set<ASTNode>>();
+      collect_contributors_OpenAPIObject_schemas(this, contributorMap_OpenAPIObject_schemas);
+    }
+  }
+
+  /**
    * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:84
    * @apilevel internal
    */
@@ -1115,4 +1158,55 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
   public boolean canRewrite() {
     return false;
   }
+/** @apilevel internal */
+protected boolean OpenAPIObject_schemas_visited = false;
+  /**
+   * @attribute coll
+   * @aspect InfSchema
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:14
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.COLL)
+  @ASTNodeAnnotation.Source(aspect="InfSchema", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:14")
+  public java.util.Set<SchemaObject> schemas() {
+    ASTState state = state();
+    if (OpenAPIObject_schemas_computed == ASTState.NON_CYCLE || OpenAPIObject_schemas_computed == state().cycle()) {
+      return OpenAPIObject_schemas_value;
+    }
+    if (OpenAPIObject_schemas_visited) {
+      throw new RuntimeException("Circular definition of attribute OpenAPIObject.schemas().");
+    }
+    OpenAPIObject_schemas_visited = true;
+    OpenAPIObject_schemas_value = schemas_compute();
+    if (state().inCircle()) {
+      OpenAPIObject_schemas_computed = state().cycle();
+    
+    } else {
+      OpenAPIObject_schemas_computed = ASTState.NON_CYCLE;
+    
+    }
+    OpenAPIObject_schemas_visited = false;
+    return OpenAPIObject_schemas_value;
+  }
+  /** @apilevel internal */
+  private java.util.Set<SchemaObject> schemas_compute() {
+    ASTNode node = this;
+    while (node != null && !(node instanceof OpenAPIObject)) {
+      node = node.getParent();
+    }
+    OpenAPIObject root = (OpenAPIObject) node;
+    root.survey_OpenAPIObject_schemas();
+    java.util.Set<SchemaObject> _computedValue = new java.util.HashSet<>();
+    if (root.contributorMap_OpenAPIObject_schemas.containsKey(this)) {
+      for (ASTNode contributor : root.contributorMap_OpenAPIObject_schemas.get(this)) {
+        contributor.contributeTo_OpenAPIObject_schemas(_computedValue);
+      }
+    }
+    return _computedValue;
+  }
+  /** @apilevel internal */
+  protected ASTState.Cycle OpenAPIObject_schemas_computed = null;
+
+  /** @apilevel internal */
+  protected java.util.Set<SchemaObject> OpenAPIObject_schemas_value;
+
 }

@@ -1,6 +1,16 @@
 aspect InfSchema {
 
-    syn SchemaObject ParameterObject.schemaObject () = getSchemaOb().schemaObject();
+    syn SchemaObject ParameterObject.schemaObject() = getSchemaOb().schemaObject();
 
     // syn Set<SchemaObject> ResponseObject.schemaObject () = for( ContentTuple c : getContentTuples() ) add.SchemaObject();
+
+
+        /*
+    coll Set<SchemaOb> OpenAPIObject.collectSchemaObs() [new HashSet<>()] root OpenAPIObject;
+    SchemaOb contributes this
+      when schemaObject()
+      to OpenAPIObject.collectSchemaObs();
+         */
+        coll java.util.Set<SchemaObject> OpenAPIObject.schemas() [new java.util.HashSet<>()] root OpenAPIObject;
+        SchemaObject contributes this to OpenAPIObject.schemas();
 }

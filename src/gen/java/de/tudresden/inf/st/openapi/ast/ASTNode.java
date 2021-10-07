@@ -484,6 +484,20 @@ public class ASTNode<T extends ASTNode> implements Cloneable {
     }
     return true;
   }
+  /**
+   * @aspect <NoAspect>
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:14
+   */
+    /** @apilevel internal */
+  protected void collect_contributors_OpenAPIObject_schemas(OpenAPIObject _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
+    for (int i = 0; i < getNumChild(); i++) {
+      getChild(i).collect_contributors_OpenAPIObject_schemas(_root, _map);
+    }
+  }
+  /** @apilevel internal */
+  protected void contributeTo_OpenAPIObject_schemas(java.util.Set<SchemaObject> collection) {
+  }
+
   /** @apilevel internal */
   public ASTNode rewriteTo() {
     return this;

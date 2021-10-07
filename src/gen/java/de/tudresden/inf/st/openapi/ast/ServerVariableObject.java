@@ -53,7 +53,7 @@ public class ServerVariableObject extends ASTNode<ASTNode> implements Cloneable 
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:122
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:146
    */
   public static ServerVariableObject parseServerVariable(ServerVariable serverVariable, Map<Object, ASTNode> map){
         ServerVariableObject serverVariableObject = new ServerVariableObject();

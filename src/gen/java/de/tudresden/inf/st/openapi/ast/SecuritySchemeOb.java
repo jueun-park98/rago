@@ -26,7 +26,7 @@ import java.util.stream.IntStream;
 public abstract class SecuritySchemeOb extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:792
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:817
    */
   public static SecuritySchemeOb parseSecurityScheme(SecurityScheme securityScheme, OAIContext context, Map<Object, ASTNode> map){
         SecuritySchemeObject securitySchemeObject = new SecuritySchemeObject();

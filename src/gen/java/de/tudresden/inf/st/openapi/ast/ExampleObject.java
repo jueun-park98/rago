@@ -50,7 +50,7 @@ public class ExampleObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:505
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:529
    */
   public static ExampleObject parseExample(Example example, OAIContext context, Map<Object, ASTNode> map){
         ExampleObject exampleObject = new ExampleObject();

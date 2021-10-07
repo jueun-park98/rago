@@ -1938,4 +1938,22 @@ protected boolean schemaObject_visited = false;
   public boolean canRewrite() {
     return false;
   }
+  /** @apilevel internal */
+  protected void collect_contributors_OpenAPIObject_schemas(OpenAPIObject _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
+    // @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:15
+    {
+      java.util.Set<ASTNode> contributors = _map.get(_root);
+      if (contributors == null) {
+        contributors = new java.util.LinkedHashSet<ASTNode>();
+        _map.put((ASTNode) _root, contributors);
+      }
+      contributors.add(this);
+    }
+    super.collect_contributors_OpenAPIObject_schemas(_root, _map);
+  }
+  /** @apilevel internal */
+  protected void contributeTo_OpenAPIObject_schemas(java.util.Set<SchemaObject> collection) {
+    super.contributeTo_OpenAPIObject_schemas(collection);
+    collection.add(this);
+  }
 }

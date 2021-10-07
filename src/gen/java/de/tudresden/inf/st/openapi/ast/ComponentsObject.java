@@ -118,7 +118,7 @@ public class ComponentsObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:142
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:166
    */
   public static ComponentsObject parseComponents(Components components, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         ComponentsObject componentsObject = new ComponentsObject();

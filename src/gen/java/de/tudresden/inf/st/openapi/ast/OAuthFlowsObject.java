@@ -44,7 +44,7 @@ public class OAuthFlowsObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:820
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:845
    */
   public static OAuthFlowsObject parseOAuthFlows(OAuthFlows oAuthFlows, Map<Object, ASTNode> map){
         OAuthFlowsObject oAuthFlowsObject = new OAuthFlowsObject();
