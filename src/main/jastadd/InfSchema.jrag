@@ -13,4 +13,7 @@ aspect InfSchema {
          */
         coll java.util.Set<SchemaObject> OpenAPIObject.schemas() [new java.util.HashSet<>()] root OpenAPIObject;
         SchemaObject contributes this to OpenAPIObject.schemas();
+
+        inh OpenAPIObject ASTNode.root();
+        eq OpenAPIObject.getChild().root() = this;
 }

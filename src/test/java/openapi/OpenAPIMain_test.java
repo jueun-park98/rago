@@ -100,10 +100,20 @@ public class OpenAPIMain_test {
 
         for( int i = diff.size()-1 ; i >= 0 ; i-- ){
             // get the path of a node involving difference.
-            pathNode = "$" + diff.get(i).get("path").toString().replace("/", ".").replace("~1", "/").replace("\"", "");
+            pathNode = "$" + diff.get(i).get("path").toString()
+                                 .replace("/", ".")
+                                 .replace("~1", "/")
+                                 .replace("\"", "");
+            for( String s : pathNode.split("\\.") ){
+                if( isNumeric(s) && Integer.parseInt(s) < 100 )
+                    pathNode = pathNode.replace(s, "[" + s + "]");
+            }
 
-            // check, if this node has an empty value.
-            if( JsonPath.parse(actualNode.toString()).read(pathNode, String.class).isEmpty() )
+
+            // check, if this node exists or has an empty value.
+            if( JsonPath.parse(actualNode.toString()).read(pathNode, String.class) == null || JsonPath.parse(actualNode.toString()).read(pathNode, String.class).isEmpty() )
+                ((ArrayNode) diff).remove(i);
+            else if( !JsonPath.parse(actualNode.toString()).read(pathNode.substring(0, pathNode.lastIndexOf(".")).concat(".$ref"), String.class).isEmpty() )
                 ((ArrayNode) diff).remove(i);
         }
 
@@ -112,5 +122,18 @@ public class OpenAPIMain_test {
         if (diff.size() != 0) {
             Assertions.assertEquals(actualNode.toPrettyString(), expectedNode.toPrettyString(), "JSONs for " + path + " are different:\n" + diff.toPrettyString());
         }
+    }
+
+    protected static boolean isNumeric(String str)
+    {
+        try
+        {
+            int d = Integer.parseInt(str);
+        }
+        catch(NumberFormatException nfe)
+        {
+            return false;
+        }
+        return true;
     }
 }
