@@ -26,7 +26,7 @@ import java.util.stream.IntStream;
 public abstract class SchemaOb extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:650
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:626
    */
   public static SchemaOb parseSchema (org.openapi4j.parser.model.v3.Schema schema, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         SchemaObject schemaObject = new SchemaObject();
@@ -35,7 +35,6 @@ public abstract class SchemaOb extends ASTNode<ASTNode> implements Cloneable {
         SchemaReference s = new SchemaReference();
         s.setRef(schema.getRef());
         s.setSchemaOb(parseSchema(schema.getReference(context).getMappedContent(Schema.class), context, map));
-        System.out.println(s.getRef());
         return s;
         } else {
         if( schema.getAdditionalProperties() != null )

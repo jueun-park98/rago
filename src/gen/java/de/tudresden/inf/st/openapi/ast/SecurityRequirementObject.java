@@ -46,7 +46,7 @@ public class SecurityRequirementObject extends ASTNode<ASTNode> implements Clone
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:897
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:872
    */
   public static SecurityRequirementObject parseSecurityRequirement(SecurityRequirement securityRequirement, Map<Object, ASTNode> map){
         SecurityRequirementObject securityRequirementObject = new SecurityRequirementObject();

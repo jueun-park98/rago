@@ -26,7 +26,7 @@ import java.util.stream.IntStream;
 public abstract class RequestBodyOb extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:400
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:376
    */
   public static RequestBodyOb parseRequestBody(org.openapi4j.parser.model.v3.RequestBody requestBody, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         RequestBodyObject requestBodyObject = new RequestBodyObject();

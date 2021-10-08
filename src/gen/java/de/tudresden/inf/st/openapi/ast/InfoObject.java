@@ -55,7 +55,7 @@ public class InfoObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:68
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:44
    */
   public static InfoObject parseInfo(Info info, Map<Object, ASTNode> map) {
         InfoObject infoObject = new InfoObject();

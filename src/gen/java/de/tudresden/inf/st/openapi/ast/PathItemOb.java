@@ -26,7 +26,7 @@ import java.util.stream.IntStream;
 public abstract class PathItemOb extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:214
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:190
    */
   public static PathItemOb parsePath(Path path, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         PathItemObject pathItem = new PathItemObject();

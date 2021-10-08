@@ -46,7 +46,7 @@ public class ExternalDocObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:336
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:312
    */
   public static ExternalDocObject parseExternalDocs(ExternalDocs externalDocs, Map<Object, ASTNode> map){
         ExternalDocObject externalDocObject = new ExternalDocObject();

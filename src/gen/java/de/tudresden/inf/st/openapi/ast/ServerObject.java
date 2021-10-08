@@ -53,7 +53,7 @@ public class ServerObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:126
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:102
    */
   public static ServerObject parseServer(Server server, Map<Object, ASTNode> map){
         ServerObject serverObject = new ServerObject();

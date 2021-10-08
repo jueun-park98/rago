@@ -56,7 +56,7 @@ public class EncodingObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:451
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:427
    */
   public static EncodingObject parseEncoding(EncodingProperty encodingProperty, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         EncodingObject encodingObject = new EncodingObject();

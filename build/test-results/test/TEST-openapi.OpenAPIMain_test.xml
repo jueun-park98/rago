@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="openapi.OpenAPIMain_test" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-10-04T14:06:36" hostname="DESKTOP-7SEB5SB" time="0.741">
+<testsuite name="openapi.OpenAPIMain_test" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-10-08T07:36:20" hostname="DESKTOP-7SEB5SB" time="0.613">
   <properties/>
-  <testcase name="test()" classname="openapi.OpenAPIMain_test" time="0.741"/>
+  <testcase name="test()" classname="openapi.OpenAPIMain_test" time="0.613"/>
   <system-out><![CDATA[5
 Loading expression DSL file '1password.com-events-1.0.0.json'.
 Loading expression DSL file '6-dot-authentiqio.appspot.com-6.json'.
@@ -9,5 +9,8 @@ Loading expression DSL file 'abstractapi.com-geolocation-1.0.0.json'.
 Loading expression DSL file 'adyen.com-CheckoutUtilityService-1.json'.
 Loading expression DSL file 'petstore-v2.yaml'.
 ]]></system-out>
-  <system-err><![CDATA[]]></system-err>
+  <system-err><![CDATA[SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+]]></system-err>
 </testsuite>

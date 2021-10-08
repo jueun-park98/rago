@@ -26,7 +26,7 @@ import java.util.stream.IntStream;
 public abstract class LinkOb extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:554
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:530
    */
   public static LinkOb parseLink(Link link, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         LinkObject linkObject = new LinkObject();

@@ -47,7 +47,7 @@ public class LicenseObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:110
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:86
    */
   public static LicenseObject parseLicense(License license, Map<Object, ASTNode> map){
         LicenseObject licenseObject = new LicenseObject();

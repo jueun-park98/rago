@@ -82,7 +82,7 @@ public class OperationObject extends OperationOb implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:285
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:261
    */
   public static OperationObject parseOperation(Operation operation, OAIContext context, Map<Object, ASTNode> map) throws DecodeException{
         OperationObject operationObject = new OperationObject();

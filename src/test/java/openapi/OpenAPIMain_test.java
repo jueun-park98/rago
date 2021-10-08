@@ -14,6 +14,7 @@ import org.openapi4j.parser.OpenApi3Parser;
 import org.openapi4j.parser.model.v3.*;
 import org.openapi4j.parser.validation.v3.OpenApi3Validator;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.jayway.jsonpath.JsonPath;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -95,23 +96,20 @@ public class OpenAPIMain_test {
 
     protected void compareJson(JsonNode expectedNode, JsonNode actualNode, Path path) throws IOException {
         JsonNode diff = JsonDiff.asJson(expectedNode, actualNode);
-        while( diff.size() > 0 ){
-            // remove all diffs, which are empty
-            if( diff.get(0).has("value") && diff.get(0).get("value").isEmpty() )
-                ((ArrayNode) diff).remove(0);
-            // remove all diffs, which are copies of empty properties
-            else if( diff.get(0).has("op") && diff.get(0).get("op").toString().equals("\"copy\"") )
-                ((ArrayNode) diff).remove(0);
-            else if( diff.get(0).has("op") && diff.get(0).get("op").toString().equals("\"move\"") )
-                ((ArrayNode) diff).remove(0);
-            else if( diff.get(0).has("op") && diff.get(0).get("op").toString().equals("\"remove\"") )
-                ((ArrayNode) diff).remove(0);
+        String pathNode;
+
+        for( int i = diff.size()-1 ; i >= 0 ; i-- ){
+            // get the path of a node involving difference.
+            pathNode = "$" + diff.get(i).get("path").toString().replace("/", ".").replace("~1", "/").replace("\"", "");
+
+            // check, if this node has an empty value.
+            if( JsonPath.parse(actualNode.toString()).read(pathNode, String.class).isEmpty() )
+                ((ArrayNode) diff).remove(i);
         }
 
-        // if the Jsons are equivalent, there is no reason to to the text comparison
+        // if the Jsons are equivalent, there is no reason to to the text comparison.
         // if there is a difference, a text comparison might look better than just the diff.
         if (diff.size() != 0) {
-            //System.out.println(diff.toPrettyString());
             Assertions.assertEquals(actualNode.toPrettyString(), expectedNode.toPrettyString(), "JSONs for " + path + " are different:\n" + diff.toPrettyString());
         }
     }

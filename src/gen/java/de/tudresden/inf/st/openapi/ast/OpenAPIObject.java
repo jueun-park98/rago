@@ -115,30 +115,6 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
         }
 
         map.put(api, openapi);
-        int a = 0;
-        Set<ResponseObject> responseObjects = new HashSet<>();
-        Set<Response> responses = new HashSet<>();
-        for( Object o : map.keySet() ){
-
-        if( map.get(o) instanceof ResponseObject ){
-        if(!responseObjects.contains(map.get(o))){
-        responseObjects.add((ResponseObject) map.get(o));
-        a++;
-        }
-        }
-
-            /*
-        if( map.get(o) instanceof SchemaObject ){
-        if(schemas.contains(map.get(o))){
-        schemas.add((SchemaObject) map.get(o));
-        a++;
-        }
-        }
-
-             */
-        }
-
-        System.out.println("size of ResponseObjects: " + a);
         return openapi;
         }
   /**

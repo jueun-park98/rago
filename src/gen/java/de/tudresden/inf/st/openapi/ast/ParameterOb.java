@@ -26,7 +26,7 @@ import java.util.stream.IntStream;
 public abstract class ParameterOb extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:353
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:329
    */
   public static ParameterOb parseParameter(Parameter parameter, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         ParameterObject parameterObject = new ParameterObject();

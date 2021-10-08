@@ -46,7 +46,7 @@ public class XmlObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:795
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:770
    */
   public static XmlObject parseXml (Xml xml, Map<Object, ASTNode> map) {
         XmlObject xmlObject = new XmlObject();

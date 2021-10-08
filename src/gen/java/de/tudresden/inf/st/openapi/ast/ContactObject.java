@@ -49,7 +49,7 @@ public class ContactObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:92
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:68
    */
   public static ContactObject parseContact(Contact contact, Map<Object, ASTNode> map){
         ContactObject contactObject = new ContactObject();
