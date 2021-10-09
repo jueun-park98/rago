@@ -26,6 +26,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.opentest4j.TestAbortedException;
@@ -68,6 +69,8 @@ public class OpenAPIMain_test {
 
             // openAPI object is integrated in JastAdd grammar
             openApi = OpenAPIObject.parseOpenAPI(api);
+            Set<SchemaTuple> s = openApi.schemaTuples();
+            System.out.println(s.size());
 
             // composed openAPI object, it is expected to be equivalent to parsed source object
             api3 = OpenAPIObject.composeOpenAPI(openApi);

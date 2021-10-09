@@ -1,7 +1,5 @@
 aspect InfSchema {
 
-    syn SchemaObject ParameterObject.schemaObject() = getSchemaOb().schemaObject();
-
     // syn Set<SchemaObject> ResponseObject.schemaObject () = for( ContentTuple c : getContentTuples() ) add.SchemaObject();
 
 
@@ -10,13 +8,14 @@ aspect InfSchema {
     SchemaOb contributes this
       when schemaObject()
       to OpenAPIObject.collectSchemaObs();
-         */
-
-    coll java.util.Set<SchemaTuple> OpenAPIObject.schemaTuples() [new java.util.HashSet<>()] root OpenAPIObject;
-        SchemaTuple contributes this to OpenAPIObject.schemaTuples();
+    */
 
     inh OpenAPIObject ASTNode.root();
     eq OpenAPIObject.getChild().root() = this;
+
+    coll Set<SchemaTuple> OpenAPIObject.schemaTuples() [new HashSet<>()] root OpenAPIObject;
+        SchemaTuple contributes this
+        to OpenAPIObject.schemaTuples();
 
     inh Set<String> PathsObject.inferUrl(Set<String> urls);
     eq OpenAPIObject.getPathsObject(int i).inferUrl(Set<String> urls) {
@@ -62,7 +61,7 @@ aspect InfSchema {
         return "";
     }
 
-    syn Map<String, List<String>> OperationObject.getDict (Set<SchemaTuple> tuples, Map<ResponseObject, String> responses){
+    syn Map<String, List<String>> OperationObject.addDict (Map<ResponseObject, String> responses){
         Map<String, List<String>> map = new HashMap<>();
 
         return map;

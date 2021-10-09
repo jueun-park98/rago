@@ -128,7 +128,8 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
         for( PathsObject p : this.getPathsObjects() )
             p.generateUrl(responses);
 
-        System.out.println(responses.size());        /*
+        System.out.println(responses.size());
+        /*
         for( String path : urls ){
         if( path.endsWith("GET") ){
         System.out.println(this.getServerObject(0).getUrl() + path.substring(0, path.length()-3));
@@ -1089,7 +1090,7 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
   }
   /**
    * @aspect <NoAspect>
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:15
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:16
    */
   /** @apilevel internal */
 protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIObject_schemaTuples = null;
@@ -1103,7 +1104,7 @@ protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIO
   }
 
   /**
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:18
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:13
    * @apilevel internal
    */
   public OpenAPIObject Define_root(ASTNode _callerNode, ASTNode _childNode) {
@@ -1111,7 +1112,7 @@ protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIO
     return this;
   }
   /**
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:18
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:13
    * @apilevel internal
    * @return {@code true} if this node has an equation for the inherited attribute root
    */
@@ -1119,12 +1120,12 @@ protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIO
     return true;
   }
   /**
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:21
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:20
    * @apilevel internal
    */
   public Set<String> Define_inferUrl(ASTNode _callerNode, ASTNode _childNode, Set<String> urls) {
     if (_callerNode == getPathsObjectListNoTransform()) {
-      // @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:22
+      // @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:21
       int i = _callerNode.getIndexOfChild(_childNode);
       {
               PathItemObject p = ((PathsObject) _childNode).getPathItemOb().pathItemObject();
@@ -1143,7 +1144,7 @@ protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIO
     }
   }
   /**
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:21
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:20
    * @apilevel internal
    * @return {@code true} if this node has an equation for the inherited attribute inferUrl
    */
@@ -1151,12 +1152,12 @@ protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIO
     return true;
   }
   /**
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:82
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:83
    * @apilevel internal
    */
   public Map<ResponseObject, String> Define_generateUrl(ASTNode _callerNode, ASTNode _childNode, Map<ResponseObject, String> responses) {
     if (_callerNode == getPathsObjectListNoTransform()) {
-      // @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:83
+      // @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:84
       int i = _callerNode.getIndexOfChild(_childNode);
       {
               PathItemObject p = ((PathsObject) _childNode).getPathItemOb().pathItemObject();
@@ -1177,7 +1178,7 @@ protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIO
     }
   }
   /**
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:82
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:83
    * @apilevel internal
    * @return {@code true} if this node has an equation for the inherited attribute generateUrl
    */
@@ -1197,11 +1198,11 @@ protected boolean OpenAPIObject_schemaTuples_visited = false;
   /**
    * @attribute coll
    * @aspect InfSchema
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:15
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:16
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.COLL)
-  @ASTNodeAnnotation.Source(aspect="InfSchema", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:15")
-  public java.util.Set<SchemaTuple> schemaTuples() {
+  @ASTNodeAnnotation.Source(aspect="InfSchema", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:16")
+  public Set<SchemaTuple> schemaTuples() {
     ASTState state = state();
     if (OpenAPIObject_schemaTuples_computed == ASTState.NON_CYCLE || OpenAPIObject_schemaTuples_computed == state().cycle()) {
       return OpenAPIObject_schemaTuples_value;
@@ -1222,14 +1223,14 @@ protected boolean OpenAPIObject_schemaTuples_visited = false;
     return OpenAPIObject_schemaTuples_value;
   }
   /** @apilevel internal */
-  private java.util.Set<SchemaTuple> schemaTuples_compute() {
+  private Set<SchemaTuple> schemaTuples_compute() {
     ASTNode node = this;
     while (node != null && !(node instanceof OpenAPIObject)) {
       node = node.getParent();
     }
     OpenAPIObject root = (OpenAPIObject) node;
     root.survey_OpenAPIObject_schemaTuples();
-    java.util.Set<SchemaTuple> _computedValue = new java.util.HashSet<>();
+    Set<SchemaTuple> _computedValue = new HashSet<>();
     if (root.contributorMap_OpenAPIObject_schemaTuples.containsKey(this)) {
       for (ASTNode contributor : root.contributorMap_OpenAPIObject_schemaTuples.get(this)) {
         contributor.contributeTo_OpenAPIObject_schemaTuples(_computedValue);
@@ -1241,6 +1242,6 @@ protected boolean OpenAPIObject_schemaTuples_visited = false;
   protected ASTState.Cycle OpenAPIObject_schemaTuples_computed = null;
 
   /** @apilevel internal */
-  protected java.util.Set<SchemaTuple> OpenAPIObject_schemaTuples_value;
+  protected Set<SchemaTuple> OpenAPIObject_schemaTuples_value;
 
 }

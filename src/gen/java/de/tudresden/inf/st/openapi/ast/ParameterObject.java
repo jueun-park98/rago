@@ -825,24 +825,6 @@ protected java.util.Set composeParameter_ParameterOb_Map_Object__ASTNode__visite
     }
   }
 /** @apilevel internal */
-protected boolean schemaObject_visited = false;
-  /**
-   * @attribute syn
-   * @aspect InfSchema
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:3
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="InfSchema", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:3")
-  public SchemaObject schemaObject() {
-    if (schemaObject_visited) {
-      throw new RuntimeException("Circular definition of attribute ParameterObject.schemaObject().");
-    }
-    schemaObject_visited = true;
-    SchemaObject schemaObject_value = getSchemaOb().schemaObject();
-    schemaObject_visited = false;
-    return schemaObject_value;
-  }
-/** @apilevel internal */
 protected boolean parameterObject_visited = false;
   /**
    * @attribute syn

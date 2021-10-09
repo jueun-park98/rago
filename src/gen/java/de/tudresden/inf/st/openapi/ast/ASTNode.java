@@ -486,7 +486,7 @@ public class ASTNode<T extends ASTNode> implements Cloneable {
   }
   /**
    * @aspect <NoAspect>
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:15
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:16
    */
     /** @apilevel internal */
   protected void collect_contributors_OpenAPIObject_schemaTuples(OpenAPIObject _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
@@ -495,16 +495,16 @@ public class ASTNode<T extends ASTNode> implements Cloneable {
     }
   }
   /** @apilevel internal */
-  protected void contributeTo_OpenAPIObject_schemaTuples(java.util.Set<SchemaTuple> collection) {
+  protected void contributeTo_OpenAPIObject_schemaTuples(Set<SchemaTuple> collection) {
   }
 
   /**
    * @attribute inh
    * @aspect InfSchema
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:18
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:13
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
-  @ASTNodeAnnotation.Source(aspect="InfSchema", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:18")
+  @ASTNodeAnnotation.Source(aspect="InfSchema", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:13")
   public OpenAPIObject root() {
     if (root_visited) {
       throw new RuntimeException("Circular definition of attribute ASTNode.root().");
@@ -537,7 +537,7 @@ protected boolean root_visited = false;
   }
 
   /**
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:19
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:14
    * @apilevel internal
    * @return {@code true} if this node has an equation for the inherited attribute root
    */
@@ -557,7 +557,7 @@ protected boolean root_visited = false;
   }
 
   /**
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:22
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:21
    * @apilevel internal
    * @return {@code true} if this node has an equation for the inherited attribute inferUrl
    */
@@ -577,7 +577,7 @@ protected boolean root_visited = false;
   }
 
   /**
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:83
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:84
    * @apilevel internal
    * @return {@code true} if this node has an equation for the inherited attribute generateUrl
    */

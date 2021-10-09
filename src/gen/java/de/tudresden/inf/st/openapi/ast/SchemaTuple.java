@@ -214,7 +214,7 @@ public class SchemaTuple extends ASTNode<ASTNode> implements Cloneable {
   }
   /** @apilevel internal */
   protected void collect_contributors_OpenAPIObject_schemaTuples(OpenAPIObject _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
-    // @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:16
+    // @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:17
     {
       java.util.Set<ASTNode> contributors = _map.get(_root);
       if (contributors == null) {
@@ -226,7 +226,7 @@ public class SchemaTuple extends ASTNode<ASTNode> implements Cloneable {
     super.collect_contributors_OpenAPIObject_schemaTuples(_root, _map);
   }
   /** @apilevel internal */
-  protected void contributeTo_OpenAPIObject_schemaTuples(java.util.Set<SchemaTuple> collection) {
+  protected void contributeTo_OpenAPIObject_schemaTuples(Set<SchemaTuple> collection) {
     super.contributeTo_OpenAPIObject_schemaTuples(collection);
     collection.add(this);
   }
