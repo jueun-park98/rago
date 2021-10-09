@@ -100,12 +100,20 @@ public abstract class OperationOb extends ASTNode<ASTNode> implements Cloneable 
   public abstract OperationOb treeCopy();
   /**
    * @attribute syn
-   * @aspect RandomRequestGenerator
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:95
+   * @aspect InfSchema
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:34
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="RandomRequestGenerator", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:95")
-  public abstract String generateRandomUrl(String pathRef, OperationObject operationObject);
+  @ASTNodeAnnotation.Source(aspect="InfSchema", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:34")
+  public abstract String inferRandomUrl(String pathRef, OperationObject operationObject);
+  /**
+   * @attribute syn
+   * @aspect RandomRequestGenerator
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:96
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="RandomRequestGenerator", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:96")
+  public abstract String generateRandomUrl(String pathRef, OperationObject operationObject, Map<ResponseObject, String> responses);
   /** @apilevel internal */
   public ASTNode rewriteTo() {
     return super.rewriteTo();

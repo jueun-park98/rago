@@ -486,18 +486,36 @@ public class ASTNode<T extends ASTNode> implements Cloneable {
   }
   /**
    * @aspect <NoAspect>
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:14
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:15
    */
     /** @apilevel internal */
-  protected void collect_contributors_OpenAPIObject_schemas(OpenAPIObject _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
+  protected void collect_contributors_OpenAPIObject_schemaTuples(OpenAPIObject _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
     for (int i = 0; i < getNumChild(); i++) {
-      getChild(i).collect_contributors_OpenAPIObject_schemas(_root, _map);
+      getChild(i).collect_contributors_OpenAPIObject_schemaTuples(_root, _map);
     }
   }
   /** @apilevel internal */
-  protected void contributeTo_OpenAPIObject_schemas(java.util.Set<SchemaObject> collection) {
+  protected void contributeTo_OpenAPIObject_schemaTuples(java.util.Set<SchemaTuple> collection) {
   }
 
+  /**
+   * @attribute inh
+   * @aspect InfSchema
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:18
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
+  @ASTNodeAnnotation.Source(aspect="InfSchema", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:18")
+  public OpenAPIObject root() {
+    if (root_visited) {
+      throw new RuntimeException("Circular definition of attribute ASTNode.root().");
+    }
+    root_visited = true;
+    OpenAPIObject root_value = getParent().Define_root(this, null);
+    root_visited = false;
+    return root_value;
+  }
+/** @apilevel internal */
+protected boolean root_visited = false;
   /** @apilevel internal */
   public ASTNode rewriteTo() {
     return this;
@@ -507,23 +525,63 @@ public class ASTNode<T extends ASTNode> implements Cloneable {
     return false;
   }
   /** @apilevel internal */
-  public Set<String> Define_generateUrl(ASTNode _callerNode, ASTNode _childNode, Set<String> urls) {
+  public OpenAPIObject Define_root(ASTNode _callerNode, ASTNode _childNode) {
     ASTNode self = this;
     ASTNode parent = getParent();
-    while (parent != null && !parent.canDefine_generateUrl(self, _callerNode, urls)) {
+    while (parent != null && !parent.canDefine_root(self, _callerNode)) {
       _callerNode = self;
       self = parent;
       parent = self.getParent();
     }
-    return parent.Define_generateUrl(self, _callerNode, urls);
+    return parent.Define_root(self, _callerNode);
   }
 
   /**
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:85
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:19
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute root
+   */
+  protected boolean canDefine_root(ASTNode _callerNode, ASTNode _childNode) {
+    return false;
+  }
+  /** @apilevel internal */
+  public Set<String> Define_inferUrl(ASTNode _callerNode, ASTNode _childNode, Set<String> urls) {
+    ASTNode self = this;
+    ASTNode parent = getParent();
+    while (parent != null && !parent.canDefine_inferUrl(self, _callerNode, urls)) {
+      _callerNode = self;
+      self = parent;
+      parent = self.getParent();
+    }
+    return parent.Define_inferUrl(self, _callerNode, urls);
+  }
+
+  /**
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:22
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute inferUrl
+   */
+  protected boolean canDefine_inferUrl(ASTNode _callerNode, ASTNode _childNode, Set<String> urls) {
+    return false;
+  }
+  /** @apilevel internal */
+  public Map<ResponseObject, String> Define_generateUrl(ASTNode _callerNode, ASTNode _childNode, Map<ResponseObject, String> responses) {
+    ASTNode self = this;
+    ASTNode parent = getParent();
+    while (parent != null && !parent.canDefine_generateUrl(self, _callerNode, responses)) {
+      _callerNode = self;
+      self = parent;
+      parent = self.getParent();
+    }
+    return parent.Define_generateUrl(self, _callerNode, responses);
+  }
+
+  /**
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:83
    * @apilevel internal
    * @return {@code true} if this node has an equation for the inherited attribute generateUrl
    */
-  protected boolean canDefine_generateUrl(ASTNode _callerNode, ASTNode _childNode, Set<String> urls) {
+  protected boolean canDefine_generateUrl(ASTNode _callerNode, ASTNode _childNode, Map<ResponseObject, String> responses) {
     return false;
   }
 public ASTNode rewrittenNode() { throw new Error("rewrittenNode is undefined for ASTNode"); }

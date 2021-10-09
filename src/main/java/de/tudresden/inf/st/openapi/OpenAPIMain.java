@@ -44,6 +44,7 @@ public class OpenAPIMain {
             filenames.add(file.getName());
         System.out.println(filenames.size());
 
+        /*
         for( String file : filenames ){
             String writerName = genDir + file;
 
@@ -56,6 +57,7 @@ public class OpenAPIMain {
             openApi.generateRequests();
 
         }
+         */
 
         String fileName = "petstore-v2.yaml";
         //FileWriter writer = new FileWriter("./gen-api-ex/callback-example_generated.json");
@@ -71,25 +73,17 @@ public class OpenAPIMain {
             throw new FileNotFoundException("Could not load JSON file " + fileName);
         }
 
-        /*
         OpenApi3 api = new OpenApi3Parser().parse(expUrl, new ArrayList<>(), true);
         System.out.println("Loading expression DSL file '" + fileName + "'.");
 
         openApi = OpenAPIObject.parseOpenAPI(api);
         openApi.generateRequests();
 
-        api3 = OpenAPIObject.composeOpenAPI(openApi);
-
-        results = OpenApi3Validator.instance().validate(api);
-
-        openApi.generateRequests();*/
-
-
         //writer.write(api3.toNode().toPrettyString());
         //writer.close();
 
 
-        Map<String, String> s = new HashMap<>();
+        Map<String, List<String>> s = new HashMap<>();
 
         if (args.length > 0) {
             fileName = args[0];

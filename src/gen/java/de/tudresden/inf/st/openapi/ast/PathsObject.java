@@ -206,24 +206,44 @@ public class PathsObject extends ASTNode<ASTNode> implements Cloneable {
   }
   /**
    * @attribute inh
-   * @aspect RandomRequestGenerator
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:84
+   * @aspect InfSchema
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:21
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
-  @ASTNodeAnnotation.Source(aspect="RandomRequestGenerator", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:84")
-  public Set<String> generateUrl(Set<String> urls) {
+  @ASTNodeAnnotation.Source(aspect="InfSchema", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:21")
+  public Set<String> inferUrl(Set<String> urls) {
     Object _parameters = urls;
-    if (generateUrl_Set_String__visited == null) generateUrl_Set_String__visited = new java.util.HashSet(4);
-    if (generateUrl_Set_String__visited.contains(_parameters)) {
-      throw new RuntimeException("Circular definition of attribute PathsObject.generateUrl(Set_String_).");
+    if (inferUrl_Set_String__visited == null) inferUrl_Set_String__visited = new java.util.HashSet(4);
+    if (inferUrl_Set_String__visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute PathsObject.inferUrl(Set_String_).");
     }
-    generateUrl_Set_String__visited.add(_parameters);
-    Set<String> generateUrl_Set_String__value = getParent().Define_generateUrl(this, null, urls);
-    generateUrl_Set_String__visited.remove(_parameters);
-    return generateUrl_Set_String__value;
+    inferUrl_Set_String__visited.add(_parameters);
+    Set<String> inferUrl_Set_String__value = getParent().Define_inferUrl(this, null, urls);
+    inferUrl_Set_String__visited.remove(_parameters);
+    return inferUrl_Set_String__value;
   }
 /** @apilevel internal */
-protected java.util.Set generateUrl_Set_String__visited;
+protected java.util.Set inferUrl_Set_String__visited;
+  /**
+   * @attribute inh
+   * @aspect RandomRequestGenerator
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:82
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
+  @ASTNodeAnnotation.Source(aspect="RandomRequestGenerator", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:82")
+  public Map<ResponseObject, String> generateUrl(Map<ResponseObject, String> responses) {
+    Object _parameters = responses;
+    if (generateUrl_Map_ResponseObject__String__visited == null) generateUrl_Map_ResponseObject__String__visited = new java.util.HashSet(4);
+    if (generateUrl_Map_ResponseObject__String__visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute PathsObject.generateUrl(Map_ResponseObject__String_).");
+    }
+    generateUrl_Map_ResponseObject__String__visited.add(_parameters);
+    Map<ResponseObject, String> generateUrl_Map_ResponseObject__String__value = getParent().Define_generateUrl(this, null, responses);
+    generateUrl_Map_ResponseObject__String__visited.remove(_parameters);
+    return generateUrl_Map_ResponseObject__String__value;
+  }
+/** @apilevel internal */
+protected java.util.Set generateUrl_Map_ResponseObject__String__visited;
   /** @apilevel internal */
   public ASTNode rewriteTo() {
     return super.rewriteTo();

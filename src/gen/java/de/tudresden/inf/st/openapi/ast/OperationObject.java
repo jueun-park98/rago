@@ -136,7 +136,7 @@ public class OperationObject extends OperationOb implements Cloneable {
         }
   /**
    * @aspect RandomRequestGenerator
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:229
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:376
    */
   public String generateRandomString(Random rand, JastAddList<EnumObj> objs) {
         if( objs.getNumChild() != 0 )
@@ -150,7 +150,7 @@ public class OperationObject extends OperationOb implements Cloneable {
     }
   /**
    * @aspect RandomRequestGenerator
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:240
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:387
    */
   public String generateRandomInt(Random rand, int minimum, int maximum){
         if( minimum > -1 && maximum > 0 )
@@ -1289,28 +1289,81 @@ public class OperationObject extends OperationOb implements Cloneable {
     return getExtensionListNoTransform();
   }
 /** @apilevel internal */
-protected java.util.Set generateRandomUrl_String_OperationObject_visited;
+protected java.util.Set inferRandomUrl_String_OperationObject_visited;
   /**
    * @attribute syn
-   * @aspect RandomRequestGenerator
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:95
+   * @aspect InfSchema
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:34
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="RandomRequestGenerator", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:95")
-  public String generateRandomUrl(String pathRef, OperationObject operationObject) {
+  @ASTNodeAnnotation.Source(aspect="InfSchema", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:34")
+  public String inferRandomUrl(String pathRef, OperationObject operationObject) {
     java.util.List _parameters = new java.util.ArrayList(2);
     _parameters.add(pathRef);
     _parameters.add(operationObject);
-    if (generateRandomUrl_String_OperationObject_visited == null) generateRandomUrl_String_OperationObject_visited = new java.util.HashSet(4);
-    if (generateRandomUrl_String_OperationObject_visited.contains(_parameters)) {
-      throw new RuntimeException("Circular definition of attribute OperationOb.generateRandomUrl(String,OperationObject).");
+    if (inferRandomUrl_String_OperationObject_visited == null) inferRandomUrl_String_OperationObject_visited = new java.util.HashSet(4);
+    if (inferRandomUrl_String_OperationObject_visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute OperationOb.inferRandomUrl(String,OperationObject).");
     }
-    generateRandomUrl_String_OperationObject_visited.add(_parameters);
+    inferRandomUrl_String_OperationObject_visited.add(_parameters);
+    try {
+            return "";
+        }
+    finally {
+      inferRandomUrl_String_OperationObject_visited.remove(_parameters);
+    }
+  }
+/** @apilevel internal */
+protected java.util.Set getDict_Set_SchemaTuple__Map_ResponseObject__String__visited;
+  /**
+   * @attribute syn
+   * @aspect InfSchema
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:65
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="InfSchema", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:65")
+  public Map<String, List<String>> getDict(Set<SchemaTuple> tuples, Map<ResponseObject, String> responses) {
+    java.util.List _parameters = new java.util.ArrayList(2);
+    _parameters.add(tuples);
+    _parameters.add(responses);
+    if (getDict_Set_SchemaTuple__Map_ResponseObject__String__visited == null) getDict_Set_SchemaTuple__Map_ResponseObject__String__visited = new java.util.HashSet(4);
+    if (getDict_Set_SchemaTuple__Map_ResponseObject__String__visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute OperationObject.getDict(Set_SchemaTuple_,Map_ResponseObject__String_).");
+    }
+    getDict_Set_SchemaTuple__Map_ResponseObject__String__visited.add(_parameters);
+    try {
+            Map<String, List<String>> map = new HashMap<>();
+    
+            return map;
+        }
+    finally {
+      getDict_Set_SchemaTuple__Map_ResponseObject__String__visited.remove(_parameters);
+    }
+  }
+/** @apilevel internal */
+protected java.util.Set generateRandomUrl_String_OperationObject_Map_ResponseObject__String__visited;
+  /**
+   * @attribute syn
+   * @aspect RandomRequestGenerator
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:96
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="RandomRequestGenerator", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:96")
+  public String generateRandomUrl(String pathRef, OperationObject operationObject, Map<ResponseObject, String> responses) {
+    java.util.List _parameters = new java.util.ArrayList(3);
+    _parameters.add(pathRef);
+    _parameters.add(operationObject);
+    _parameters.add(responses);
+    if (generateRandomUrl_String_OperationObject_Map_ResponseObject__String__visited == null) generateRandomUrl_String_OperationObject_Map_ResponseObject__String__visited = new java.util.HashSet(4);
+    if (generateRandomUrl_String_OperationObject_Map_ResponseObject__String__visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute OperationOb.generateRandomUrl(String,OperationObject,Map_ResponseObject__String_).");
+    }
+    generateRandomUrl_String_OperationObject_Map_ResponseObject__String__visited.add(_parameters);
     try {
             return "";
             }
     finally {
-      generateRandomUrl_String_OperationObject_visited.remove(_parameters);
+      generateRandomUrl_String_OperationObject_Map_ResponseObject__String__visited.remove(_parameters);
     }
   }
   /** @apilevel internal */

@@ -119,19 +119,21 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect RandomRequestGenerator
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:20
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:12
    */
-  public String generateRequests() throws Exception {
+  public Map<ResponseObject, String> generateRequests() throws Exception {
         Set<String> urls = new HashSet<>();
+        Map<ResponseObject, String> responses = new HashMap<>();
 
         for( PathsObject p : this.getPathsObjects() )
-        p.generateUrl(urls);
+            p.generateUrl(responses);
 
+        System.out.println(responses.size());        /*
         for( String path : urls ){
         if( path.endsWith("GET") ){
         System.out.println(this.getServerObject(0).getUrl() + path.substring(0, path.length()-3));
 
-        /* */
+
         URL url = new URL(this.getServerObject(0).getUrl() + path.substring(0, path.length()-3));
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
@@ -139,8 +141,8 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
         con.setDoOutput(true); // GET
 
         int responseCode = con.getResponseCode();
-        System.out.println("HTTP status code (GET) : " + responseCode);
-        if( responseCode < 300 ){
+        //System.out.println("HTTP status code (GET) : " + responseCode);
+        if( responseCode < 300 && responseCode >= 200 ){
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String inputLine;
         StringBuffer response = new StringBuffer();
@@ -150,12 +152,13 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
         }
         in.close();
 
-        System.out.println("HTTP body : " + response.toString());
-        }/* */
+        //System.out.println("HTTP body : " + response.toString());
+        responses.add(response.toString());
+        }
         } else if( path.endsWith("POST") ) {
-        System.out.println(this.getServerObject(0).getUrl() + path.substring(0, path.length()-4));
+        //System.out.println(this.getServerObject(0).getUrl() + path.substring(0, path.length()-4));
 
-        /* */
+
         URL url = new URL(this.getServerObject(0).getUrl() + path.substring(0, path.length()-4));
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
@@ -163,9 +166,9 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
         con.setDoOutput(true); // POST
 
         int responseCode = con.getResponseCode();
-        System.out.println("HTTP status code (POST) : " + responseCode);
+        //System.out.println("HTTP status code (POST) : " + responseCode);
 
-        if( responseCode < 300 ){
+        if( responseCode < 300 && responseCode >= 200 ){
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String inputLine;
         StringBuffer response = new StringBuffer();
@@ -176,13 +179,16 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
         in.close();
 
 
-        System.out.println("HTTP body : " + response.toString());
-        }/* */
+        //System.out.println("HTTP body : " + response.toString());
+        responses.add(response.toString());
+        }
         }
 
-        }
+        }*/
 
-        return "";
+        //for( String s : responses )
+        //    System.out.println("Response : " + s.toString());
+        return responses;
     }
   /**
    * @declaredat ASTNode:1
@@ -252,10 +258,10 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
-    OpenAPIObject_schemas_visited = false;
-    OpenAPIObject_schemas_computed = null;
-    OpenAPIObject_schemas_value = null;
-    contributorMap_OpenAPIObject_schemas = null;
+    OpenAPIObject_schemaTuples_visited = false;
+    OpenAPIObject_schemaTuples_computed = null;
+    OpenAPIObject_schemaTuples_value = null;
+    contributorMap_OpenAPIObject_schemaTuples = null;
   }
   /** @apilevel internal 
    * @declaredat ASTNode:61
@@ -1083,47 +1089,99 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
   }
   /**
    * @aspect <NoAspect>
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:14
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:15
    */
   /** @apilevel internal */
-protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIObject_schemas = null;
+protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIObject_schemaTuples = null;
 
   /** @apilevel internal */
-  protected void survey_OpenAPIObject_schemas() {
-    if (contributorMap_OpenAPIObject_schemas == null) {
-      contributorMap_OpenAPIObject_schemas = new java.util.IdentityHashMap<ASTNode, java.util.Set<ASTNode>>();
-      collect_contributors_OpenAPIObject_schemas(this, contributorMap_OpenAPIObject_schemas);
+  protected void survey_OpenAPIObject_schemaTuples() {
+    if (contributorMap_OpenAPIObject_schemaTuples == null) {
+      contributorMap_OpenAPIObject_schemaTuples = new java.util.IdentityHashMap<ASTNode, java.util.Set<ASTNode>>();
+      collect_contributors_OpenAPIObject_schemaTuples(this, contributorMap_OpenAPIObject_schemaTuples);
     }
   }
 
   /**
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:84
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:18
    * @apilevel internal
    */
-  public Set<String> Define_generateUrl(ASTNode _callerNode, ASTNode _childNode, Set<String> urls) {
+  public OpenAPIObject Define_root(ASTNode _callerNode, ASTNode _childNode) {
+    int childIndex = this.getIndexOfChild(_callerNode);
+    return this;
+  }
+  /**
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:18
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute root
+   */
+  protected boolean canDefine_root(ASTNode _callerNode, ASTNode _childNode) {
+    return true;
+  }
+  /**
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:21
+   * @apilevel internal
+   */
+  public Set<String> Define_inferUrl(ASTNode _callerNode, ASTNode _childNode, Set<String> urls) {
     if (_callerNode == getPathsObjectListNoTransform()) {
-      // @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:85
+      // @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:22
       int i = _callerNode.getIndexOfChild(_childNode);
       {
               PathItemObject p = ((PathsObject) _childNode).getPathItemOb().pathItemObject();
+              String path = ((OpenAPIObject) getParent()).getServerObject(0).getUrl();
+      
               if( p.hasGet() )
-              urls.add(p.getGet().generateRandomUrl(((PathsObject) _childNode).getRef(), p.getGet().getOperationObject()));
+                  urls.add(p.getGet().inferRandomUrl(path + ((PathsObject) _childNode).getRef(), p.getGet().getOperationObject()));
               else if( p.hasPost() )
-              urls.add(p.getPost().generateRandomUrl(((PathsObject) _childNode).getRef(), p.getPost().getOperationObject()));
+                  urls.add(p.getPost().inferRandomUrl(path + ((PathsObject) _childNode).getRef(), p.getPost().getOperationObject()));
       
               return urls;
-              }
+          }
     }
     else {
-      return getParent().Define_generateUrl(this, _callerNode, urls);
+      return getParent().Define_inferUrl(this, _callerNode, urls);
     }
   }
   /**
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:84
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:21
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute inferUrl
+   */
+  protected boolean canDefine_inferUrl(ASTNode _callerNode, ASTNode _childNode, Set<String> urls) {
+    return true;
+  }
+  /**
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:82
+   * @apilevel internal
+   */
+  public Map<ResponseObject, String> Define_generateUrl(ASTNode _callerNode, ASTNode _childNode, Map<ResponseObject, String> responses) {
+    if (_callerNode == getPathsObjectListNoTransform()) {
+      // @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:83
+      int i = _callerNode.getIndexOfChild(_childNode);
+      {
+              PathItemObject p = ((PathsObject) _childNode).getPathItemOb().pathItemObject();
+              String path = getServerObject(0).getUrl();
+      
+              if( p.hasGet() )
+              p.getGet().generateRandomUrl(path + ((PathsObject) _childNode).getRef(), p.getGet().getOperationObject(), responses);
+              //urls.add(p.getGet().generateRandomUrl(((PathsObject) _childNode).getRef(), p.getGet().getOperationObject()));
+              else if( p.hasPost() )
+              p.getPost().generateRandomUrl(path + ((PathsObject) _childNode).getRef(), p.getPost().getOperationObject(), responses);
+              //urls.add(p.getPost().generateRandomUrl(((PathsObject) _childNode).getRef(), p.getPost().getOperationObject()));
+      
+              return responses;
+              }
+    }
+    else {
+      return getParent().Define_generateUrl(this, _callerNode, responses);
+    }
+  }
+  /**
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:82
    * @apilevel internal
    * @return {@code true} if this node has an equation for the inherited attribute generateUrl
    */
-  protected boolean canDefine_generateUrl(ASTNode _callerNode, ASTNode _childNode, Set<String> urls) {
+  protected boolean canDefine_generateUrl(ASTNode _callerNode, ASTNode _childNode, Map<ResponseObject, String> responses) {
     return true;
   }
   /** @apilevel internal */
@@ -1135,54 +1193,54 @@ protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIO
     return false;
   }
 /** @apilevel internal */
-protected boolean OpenAPIObject_schemas_visited = false;
+protected boolean OpenAPIObject_schemaTuples_visited = false;
   /**
    * @attribute coll
    * @aspect InfSchema
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:14
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:15
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.COLL)
-  @ASTNodeAnnotation.Source(aspect="InfSchema", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:14")
-  public java.util.Set<SchemaObject> schemas() {
+  @ASTNodeAnnotation.Source(aspect="InfSchema", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:15")
+  public java.util.Set<SchemaTuple> schemaTuples() {
     ASTState state = state();
-    if (OpenAPIObject_schemas_computed == ASTState.NON_CYCLE || OpenAPIObject_schemas_computed == state().cycle()) {
-      return OpenAPIObject_schemas_value;
+    if (OpenAPIObject_schemaTuples_computed == ASTState.NON_CYCLE || OpenAPIObject_schemaTuples_computed == state().cycle()) {
+      return OpenAPIObject_schemaTuples_value;
     }
-    if (OpenAPIObject_schemas_visited) {
-      throw new RuntimeException("Circular definition of attribute OpenAPIObject.schemas().");
+    if (OpenAPIObject_schemaTuples_visited) {
+      throw new RuntimeException("Circular definition of attribute OpenAPIObject.schemaTuples().");
     }
-    OpenAPIObject_schemas_visited = true;
-    OpenAPIObject_schemas_value = schemas_compute();
+    OpenAPIObject_schemaTuples_visited = true;
+    OpenAPIObject_schemaTuples_value = schemaTuples_compute();
     if (state().inCircle()) {
-      OpenAPIObject_schemas_computed = state().cycle();
+      OpenAPIObject_schemaTuples_computed = state().cycle();
     
     } else {
-      OpenAPIObject_schemas_computed = ASTState.NON_CYCLE;
+      OpenAPIObject_schemaTuples_computed = ASTState.NON_CYCLE;
     
     }
-    OpenAPIObject_schemas_visited = false;
-    return OpenAPIObject_schemas_value;
+    OpenAPIObject_schemaTuples_visited = false;
+    return OpenAPIObject_schemaTuples_value;
   }
   /** @apilevel internal */
-  private java.util.Set<SchemaObject> schemas_compute() {
+  private java.util.Set<SchemaTuple> schemaTuples_compute() {
     ASTNode node = this;
     while (node != null && !(node instanceof OpenAPIObject)) {
       node = node.getParent();
     }
     OpenAPIObject root = (OpenAPIObject) node;
-    root.survey_OpenAPIObject_schemas();
-    java.util.Set<SchemaObject> _computedValue = new java.util.HashSet<>();
-    if (root.contributorMap_OpenAPIObject_schemas.containsKey(this)) {
-      for (ASTNode contributor : root.contributorMap_OpenAPIObject_schemas.get(this)) {
-        contributor.contributeTo_OpenAPIObject_schemas(_computedValue);
+    root.survey_OpenAPIObject_schemaTuples();
+    java.util.Set<SchemaTuple> _computedValue = new java.util.HashSet<>();
+    if (root.contributorMap_OpenAPIObject_schemaTuples.containsKey(this)) {
+      for (ASTNode contributor : root.contributorMap_OpenAPIObject_schemaTuples.get(this)) {
+        contributor.contributeTo_OpenAPIObject_schemaTuples(_computedValue);
       }
     }
     return _computedValue;
   }
   /** @apilevel internal */
-  protected ASTState.Cycle OpenAPIObject_schemas_computed = null;
+  protected ASTState.Cycle OpenAPIObject_schemaTuples_computed = null;
 
   /** @apilevel internal */
-  protected java.util.Set<SchemaObject> OpenAPIObject_schemas_value;
+  protected java.util.Set<SchemaTuple> OpenAPIObject_schemaTuples_value;
 
 }
