@@ -8,6 +8,9 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -18,15 +21,15 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:44
- * @astdecl OperationObject : OperationOb ::= Tag* <Summary:String> <Description:String> [ExternalDocObject] <OperationID:String> ParameterOb* [RequestBodyOb] ResponseTuple* CallbackTuple* <DeprecatedBoolean:Boolean> SecurityRequirementObject* ServerObject* <Required:Boolean> Extension*;
- * @production OperationObject : {@link OperationOb} ::= <span class="component">{@link Tag}*</span> <span class="component">&lt;Summary:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">[{@link ExternalDocObject}]</span> <span class="component">&lt;OperationID:String&gt;</span> <span class="component">{@link ParameterOb}*</span> <span class="component">[{@link RequestBodyOb}]</span> <span class="component">{@link ResponseTuple}*</span> <span class="component">{@link CallbackTuple}*</span> <span class="component">&lt;DeprecatedBoolean:Boolean&gt;</span> <span class="component">{@link SecurityRequirementObject}*</span> <span class="component">{@link ServerObject}*</span> <span class="component">&lt;Required:Boolean&gt;</span> <span class="component">{@link Extension}*</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:42
+ * @astdecl OperationObject : ASTNode ::= Tag* <Summary:String> <Description:String> [ExternalDocObject] <OperationID:String> ParameterOb* [RequestBodyOb] ResponseTuple* CallbackTuple* <DeprecatedBoolean:Boolean> SecurityRequirementObject* ServerObject* <Required:Boolean> Extension*;
+ * @production OperationObject : {@link ASTNode} ::= <span class="component">{@link Tag}*</span> <span class="component">&lt;Summary:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">[{@link ExternalDocObject}]</span> <span class="component">&lt;OperationID:String&gt;</span> <span class="component">{@link ParameterOb}*</span> <span class="component">[{@link RequestBodyOb}]</span> <span class="component">{@link ResponseTuple}*</span> <span class="component">{@link CallbackTuple}*</span> <span class="component">&lt;DeprecatedBoolean:Boolean&gt;</span> <span class="component">{@link SecurityRequirementObject}*</span> <span class="component">{@link ServerObject}*</span> <span class="component">&lt;Required:Boolean&gt;</span> <span class="component">{@link Extension}*</span>;
 
  */
-public class OperationObject extends OperationOb implements Cloneable {
+public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:312
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:302
    */
   public static Operation composeOperation (OperationObject operationObject, Map<Object, ASTNode> map){
         Operation operation = new Operation();
@@ -81,8 +84,50 @@ public class OperationObject extends OperationOb implements Cloneable {
         return operation;
         }
   /**
+   * @aspect InferParameter
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:129
+   */
+  public void writeDictionary (SchemaOb schema, String resp) throws Exception{
+        String schemaName = schema.getClass().getName();
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode respNode = mapper.readTree(resp);
+        String value;
+
+        if (schemaName.substring(schemaName.lastIndexOf(".") + 1).equals("SchemaReference")) {
+        for (PropertyItem p : schema.schemaObject().getPropertyItems()) {
+        String infName = ((SchemaReference) schema).getRef().substring(((SchemaReference) schema).getRef().lastIndexOf("/") + 1) + p.getName();
+        value = respNode.get(p.getName()).toString();
+        value = value.startsWith("\"") && value.endsWith("\"") ? value.substring(1, value.length()-1) : value;
+
+        root().addInferredParameter(new InferredParameter(infName + "?" + value));
+        root().addInferredParameter(new InferredParameter(p.getName() + "?" + value));
+        }
+        } else {
+        for (PropertyItem p : schema.schemaObject().getPropertyItems()){
+            value = respNode.get(p.getName()).toString();
+            value = value.startsWith("\"") && value.endsWith("\"") ? value.substring(1, value.length()-1) : value;
+
+            root().addInferredParameter(new InferredParameter(p.getName() + "?" + respNode.get(p.getName()).textValue()));
+        }
+        }
+
+    }
+  /**
+   * @aspect InferParameter
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:155
+   */
+  public void writeDictionaryWithArray (SchemaOb schema, String resp) throws Exception{
+        ObjectMapper mapper = new ObjectMapper();
+        ArrayNode respNode = ((ArrayNode) mapper.readTree(resp));
+        Iterator<JsonNode> props = respNode.elements();
+
+        while( props.hasNext() )
+        writeDictionary(schema.schemaObject().getItemsSchema().getSchemaOb(), props.next().toString());
+
+    }
+  /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:261
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:289
    */
   public static OperationObject parseOperation(Operation operation, OAIContext context, Map<Object, ASTNode> map) throws DecodeException{
         OperationObject operationObject = new OperationObject();
@@ -136,7 +181,7 @@ public class OperationObject extends OperationOb implements Cloneable {
         }
   /**
    * @aspect RandomRequestGenerator
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:377
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:364
    */
   public String generateRandomString(Random rand, JastAddList<EnumObj> objs) {
         if( objs.getNumChild() != 0 )
@@ -150,7 +195,7 @@ public class OperationObject extends OperationOb implements Cloneable {
     }
   /**
    * @aspect RandomRequestGenerator
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:388
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:375
    */
   public String generateRandomInt(Random rand, int minimum, int maximum){
         if( minimum > -1 && maximum > 0 )
@@ -160,7 +205,7 @@ public class OperationObject extends OperationOb implements Cloneable {
         else if( maximum > 0 )
         return String.valueOf(rand.nextInt(maximum));
         return String.valueOf(rand.nextInt());
-        }
+    }
   /**
    * @declaredat ASTNode:1
    */
@@ -1287,82 +1332,6 @@ public class OperationObject extends OperationOb implements Cloneable {
    */
   public JastAddList<Extension> getExtensionsNoTransform() {
     return getExtensionListNoTransform();
-  }
-/** @apilevel internal */
-protected java.util.Set inferRandomUrl_String_OperationObject_visited;
-  /**
-   * @attribute syn
-   * @aspect InfSchema
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:33
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="InfSchema", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:33")
-  public String inferRandomUrl(String pathRef, OperationObject operationObject) {
-    java.util.List _parameters = new java.util.ArrayList(2);
-    _parameters.add(pathRef);
-    _parameters.add(operationObject);
-    if (inferRandomUrl_String_OperationObject_visited == null) inferRandomUrl_String_OperationObject_visited = new java.util.HashSet(4);
-    if (inferRandomUrl_String_OperationObject_visited.contains(_parameters)) {
-      throw new RuntimeException("Circular definition of attribute OperationOb.inferRandomUrl(String,OperationObject).");
-    }
-    inferRandomUrl_String_OperationObject_visited.add(_parameters);
-    try {
-            return "";
-        }
-    finally {
-      inferRandomUrl_String_OperationObject_visited.remove(_parameters);
-    }
-  }
-/** @apilevel internal */
-protected java.util.Set addDict_Map_ResponseObject__String__visited;
-  /**
-   * @attribute syn
-   * @aspect InfSchema
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:64
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="InfSchema", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:64")
-  public Map<String, List<String>> addDict(Map<ResponseObject, String> responses) {
-    Object _parameters = responses;
-    if (addDict_Map_ResponseObject__String__visited == null) addDict_Map_ResponseObject__String__visited = new java.util.HashSet(4);
-    if (addDict_Map_ResponseObject__String__visited.contains(_parameters)) {
-      throw new RuntimeException("Circular definition of attribute OperationObject.addDict(Map_ResponseObject__String_).");
-    }
-    addDict_Map_ResponseObject__String__visited.add(_parameters);
-    try {
-            Map<String, List<String>> map = new HashMap<>();
-    
-            return map;
-        }
-    finally {
-      addDict_Map_ResponseObject__String__visited.remove(_parameters);
-    }
-  }
-/** @apilevel internal */
-protected java.util.Set generateRandomUrl_String_OperationObject_Map_ResponseObject__String__visited;
-  /**
-   * @attribute syn
-   * @aspect RandomRequestGenerator
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:97
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="RandomRequestGenerator", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:97")
-  public String generateRandomUrl(String pathRef, OperationObject operationObject, Map<ResponseObject, String> responses) {
-    java.util.List _parameters = new java.util.ArrayList(3);
-    _parameters.add(pathRef);
-    _parameters.add(operationObject);
-    _parameters.add(responses);
-    if (generateRandomUrl_String_OperationObject_Map_ResponseObject__String__visited == null) generateRandomUrl_String_OperationObject_Map_ResponseObject__String__visited = new java.util.HashSet(4);
-    if (generateRandomUrl_String_OperationObject_Map_ResponseObject__String__visited.contains(_parameters)) {
-      throw new RuntimeException("Circular definition of attribute OperationOb.generateRandomUrl(String,OperationObject,Map_ResponseObject__String_).");
-    }
-    generateRandomUrl_String_OperationObject_Map_ResponseObject__String__visited.add(_parameters);
-    try {
-            return "";
-            }
-    finally {
-      generateRandomUrl_String_OperationObject_Map_ResponseObject__String__visited.remove(_parameters);
-    }
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

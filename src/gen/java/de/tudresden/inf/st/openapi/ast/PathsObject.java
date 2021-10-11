@@ -8,6 +8,9 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -18,9 +21,9 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:35
- * @astdecl PathsObject : ASTNode ::= <Ref:String> PathItemOb;
- * @production PathsObject : {@link ASTNode} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">{@link PathItemOb}</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:36
+ * @astdecl PathsObject : ASTNode ::= <Ref:String> PathItemObject;
+ * @production PathsObject : {@link ASTNode} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">{@link PathItemObject}</span>;
 
  */
 public class PathsObject extends ASTNode<ASTNode> implements Cloneable {
@@ -44,11 +47,11 @@ public class PathsObject extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:13
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Ref", "PathItemOb"},
-    type = {"String", "PathItemOb"},
+    name = {"Ref", "PathItemObject"},
+    type = {"String", "PathItemObject"},
     kind = {"Token", "Child"}
   )
-  public PathsObject(String p0, PathItemOb p1) {
+  public PathsObject(String p0, PathItemObject p1) {
     setRef(p0);
     setChild(p1, 0);
   }
@@ -179,38 +182,38 @@ public class PathsObject extends ASTNode<ASTNode> implements Cloneable {
     return tokenString_Ref != null ? tokenString_Ref : "";
   }
   /**
-   * Replaces the PathItemOb child.
-   * @param node The new node to replace the PathItemOb child.
+   * Replaces the PathItemObject child.
+   * @param node The new node to replace the PathItemObject child.
    * @apilevel high-level
    */
-  public void setPathItemOb(PathItemOb node) {
+  public void setPathItemObject(PathItemObject node) {
     setChild(node, 0);
   }
   /**
-   * Retrieves the PathItemOb child.
-   * @return The current node used as the PathItemOb child.
+   * Retrieves the PathItemObject child.
+   * @return The current node used as the PathItemObject child.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Child(name="PathItemOb")
-  public PathItemOb getPathItemOb() {
-    return (PathItemOb) getChild(0);
+  @ASTNodeAnnotation.Child(name="PathItemObject")
+  public PathItemObject getPathItemObject() {
+    return (PathItemObject) getChild(0);
   }
   /**
-   * Retrieves the PathItemOb child.
+   * Retrieves the PathItemObject child.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The current node used as the PathItemOb child.
+   * @return The current node used as the PathItemObject child.
    * @apilevel low-level
    */
-  public PathItemOb getPathItemObNoTransform() {
-    return (PathItemOb) getChildNoTransform(0);
+  public PathItemObject getPathItemObjectNoTransform() {
+    return (PathItemObject) getChildNoTransform(0);
   }
   /**
    * @attribute inh
-   * @aspect InfSchema
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:20
+   * @aspect InferParameter
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:25
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
-  @ASTNodeAnnotation.Source(aspect="InfSchema", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:20")
+  @ASTNodeAnnotation.Source(aspect="InferParameter", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:25")
   public Set<String> inferUrl(Set<String> urls) {
     Object _parameters = urls;
     if (inferUrl_Set_String__visited == null) inferUrl_Set_String__visited = new java.util.HashSet(4);

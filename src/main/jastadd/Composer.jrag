@@ -27,7 +27,7 @@ aspect Composer {
         if( openapi.getNumPathsObject() != 0 ){
         Map<String, Path> paths = new HashMap<>();
         for( PathsObject p : openapi.getPathsObjects() )
-        paths.put( p.getRef(), p.getPathItemOb().composePath(p.getPathItemOb(), map) );
+        paths.put( p.getRef(), PathItemObject.composePath(p.getPathItemObject(), map) );
         api3.setPaths(paths);
         }
         if( openapi.hasComponentsObject() )
@@ -259,17 +259,7 @@ public static Components ComponentsObject.composeComponents (ComponentsObject co
         return components;
         }
 
-        syn Path PathItemOb.composePath (PathItemOb pathItem, Map<Object, ASTNode> map);
-        eq PathItemReference.composePath (PathItemOb pathItem, Map<Object, ASTNode> map) {
-            Path path = new Path();
-        PathItemReference p = (PathItemReference) pathItem;
-
-        if( !p.getRef().isEmpty() )
-        path.setRef(p.getRef());
-
-        return path;
-        }
-        eq PathItemObject.composePath (PathItemOb pathItem, Map<Object, ASTNode> map) {
+public static Path PathItemObject.composePath (PathItemObject pathItem, Map<Object, ASTNode> map){
         Path path = new Path();
         PathItemObject p = (PathItemObject) pathItem;
 
@@ -307,7 +297,7 @@ public static Components ComponentsObject.composeComponents (ComponentsObject co
         }
 
         return path;
-        }
+    }
 
 public static Operation OperationObject.composeOperation (OperationObject operationObject, Map<Object, ASTNode> map){
         Operation operation = new Operation();
@@ -571,9 +561,9 @@ public static EncodingProperty EncodingObject.composeEncodingProperty (EncodingO
 
         if( c.getNumExpression() != 0 ){
         Map<String, Path> paths = new HashMap<>();
-        PathItemOb p;
+        PathItemObject p;
         for( Expression e : c.getExpressions() ) {
-        p = e.getPathItemOb();
+        p = e.getPathItemObject();
         paths.put(e.getName(), p.composePath(p, map));
         }
         callback.setCallbackPaths(paths);

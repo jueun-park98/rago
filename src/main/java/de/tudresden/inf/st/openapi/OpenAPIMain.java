@@ -30,7 +30,7 @@ public class OpenAPIMain {
 
     /** main-method, calls the set of methods to test the OpenAPI-Generator with JastAdd **/
     public static void main(String[] args) throws Exception {
-        OpenAPIObject openApi;
+        OpenAPIObject openApi = new OpenAPIObject();
         OpenApi3 api3;
         ValidationResults results;
         List<String> filenames = new ArrayList<>();
@@ -76,8 +76,8 @@ public class OpenAPIMain {
         OpenApi3 api = new OpenApi3Parser().parse(expUrl, new ArrayList<>(), true);
         System.out.println("Loading expression DSL file '" + fileName + "'.");
 
-        openApi = OpenAPIObject.parseOpenAPI(api);
-        openApi.generateRequests();
+        openApi = openApi.parseOpenAPI(api);
+        openApi.generateRequestsWithInferredParameters();
 
         //writer.write(api3.toNode().toPrettyString());
         //writer.close();

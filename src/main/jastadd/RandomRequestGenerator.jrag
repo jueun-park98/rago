@@ -13,7 +13,7 @@ aspect RandomRequestGenerator {
         Set<String> urls = new HashSet<>();
         Map<ResponseObject, String> responses = new HashMap<>();
 
-        for( PathsObject p : this.getPathsObjects() )
+        for( PathsObject p : getPathsObjects() )
             p.generateUrl(responses);
 
         System.out.println(responses.size());
@@ -82,7 +82,7 @@ aspect RandomRequestGenerator {
 
     inh Map<ResponseObject, String> PathsObject.generateUrl(Map<ResponseObject, String> responses);
     eq OpenAPIObject.getPathsObject(int i).generateUrl(Map<ResponseObject, String> responses) {
-        PathItemObject p = ((PathsObject) _childNode).getPathItemOb().pathItemObject();
+        PathItemObject p = ((PathsObject) _childNode).getPathItemObject();
         String path = getServerObject(0).getUrl();
 
         if( p.hasGet() )
@@ -94,7 +94,6 @@ aspect RandomRequestGenerator {
 
         return responses;
         }
-        syn String OperationOb.generateRandomUrl(String pathRef, OperationObject operationObject, Map<ResponseObject, String> responses);
 /*
         eq Get.generateRandomUrl(String pathRef, OperationObject operationObject, Map<ResponseObject, String> responses) {
         Random rand = new Random();
@@ -204,7 +203,8 @@ public void Post.generateRandomUrl(String pathRef, OperationObject operationObje
         }
 
  */
-    eq Get.generateRandomUrl(String pathRef, OperationObject operationObject, Map<ResponseObject, String> responses) {
+
+    syn String Get.generateRandomUrl(String pathRef, OperationObject operationObject, Map<ResponseObject, String> responses) {
         try {
         Random rand = new Random();
 
@@ -250,6 +250,7 @@ public void Post.generateRandomUrl(String pathRef, OperationObject operationObje
 
         URL url = new URL(pathRef);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestProperty("User-Agent", "Mozilla/5.0"); // add request header
 
         con.setRequestMethod("GET"); // optional default is GET
 
@@ -265,10 +266,15 @@ public void Post.generateRandomUrl(String pathRef, OperationObject operationObje
 
         // print result
         System.out.println("HTTP status code (GET) : " + responseCode);
+        System.out.println("Response : " + response.toString());
         for( ResponseTuple t : operationObject.getResponseTuples() ){
         if( t.getKey().equals("200") && responseCode == 200 ) {
         System.out.println("Response successfully saved!");
-        responses.put(t.getResponseOb().responseObject(), response.toString());
+        SchemaOb respSchema = t.getResponseOb().responseObject().getContentTuple(0).getMediaTypeObject().getSchemaOb();
+        if( respSchema.schemaObject().getType().equals("array") )
+        operationObject.writeDictionaryWithArray(respSchema, response.toString());
+        else
+            operationObject.writeDictionary(respSchema, response.toString());
         }
         }
         return pathRef;
@@ -276,10 +282,9 @@ public void Post.generateRandomUrl(String pathRef, OperationObject operationObje
         return "";
         }
         }
-        eq Post.generateRandomUrl(String pathRef, OperationObject operationObject, Map<ResponseObject, String> responses){
-        Random rand = new Random();
-
+        syn String Post.generateRandomUrl(String pathRef, OperationObject operationObject, Map<ResponseObject, String> responses){
         try{
+        Random rand = new Random();
         for( ParameterOb o : operationObject.getParameterObs() ){
         ParameterObject p = o.parameterObject();
         SchemaObject s = p.getSchemaOb().schemaObject();
@@ -323,7 +328,9 @@ public void Post.generateRandomUrl(String pathRef, OperationObject operationObje
         URL url = new URL(pathRef);
         HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
 
+
         con.setRequestMethod("POST"); // HTTP POST
+        con.setRequestProperty("User-Agent", "Mozilla/5.0"); // add request header
         con.setDoOutput(true); // POST
 
         int responseCode = con.getResponseCode();
@@ -338,41 +345,21 @@ public void Post.generateRandomUrl(String pathRef, OperationObject operationObje
 
         // print result
         System.out.println("HTTP status code (POST) : " + responseCode);
+        System.out.println("Response : " + response.toString());
         for( ResponseTuple t : operationObject.getResponseTuples() ){
         if( t.getKey().equals("200") && responseCode == 200 ) {
         System.out.println("Response successfully saved!");
-        responses.put(t.getResponseOb().responseObject(), response.toString());
-        } else if ( t.getKey().equals("default") && responseCode == 200 ){
-        System.out.println("Response successfully saved!");
-        responses.put(t.getResponseOb().responseObject(), response.toString());
+        SchemaOb respSchema = t.getResponseOb().responseObject().getContentTuple(0).getMediaTypeObject().getSchemaOb();
+        if( respSchema.schemaObject().getType().equals("array") )
+        operationObject.writeDictionaryWithArray(respSchema, response.toString());
+        else
+        operationObject.writeDictionary(respSchema, response.toString());
         }
-        }
-        return pathRef;} catch (Exception e) {
+        return pathRef;}
+        } catch (Exception e) {
             return "";
-        }
-        }
-
-        eq Put.generateRandomUrl(String pathRef, OperationObject operationObject, Map<ResponseObject, String> responses){
-        return "";
-        }
-        eq Delete.generateRandomUrl(String pathRef, OperationObject operationObject, Map<ResponseObject, String> responses){
-        return "";
-        }
-        eq Options.generateRandomUrl(String pathRef, OperationObject operationObject, Map<ResponseObject, String> responses){
-        return "";
-        }
-        eq Head.generateRandomUrl(String pathRef, OperationObject operationObject, Map<ResponseObject, String> responses){
-        return "";
-        }
-        eq Patch.generateRandomUrl(String pathRef, OperationObject operationObject, Map<ResponseObject, String> responses){
-        return "";
-        }
-        eq Trace.generateRandomUrl(String pathRef, OperationObject operationObject, Map<ResponseObject, String> responses){
-        return "";
-        }
-        eq OperationObject.generateRandomUrl(String pathRef, OperationObject operationObject, Map<ResponseObject, String> responses){
-        return "";
-        }
+        } return "";
+    }
 
     public String OperationObject.generateRandomString(Random rand, JastAddList<EnumObj> objs) {
         if( objs.getNumChild() != 0 )
@@ -393,5 +380,5 @@ public void Post.generateRandomUrl(String pathRef, OperationObject operationObje
         else if( maximum > 0 )
         return String.valueOf(rand.nextInt(maximum));
         return String.valueOf(rand.nextInt());
-        }
+    }
 }

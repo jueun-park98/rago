@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.flipkart.zjsonpatch.JsonDiff;
 import de.tudresden.inf.st.openapi.ast.*;
+import org.graalvm.compiler.lir.amd64.AMD64BinaryConsumer;
 import org.junit.jupiter.api.Assertions;
 import org.openapi4j.core.exception.DecodeException;
 import org.openapi4j.core.exception.EncodeException;
@@ -26,6 +27,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -36,8 +38,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class OpenAPIMain_test {
 
     @Test
-    public void test() throws IOException, ResolutionException, ValidationException, EncodeException, DecodeException {
-        OpenAPIObject openApi;
+    public void test() throws Exception {
+        OpenAPIObject openApi = new OpenAPIObject();
         OpenApi3 api3;
         ValidationResults results;
         List<String> filenames = new ArrayList<>();
@@ -68,9 +70,10 @@ public class OpenAPIMain_test {
             //System.out.println(results.isValid());
 
             // openAPI object is integrated in JastAdd grammar
-            openApi = OpenAPIObject.parseOpenAPI(api);
-            Set<SchemaTuple> s = openApi.schemaTuples();
-            System.out.println(s.size());
+            openApi = openApi.parseOpenAPI(api);
+            System.out.println(openApi.getPathsObject(0).getPathItemObject().getPost().getOperationObject().getResponseTuple(0).getResponseOb().responseObject().getContentTuple(0).getMediaTypeObject().getSchemaOb().getClass().getName());
+
+            //Map<ResponseObject, String> map = openApi.generateRequests();
 
             // composed openAPI object, it is expected to be equivalent to parsed source object
             api3 = OpenAPIObject.composeOpenAPI(openApi);

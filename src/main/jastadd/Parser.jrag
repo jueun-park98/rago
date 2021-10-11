@@ -2,6 +2,41 @@ import org.openapi4j.core.exception.DecodeException;
 
 aspect Parser {
 
+        inh OpenAPIObject ASTNode.root();
+        eq OpenAPIObject.getChild().root() = this;
+
+        coll List<SchemaTuple> OpenAPIObject.schemaTuples() [new ArrayList<>()] root OpenAPIObject;
+        SchemaTuple contributes this
+        to OpenAPIObject.schemaTuples();
+
+        coll List<ResponseTuple> OpenAPIObject.responseTuples() [new ArrayList<>()] root OpenAPIObject;
+        ResponseTuple contributes this
+        to OpenAPIObject.responseTuples();
+
+        coll List<ParameterTuple> OpenAPIObject.parameterTuples() [new ArrayList<>()] root OpenAPIObject;
+        ParameterTuple contributes this
+        to OpenAPIObject.parameterTuples();
+
+        coll List<RequestBodyTuple> OpenAPIObject.requestBodyTuples() [new ArrayList<>()] root OpenAPIObject;
+        RequestBodyTuple contributes this
+        to OpenAPIObject.requestBodyTuples();
+
+        coll List<HeaderTuple> OpenAPIObject.headerTuples() [new ArrayList<>()] root OpenAPIObject;
+        HeaderTuple contributes this
+        to OpenAPIObject.headerTuples();
+
+        coll List<SecuritySchemeTuple> OpenAPIObject.securitySchemeTuples() [new ArrayList<>()] root OpenAPIObject;
+        SecuritySchemeTuple contributes this
+        to OpenAPIObject.securitySchemeTuples();
+
+        coll List<LinkTuple> OpenAPIObject.linkTuples() [new ArrayList<>()] root OpenAPIObject;
+        LinkTuple contributes this
+        to OpenAPIObject.linkTuples();
+
+        coll List<CallbackTuple> OpenAPIObject.callbackTuples() [new ArrayList<>()] root OpenAPIObject;
+        CallbackTuple contributes this
+        to OpenAPIObject.callbackTuples();
+
 public static OpenAPIObject OpenAPIObject.parseOpenAPI(OpenApi3 api) throws IOException, ResolutionException, ValidationException, DecodeException {
         OpenAPIObject openapi = new OpenAPIObject();
         Map<Object, ASTNode> map = new HashMap<>();
@@ -14,7 +49,7 @@ public static OpenAPIObject OpenAPIObject.parseOpenAPI(OpenApi3 api) throws IOEx
         openapi.setInfoObject(InfoObject.parseInfo(api.getInfo(), map));
         if( api.getPaths() != null ){
         for( String key : api.getPaths().keySet() )
-        openapi.addPathsObject(new PathsObject( key, PathItemOb.parsePath(api.getPath(key), api.getContext(), map)));
+        openapi.addPathsObject(new PathsObject( key, PathItemObject.parsePath(api.getPath(key), api.getContext(), map)));
         }
         if( api.getServers() != null ){
         for( Server s : api.getServers() )
@@ -187,15 +222,9 @@ public static ComponentsObject ComponentsObject.parseComponents(Components compo
         return componentsObject;
         }
 
-public static PathItemOb PathItemOb.parsePath(Path path, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
+public static PathItemObject PathItemObject.parsePath(Path path, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         PathItemObject pathItem = new PathItemObject();
 
-        if( path.isRef() ){
-        PathItemReference p = new PathItemReference();
-        p.setRef(path.getRef());
-        p.setPathItemOb((PathItemObject) parsePath(path.getReference(context).getMappedContent(Path.class), context, map));
-        return p;
-        } else {
         if( path.getSummary() != null )
         pathItem.setSummary(path.getSummary());
         if( path.getDescription() != null )
@@ -251,7 +280,6 @@ public static PathItemOb PathItemOb.parsePath(Path path, OAIContext context, Map
         if( path.getExtensions() != null ){
         for( String key : path.getExtensions().keySet() )
         pathItem.addExtension(new Extension(key, path.getExtensions().get(key)));
-        }
         }
 
         map.put(path, pathItem);
@@ -332,7 +360,6 @@ public static ParameterOb ParameterOb.parseParameter(Parameter parameter, OAICon
         if( parameter.isRef() ){
         ParameterReference p = new ParameterReference();
         p.setRef(parameter.getRef());
-        p.setParameterOb(parseParameter(parameter.getReference(context).getMappedContent(Parameter.class), context, map));
         return p;
         } else {
         if( parameter.getName() != null )
@@ -379,7 +406,6 @@ public static RequestBodyOb RequestBodyOb.parseRequestBody(org.openapi4j.parser.
         if( requestBody.isRef() ){
         RequestBodyReference r = new RequestBodyReference();
         r.setRef(requestBody.getRef());
-        r.setRequestBodyOb(parseRequestBody(requestBody.getReference(context).getMappedContent(RequestBody.class), context, map));
         return r;
         } else {
         if( requestBody.getContentMediaTypes() != null ) {
@@ -452,7 +478,6 @@ public static ResponseOb ResponseOb.parseResponse(Response response, OAIContext 
         if( response.isRef() ){
         ResponseReference r = new ResponseReference();
         r.setRef(response.getRef());
-        r.setResponseOb(parseResponse(response.getReference(context).getMappedContent(Response.class), context, map));
         return r;
         } else {
         if( response.getDescription() != null )
@@ -485,12 +510,11 @@ public static CallbackOb CallbackOb.parseCallback(Callback callback, OAIContext 
         if( callback.isRef() ){
         CallbackReference c = new CallbackReference();
         c.setRef(callback.getRef());
-        c.setCallbackOb(parseCallback(callback.getReference(context).getMappedContent(Callback.class), context, map));
         return c;
         } else {
         if( callback.getCallbackPaths() != null ){
         for( String key : callback.getCallbackPaths().keySet() )
-        callbackObject.addExpression(new Expression(key, PathItemOb.parsePath(callback.getCallbackPath(key), context, map)));
+        callbackObject.addExpression(new Expression(key, PathItemObject.parsePath(callback.getCallbackPath(key), context, map)));
         }
         if( callback.getExtensions() != null ){
         for( String key : callback.getExtensions().keySet() )
@@ -533,7 +557,6 @@ public static LinkOb LinkOb.parseLink(Link link, OAIContext context, Map<Object,
         if( link.isRef() ){
         LinkReference l = new LinkReference();
         l.setRef(link.getRef());
-        l.setLinkOb(parseLink(link.getReference(context).getMappedContent(Link.class), context, map));
         return l;
         } else {
         if( link.getOperationRef() != null )
@@ -564,7 +587,6 @@ public static HeaderOb HeaderOb.parseHeader(Header header, OAIContext context, M
         if( header.isRef() ){
         HeaderReference h = new HeaderReference();
         h.setRef(header.getRef());
-        h.setHeaderOb(parseHeader(header.getReference(context).getMappedContent(Header.class), context, map));
         return h;
         } else {
         if( header.getRequired() != null )
@@ -629,7 +651,6 @@ public static SchemaOb SchemaOb.parseSchema (org.openapi4j.parser.model.v3.Schem
         if( schema.isRef() ){
         SchemaReference s = new SchemaReference();
         s.setRef(schema.getRef());
-        s.setSchemaOb(parseSchema(schema.getReference(context).getMappedContent(Schema.class), context, map));
         return s;
         } else {
         if( schema.getAdditionalProperties() != null )

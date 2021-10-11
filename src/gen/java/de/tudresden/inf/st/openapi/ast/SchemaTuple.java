@@ -8,6 +8,9 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -18,7 +21,7 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:23
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:24
  * @astdecl SchemaTuple : ASTNode ::= <Key:String> SchemaOb;
  * @production SchemaTuple : {@link ASTNode} ::= <span class="component">&lt;Key:String&gt;</span> <span class="component">{@link SchemaOb}</span>;
 
@@ -214,7 +217,7 @@ public class SchemaTuple extends ASTNode<ASTNode> implements Cloneable {
   }
   /** @apilevel internal */
   protected void collect_contributors_OpenAPIObject_schemaTuples(OpenAPIObject _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
-    // @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:17
+    // @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:9
     {
       java.util.Set<ASTNode> contributors = _map.get(_root);
       if (contributors == null) {
@@ -226,7 +229,7 @@ public class SchemaTuple extends ASTNode<ASTNode> implements Cloneable {
     super.collect_contributors_OpenAPIObject_schemaTuples(_root, _map);
   }
   /** @apilevel internal */
-  protected void contributeTo_OpenAPIObject_schemaTuples(Set<SchemaTuple> collection) {
+  protected void contributeTo_OpenAPIObject_schemaTuples(List<SchemaTuple> collection) {
     super.contributeTo_OpenAPIObject_schemaTuples(collection);
     collection.add(this);
   }

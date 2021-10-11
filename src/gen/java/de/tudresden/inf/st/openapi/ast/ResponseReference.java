@@ -8,6 +8,9 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -18,9 +21,9 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:78
- * @astdecl ResponseReference : ResponseOb ::= <Ref:String> <ResponseOb:ResponseOb>;
- * @production ResponseReference : {@link ResponseOb} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;ResponseOb:ResponseOb&gt;</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:76
+ * @astdecl ResponseReference : ResponseOb ::= <Ref:String>;
+ * @production ResponseReference : {@link ResponseOb} ::= <span class="component">&lt;Ref:String&gt;</span>;
 
  */
 public class ResponseReference extends ResponseOb implements Cloneable {
@@ -43,48 +46,47 @@ public class ResponseReference extends ResponseOb implements Cloneable {
    * @declaredat ASTNode:12
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Ref", "ResponseOb"},
-    type = {"String", "ResponseOb"},
-    kind = {"Token", "Token"}
+    name = {"Ref"},
+    type = {"String"},
+    kind = {"Token"}
   )
-  public ResponseReference(String p0, ResponseOb p1) {
+  public ResponseReference(String p0) {
     setRef(p0);
-    setResponseOb(p1);
   }
   /** @apilevel low-level 
-   * @declaredat ASTNode:22
+   * @declaredat ASTNode:21
    */
   protected int numChildren() {
     return 0;
   }
   /**
    * @apilevel internal
-   * @declaredat ASTNode:28
+   * @declaredat ASTNode:27
    */
   public boolean mayHaveRewrite() {
     return false;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:32
+   * @declaredat ASTNode:31
    */
   public void flushAttrCache() {
     super.flushAttrCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:36
+   * @declaredat ASTNode:35
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:40
+   * @declaredat ASTNode:39
    */
   public ResponseReference clone() throws CloneNotSupportedException {
     ResponseReference node = (ResponseReference) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:45
+   * @declaredat ASTNode:44
    */
   public ResponseReference copy() {
     try {
@@ -104,7 +106,7 @@ public class ResponseReference extends ResponseOb implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:64
+   * @declaredat ASTNode:63
    */
   @Deprecated
   public ResponseReference fullCopy() {
@@ -115,7 +117,7 @@ public class ResponseReference extends ResponseOb implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:74
+   * @declaredat ASTNode:73
    */
   public ResponseReference treeCopyNoTransform() {
     ResponseReference tree = (ResponseReference) copy();
@@ -136,7 +138,7 @@ public class ResponseReference extends ResponseOb implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:94
+   * @declaredat ASTNode:93
    */
   public ResponseReference treeCopy() {
     ResponseReference tree = (ResponseReference) copy();
@@ -152,10 +154,10 @@ public class ResponseReference extends ResponseOb implements Cloneable {
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:108
+   * @declaredat ASTNode:107
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node) && (tokenString_Ref == ((ResponseReference) node).tokenString_Ref) && (tokenResponseOb_ResponseOb == ((ResponseReference) node).tokenResponseOb_ResponseOb);    
+    return super.is$Equal(node) && (tokenString_Ref == ((ResponseReference) node).tokenString_Ref);    
   }
   /**
    * Replaces the lexeme Ref.
@@ -177,35 +179,15 @@ public class ResponseReference extends ResponseOb implements Cloneable {
   public String getRef() {
     return tokenString_Ref != null ? tokenString_Ref : "";
   }
-  /**
-   * Replaces the lexeme ResponseOb.
-   * @param value The new value for the lexeme ResponseOb.
-   * @apilevel high-level
-   */
-  public void setResponseOb(ResponseOb value) {
-    tokenResponseOb_ResponseOb = value;
-  }
-  /** @apilevel internal 
-   */
-  protected ResponseOb tokenResponseOb_ResponseOb;
-  /**
-   * Retrieves the value for the lexeme ResponseOb.
-   * @return The value for the lexeme ResponseOb.
-   * @apilevel high-level
-   */
-  @ASTNodeAnnotation.Token(name="ResponseOb")
-  public ResponseOb getResponseOb() {
-    return tokenResponseOb_ResponseOb;
-  }
 /** @apilevel internal */
 protected java.util.Set composeResponse_ResponseOb_Map_Object__ASTNode__visited;
   /**
    * @attribute syn
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:520
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:510
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:520")
+  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:510")
   public Response composeResponse(ResponseOb responseOb, Map<Object, ASTNode> map) {
     java.util.List _parameters = new java.util.ArrayList(2);
     _parameters.add(responseOb);
@@ -232,21 +214,22 @@ protected java.util.Set composeResponse_ResponseOb_Map_Object__ASTNode__visited;
 protected boolean responseObject_visited = false;
   /**
    * @attribute syn
-   * @aspect RefGet
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RefGet.jrag:39
+   * @aspect Reference
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Reference.jrag:33
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="RefGet", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RefGet.jrag:39")
+  @ASTNodeAnnotation.Source(aspect="Reference", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Reference.jrag:33")
   public ResponseObject responseObject() {
     if (responseObject_visited) {
       throw new RuntimeException("Circular definition of attribute ResponseOb.responseObject().");
     }
     responseObject_visited = true;
     try {
-            if( getResponseOb() instanceof ResponseObject )
-                return (ResponseObject) getResponseOb();
-            else
-                return getResponseOb().responseObject();
+            for( ResponseTuple t : root().responseTuples() ){
+            if( t.getKey().equals(getRef().substring(getRef().lastIndexOf("/")+1, getRef().length())) )
+            return t.getResponseOb().responseObject();
+            }
+            return new ResponseObject();
         }
     finally {
       responseObject_visited = false;

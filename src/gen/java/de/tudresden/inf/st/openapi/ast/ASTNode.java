@@ -8,6 +8,9 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -486,7 +489,7 @@ public class ASTNode<T extends ASTNode> implements Cloneable {
   }
   /**
    * @aspect <NoAspect>
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:16
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:8
    */
     /** @apilevel internal */
   protected void collect_contributors_OpenAPIObject_schemaTuples(OpenAPIObject _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
@@ -495,16 +498,114 @@ public class ASTNode<T extends ASTNode> implements Cloneable {
     }
   }
   /** @apilevel internal */
-  protected void contributeTo_OpenAPIObject_schemaTuples(Set<SchemaTuple> collection) {
+  protected void contributeTo_OpenAPIObject_schemaTuples(List<SchemaTuple> collection) {
+  }
+
+  /**
+   * @aspect <NoAspect>
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:12
+   */
+    /** @apilevel internal */
+  protected void collect_contributors_OpenAPIObject_responseTuples(OpenAPIObject _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
+    for (int i = 0; i < getNumChild(); i++) {
+      getChild(i).collect_contributors_OpenAPIObject_responseTuples(_root, _map);
+    }
+  }
+  /** @apilevel internal */
+  protected void contributeTo_OpenAPIObject_responseTuples(List<ResponseTuple> collection) {
+  }
+
+  /**
+   * @aspect <NoAspect>
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:16
+   */
+    /** @apilevel internal */
+  protected void collect_contributors_OpenAPIObject_parameterTuples(OpenAPIObject _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
+    for (int i = 0; i < getNumChild(); i++) {
+      getChild(i).collect_contributors_OpenAPIObject_parameterTuples(_root, _map);
+    }
+  }
+  /** @apilevel internal */
+  protected void contributeTo_OpenAPIObject_parameterTuples(List<ParameterTuple> collection) {
+  }
+
+  /**
+   * @aspect <NoAspect>
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:20
+   */
+    /** @apilevel internal */
+  protected void collect_contributors_OpenAPIObject_requestBodyTuples(OpenAPIObject _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
+    for (int i = 0; i < getNumChild(); i++) {
+      getChild(i).collect_contributors_OpenAPIObject_requestBodyTuples(_root, _map);
+    }
+  }
+  /** @apilevel internal */
+  protected void contributeTo_OpenAPIObject_requestBodyTuples(List<RequestBodyTuple> collection) {
+  }
+
+  /**
+   * @aspect <NoAspect>
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:24
+   */
+    /** @apilevel internal */
+  protected void collect_contributors_OpenAPIObject_headerTuples(OpenAPIObject _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
+    for (int i = 0; i < getNumChild(); i++) {
+      getChild(i).collect_contributors_OpenAPIObject_headerTuples(_root, _map);
+    }
+  }
+  /** @apilevel internal */
+  protected void contributeTo_OpenAPIObject_headerTuples(List<HeaderTuple> collection) {
+  }
+
+  /**
+   * @aspect <NoAspect>
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:28
+   */
+    /** @apilevel internal */
+  protected void collect_contributors_OpenAPIObject_securitySchemeTuples(OpenAPIObject _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
+    for (int i = 0; i < getNumChild(); i++) {
+      getChild(i).collect_contributors_OpenAPIObject_securitySchemeTuples(_root, _map);
+    }
+  }
+  /** @apilevel internal */
+  protected void contributeTo_OpenAPIObject_securitySchemeTuples(List<SecuritySchemeTuple> collection) {
+  }
+
+  /**
+   * @aspect <NoAspect>
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:32
+   */
+    /** @apilevel internal */
+  protected void collect_contributors_OpenAPIObject_linkTuples(OpenAPIObject _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
+    for (int i = 0; i < getNumChild(); i++) {
+      getChild(i).collect_contributors_OpenAPIObject_linkTuples(_root, _map);
+    }
+  }
+  /** @apilevel internal */
+  protected void contributeTo_OpenAPIObject_linkTuples(List<LinkTuple> collection) {
+  }
+
+  /**
+   * @aspect <NoAspect>
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:36
+   */
+    /** @apilevel internal */
+  protected void collect_contributors_OpenAPIObject_callbackTuples(OpenAPIObject _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
+    for (int i = 0; i < getNumChild(); i++) {
+      getChild(i).collect_contributors_OpenAPIObject_callbackTuples(_root, _map);
+    }
+  }
+  /** @apilevel internal */
+  protected void contributeTo_OpenAPIObject_callbackTuples(List<CallbackTuple> collection) {
   }
 
   /**
    * @attribute inh
-   * @aspect InfSchema
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:13
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:5
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
-  @ASTNodeAnnotation.Source(aspect="InfSchema", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:13")
+  @ASTNodeAnnotation.Source(aspect="Parser", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:5")
   public OpenAPIObject root() {
     if (root_visited) {
       throw new RuntimeException("Circular definition of attribute ASTNode.root().");
@@ -525,26 +626,6 @@ protected boolean root_visited = false;
     return false;
   }
   /** @apilevel internal */
-  public OpenAPIObject Define_root(ASTNode _callerNode, ASTNode _childNode) {
-    ASTNode self = this;
-    ASTNode parent = getParent();
-    while (parent != null && !parent.canDefine_root(self, _callerNode)) {
-      _callerNode = self;
-      self = parent;
-      parent = self.getParent();
-    }
-    return parent.Define_root(self, _callerNode);
-  }
-
-  /**
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:14
-   * @apilevel internal
-   * @return {@code true} if this node has an equation for the inherited attribute root
-   */
-  protected boolean canDefine_root(ASTNode _callerNode, ASTNode _childNode) {
-    return false;
-  }
-  /** @apilevel internal */
   public Set<String> Define_inferUrl(ASTNode _callerNode, ASTNode _childNode, Set<String> urls) {
     ASTNode self = this;
     ASTNode parent = getParent();
@@ -557,11 +638,31 @@ protected boolean root_visited = false;
   }
 
   /**
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:21
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:26
    * @apilevel internal
    * @return {@code true} if this node has an equation for the inherited attribute inferUrl
    */
   protected boolean canDefine_inferUrl(ASTNode _callerNode, ASTNode _childNode, Set<String> urls) {
+    return false;
+  }
+  /** @apilevel internal */
+  public OpenAPIObject Define_root(ASTNode _callerNode, ASTNode _childNode) {
+    ASTNode self = this;
+    ASTNode parent = getParent();
+    while (parent != null && !parent.canDefine_root(self, _callerNode)) {
+      _callerNode = self;
+      self = parent;
+      parent = self.getParent();
+    }
+    return parent.Define_root(self, _callerNode);
+  }
+
+  /**
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:6
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute root
+   */
+  protected boolean canDefine_root(ASTNode _callerNode, ASTNode _childNode) {
     return false;
   }
   /** @apilevel internal */

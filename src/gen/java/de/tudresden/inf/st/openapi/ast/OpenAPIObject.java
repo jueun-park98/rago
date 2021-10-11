@@ -8,6 +8,9 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -19,8 +22,8 @@ import java.util.stream.IntStream;
 /**
  * @ast node
  * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:2
- * @astdecl OpenAPIObject : ASTNode ::= <OpenAPI:String> [InfoObject] ServerObject* PathsObject* [ComponentsObject] SecurityRequirementObject* TagObject* [ExternalDocObject] <Context:OAIContext> Extension*;
- * @production OpenAPIObject : {@link ASTNode} ::= <span class="component">&lt;OpenAPI:String&gt;</span> <span class="component">[{@link InfoObject}]</span> <span class="component">{@link ServerObject}*</span> <span class="component">{@link PathsObject}*</span> <span class="component">[{@link ComponentsObject}]</span> <span class="component">{@link SecurityRequirementObject}*</span> <span class="component">{@link TagObject}*</span> <span class="component">[{@link ExternalDocObject}]</span> <span class="component">&lt;Context:OAIContext&gt;</span> <span class="component">{@link Extension}*</span>;
+ * @astdecl OpenAPIObject : ASTNode ::= <OpenAPI:String> [InfoObject] ServerObject* PathsObject* [ComponentsObject] SecurityRequirementObject* TagObject* [ExternalDocObject] <Context:OAIContext> Extension* InferredParameter*;
+ * @production OpenAPIObject : {@link ASTNode} ::= <span class="component">&lt;OpenAPI:String&gt;</span> <span class="component">[{@link InfoObject}]</span> <span class="component">{@link ServerObject}*</span> <span class="component">{@link PathsObject}*</span> <span class="component">[{@link ComponentsObject}]</span> <span class="component">{@link SecurityRequirementObject}*</span> <span class="component">{@link TagObject}*</span> <span class="component">[{@link ExternalDocObject}]</span> <span class="component">&lt;Context:OAIContext&gt;</span> <span class="component">{@link Extension}*</span> <span class="component">{@link InferredParameter}*</span>;
 
  */
 public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
@@ -45,7 +48,7 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
         if( openapi.getNumPathsObject() != 0 ){
         Map<String, Path> paths = new HashMap<>();
         for( PathsObject p : openapi.getPathsObjects() )
-        paths.put( p.getRef(), p.getPathItemOb().composePath(p.getPathItemOb(), map) );
+        paths.put( p.getRef(), PathItemObject.composePath(p.getPathItemObject(), map) );
         api3.setPaths(paths);
         }
         if( openapi.hasComponentsObject() )
@@ -76,8 +79,20 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
         return api3;
         }
   /**
+   * @aspect InferParameter
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:16
+   */
+  public void generateRequestsWithInferredParameters () throws Exception {
+        Set<String> urls = new HashSet<>();
+
+        generateRequests();
+
+        for( PathsObject p : getPathsObjects() )
+        p.inferUrl(urls);
+    }
+  /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:5
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:40
    */
   public static OpenAPIObject parseOpenAPI(OpenApi3 api) throws IOException, ResolutionException, ValidationException, DecodeException {
         OpenAPIObject openapi = new OpenAPIObject();
@@ -91,7 +106,7 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
         openapi.setInfoObject(InfoObject.parseInfo(api.getInfo(), map));
         if( api.getPaths() != null ){
         for( String key : api.getPaths().keySet() )
-        openapi.addPathsObject(new PathsObject( key, PathItemOb.parsePath(api.getPath(key), api.getContext(), map)));
+        openapi.addPathsObject(new PathsObject( key, PathItemObject.parsePath(api.getPath(key), api.getContext(), map)));
         }
         if( api.getServers() != null ){
         for( Server s : api.getServers() )
@@ -125,7 +140,7 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
         Set<String> urls = new HashSet<>();
         Map<ResponseObject, String> responses = new HashMap<>();
 
-        for( PathsObject p : this.getPathsObjects() )
+        for( PathsObject p : getPathsObjects() )
             p.generateUrl(responses);
 
         System.out.println(responses.size());
@@ -205,7 +220,7 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:10
    */
   public void init$Children() {
-    children = new ASTNode[8];
+    children = new ASTNode[9];
     setChild(new Opt(), 0);
     setChild(new JastAddList(), 1);
     setChild(new JastAddList(), 2);
@@ -214,16 +229,17 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
     setChild(new JastAddList(), 5);
     setChild(new Opt(), 6);
     setChild(new JastAddList(), 7);
+    setChild(new JastAddList(), 8);
   }
   /**
-   * @declaredat ASTNode:21
+   * @declaredat ASTNode:22
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"OpenAPI", "InfoObject", "ServerObject", "PathsObject", "ComponentsObject", "SecurityRequirementObject", "TagObject", "ExternalDocObject", "Context", "Extension"},
-    type = {"String", "Opt<InfoObject>", "JastAddList<ServerObject>", "JastAddList<PathsObject>", "Opt<ComponentsObject>", "JastAddList<SecurityRequirementObject>", "JastAddList<TagObject>", "Opt<ExternalDocObject>", "OAIContext", "JastAddList<Extension>"},
-    kind = {"Token", "Opt", "List", "List", "Opt", "List", "List", "Opt", "Token", "List"}
+    name = {"OpenAPI", "InfoObject", "ServerObject", "PathsObject", "ComponentsObject", "SecurityRequirementObject", "TagObject", "ExternalDocObject", "Context", "Extension", "InferredParameter"},
+    type = {"String", "Opt<InfoObject>", "JastAddList<ServerObject>", "JastAddList<PathsObject>", "Opt<ComponentsObject>", "JastAddList<SecurityRequirementObject>", "JastAddList<TagObject>", "Opt<ExternalDocObject>", "OAIContext", "JastAddList<Extension>", "JastAddList<InferredParameter>"},
+    kind = {"Token", "Opt", "List", "List", "Opt", "List", "List", "Opt", "Token", "List", "List"}
   )
-  public OpenAPIObject(String p0, Opt<InfoObject> p1, JastAddList<ServerObject> p2, JastAddList<PathsObject> p3, Opt<ComponentsObject> p4, JastAddList<SecurityRequirementObject> p5, JastAddList<TagObject> p6, Opt<ExternalDocObject> p7, OAIContext p8, JastAddList<Extension> p9) {
+  public OpenAPIObject(String p0, Opt<InfoObject> p1, JastAddList<ServerObject> p2, JastAddList<PathsObject> p3, Opt<ComponentsObject> p4, JastAddList<SecurityRequirementObject> p5, JastAddList<TagObject> p6, Opt<ExternalDocObject> p7, OAIContext p8, JastAddList<Extension> p9, JastAddList<InferredParameter> p10) {
     setOpenAPI(p0);
     setChild(p1, 0);
     setChild(p2, 1);
@@ -234,45 +250,74 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
     setChild(p7, 6);
     setContext(p8);
     setChild(p9, 7);
+    setChild(p10, 8);
   }
   /** @apilevel low-level 
-   * @declaredat ASTNode:39
+   * @declaredat ASTNode:41
    */
   protected int numChildren() {
-    return 8;
+    return 9;
   }
   /**
    * @apilevel internal
-   * @declaredat ASTNode:45
+   * @declaredat ASTNode:47
    */
   public boolean mayHaveRewrite() {
     return false;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:49
+   * @declaredat ASTNode:51
    */
   public void flushAttrCache() {
     super.flushAttrCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:53
+   * @declaredat ASTNode:55
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
     OpenAPIObject_schemaTuples_visited = false;
     OpenAPIObject_schemaTuples_computed = null;
     OpenAPIObject_schemaTuples_value = null;
+    OpenAPIObject_responseTuples_visited = false;
+    OpenAPIObject_responseTuples_computed = null;
+    OpenAPIObject_responseTuples_value = null;
+    OpenAPIObject_parameterTuples_visited = false;
+    OpenAPIObject_parameterTuples_computed = null;
+    OpenAPIObject_parameterTuples_value = null;
+    OpenAPIObject_requestBodyTuples_visited = false;
+    OpenAPIObject_requestBodyTuples_computed = null;
+    OpenAPIObject_requestBodyTuples_value = null;
+    OpenAPIObject_headerTuples_visited = false;
+    OpenAPIObject_headerTuples_computed = null;
+    OpenAPIObject_headerTuples_value = null;
+    OpenAPIObject_securitySchemeTuples_visited = false;
+    OpenAPIObject_securitySchemeTuples_computed = null;
+    OpenAPIObject_securitySchemeTuples_value = null;
+    OpenAPIObject_linkTuples_visited = false;
+    OpenAPIObject_linkTuples_computed = null;
+    OpenAPIObject_linkTuples_value = null;
+    OpenAPIObject_callbackTuples_visited = false;
+    OpenAPIObject_callbackTuples_computed = null;
+    OpenAPIObject_callbackTuples_value = null;
     contributorMap_OpenAPIObject_schemaTuples = null;
+    contributorMap_OpenAPIObject_responseTuples = null;
+    contributorMap_OpenAPIObject_parameterTuples = null;
+    contributorMap_OpenAPIObject_requestBodyTuples = null;
+    contributorMap_OpenAPIObject_headerTuples = null;
+    contributorMap_OpenAPIObject_securitySchemeTuples = null;
+    contributorMap_OpenAPIObject_linkTuples = null;
+    contributorMap_OpenAPIObject_callbackTuples = null;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:61
+   * @declaredat ASTNode:91
    */
   public OpenAPIObject clone() throws CloneNotSupportedException {
     OpenAPIObject node = (OpenAPIObject) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:66
+   * @declaredat ASTNode:96
    */
   public OpenAPIObject copy() {
     try {
@@ -292,7 +337,7 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:85
+   * @declaredat ASTNode:115
    */
   @Deprecated
   public OpenAPIObject fullCopy() {
@@ -303,7 +348,7 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:95
+   * @declaredat ASTNode:125
    */
   public OpenAPIObject treeCopyNoTransform() {
     OpenAPIObject tree = (OpenAPIObject) copy();
@@ -324,7 +369,7 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:115
+   * @declaredat ASTNode:145
    */
   public OpenAPIObject treeCopy() {
     OpenAPIObject tree = (OpenAPIObject) copy();
@@ -340,7 +385,7 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:129
+   * @declaredat ASTNode:159
    */
   protected boolean is$Equal(ASTNode node) {
     return super.is$Equal(node) && (tokenString_OpenAPI == ((OpenAPIObject) node).tokenString_OpenAPI) && (tokenOAIContext_Context == ((OpenAPIObject) node).tokenOAIContext_Context);    
@@ -1089,8 +1134,118 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
     return getExtensionListNoTransform();
   }
   /**
+   * Replaces the InferredParameter list.
+   * @param list The new list node to be used as the InferredParameter list.
+   * @apilevel high-level
+   */
+  public void setInferredParameterList(JastAddList<InferredParameter> list) {
+    setChild(list, 8);
+  }
+  /**
+   * Retrieves the number of children in the InferredParameter list.
+   * @return Number of children in the InferredParameter list.
+   * @apilevel high-level
+   */
+  public int getNumInferredParameter() {
+    return getInferredParameterList().getNumChild();
+  }
+  /**
+   * Retrieves the number of children in the InferredParameter list.
+   * Calling this method will not trigger rewrites.
+   * @return Number of children in the InferredParameter list.
+   * @apilevel low-level
+   */
+  public int getNumInferredParameterNoTransform() {
+    return getInferredParameterListNoTransform().getNumChildNoTransform();
+  }
+  /**
+   * Retrieves the element at index {@code i} in the InferredParameter list.
+   * @param i Index of the element to return.
+   * @return The element at position {@code i} in the InferredParameter list.
+   * @apilevel high-level
+   */
+  public InferredParameter getInferredParameter(int i) {
+    return (InferredParameter) getInferredParameterList().getChild(i);
+  }
+  /**
+   * Check whether the InferredParameter list has any children.
+   * @return {@code true} if it has at least one child, {@code false} otherwise.
+   * @apilevel high-level
+   */
+  public boolean hasInferredParameter() {
+    return getInferredParameterList().getNumChild() != 0;
+  }
+  /**
+   * Append an element to the InferredParameter list.
+   * @param node The element to append to the InferredParameter list.
+   * @apilevel high-level
+   */
+  public void addInferredParameter(InferredParameter node) {
+    JastAddList<InferredParameter> list = (parent == null) ? getInferredParameterListNoTransform() : getInferredParameterList();
+    list.addChild(node);
+  }
+  /** @apilevel low-level 
+   */
+  public void addInferredParameterNoTransform(InferredParameter node) {
+    JastAddList<InferredParameter> list = getInferredParameterListNoTransform();
+    list.addChild(node);
+  }
+  /**
+   * Replaces the InferredParameter list element at index {@code i} with the new node {@code node}.
+   * @param node The new node to replace the old list element.
+   * @param i The list index of the node to be replaced.
+   * @apilevel high-level
+   */
+  public void setInferredParameter(InferredParameter node, int i) {
+    JastAddList<InferredParameter> list = getInferredParameterList();
+    list.setChild(node, i);
+  }
+  /**
+   * Retrieves the InferredParameter list.
+   * @return The node representing the InferredParameter list.
+   * @apilevel high-level
+   */
+  @ASTNodeAnnotation.ListChild(name="InferredParameter")
+  public JastAddList<InferredParameter> getInferredParameterList() {
+    JastAddList<InferredParameter> list = (JastAddList<InferredParameter>) getChild(8);
+    return list;
+  }
+  /**
+   * Retrieves the InferredParameter list.
+   * <p><em>This method does not invoke AST transformations.</em></p>
+   * @return The node representing the InferredParameter list.
+   * @apilevel low-level
+   */
+  public JastAddList<InferredParameter> getInferredParameterListNoTransform() {
+    return (JastAddList<InferredParameter>) getChildNoTransform(8);
+  }
+  /**
+   * @return the element at index {@code i} in the InferredParameter list without
+   * triggering rewrites.
+   */
+  public InferredParameter getInferredParameterNoTransform(int i) {
+    return (InferredParameter) getInferredParameterListNoTransform().getChildNoTransform(i);
+  }
+  /**
+   * Retrieves the InferredParameter list.
+   * @return The node representing the InferredParameter list.
+   * @apilevel high-level
+   */
+  public JastAddList<InferredParameter> getInferredParameters() {
+    return getInferredParameterList();
+  }
+  /**
+   * Retrieves the InferredParameter list.
+   * <p><em>This method does not invoke AST transformations.</em></p>
+   * @return The node representing the InferredParameter list.
+   * @apilevel low-level
+   */
+  public JastAddList<InferredParameter> getInferredParametersNoTransform() {
+    return getInferredParameterListNoTransform();
+  }
+  /**
    * @aspect <NoAspect>
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:16
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:8
    */
   /** @apilevel internal */
 protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIObject_schemaTuples = null;
@@ -1104,32 +1259,147 @@ protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIO
   }
 
   /**
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:13
-   * @apilevel internal
+   * @aspect <NoAspect>
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:12
    */
-  public OpenAPIObject Define_root(ASTNode _callerNode, ASTNode _childNode) {
-    int childIndex = this.getIndexOfChild(_callerNode);
-    return this;
+  /** @apilevel internal */
+protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIObject_responseTuples = null;
+
+  /** @apilevel internal */
+  protected void survey_OpenAPIObject_responseTuples() {
+    if (contributorMap_OpenAPIObject_responseTuples == null) {
+      contributorMap_OpenAPIObject_responseTuples = new java.util.IdentityHashMap<ASTNode, java.util.Set<ASTNode>>();
+      collect_contributors_OpenAPIObject_responseTuples(this, contributorMap_OpenAPIObject_responseTuples);
+    }
+  }
+
+  /**
+   * @aspect <NoAspect>
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:16
+   */
+  /** @apilevel internal */
+protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIObject_parameterTuples = null;
+
+  /** @apilevel internal */
+  protected void survey_OpenAPIObject_parameterTuples() {
+    if (contributorMap_OpenAPIObject_parameterTuples == null) {
+      contributorMap_OpenAPIObject_parameterTuples = new java.util.IdentityHashMap<ASTNode, java.util.Set<ASTNode>>();
+      collect_contributors_OpenAPIObject_parameterTuples(this, contributorMap_OpenAPIObject_parameterTuples);
+    }
+  }
+
+  /**
+   * @aspect <NoAspect>
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:20
+   */
+  /** @apilevel internal */
+protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIObject_requestBodyTuples = null;
+
+  /** @apilevel internal */
+  protected void survey_OpenAPIObject_requestBodyTuples() {
+    if (contributorMap_OpenAPIObject_requestBodyTuples == null) {
+      contributorMap_OpenAPIObject_requestBodyTuples = new java.util.IdentityHashMap<ASTNode, java.util.Set<ASTNode>>();
+      collect_contributors_OpenAPIObject_requestBodyTuples(this, contributorMap_OpenAPIObject_requestBodyTuples);
+    }
+  }
+
+  /**
+   * @aspect <NoAspect>
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:24
+   */
+  /** @apilevel internal */
+protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIObject_headerTuples = null;
+
+  /** @apilevel internal */
+  protected void survey_OpenAPIObject_headerTuples() {
+    if (contributorMap_OpenAPIObject_headerTuples == null) {
+      contributorMap_OpenAPIObject_headerTuples = new java.util.IdentityHashMap<ASTNode, java.util.Set<ASTNode>>();
+      collect_contributors_OpenAPIObject_headerTuples(this, contributorMap_OpenAPIObject_headerTuples);
+    }
+  }
+
+  /**
+   * @aspect <NoAspect>
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:28
+   */
+  /** @apilevel internal */
+protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIObject_securitySchemeTuples = null;
+
+  /** @apilevel internal */
+  protected void survey_OpenAPIObject_securitySchemeTuples() {
+    if (contributorMap_OpenAPIObject_securitySchemeTuples == null) {
+      contributorMap_OpenAPIObject_securitySchemeTuples = new java.util.IdentityHashMap<ASTNode, java.util.Set<ASTNode>>();
+      collect_contributors_OpenAPIObject_securitySchemeTuples(this, contributorMap_OpenAPIObject_securitySchemeTuples);
+    }
+  }
+
+  /**
+   * @aspect <NoAspect>
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:32
+   */
+  /** @apilevel internal */
+protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIObject_linkTuples = null;
+
+  /** @apilevel internal */
+  protected void survey_OpenAPIObject_linkTuples() {
+    if (contributorMap_OpenAPIObject_linkTuples == null) {
+      contributorMap_OpenAPIObject_linkTuples = new java.util.IdentityHashMap<ASTNode, java.util.Set<ASTNode>>();
+      collect_contributors_OpenAPIObject_linkTuples(this, contributorMap_OpenAPIObject_linkTuples);
+    }
+  }
+
+  /**
+   * @aspect <NoAspect>
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:36
+   */
+  /** @apilevel internal */
+protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIObject_callbackTuples = null;
+
+  /** @apilevel internal */
+  protected void survey_OpenAPIObject_callbackTuples() {
+    if (contributorMap_OpenAPIObject_callbackTuples == null) {
+      contributorMap_OpenAPIObject_callbackTuples = new java.util.IdentityHashMap<ASTNode, java.util.Set<ASTNode>>();
+      collect_contributors_OpenAPIObject_callbackTuples(this, contributorMap_OpenAPIObject_callbackTuples);
+    }
+  }
+
+/** @apilevel internal */
+protected boolean collectInferredParameters_visited = false;
+  /**
+   * @attribute syn
+   * @aspect InferParameter
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:7
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="InferParameter", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:7")
+  public Set<String> collectInferredParameters() {
+    if (collectInferredParameters_visited) {
+      throw new RuntimeException("Circular definition of attribute OpenAPIObject.collectInferredParameters().");
+    }
+    collectInferredParameters_visited = true;
+    try {
+            Set<String> collect = new HashSet<>();
+    
+            for( InferredParameter i : getInferredParameters() )
+            collect.add(i.getParameter());
+    
+            return collect;
+        }
+    finally {
+      collectInferredParameters_visited = false;
+    }
   }
   /**
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:13
-   * @apilevel internal
-   * @return {@code true} if this node has an equation for the inherited attribute root
-   */
-  protected boolean canDefine_root(ASTNode _callerNode, ASTNode _childNode) {
-    return true;
-  }
-  /**
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:20
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:25
    * @apilevel internal
    */
   public Set<String> Define_inferUrl(ASTNode _callerNode, ASTNode _childNode, Set<String> urls) {
     if (_callerNode == getPathsObjectListNoTransform()) {
-      // @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:21
+      // @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:26
       int i = _callerNode.getIndexOfChild(_childNode);
       {
-              PathItemObject p = ((PathsObject) _childNode).getPathItemOb().pathItemObject();
-              String path = ((OpenAPIObject) getParent()).getServerObject(0).getUrl();
+              PathItemObject p = ((PathsObject) _childNode).getPathItemObject();
+              String path = getServerObject(0).getUrl();
       
               if( p.hasGet() )
                   urls.add(p.getGet().inferRandomUrl(path + ((PathsObject) _childNode).getRef(), p.getGet().getOperationObject()));
@@ -1144,11 +1414,27 @@ protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIO
     }
   }
   /**
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:20
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:25
    * @apilevel internal
    * @return {@code true} if this node has an equation for the inherited attribute inferUrl
    */
   protected boolean canDefine_inferUrl(ASTNode _callerNode, ASTNode _childNode, Set<String> urls) {
+    return true;
+  }
+  /**
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:5
+   * @apilevel internal
+   */
+  public OpenAPIObject Define_root(ASTNode _callerNode, ASTNode _childNode) {
+    int childIndex = this.getIndexOfChild(_callerNode);
+    return this;
+  }
+  /**
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:5
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute root
+   */
+  protected boolean canDefine_root(ASTNode _callerNode, ASTNode _childNode) {
     return true;
   }
   /**
@@ -1160,7 +1446,7 @@ protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIO
       // @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:84
       int i = _callerNode.getIndexOfChild(_childNode);
       {
-              PathItemObject p = ((PathsObject) _childNode).getPathItemOb().pathItemObject();
+              PathItemObject p = ((PathsObject) _childNode).getPathItemObject();
               String path = getServerObject(0).getUrl();
       
               if( p.hasGet() )
@@ -1197,12 +1483,12 @@ protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIO
 protected boolean OpenAPIObject_schemaTuples_visited = false;
   /**
    * @attribute coll
-   * @aspect InfSchema
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:16
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:8
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.COLL)
-  @ASTNodeAnnotation.Source(aspect="InfSchema", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:16")
-  public Set<SchemaTuple> schemaTuples() {
+  @ASTNodeAnnotation.Source(aspect="Parser", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:8")
+  public List<SchemaTuple> schemaTuples() {
     ASTState state = state();
     if (OpenAPIObject_schemaTuples_computed == ASTState.NON_CYCLE || OpenAPIObject_schemaTuples_computed == state().cycle()) {
       return OpenAPIObject_schemaTuples_value;
@@ -1223,14 +1509,14 @@ protected boolean OpenAPIObject_schemaTuples_visited = false;
     return OpenAPIObject_schemaTuples_value;
   }
   /** @apilevel internal */
-  private Set<SchemaTuple> schemaTuples_compute() {
+  private List<SchemaTuple> schemaTuples_compute() {
     ASTNode node = this;
     while (node != null && !(node instanceof OpenAPIObject)) {
       node = node.getParent();
     }
     OpenAPIObject root = (OpenAPIObject) node;
     root.survey_OpenAPIObject_schemaTuples();
-    Set<SchemaTuple> _computedValue = new HashSet<>();
+    List<SchemaTuple> _computedValue = new ArrayList<>();
     if (root.contributorMap_OpenAPIObject_schemaTuples.containsKey(this)) {
       for (ASTNode contributor : root.contributorMap_OpenAPIObject_schemaTuples.get(this)) {
         contributor.contributeTo_OpenAPIObject_schemaTuples(_computedValue);
@@ -1242,6 +1528,363 @@ protected boolean OpenAPIObject_schemaTuples_visited = false;
   protected ASTState.Cycle OpenAPIObject_schemaTuples_computed = null;
 
   /** @apilevel internal */
-  protected Set<SchemaTuple> OpenAPIObject_schemaTuples_value;
+  protected List<SchemaTuple> OpenAPIObject_schemaTuples_value;
+
+/** @apilevel internal */
+protected boolean OpenAPIObject_responseTuples_visited = false;
+  /**
+   * @attribute coll
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:12
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.COLL)
+  @ASTNodeAnnotation.Source(aspect="Parser", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:12")
+  public List<ResponseTuple> responseTuples() {
+    ASTState state = state();
+    if (OpenAPIObject_responseTuples_computed == ASTState.NON_CYCLE || OpenAPIObject_responseTuples_computed == state().cycle()) {
+      return OpenAPIObject_responseTuples_value;
+    }
+    if (OpenAPIObject_responseTuples_visited) {
+      throw new RuntimeException("Circular definition of attribute OpenAPIObject.responseTuples().");
+    }
+    OpenAPIObject_responseTuples_visited = true;
+    OpenAPIObject_responseTuples_value = responseTuples_compute();
+    if (state().inCircle()) {
+      OpenAPIObject_responseTuples_computed = state().cycle();
+    
+    } else {
+      OpenAPIObject_responseTuples_computed = ASTState.NON_CYCLE;
+    
+    }
+    OpenAPIObject_responseTuples_visited = false;
+    return OpenAPIObject_responseTuples_value;
+  }
+  /** @apilevel internal */
+  private List<ResponseTuple> responseTuples_compute() {
+    ASTNode node = this;
+    while (node != null && !(node instanceof OpenAPIObject)) {
+      node = node.getParent();
+    }
+    OpenAPIObject root = (OpenAPIObject) node;
+    root.survey_OpenAPIObject_responseTuples();
+    List<ResponseTuple> _computedValue = new ArrayList<>();
+    if (root.contributorMap_OpenAPIObject_responseTuples.containsKey(this)) {
+      for (ASTNode contributor : root.contributorMap_OpenAPIObject_responseTuples.get(this)) {
+        contributor.contributeTo_OpenAPIObject_responseTuples(_computedValue);
+      }
+    }
+    return _computedValue;
+  }
+  /** @apilevel internal */
+  protected ASTState.Cycle OpenAPIObject_responseTuples_computed = null;
+
+  /** @apilevel internal */
+  protected List<ResponseTuple> OpenAPIObject_responseTuples_value;
+
+/** @apilevel internal */
+protected boolean OpenAPIObject_parameterTuples_visited = false;
+  /**
+   * @attribute coll
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:16
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.COLL)
+  @ASTNodeAnnotation.Source(aspect="Parser", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:16")
+  public List<ParameterTuple> parameterTuples() {
+    ASTState state = state();
+    if (OpenAPIObject_parameterTuples_computed == ASTState.NON_CYCLE || OpenAPIObject_parameterTuples_computed == state().cycle()) {
+      return OpenAPIObject_parameterTuples_value;
+    }
+    if (OpenAPIObject_parameterTuples_visited) {
+      throw new RuntimeException("Circular definition of attribute OpenAPIObject.parameterTuples().");
+    }
+    OpenAPIObject_parameterTuples_visited = true;
+    OpenAPIObject_parameterTuples_value = parameterTuples_compute();
+    if (state().inCircle()) {
+      OpenAPIObject_parameterTuples_computed = state().cycle();
+    
+    } else {
+      OpenAPIObject_parameterTuples_computed = ASTState.NON_CYCLE;
+    
+    }
+    OpenAPIObject_parameterTuples_visited = false;
+    return OpenAPIObject_parameterTuples_value;
+  }
+  /** @apilevel internal */
+  private List<ParameterTuple> parameterTuples_compute() {
+    ASTNode node = this;
+    while (node != null && !(node instanceof OpenAPIObject)) {
+      node = node.getParent();
+    }
+    OpenAPIObject root = (OpenAPIObject) node;
+    root.survey_OpenAPIObject_parameterTuples();
+    List<ParameterTuple> _computedValue = new ArrayList<>();
+    if (root.contributorMap_OpenAPIObject_parameterTuples.containsKey(this)) {
+      for (ASTNode contributor : root.contributorMap_OpenAPIObject_parameterTuples.get(this)) {
+        contributor.contributeTo_OpenAPIObject_parameterTuples(_computedValue);
+      }
+    }
+    return _computedValue;
+  }
+  /** @apilevel internal */
+  protected ASTState.Cycle OpenAPIObject_parameterTuples_computed = null;
+
+  /** @apilevel internal */
+  protected List<ParameterTuple> OpenAPIObject_parameterTuples_value;
+
+/** @apilevel internal */
+protected boolean OpenAPIObject_requestBodyTuples_visited = false;
+  /**
+   * @attribute coll
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:20
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.COLL)
+  @ASTNodeAnnotation.Source(aspect="Parser", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:20")
+  public List<RequestBodyTuple> requestBodyTuples() {
+    ASTState state = state();
+    if (OpenAPIObject_requestBodyTuples_computed == ASTState.NON_CYCLE || OpenAPIObject_requestBodyTuples_computed == state().cycle()) {
+      return OpenAPIObject_requestBodyTuples_value;
+    }
+    if (OpenAPIObject_requestBodyTuples_visited) {
+      throw new RuntimeException("Circular definition of attribute OpenAPIObject.requestBodyTuples().");
+    }
+    OpenAPIObject_requestBodyTuples_visited = true;
+    OpenAPIObject_requestBodyTuples_value = requestBodyTuples_compute();
+    if (state().inCircle()) {
+      OpenAPIObject_requestBodyTuples_computed = state().cycle();
+    
+    } else {
+      OpenAPIObject_requestBodyTuples_computed = ASTState.NON_CYCLE;
+    
+    }
+    OpenAPIObject_requestBodyTuples_visited = false;
+    return OpenAPIObject_requestBodyTuples_value;
+  }
+  /** @apilevel internal */
+  private List<RequestBodyTuple> requestBodyTuples_compute() {
+    ASTNode node = this;
+    while (node != null && !(node instanceof OpenAPIObject)) {
+      node = node.getParent();
+    }
+    OpenAPIObject root = (OpenAPIObject) node;
+    root.survey_OpenAPIObject_requestBodyTuples();
+    List<RequestBodyTuple> _computedValue = new ArrayList<>();
+    if (root.contributorMap_OpenAPIObject_requestBodyTuples.containsKey(this)) {
+      for (ASTNode contributor : root.contributorMap_OpenAPIObject_requestBodyTuples.get(this)) {
+        contributor.contributeTo_OpenAPIObject_requestBodyTuples(_computedValue);
+      }
+    }
+    return _computedValue;
+  }
+  /** @apilevel internal */
+  protected ASTState.Cycle OpenAPIObject_requestBodyTuples_computed = null;
+
+  /** @apilevel internal */
+  protected List<RequestBodyTuple> OpenAPIObject_requestBodyTuples_value;
+
+/** @apilevel internal */
+protected boolean OpenAPIObject_headerTuples_visited = false;
+  /**
+   * @attribute coll
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:24
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.COLL)
+  @ASTNodeAnnotation.Source(aspect="Parser", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:24")
+  public List<HeaderTuple> headerTuples() {
+    ASTState state = state();
+    if (OpenAPIObject_headerTuples_computed == ASTState.NON_CYCLE || OpenAPIObject_headerTuples_computed == state().cycle()) {
+      return OpenAPIObject_headerTuples_value;
+    }
+    if (OpenAPIObject_headerTuples_visited) {
+      throw new RuntimeException("Circular definition of attribute OpenAPIObject.headerTuples().");
+    }
+    OpenAPIObject_headerTuples_visited = true;
+    OpenAPIObject_headerTuples_value = headerTuples_compute();
+    if (state().inCircle()) {
+      OpenAPIObject_headerTuples_computed = state().cycle();
+    
+    } else {
+      OpenAPIObject_headerTuples_computed = ASTState.NON_CYCLE;
+    
+    }
+    OpenAPIObject_headerTuples_visited = false;
+    return OpenAPIObject_headerTuples_value;
+  }
+  /** @apilevel internal */
+  private List<HeaderTuple> headerTuples_compute() {
+    ASTNode node = this;
+    while (node != null && !(node instanceof OpenAPIObject)) {
+      node = node.getParent();
+    }
+    OpenAPIObject root = (OpenAPIObject) node;
+    root.survey_OpenAPIObject_headerTuples();
+    List<HeaderTuple> _computedValue = new ArrayList<>();
+    if (root.contributorMap_OpenAPIObject_headerTuples.containsKey(this)) {
+      for (ASTNode contributor : root.contributorMap_OpenAPIObject_headerTuples.get(this)) {
+        contributor.contributeTo_OpenAPIObject_headerTuples(_computedValue);
+      }
+    }
+    return _computedValue;
+  }
+  /** @apilevel internal */
+  protected ASTState.Cycle OpenAPIObject_headerTuples_computed = null;
+
+  /** @apilevel internal */
+  protected List<HeaderTuple> OpenAPIObject_headerTuples_value;
+
+/** @apilevel internal */
+protected boolean OpenAPIObject_securitySchemeTuples_visited = false;
+  /**
+   * @attribute coll
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:28
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.COLL)
+  @ASTNodeAnnotation.Source(aspect="Parser", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:28")
+  public List<SecuritySchemeTuple> securitySchemeTuples() {
+    ASTState state = state();
+    if (OpenAPIObject_securitySchemeTuples_computed == ASTState.NON_CYCLE || OpenAPIObject_securitySchemeTuples_computed == state().cycle()) {
+      return OpenAPIObject_securitySchemeTuples_value;
+    }
+    if (OpenAPIObject_securitySchemeTuples_visited) {
+      throw new RuntimeException("Circular definition of attribute OpenAPIObject.securitySchemeTuples().");
+    }
+    OpenAPIObject_securitySchemeTuples_visited = true;
+    OpenAPIObject_securitySchemeTuples_value = securitySchemeTuples_compute();
+    if (state().inCircle()) {
+      OpenAPIObject_securitySchemeTuples_computed = state().cycle();
+    
+    } else {
+      OpenAPIObject_securitySchemeTuples_computed = ASTState.NON_CYCLE;
+    
+    }
+    OpenAPIObject_securitySchemeTuples_visited = false;
+    return OpenAPIObject_securitySchemeTuples_value;
+  }
+  /** @apilevel internal */
+  private List<SecuritySchemeTuple> securitySchemeTuples_compute() {
+    ASTNode node = this;
+    while (node != null && !(node instanceof OpenAPIObject)) {
+      node = node.getParent();
+    }
+    OpenAPIObject root = (OpenAPIObject) node;
+    root.survey_OpenAPIObject_securitySchemeTuples();
+    List<SecuritySchemeTuple> _computedValue = new ArrayList<>();
+    if (root.contributorMap_OpenAPIObject_securitySchemeTuples.containsKey(this)) {
+      for (ASTNode contributor : root.contributorMap_OpenAPIObject_securitySchemeTuples.get(this)) {
+        contributor.contributeTo_OpenAPIObject_securitySchemeTuples(_computedValue);
+      }
+    }
+    return _computedValue;
+  }
+  /** @apilevel internal */
+  protected ASTState.Cycle OpenAPIObject_securitySchemeTuples_computed = null;
+
+  /** @apilevel internal */
+  protected List<SecuritySchemeTuple> OpenAPIObject_securitySchemeTuples_value;
+
+/** @apilevel internal */
+protected boolean OpenAPIObject_linkTuples_visited = false;
+  /**
+   * @attribute coll
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:32
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.COLL)
+  @ASTNodeAnnotation.Source(aspect="Parser", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:32")
+  public List<LinkTuple> linkTuples() {
+    ASTState state = state();
+    if (OpenAPIObject_linkTuples_computed == ASTState.NON_CYCLE || OpenAPIObject_linkTuples_computed == state().cycle()) {
+      return OpenAPIObject_linkTuples_value;
+    }
+    if (OpenAPIObject_linkTuples_visited) {
+      throw new RuntimeException("Circular definition of attribute OpenAPIObject.linkTuples().");
+    }
+    OpenAPIObject_linkTuples_visited = true;
+    OpenAPIObject_linkTuples_value = linkTuples_compute();
+    if (state().inCircle()) {
+      OpenAPIObject_linkTuples_computed = state().cycle();
+    
+    } else {
+      OpenAPIObject_linkTuples_computed = ASTState.NON_CYCLE;
+    
+    }
+    OpenAPIObject_linkTuples_visited = false;
+    return OpenAPIObject_linkTuples_value;
+  }
+  /** @apilevel internal */
+  private List<LinkTuple> linkTuples_compute() {
+    ASTNode node = this;
+    while (node != null && !(node instanceof OpenAPIObject)) {
+      node = node.getParent();
+    }
+    OpenAPIObject root = (OpenAPIObject) node;
+    root.survey_OpenAPIObject_linkTuples();
+    List<LinkTuple> _computedValue = new ArrayList<>();
+    if (root.contributorMap_OpenAPIObject_linkTuples.containsKey(this)) {
+      for (ASTNode contributor : root.contributorMap_OpenAPIObject_linkTuples.get(this)) {
+        contributor.contributeTo_OpenAPIObject_linkTuples(_computedValue);
+      }
+    }
+    return _computedValue;
+  }
+  /** @apilevel internal */
+  protected ASTState.Cycle OpenAPIObject_linkTuples_computed = null;
+
+  /** @apilevel internal */
+  protected List<LinkTuple> OpenAPIObject_linkTuples_value;
+
+/** @apilevel internal */
+protected boolean OpenAPIObject_callbackTuples_visited = false;
+  /**
+   * @attribute coll
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:36
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.COLL)
+  @ASTNodeAnnotation.Source(aspect="Parser", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:36")
+  public List<CallbackTuple> callbackTuples() {
+    ASTState state = state();
+    if (OpenAPIObject_callbackTuples_computed == ASTState.NON_CYCLE || OpenAPIObject_callbackTuples_computed == state().cycle()) {
+      return OpenAPIObject_callbackTuples_value;
+    }
+    if (OpenAPIObject_callbackTuples_visited) {
+      throw new RuntimeException("Circular definition of attribute OpenAPIObject.callbackTuples().");
+    }
+    OpenAPIObject_callbackTuples_visited = true;
+    OpenAPIObject_callbackTuples_value = callbackTuples_compute();
+    if (state().inCircle()) {
+      OpenAPIObject_callbackTuples_computed = state().cycle();
+    
+    } else {
+      OpenAPIObject_callbackTuples_computed = ASTState.NON_CYCLE;
+    
+    }
+    OpenAPIObject_callbackTuples_visited = false;
+    return OpenAPIObject_callbackTuples_value;
+  }
+  /** @apilevel internal */
+  private List<CallbackTuple> callbackTuples_compute() {
+    ASTNode node = this;
+    while (node != null && !(node instanceof OpenAPIObject)) {
+      node = node.getParent();
+    }
+    OpenAPIObject root = (OpenAPIObject) node;
+    root.survey_OpenAPIObject_callbackTuples();
+    List<CallbackTuple> _computedValue = new ArrayList<>();
+    if (root.contributorMap_OpenAPIObject_callbackTuples.containsKey(this)) {
+      for (ASTNode contributor : root.contributorMap_OpenAPIObject_callbackTuples.get(this)) {
+        contributor.contributeTo_OpenAPIObject_callbackTuples(_computedValue);
+      }
+    }
+    return _computedValue;
+  }
+  /** @apilevel internal */
+  protected ASTState.Cycle OpenAPIObject_callbackTuples_computed = null;
+
+  /** @apilevel internal */
+  protected List<CallbackTuple> OpenAPIObject_callbackTuples_value;
 
 }

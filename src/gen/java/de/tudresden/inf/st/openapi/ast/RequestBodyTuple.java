@@ -8,6 +8,9 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -18,7 +21,7 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:27
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:28
  * @astdecl RequestBodyTuple : ASTNode ::= <Key:String> RequestBodyOb;
  * @production RequestBodyTuple : {@link ASTNode} ::= <span class="component">&lt;Key:String&gt;</span> <span class="component">{@link RequestBodyOb}</span>;
 
@@ -211,5 +214,23 @@ public class RequestBodyTuple extends ASTNode<ASTNode> implements Cloneable {
   /** @apilevel internal */
   public boolean canRewrite() {
     return false;
+  }
+  /** @apilevel internal */
+  protected void collect_contributors_OpenAPIObject_requestBodyTuples(OpenAPIObject _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
+    // @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:21
+    {
+      java.util.Set<ASTNode> contributors = _map.get(_root);
+      if (contributors == null) {
+        contributors = new java.util.LinkedHashSet<ASTNode>();
+        _map.put((ASTNode) _root, contributors);
+      }
+      contributors.add(this);
+    }
+    super.collect_contributors_OpenAPIObject_requestBodyTuples(_root, _map);
+  }
+  /** @apilevel internal */
+  protected void contributeTo_OpenAPIObject_requestBodyTuples(List<RequestBodyTuple> collection) {
+    super.contributeTo_OpenAPIObject_requestBodyTuples(collection);
+    collection.add(this);
   }
 }

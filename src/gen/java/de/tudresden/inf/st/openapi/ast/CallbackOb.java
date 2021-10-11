@@ -8,6 +8,9 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -18,7 +21,7 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:82
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:80
  * @astdecl CallbackOb : ASTNode;
  * @production CallbackOb : {@link ASTNode};
 
@@ -26,7 +29,7 @@ import java.util.stream.IntStream;
 public abstract class CallbackOb extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:482
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:507
    */
   public static CallbackOb parseCallback(Callback callback, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         CallbackObject callbackObject = new CallbackObject();
@@ -34,12 +37,11 @@ public abstract class CallbackOb extends ASTNode<ASTNode> implements Cloneable {
         if( callback.isRef() ){
         CallbackReference c = new CallbackReference();
         c.setRef(callback.getRef());
-        c.setCallbackOb(parseCallback(callback.getReference(context).getMappedContent(Callback.class), context, map));
         return c;
         } else {
         if( callback.getCallbackPaths() != null ){
         for( String key : callback.getCallbackPaths().keySet() )
-        callbackObject.addExpression(new Expression(key, PathItemOb.parsePath(callback.getCallbackPath(key), context, map)));
+        callbackObject.addExpression(new Expression(key, PathItemObject.parsePath(callback.getCallbackPath(key), context, map)));
         }
         if( callback.getExtensions() != null ){
         for( String key : callback.getExtensions().keySet() )
@@ -127,18 +129,18 @@ public abstract class CallbackOb extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @attribute syn
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:558
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:548
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:558")
+  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:548")
   public abstract Callback composeCallback(CallbackOb callbackOb, Map<Object, ASTNode> map);
   /**
    * @attribute syn
-   * @aspect RefGet
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RefGet.jrag:48
+   * @aspect Reference
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Reference.jrag:43
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="RefGet", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RefGet.jrag:48")
+  @ASTNodeAnnotation.Source(aspect="Reference", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Reference.jrag:43")
   public abstract CallbackObject callbackObject();
   /** @apilevel internal */
   public ASTNode rewriteTo() {

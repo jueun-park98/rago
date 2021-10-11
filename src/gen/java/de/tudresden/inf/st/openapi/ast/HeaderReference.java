@@ -8,6 +8,9 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -18,9 +21,9 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:99
- * @astdecl HeaderReference : HeaderOb ::= <Ref:String> <HeaderOb:HeaderOb>;
- * @production HeaderReference : {@link HeaderOb} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;HeaderOb:HeaderOb&gt;</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:97
+ * @astdecl HeaderReference : HeaderOb ::= <Ref:String>;
+ * @production HeaderReference : {@link HeaderOb} ::= <span class="component">&lt;Ref:String&gt;</span>;
 
  */
 public class HeaderReference extends HeaderOb implements Cloneable {
@@ -43,48 +46,47 @@ public class HeaderReference extends HeaderOb implements Cloneable {
    * @declaredat ASTNode:12
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Ref", "HeaderOb"},
-    type = {"String", "HeaderOb"},
-    kind = {"Token", "Token"}
+    name = {"Ref"},
+    type = {"String"},
+    kind = {"Token"}
   )
-  public HeaderReference(String p0, HeaderOb p1) {
+  public HeaderReference(String p0) {
     setRef(p0);
-    setHeaderOb(p1);
   }
   /** @apilevel low-level 
-   * @declaredat ASTNode:22
+   * @declaredat ASTNode:21
    */
   protected int numChildren() {
     return 0;
   }
   /**
    * @apilevel internal
-   * @declaredat ASTNode:28
+   * @declaredat ASTNode:27
    */
   public boolean mayHaveRewrite() {
     return false;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:32
+   * @declaredat ASTNode:31
    */
   public void flushAttrCache() {
     super.flushAttrCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:36
+   * @declaredat ASTNode:35
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:40
+   * @declaredat ASTNode:39
    */
   public HeaderReference clone() throws CloneNotSupportedException {
     HeaderReference node = (HeaderReference) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:45
+   * @declaredat ASTNode:44
    */
   public HeaderReference copy() {
     try {
@@ -104,7 +106,7 @@ public class HeaderReference extends HeaderOb implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:64
+   * @declaredat ASTNode:63
    */
   @Deprecated
   public HeaderReference fullCopy() {
@@ -115,7 +117,7 @@ public class HeaderReference extends HeaderOb implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:74
+   * @declaredat ASTNode:73
    */
   public HeaderReference treeCopyNoTransform() {
     HeaderReference tree = (HeaderReference) copy();
@@ -136,7 +138,7 @@ public class HeaderReference extends HeaderOb implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:94
+   * @declaredat ASTNode:93
    */
   public HeaderReference treeCopy() {
     HeaderReference tree = (HeaderReference) copy();
@@ -152,10 +154,10 @@ public class HeaderReference extends HeaderOb implements Cloneable {
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:108
+   * @declaredat ASTNode:107
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node) && (tokenString_Ref == ((HeaderReference) node).tokenString_Ref) && (tokenHeaderOb_HeaderOb == ((HeaderReference) node).tokenHeaderOb_HeaderOb);    
+    return super.is$Equal(node) && (tokenString_Ref == ((HeaderReference) node).tokenString_Ref);    
   }
   /**
    * Replaces the lexeme Ref.
@@ -177,35 +179,15 @@ public class HeaderReference extends HeaderOb implements Cloneable {
   public String getRef() {
     return tokenString_Ref != null ? tokenString_Ref : "";
   }
-  /**
-   * Replaces the lexeme HeaderOb.
-   * @param value The new value for the lexeme HeaderOb.
-   * @apilevel high-level
-   */
-  public void setHeaderOb(HeaderOb value) {
-    tokenHeaderOb_HeaderOb = value;
-  }
-  /** @apilevel internal 
-   */
-  protected HeaderOb tokenHeaderOb_HeaderOb;
-  /**
-   * Retrieves the value for the lexeme HeaderOb.
-   * @return The value for the lexeme HeaderOb.
-   * @apilevel high-level
-   */
-  @ASTNodeAnnotation.Token(name="HeaderOb")
-  public HeaderOb getHeaderOb() {
-    return tokenHeaderOb_HeaderOb;
-  }
 /** @apilevel internal */
 protected java.util.Set composeHeader_HeaderOb_Map_Object__ASTNode__visited;
   /**
    * @attribute syn
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:638
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:628
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:638")
+  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:628")
   public Header composeHeader(HeaderOb headerOb, Map<Object, ASTNode> map) {
     java.util.List _parameters = new java.util.ArrayList(2);
     _parameters.add(headerOb);
@@ -232,21 +214,22 @@ protected java.util.Set composeHeader_HeaderOb_Map_Object__ASTNode__visited;
 protected boolean headerObject_visited = false;
   /**
    * @attribute syn
-   * @aspect RefGet
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RefGet.jrag:66
+   * @aspect Reference
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Reference.jrag:63
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="RefGet", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RefGet.jrag:66")
+  @ASTNodeAnnotation.Source(aspect="Reference", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Reference.jrag:63")
   public HeaderObject headerObject() {
     if (headerObject_visited) {
       throw new RuntimeException("Circular definition of attribute HeaderOb.headerObject().");
     }
     headerObject_visited = true;
     try {
-            if( getHeaderOb() instanceof HeaderObject )
-                return (HeaderObject) getHeaderOb();
-            else
-                return getHeaderOb().headerObject();
+            for( HeaderTuple t : root().headerTuples() ){
+            if( t.getKey().equals(getRef().substring(getRef().lastIndexOf("/")+1, getRef().length())) )
+            return t.getHeaderOb().headerObject();
+            }
+            return new HeaderObject();
         }
     finally {
       headerObject_visited = false;

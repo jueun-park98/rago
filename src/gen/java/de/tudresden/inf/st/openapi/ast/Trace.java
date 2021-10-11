@@ -8,6 +8,9 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -18,12 +21,12 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:52
- * @astdecl Trace : OperationOb ::= <OperationObject:OperationObject>;
- * @production Trace : {@link OperationOb} ::= <span class="component">&lt;OperationObject:OperationObject&gt;</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:50
+ * @astdecl Trace : ASTNode ::= OperationObject;
+ * @production Trace : {@link ASTNode} ::= <span class="component">{@link OperationObject}</span>;
 
  */
-public class Trace extends OperationOb implements Cloneable {
+public class Trace extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @declaredat ASTNode:1
    */
@@ -38,52 +41,53 @@ public class Trace extends OperationOb implements Cloneable {
    * @declaredat ASTNode:10
    */
   public void init$Children() {
+    children = new ASTNode[1];
   }
   /**
-   * @declaredat ASTNode:12
+   * @declaredat ASTNode:13
    */
   @ASTNodeAnnotation.Constructor(
     name = {"OperationObject"},
     type = {"OperationObject"},
-    kind = {"Token"}
+    kind = {"Child"}
   )
   public Trace(OperationObject p0) {
-    setOperationObject(p0);
+    setChild(p0, 0);
   }
   /** @apilevel low-level 
-   * @declaredat ASTNode:21
+   * @declaredat ASTNode:22
    */
   protected int numChildren() {
-    return 0;
+    return 1;
   }
   /**
    * @apilevel internal
-   * @declaredat ASTNode:27
+   * @declaredat ASTNode:28
    */
   public boolean mayHaveRewrite() {
     return false;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:31
+   * @declaredat ASTNode:32
    */
   public void flushAttrCache() {
     super.flushAttrCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:35
+   * @declaredat ASTNode:36
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:39
+   * @declaredat ASTNode:40
    */
   public Trace clone() throws CloneNotSupportedException {
     Trace node = (Trace) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:44
+   * @declaredat ASTNode:45
    */
   public Trace copy() {
     try {
@@ -103,7 +107,7 @@ public class Trace extends OperationOb implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:63
+   * @declaredat ASTNode:64
    */
   @Deprecated
   public Trace fullCopy() {
@@ -114,7 +118,7 @@ public class Trace extends OperationOb implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:73
+   * @declaredat ASTNode:74
    */
   public Trace treeCopyNoTransform() {
     Trace tree = (Trace) copy();
@@ -135,7 +139,7 @@ public class Trace extends OperationOb implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:93
+   * @declaredat ASTNode:94
    */
   public Trace treeCopy() {
     Trace tree = (Trace) copy();
@@ -151,81 +155,36 @@ public class Trace extends OperationOb implements Cloneable {
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:107
+   * @declaredat ASTNode:108
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node) && (tokenOperationObject_OperationObject == ((Trace) node).tokenOperationObject_OperationObject);    
+    return super.is$Equal(node);    
   }
   /**
-   * Replaces the lexeme OperationObject.
-   * @param value The new value for the lexeme OperationObject.
+   * Replaces the OperationObject child.
+   * @param node The new node to replace the OperationObject child.
    * @apilevel high-level
    */
-  public void setOperationObject(OperationObject value) {
-    tokenOperationObject_OperationObject = value;
+  public void setOperationObject(OperationObject node) {
+    setChild(node, 0);
   }
-  /** @apilevel internal 
-   */
-  protected OperationObject tokenOperationObject_OperationObject;
   /**
-   * Retrieves the value for the lexeme OperationObject.
-   * @return The value for the lexeme OperationObject.
+   * Retrieves the OperationObject child.
+   * @return The current node used as the OperationObject child.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Token(name="OperationObject")
+  @ASTNodeAnnotation.Child(name="OperationObject")
   public OperationObject getOperationObject() {
-    return tokenOperationObject_OperationObject;
+    return (OperationObject) getChild(0);
   }
-/** @apilevel internal */
-protected java.util.Set inferRandomUrl_String_OperationObject_visited;
   /**
-   * @attribute syn
-   * @aspect InfSchema
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:33
+   * Retrieves the OperationObject child.
+   * <p><em>This method does not invoke AST transformations.</em></p>
+   * @return The current node used as the OperationObject child.
+   * @apilevel low-level
    */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="InfSchema", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InfSchema.jrag:33")
-  public String inferRandomUrl(String pathRef, OperationObject operationObject) {
-    java.util.List _parameters = new java.util.ArrayList(2);
-    _parameters.add(pathRef);
-    _parameters.add(operationObject);
-    if (inferRandomUrl_String_OperationObject_visited == null) inferRandomUrl_String_OperationObject_visited = new java.util.HashSet(4);
-    if (inferRandomUrl_String_OperationObject_visited.contains(_parameters)) {
-      throw new RuntimeException("Circular definition of attribute OperationOb.inferRandomUrl(String,OperationObject).");
-    }
-    inferRandomUrl_String_OperationObject_visited.add(_parameters);
-    try {
-            return "";
-        }
-    finally {
-      inferRandomUrl_String_OperationObject_visited.remove(_parameters);
-    }
-  }
-/** @apilevel internal */
-protected java.util.Set generateRandomUrl_String_OperationObject_Map_ResponseObject__String__visited;
-  /**
-   * @attribute syn
-   * @aspect RandomRequestGenerator
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:97
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="RandomRequestGenerator", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:97")
-  public String generateRandomUrl(String pathRef, OperationObject operationObject, Map<ResponseObject, String> responses) {
-    java.util.List _parameters = new java.util.ArrayList(3);
-    _parameters.add(pathRef);
-    _parameters.add(operationObject);
-    _parameters.add(responses);
-    if (generateRandomUrl_String_OperationObject_Map_ResponseObject__String__visited == null) generateRandomUrl_String_OperationObject_Map_ResponseObject__String__visited = new java.util.HashSet(4);
-    if (generateRandomUrl_String_OperationObject_Map_ResponseObject__String__visited.contains(_parameters)) {
-      throw new RuntimeException("Circular definition of attribute OperationOb.generateRandomUrl(String,OperationObject,Map_ResponseObject__String_).");
-    }
-    generateRandomUrl_String_OperationObject_Map_ResponseObject__String__visited.add(_parameters);
-    try {
-            return "";
-            }
-    finally {
-      generateRandomUrl_String_OperationObject_Map_ResponseObject__String__visited.remove(_parameters);
-    }
+  public OperationObject getOperationObjectNoTransform() {
+    return (OperationObject) getChildNoTransform(0);
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

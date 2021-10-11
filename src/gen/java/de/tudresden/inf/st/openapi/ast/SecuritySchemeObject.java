@@ -8,6 +8,9 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -18,9 +21,9 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:129
- * @astdecl SecuritySchemeObject : SecuritySchemeOb ::= <Type:String> <Description:String> <Name:String> <In:String> <Scheme:String> <BearerFormat:String> OAuthFlowsObject <OpenIdConnectUrl:String> Extension*;
- * @production SecuritySchemeObject : {@link SecuritySchemeOb} ::= <span class="component">&lt;Type:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;In:String&gt;</span> <span class="component">&lt;Scheme:String&gt;</span> <span class="component">&lt;BearerFormat:String&gt;</span> <span class="component">{@link OAuthFlowsObject}</span> <span class="component">&lt;OpenIdConnectUrl:String&gt;</span> <span class="component">{@link Extension}*</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:127
+ * @astdecl SecuritySchemeObject : SecuritySchemeOb ::= <Type:String> <Description:String> <Name:String> <In:String> <Scheme:String> <BearerFormat:String> [OAuthFlowsObject] <OpenIdConnectUrl:String> Extension*;
+ * @production SecuritySchemeObject : {@link SecuritySchemeOb} ::= <span class="component">&lt;Type:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;In:String&gt;</span> <span class="component">&lt;Scheme:String&gt;</span> <span class="component">&lt;BearerFormat:String&gt;</span> <span class="component">[{@link OAuthFlowsObject}]</span> <span class="component">&lt;OpenIdConnectUrl:String&gt;</span> <span class="component">{@link Extension}*</span>;
 
  */
 public class SecuritySchemeObject extends SecuritySchemeOb implements Cloneable {
@@ -39,17 +42,18 @@ public class SecuritySchemeObject extends SecuritySchemeOb implements Cloneable 
    */
   public void init$Children() {
     children = new ASTNode[2];
+    setChild(new Opt(), 0);
     setChild(new JastAddList(), 1);
   }
   /**
-   * @declaredat ASTNode:14
+   * @declaredat ASTNode:15
    */
   @ASTNodeAnnotation.Constructor(
     name = {"Type", "Description", "Name", "In", "Scheme", "BearerFormat", "OAuthFlowsObject", "OpenIdConnectUrl", "Extension"},
-    type = {"String", "String", "String", "String", "String", "String", "OAuthFlowsObject", "String", "JastAddList<Extension>"},
-    kind = {"Token", "Token", "Token", "Token", "Token", "Token", "Child", "Token", "List"}
+    type = {"String", "String", "String", "String", "String", "String", "Opt<OAuthFlowsObject>", "String", "JastAddList<Extension>"},
+    kind = {"Token", "Token", "Token", "Token", "Token", "Token", "Opt", "Token", "List"}
   )
-  public SecuritySchemeObject(String p0, String p1, String p2, String p3, String p4, String p5, OAuthFlowsObject p6, String p7, JastAddList<Extension> p8) {
+  public SecuritySchemeObject(String p0, String p1, String p2, String p3, String p4, String p5, Opt<OAuthFlowsObject> p6, String p7, JastAddList<Extension> p8) {
     setType(p0);
     setDescription(p1);
     setName(p2);
@@ -61,39 +65,39 @@ public class SecuritySchemeObject extends SecuritySchemeOb implements Cloneable 
     setChild(p8, 1);
   }
   /** @apilevel low-level 
-   * @declaredat ASTNode:31
+   * @declaredat ASTNode:32
    */
   protected int numChildren() {
     return 2;
   }
   /**
    * @apilevel internal
-   * @declaredat ASTNode:37
+   * @declaredat ASTNode:38
    */
   public boolean mayHaveRewrite() {
     return false;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:41
+   * @declaredat ASTNode:42
    */
   public void flushAttrCache() {
     super.flushAttrCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:45
+   * @declaredat ASTNode:46
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:49
+   * @declaredat ASTNode:50
    */
   public SecuritySchemeObject clone() throws CloneNotSupportedException {
     SecuritySchemeObject node = (SecuritySchemeObject) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:54
+   * @declaredat ASTNode:55
    */
   public SecuritySchemeObject copy() {
     try {
@@ -113,7 +117,7 @@ public class SecuritySchemeObject extends SecuritySchemeOb implements Cloneable 
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:73
+   * @declaredat ASTNode:74
    */
   @Deprecated
   public SecuritySchemeObject fullCopy() {
@@ -124,7 +128,7 @@ public class SecuritySchemeObject extends SecuritySchemeOb implements Cloneable 
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:83
+   * @declaredat ASTNode:84
    */
   public SecuritySchemeObject treeCopyNoTransform() {
     SecuritySchemeObject tree = (SecuritySchemeObject) copy();
@@ -145,7 +149,7 @@ public class SecuritySchemeObject extends SecuritySchemeOb implements Cloneable 
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:103
+   * @declaredat ASTNode:104
    */
   public SecuritySchemeObject treeCopy() {
     SecuritySchemeObject tree = (SecuritySchemeObject) copy();
@@ -161,7 +165,7 @@ public class SecuritySchemeObject extends SecuritySchemeOb implements Cloneable 
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:117
+   * @declaredat ASTNode:118
    */
   protected boolean is$Equal(ASTNode node) {
     return super.is$Equal(node) && (tokenString_Type == ((SecuritySchemeObject) node).tokenString_Type) && (tokenString_Description == ((SecuritySchemeObject) node).tokenString_Description) && (tokenString_Name == ((SecuritySchemeObject) node).tokenString_Name) && (tokenString_In == ((SecuritySchemeObject) node).tokenString_In) && (tokenString_Scheme == ((SecuritySchemeObject) node).tokenString_Scheme) && (tokenString_BearerFormat == ((SecuritySchemeObject) node).tokenString_BearerFormat) && (tokenString_OpenIdConnectUrl == ((SecuritySchemeObject) node).tokenString_OpenIdConnectUrl);    
@@ -287,30 +291,55 @@ public class SecuritySchemeObject extends SecuritySchemeOb implements Cloneable 
     return tokenString_BearerFormat != null ? tokenString_BearerFormat : "";
   }
   /**
-   * Replaces the OAuthFlowsObject child.
-   * @param node The new node to replace the OAuthFlowsObject child.
+   * Replaces the optional node for the OAuthFlowsObject child. This is the <code>Opt</code>
+   * node containing the child OAuthFlowsObject, not the actual child!
+   * @param opt The new node to be used as the optional node for the OAuthFlowsObject child.
+   * @apilevel low-level
+   */
+  public void setOAuthFlowsObjectOpt(Opt<OAuthFlowsObject> opt) {
+    setChild(opt, 0);
+  }
+  /**
+   * Replaces the (optional) OAuthFlowsObject child.
+   * @param node The new node to be used as the OAuthFlowsObject child.
    * @apilevel high-level
    */
   public void setOAuthFlowsObject(OAuthFlowsObject node) {
-    setChild(node, 0);
+    getOAuthFlowsObjectOpt().setChild(node, 0);
   }
   /**
-   * Retrieves the OAuthFlowsObject child.
-   * @return The current node used as the OAuthFlowsObject child.
+   * Check whether the optional OAuthFlowsObject child exists.
+   * @return {@code true} if the optional OAuthFlowsObject child exists, {@code false} if it does not.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Child(name="OAuthFlowsObject")
-  public OAuthFlowsObject getOAuthFlowsObject() {
-    return (OAuthFlowsObject) getChild(0);
+  public boolean hasOAuthFlowsObject() {
+    return getOAuthFlowsObjectOpt().getNumChild() != 0;
   }
   /**
-   * Retrieves the OAuthFlowsObject child.
-   * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The current node used as the OAuthFlowsObject child.
+   * Retrieves the (optional) OAuthFlowsObject child.
+   * @return The OAuthFlowsObject child, if it exists. Returns {@code null} otherwise.
    * @apilevel low-level
    */
-  public OAuthFlowsObject getOAuthFlowsObjectNoTransform() {
-    return (OAuthFlowsObject) getChildNoTransform(0);
+  public OAuthFlowsObject getOAuthFlowsObject() {
+    return (OAuthFlowsObject) getOAuthFlowsObjectOpt().getChild(0);
+  }
+  /**
+   * Retrieves the optional node for the OAuthFlowsObject child. This is the <code>Opt</code> node containing the child OAuthFlowsObject, not the actual child!
+   * @return The optional node for child the OAuthFlowsObject child.
+   * @apilevel low-level
+   */
+  @ASTNodeAnnotation.OptChild(name="OAuthFlowsObject")
+  public Opt<OAuthFlowsObject> getOAuthFlowsObjectOpt() {
+    return (Opt<OAuthFlowsObject>) getChild(0);
+  }
+  /**
+   * Retrieves the optional node for child OAuthFlowsObject. This is the <code>Opt</code> node containing the child OAuthFlowsObject, not the actual child!
+   * <p><em>This method does not invoke AST transformations.</em></p>
+   * @return The optional node for child OAuthFlowsObject.
+   * @apilevel low-level
+   */
+  public Opt<OAuthFlowsObject> getOAuthFlowsObjectOptNoTransform() {
+    return (Opt<OAuthFlowsObject>) getChildNoTransform(0);
   }
   /**
    * Replaces the lexeme OpenIdConnectUrl.
@@ -447,10 +476,10 @@ protected java.util.Set composeSecurityScheme_SecuritySchemeOb_Map_Object__ASTNo
   /**
    * @attribute syn
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:872
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:862
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:872")
+  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:862")
   public SecurityScheme composeSecurityScheme(SecuritySchemeOb securitySchemeOb, Map<Object, ASTNode> map) {
     java.util.List _parameters = new java.util.ArrayList(2);
     _parameters.add(securitySchemeOb);
@@ -497,11 +526,11 @@ protected java.util.Set composeSecurityScheme_SecuritySchemeOb_Map_Object__ASTNo
 protected boolean securitySchemeObject_visited = false;
   /**
    * @attribute syn
-   * @aspect RefGet
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RefGet.jrag:76
+   * @aspect Reference
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Reference.jrag:74
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="RefGet", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RefGet.jrag:75")
+  @ASTNodeAnnotation.Source(aspect="Reference", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Reference.jrag:73")
   public SecuritySchemeObject securitySchemeObject() {
     if (securitySchemeObject_visited) {
       throw new RuntimeException("Circular definition of attribute SecuritySchemeOb.securitySchemeObject().");

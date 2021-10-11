@@ -8,6 +8,9 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -18,12 +21,122 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:40
- * @astdecl PathItemObject : PathItemOb ::= <Summary:String> <Description:String> [Get] [Put] [Post] [Delete] [Options] [Head] [Patch] [Trace] ServerObject* ParameterOb* Extension*;
- * @production PathItemObject : {@link PathItemOb} ::= <span class="component">&lt;Summary:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">[{@link Get}]</span> <span class="component">[{@link Put}]</span> <span class="component">[{@link Post}]</span> <span class="component">[{@link Delete}]</span> <span class="component">[{@link Options}]</span> <span class="component">[{@link Head}]</span> <span class="component">[{@link Patch}]</span> <span class="component">[{@link Trace}]</span> <span class="component">{@link ServerObject}*</span> <span class="component">{@link ParameterOb}*</span> <span class="component">{@link Extension}*</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:39
+ * @astdecl PathItemObject : ASTNode ::= <Summary:String> <Description:String> [Get] [Put] [Post] [Delete] [Options] [Head] [Patch] [Trace] ServerObject* ParameterOb* Extension*;
+ * @production PathItemObject : {@link ASTNode} ::= <span class="component">&lt;Summary:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">[{@link Get}]</span> <span class="component">[{@link Put}]</span> <span class="component">[{@link Post}]</span> <span class="component">[{@link Delete}]</span> <span class="component">[{@link Options}]</span> <span class="component">[{@link Head}]</span> <span class="component">[{@link Patch}]</span> <span class="component">[{@link Trace}]</span> <span class="component">{@link ServerObject}*</span> <span class="component">{@link ParameterOb}*</span> <span class="component">{@link Extension}*</span>;
 
  */
-public class PathItemObject extends PathItemOb implements Cloneable {
+public class PathItemObject extends ASTNode<ASTNode> implements Cloneable {
+  /**
+   * @aspect Composer
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:262
+   */
+  public static Path composePath (PathItemObject pathItem, Map<Object, ASTNode> map){
+        Path path = new Path();
+        PathItemObject p = (PathItemObject) pathItem;
+
+        if( !p.getSummary().isEmpty())
+        path.setSummary(p.getSummary());
+        if( !p.getDescription().isEmpty() )
+        path.setDescription(p.getDescription());
+        if( p.hasGet() )
+        path.setGet( OperationObject.composeOperation(p.getGet().getOperationObject(), map) );
+        if( p.hasPut() )
+        path.setPut( OperationObject.composeOperation(p.getPut().getOperationObject(), map) );
+        if( p.hasPost() )
+        path.setPost( OperationObject.composeOperation(p.getPost().getOperationObject(), map) );
+        if( p.hasDelete() )
+        path.setDelete( OperationObject.composeOperation(p.getDelete().getOperationObject(), map) );
+        if( p.hasOptions() )
+        path.setOptions( OperationObject.composeOperation(p.getOptions().getOperationObject(), map) );
+        if( p.hasHead() )
+        path.setHead( OperationObject.composeOperation(p.getHead().getOperationObject(), map) );
+        if( p.hasPatch() )
+        path.setPatch( OperationObject.composeOperation(p.getPatch().getOperationObject(), map) );
+        if( p.getNumServerObject() != 0 ){
+        for( ServerObject s : p.getServerObjects() )
+        path.addServer( ServerObject.composeServer(s, map) );
+        }
+        if( p.getNumParameterOb() != 0 ){
+        for( ParameterOb e : p.getParameterObs() )
+        path.addParameter( e.composeParameter(e, map) );
+        }
+        if( p.getNumExtension() != 0 ){
+        Map<String, Object> extensionMap = new HashMap<>();
+        for( Extension e : p.getExtensions() )
+        extensionMap.put(e.getKey(), e.getValue());
+        path.setExtensions(extensionMap);
+        }
+
+        return path;
+    }
+  /**
+   * @aspect Parser
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:225
+   */
+  public static PathItemObject parsePath(Path path, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
+        PathItemObject pathItem = new PathItemObject();
+
+        if( path.getSummary() != null )
+        pathItem.setSummary(path.getSummary());
+        if( path.getDescription() != null )
+        pathItem.setDescription(path.getDescription());
+        if( path.getGet() != null ){
+        Get get = new Get();
+        get.setOperationObject( OperationObject.parseOperation( path.getGet(), context, map ) );
+        pathItem.setGet(get);
+        }
+        if( path.getPut() != null ){
+        Put put = new Put();
+        put.setOperationObject( OperationObject.parseOperation( path.getPut(), context, map ) );
+        pathItem.setPut(put);
+        }
+        if( path.getPost() != null ){
+        Post post = new Post();
+        post.setOperationObject( OperationObject.parseOperation( path.getPost(), context, map ) );
+        pathItem.setPost(post);
+        }
+        if( path.getDelete() != null ){
+        Delete delete = new Delete();
+        delete.setOperationObject( OperationObject.parseOperation( path.getDelete(), context, map ) );
+        pathItem.setDelete(delete);
+        }
+        if( path.getOptions() != null ){
+        Options options = new Options();
+        options.setOperationObject( OperationObject.parseOperation( path.getOptions(), context, map ) );
+        pathItem.setOptions(options);
+        }
+        if( path.getHead() != null ){
+        Head head = new Head();
+        head.setOperationObject( OperationObject.parseOperation( path.getHead(), context, map ) );
+        pathItem.setHead(head);
+        }
+        if( path.getPatch() != null ){
+        Patch patch = new Patch();
+        patch.setOperationObject( OperationObject.parseOperation( path.getPatch(), context, map ) );
+        pathItem.setPatch(patch);
+        }
+        if( path.getTrace() != null ){
+        Trace trace = new Trace();
+        trace.setOperationObject( OperationObject.parseOperation( path.getTrace(), context, map ) );
+        pathItem.setTrace(trace);
+        }
+        if( path.getServers() != null ){
+        for(Server s : path.getServers())
+        pathItem.addServerObject( ServerObject.parseServer(s, map));
+        }
+        if( path.getParameters() != null ){
+        for(Parameter p : path.getParameters())
+        pathItem.addParameterOb(ParameterOb.parseParameter(p, context, map));
+        }
+        if( path.getExtensions() != null ){
+        for( String key : path.getExtensions().keySet() )
+        pathItem.addExtension(new Extension(key, path.getExtensions().get(key)));
+        }
+
+        map.put(path, pathItem);
+        return pathItem;
+        }
   /**
    * @declaredat ASTNode:1
    */
@@ -957,85 +1070,6 @@ public class PathItemObject extends PathItemOb implements Cloneable {
    */
   public JastAddList<Extension> getExtensionsNoTransform() {
     return getExtensionListNoTransform();
-  }
-/** @apilevel internal */
-protected java.util.Set composePath_PathItemOb_Map_Object__ASTNode__visited;
-  /**
-   * @attribute syn
-   * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:262
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:262")
-  public Path composePath(PathItemOb pathItem, Map<Object, ASTNode> map) {
-    java.util.List _parameters = new java.util.ArrayList(2);
-    _parameters.add(pathItem);
-    _parameters.add(map);
-    if (composePath_PathItemOb_Map_Object__ASTNode__visited == null) composePath_PathItemOb_Map_Object__ASTNode__visited = new java.util.HashSet(4);
-    if (composePath_PathItemOb_Map_Object__ASTNode__visited.contains(_parameters)) {
-      throw new RuntimeException("Circular definition of attribute PathItemOb.composePath(PathItemOb,Map_Object__ASTNode_).");
-    }
-    composePath_PathItemOb_Map_Object__ASTNode__visited.add(_parameters);
-    try {
-            Path path = new Path();
-            PathItemObject p = (PathItemObject) pathItem;
-    
-            if( !p.getSummary().isEmpty())
-            path.setSummary(p.getSummary());
-            if( !p.getDescription().isEmpty() )
-            path.setDescription(p.getDescription());
-            if( p.hasGet() )
-            path.setGet( OperationObject.composeOperation(p.getGet().getOperationObject(), map) );
-            if( p.hasPut() )
-            path.setPut( OperationObject.composeOperation(p.getPut().getOperationObject(), map) );
-            if( p.hasPost() )
-            path.setPost( OperationObject.composeOperation(p.getPost().getOperationObject(), map) );
-            if( p.hasDelete() )
-            path.setDelete( OperationObject.composeOperation(p.getDelete().getOperationObject(), map) );
-            if( p.hasOptions() )
-            path.setOptions( OperationObject.composeOperation(p.getOptions().getOperationObject(), map) );
-            if( p.hasHead() )
-            path.setHead( OperationObject.composeOperation(p.getHead().getOperationObject(), map) );
-            if( p.hasPatch() )
-            path.setPatch( OperationObject.composeOperation(p.getPatch().getOperationObject(), map) );
-            if( p.getNumServerObject() != 0 ){
-            for( ServerObject s : p.getServerObjects() )
-            path.addServer( ServerObject.composeServer(s, map) );
-            }
-            if( p.getNumParameterOb() != 0 ){
-            for( ParameterOb e : p.getParameterObs() )
-            path.addParameter( e.composeParameter(e, map) );
-            }
-            if( p.getNumExtension() != 0 ){
-            Map<String, Object> extensionMap = new HashMap<>();
-            for( Extension e : p.getExtensions() )
-            extensionMap.put(e.getKey(), e.getValue());
-            path.setExtensions(extensionMap);
-            }
-    
-            return path;
-            }
-    finally {
-      composePath_PathItemOb_Map_Object__ASTNode__visited.remove(_parameters);
-    }
-  }
-/** @apilevel internal */
-protected boolean pathItemObject_visited = false;
-  /**
-   * @attribute syn
-   * @aspect RefGet
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RefGet.jrag:22
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="RefGet", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RefGet.jrag:21")
-  public PathItemObject pathItemObject() {
-    if (pathItemObject_visited) {
-      throw new RuntimeException("Circular definition of attribute PathItemOb.pathItemObject().");
-    }
-    pathItemObject_visited = true;
-    PathItemObject pathItemObject_value = this;
-    pathItemObject_visited = false;
-    return pathItemObject_value;
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

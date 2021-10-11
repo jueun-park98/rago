@@ -8,6 +8,9 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -18,7 +21,7 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:132
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:130
  * @astdecl OAuthFlowsObject : ASTNode ::= [Implicit] [Password] [ClientCredentials] [AuthorizationCode] Extension*;
  * @production OAuthFlowsObject : {@link ASTNode} ::= <span class="component">[{@link Implicit}]</span> <span class="component">[{@link Password}]</span> <span class="component">[{@link ClientCredentials}]</span> <span class="component">[{@link AuthorizationCode}]</span> <span class="component">{@link Extension}*</span>;
 
@@ -26,7 +29,7 @@ import java.util.stream.IntStream;
 public class OAuthFlowsObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:912
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:902
    */
   public static OAuthFlows composeOAuthFlows (OAuthFlowsObject oAuthFlowsObject, Map<Object, ASTNode> map){
         OAuthFlows oAuthFlows = new OAuthFlows();
@@ -44,7 +47,7 @@ public class OAuthFlowsObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:820
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:841
    */
   public static OAuthFlowsObject parseOAuthFlows(OAuthFlows oAuthFlows, Map<Object, ASTNode> map){
         OAuthFlowsObject oAuthFlowsObject = new OAuthFlowsObject();

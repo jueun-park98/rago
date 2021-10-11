@@ -8,6 +8,9 @@ import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
 import java.net.URL;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.openapi4j.core.exception.DecodeException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -18,9 +21,9 @@ import java.util.Random;
 import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:60
- * @astdecl ParameterReference : ParameterOb ::= <Ref:String> <ParameterOb:ParameterOb>;
- * @production ParameterReference : {@link ParameterOb} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">&lt;ParameterOb:ParameterOb&gt;</span>;
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:58
+ * @astdecl ParameterReference : ParameterOb ::= <Ref:String>;
+ * @production ParameterReference : {@link ParameterOb} ::= <span class="component">&lt;Ref:String&gt;</span>;
 
  */
 public class ParameterReference extends ParameterOb implements Cloneable {
@@ -43,48 +46,47 @@ public class ParameterReference extends ParameterOb implements Cloneable {
    * @declaredat ASTNode:12
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Ref", "ParameterOb"},
-    type = {"String", "ParameterOb"},
-    kind = {"Token", "Token"}
+    name = {"Ref"},
+    type = {"String"},
+    kind = {"Token"}
   )
-  public ParameterReference(String p0, ParameterOb p1) {
+  public ParameterReference(String p0) {
     setRef(p0);
-    setParameterOb(p1);
   }
   /** @apilevel low-level 
-   * @declaredat ASTNode:22
+   * @declaredat ASTNode:21
    */
   protected int numChildren() {
     return 0;
   }
   /**
    * @apilevel internal
-   * @declaredat ASTNode:28
+   * @declaredat ASTNode:27
    */
   public boolean mayHaveRewrite() {
     return false;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:32
+   * @declaredat ASTNode:31
    */
   public void flushAttrCache() {
     super.flushAttrCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:36
+   * @declaredat ASTNode:35
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:40
+   * @declaredat ASTNode:39
    */
   public ParameterReference clone() throws CloneNotSupportedException {
     ParameterReference node = (ParameterReference) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:45
+   * @declaredat ASTNode:44
    */
   public ParameterReference copy() {
     try {
@@ -104,7 +106,7 @@ public class ParameterReference extends ParameterOb implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:64
+   * @declaredat ASTNode:63
    */
   @Deprecated
   public ParameterReference fullCopy() {
@@ -115,7 +117,7 @@ public class ParameterReference extends ParameterOb implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:74
+   * @declaredat ASTNode:73
    */
   public ParameterReference treeCopyNoTransform() {
     ParameterReference tree = (ParameterReference) copy();
@@ -136,7 +138,7 @@ public class ParameterReference extends ParameterOb implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:94
+   * @declaredat ASTNode:93
    */
   public ParameterReference treeCopy() {
     ParameterReference tree = (ParameterReference) copy();
@@ -152,10 +154,10 @@ public class ParameterReference extends ParameterOb implements Cloneable {
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:108
+   * @declaredat ASTNode:107
    */
   protected boolean is$Equal(ASTNode node) {
-    return super.is$Equal(node) && (tokenString_Ref == ((ParameterReference) node).tokenString_Ref) && (tokenParameterOb_ParameterOb == ((ParameterReference) node).tokenParameterOb_ParameterOb);    
+    return super.is$Equal(node) && (tokenString_Ref == ((ParameterReference) node).tokenString_Ref);    
   }
   /**
    * Replaces the lexeme Ref.
@@ -177,35 +179,15 @@ public class ParameterReference extends ParameterOb implements Cloneable {
   public String getRef() {
     return tokenString_Ref != null ? tokenString_Ref : "";
   }
-  /**
-   * Replaces the lexeme ParameterOb.
-   * @param value The new value for the lexeme ParameterOb.
-   * @apilevel high-level
-   */
-  public void setParameterOb(ParameterOb value) {
-    tokenParameterOb_ParameterOb = value;
-  }
-  /** @apilevel internal 
-   */
-  protected ParameterOb tokenParameterOb_ParameterOb;
-  /**
-   * Retrieves the value for the lexeme ParameterOb.
-   * @return The value for the lexeme ParameterOb.
-   * @apilevel high-level
-   */
-  @ASTNodeAnnotation.Token(name="ParameterOb")
-  public ParameterOb getParameterOb() {
-    return tokenParameterOb_ParameterOb;
-  }
 /** @apilevel internal */
 protected java.util.Set composeParameter_ParameterOb_Map_Object__ASTNode__visited;
   /**
    * @attribute syn
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:382
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:372
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:382")
+  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:372")
   public Parameter composeParameter(ParameterOb parameterOb, Map<Object, ASTNode> map) {
     java.util.List _parameters = new java.util.ArrayList(2);
     _parameters.add(parameterOb);
@@ -232,21 +214,22 @@ protected java.util.Set composeParameter_ParameterOb_Map_Object__ASTNode__visite
 protected boolean parameterObject_visited = false;
   /**
    * @attribute syn
-   * @aspect RefGet
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RefGet.jrag:3
+   * @aspect Reference
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Reference.jrag:3
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="RefGet", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RefGet.jrag:3")
+  @ASTNodeAnnotation.Source(aspect="Reference", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Reference.jrag:3")
   public ParameterObject parameterObject() {
     if (parameterObject_visited) {
       throw new RuntimeException("Circular definition of attribute ParameterOb.parameterObject().");
     }
     parameterObject_visited = true;
     try {
-            if( getParameterOb() instanceof ParameterObject )
-            return (ParameterObject) getParameterOb();
-            else
-            return getParameterOb().parameterObject();
+            for( ParameterTuple t : root().parameterTuples() ){
+            if( t.getKey().equals(getRef().substring(getRef().lastIndexOf("/")+1, getRef().length())) )
+                return t.getParameterOb().parameterObject();
+            }
+            return new ParameterObject();
         }
     finally {
       parameterObject_visited = false;
