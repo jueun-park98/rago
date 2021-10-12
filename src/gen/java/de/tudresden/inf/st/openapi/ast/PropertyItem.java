@@ -207,6 +207,50 @@ public class PropertyItem extends ASTNode<ASTNode> implements Cloneable {
   public SchemaOb getSchemaObNoTransform() {
     return (SchemaOb) getChildNoTransform(0);
   }
+/** @apilevel internal */
+protected java.util.Set writePropertyName_SchemaOb_PropertyItem_visited;
+  /**
+   * @attribute syn
+   * @aspect InferParameter
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:6
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="InferParameter", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:6")
+  public String writePropertyName(SchemaOb schema, PropertyItem p) {
+    java.util.List _parameters = new java.util.ArrayList(2);
+    _parameters.add(schema);
+    _parameters.add(p);
+    if (writePropertyName_SchemaOb_PropertyItem_visited == null) writePropertyName_SchemaOb_PropertyItem_visited = new java.util.HashSet(4);
+    if (writePropertyName_SchemaOb_PropertyItem_visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute PropertyItem.writePropertyName(SchemaOb,PropertyItem).");
+    }
+    writePropertyName_SchemaOb_PropertyItem_visited.add(_parameters);
+    String writePropertyName_SchemaOb_PropertyItem_value = ((SchemaReference) schema).getRef().substring(((SchemaReference) schema).getRef().lastIndexOf("/") + 1) + p.getName();
+    writePropertyName_SchemaOb_PropertyItem_visited.remove(_parameters);
+    return writePropertyName_SchemaOb_PropertyItem_value;
+  }
+/** @apilevel internal */
+protected java.util.Set writePropertyValue_JsonNode_PropertyItem_visited;
+  /**
+   * @attribute syn
+   * @aspect InferParameter
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:8
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="InferParameter", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:8")
+  public String writePropertyValue(JsonNode node, PropertyItem p) {
+    java.util.List _parameters = new java.util.ArrayList(2);
+    _parameters.add(node);
+    _parameters.add(p);
+    if (writePropertyValue_JsonNode_PropertyItem_visited == null) writePropertyValue_JsonNode_PropertyItem_visited = new java.util.HashSet(4);
+    if (writePropertyValue_JsonNode_PropertyItem_visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute PropertyItem.writePropertyValue(JsonNode,PropertyItem).");
+    }
+    writePropertyValue_JsonNode_PropertyItem_visited.add(_parameters);
+    String writePropertyValue_JsonNode_PropertyItem_value = node.get(p.getName()).toString().startsWith("\"") && node.get(p.getName()).toString().endsWith("\"") ? node.get(p.getName()).toString().substring(1, node.get(p.getName()).toString().length() - 1) : node.get(p.getName()).toString();
+    writePropertyValue_JsonNode_PropertyItem_visited.remove(_parameters);
+    return writePropertyValue_JsonNode_PropertyItem_value;
+  }
   /** @apilevel internal */
   public ASTNode rewriteTo() {
     return super.rewriteTo();

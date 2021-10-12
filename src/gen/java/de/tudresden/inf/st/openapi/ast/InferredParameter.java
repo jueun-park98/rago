@@ -179,6 +179,42 @@ public class InferredParameter extends ASTNode<ASTNode> implements Cloneable {
   public String getParameter() {
     return tokenString_Parameter != null ? tokenString_Parameter : "";
   }
+/** @apilevel internal */
+protected boolean name_visited = false;
+  /**
+   * @attribute syn
+   * @aspect InferParameter
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:13
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="InferParameter", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:13")
+  public String name() {
+    if (name_visited) {
+      throw new RuntimeException("Circular definition of attribute InferredParameter.name().");
+    }
+    name_visited = true;
+    String name_value = getParameter().substring(0,getParameter().indexOf("?"));
+    name_visited = false;
+    return name_value;
+  }
+/** @apilevel internal */
+protected boolean value_visited = false;
+  /**
+   * @attribute syn
+   * @aspect InferParameter
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:14
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="InferParameter", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:14")
+  public String value() {
+    if (value_visited) {
+      throw new RuntimeException("Circular definition of attribute InferredParameter.value().");
+    }
+    value_visited = true;
+    String value_value = getParameter().substring(getParameter().indexOf("?")+1);
+    value_visited = false;
+    return value_value;
+  }
   /** @apilevel internal */
   public ASTNode rewriteTo() {
     return super.rewriteTo();
@@ -186,5 +222,23 @@ public class InferredParameter extends ASTNode<ASTNode> implements Cloneable {
   /** @apilevel internal */
   public boolean canRewrite() {
     return false;
+  }
+  /** @apilevel internal */
+  protected void collect_contributors_OpenAPIObject_collectInferredParameters(OpenAPIObject _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
+    // @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:11
+    {
+      java.util.Set<ASTNode> contributors = _map.get(_root);
+      if (contributors == null) {
+        contributors = new java.util.LinkedHashSet<ASTNode>();
+        _map.put((ASTNode) _root, contributors);
+      }
+      contributors.add(this);
+    }
+    super.collect_contributors_OpenAPIObject_collectInferredParameters(_root, _map);
+  }
+  /** @apilevel internal */
+  protected void contributeTo_OpenAPIObject_collectInferredParameters(Set<InferredParameter> collection) {
+    super.contributeTo_OpenAPIObject_collectInferredParameters(collection);
+    collection.add(this);
   }
 }

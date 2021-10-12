@@ -489,6 +489,20 @@ public class ASTNode<T extends ASTNode> implements Cloneable {
   }
   /**
    * @aspect <NoAspect>
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:10
+   */
+    /** @apilevel internal */
+  protected void collect_contributors_OpenAPIObject_collectInferredParameters(OpenAPIObject _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
+    for (int i = 0; i < getNumChild(); i++) {
+      getChild(i).collect_contributors_OpenAPIObject_collectInferredParameters(_root, _map);
+    }
+  }
+  /** @apilevel internal */
+  protected void contributeTo_OpenAPIObject_collectInferredParameters(Set<InferredParameter> collection) {
+  }
+
+  /**
+   * @aspect <NoAspect>
    * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:8
    */
     /** @apilevel internal */

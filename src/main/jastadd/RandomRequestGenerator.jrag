@@ -16,7 +16,7 @@ aspect RandomRequestGenerator {
         for( PathsObject p : getPathsObjects() )
             p.generateUrl(responses);
 
-        System.out.println(responses.size());
+        //System.out.println(responses.size());
         /*
         for( String path : urls ){
         if( path.endsWith("GET") ){
@@ -266,7 +266,7 @@ public void Post.generateRandomUrl(String pathRef, OperationObject operationObje
 
         // print result
         System.out.println("HTTP status code (GET) : " + responseCode);
-        System.out.println("Response : " + response.toString());
+        //System.out.println("Response : " + response.toString());
         for( ResponseTuple t : operationObject.getResponseTuples() ){
         if( t.getKey().equals("200") && responseCode == 200 ) {
         System.out.println("Response successfully saved!");

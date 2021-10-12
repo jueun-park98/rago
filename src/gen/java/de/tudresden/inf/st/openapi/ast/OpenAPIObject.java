@@ -82,14 +82,14 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
    * @aspect InferParameter
    * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:16
    */
-  public void generateRequestsWithInferredParameters () throws Exception {
-        Set<String> urls = new HashSet<>();
+  public void generateRequestsWithInferredParameters()throws Exception{
+        Set<String> urls=new HashSet<>();
 
         generateRequests();
 
-        for( PathsObject p : getPathsObjects() )
+        for(PathsObject p:getPathsObjects())
         p.inferUrl(urls);
-    }
+        }
   /**
    * @aspect Parser
    * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:40
@@ -143,7 +143,7 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
         for( PathsObject p : getPathsObjects() )
             p.generateUrl(responses);
 
-        System.out.println(responses.size());
+        //System.out.println(responses.size());
         /*
         for( String path : urls ){
         if( path.endsWith("GET") ){
@@ -276,6 +276,9 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
+    OpenAPIObject_collectInferredParameters_visited = false;
+    OpenAPIObject_collectInferredParameters_computed = null;
+    OpenAPIObject_collectInferredParameters_value = null;
     OpenAPIObject_schemaTuples_visited = false;
     OpenAPIObject_schemaTuples_computed = null;
     OpenAPIObject_schemaTuples_value = null;
@@ -300,6 +303,7 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
     OpenAPIObject_callbackTuples_visited = false;
     OpenAPIObject_callbackTuples_computed = null;
     OpenAPIObject_callbackTuples_value = null;
+    contributorMap_OpenAPIObject_collectInferredParameters = null;
     contributorMap_OpenAPIObject_schemaTuples = null;
     contributorMap_OpenAPIObject_responseTuples = null;
     contributorMap_OpenAPIObject_parameterTuples = null;
@@ -310,14 +314,14 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
     contributorMap_OpenAPIObject_callbackTuples = null;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:91
+   * @declaredat ASTNode:95
    */
   public OpenAPIObject clone() throws CloneNotSupportedException {
     OpenAPIObject node = (OpenAPIObject) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:96
+   * @declaredat ASTNode:100
    */
   public OpenAPIObject copy() {
     try {
@@ -337,7 +341,7 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:115
+   * @declaredat ASTNode:119
    */
   @Deprecated
   public OpenAPIObject fullCopy() {
@@ -348,7 +352,7 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:125
+   * @declaredat ASTNode:129
    */
   public OpenAPIObject treeCopyNoTransform() {
     OpenAPIObject tree = (OpenAPIObject) copy();
@@ -369,7 +373,7 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:145
+   * @declaredat ASTNode:149
    */
   public OpenAPIObject treeCopy() {
     OpenAPIObject tree = (OpenAPIObject) copy();
@@ -385,7 +389,7 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
     return tree;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:159
+   * @declaredat ASTNode:163
    */
   protected boolean is$Equal(ASTNode node) {
     return super.is$Equal(node) && (tokenString_OpenAPI == ((OpenAPIObject) node).tokenString_OpenAPI) && (tokenOAIContext_Context == ((OpenAPIObject) node).tokenOAIContext_Context);    
@@ -1245,6 +1249,21 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
   }
   /**
    * @aspect <NoAspect>
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:10
+   */
+  /** @apilevel internal */
+protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIObject_collectInferredParameters = null;
+
+  /** @apilevel internal */
+  protected void survey_OpenAPIObject_collectInferredParameters() {
+    if (contributorMap_OpenAPIObject_collectInferredParameters == null) {
+      contributorMap_OpenAPIObject_collectInferredParameters = new java.util.IdentityHashMap<ASTNode, java.util.Set<ASTNode>>();
+      collect_contributors_OpenAPIObject_collectInferredParameters(this, contributorMap_OpenAPIObject_collectInferredParameters);
+    }
+  }
+
+  /**
+   * @aspect <NoAspect>
    * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:8
    */
   /** @apilevel internal */
@@ -1363,32 +1382,6 @@ protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIO
     }
   }
 
-/** @apilevel internal */
-protected boolean collectInferredParameters_visited = false;
-  /**
-   * @attribute syn
-   * @aspect InferParameter
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:7
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="InferParameter", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:7")
-  public Set<String> collectInferredParameters() {
-    if (collectInferredParameters_visited) {
-      throw new RuntimeException("Circular definition of attribute OpenAPIObject.collectInferredParameters().");
-    }
-    collectInferredParameters_visited = true;
-    try {
-            Set<String> collect = new HashSet<>();
-    
-            for( InferredParameter i : getInferredParameters() )
-            collect.add(i.getParameter());
-    
-            return collect;
-        }
-    finally {
-      collectInferredParameters_visited = false;
-    }
-  }
   /**
    * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:25
    * @apilevel internal
@@ -1398,16 +1391,16 @@ protected boolean collectInferredParameters_visited = false;
       // @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:26
       int i = _callerNode.getIndexOfChild(_childNode);
       {
-              PathItemObject p = ((PathsObject) _childNode).getPathItemObject();
-              String path = getServerObject(0).getUrl();
+              PathItemObject p=((PathsObject)_childNode).getPathItemObject();
+              String path=getServerObject(0).getUrl();
       
-              if( p.hasGet() )
-                  urls.add(p.getGet().inferRandomUrl(path + ((PathsObject) _childNode).getRef(), p.getGet().getOperationObject()));
-              else if( p.hasPost() )
-                  urls.add(p.getPost().inferRandomUrl(path + ((PathsObject) _childNode).getRef(), p.getPost().getOperationObject()));
+              if(p.hasGet())
+              urls.add(p.getGet().inferRandomUrl(path+((PathsObject)_childNode).getRef(),p.getGet().getOperationObject()));
+              else if(p.hasPost())
+              urls.add(p.getPost().inferRandomUrl(path+((PathsObject)_childNode).getRef(),p.getPost().getOperationObject()));
       
               return urls;
-          }
+              }
     }
     else {
       return getParent().Define_inferUrl(this, _callerNode, urls);
@@ -1479,6 +1472,57 @@ protected boolean collectInferredParameters_visited = false;
   public boolean canRewrite() {
     return false;
   }
+/** @apilevel internal */
+protected boolean OpenAPIObject_collectInferredParameters_visited = false;
+  /**
+   * @attribute coll
+   * @aspect InferParameter
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:10
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.COLL)
+  @ASTNodeAnnotation.Source(aspect="InferParameter", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:10")
+  public Set<InferredParameter> collectInferredParameters() {
+    ASTState state = state();
+    if (OpenAPIObject_collectInferredParameters_computed == ASTState.NON_CYCLE || OpenAPIObject_collectInferredParameters_computed == state().cycle()) {
+      return OpenAPIObject_collectInferredParameters_value;
+    }
+    if (OpenAPIObject_collectInferredParameters_visited) {
+      throw new RuntimeException("Circular definition of attribute OpenAPIObject.collectInferredParameters().");
+    }
+    OpenAPIObject_collectInferredParameters_visited = true;
+    OpenAPIObject_collectInferredParameters_value = collectInferredParameters_compute();
+    if (state().inCircle()) {
+      OpenAPIObject_collectInferredParameters_computed = state().cycle();
+    
+    } else {
+      OpenAPIObject_collectInferredParameters_computed = ASTState.NON_CYCLE;
+    
+    }
+    OpenAPIObject_collectInferredParameters_visited = false;
+    return OpenAPIObject_collectInferredParameters_value;
+  }
+  /** @apilevel internal */
+  private Set<InferredParameter> collectInferredParameters_compute() {
+    ASTNode node = this;
+    while (node != null && !(node instanceof OpenAPIObject)) {
+      node = node.getParent();
+    }
+    OpenAPIObject root = (OpenAPIObject) node;
+    root.survey_OpenAPIObject_collectInferredParameters();
+    Set<InferredParameter> _computedValue = new HashSet<InferredParameter>();
+    if (root.contributorMap_OpenAPIObject_collectInferredParameters.containsKey(this)) {
+      for (ASTNode contributor : root.contributorMap_OpenAPIObject_collectInferredParameters.get(this)) {
+        contributor.contributeTo_OpenAPIObject_collectInferredParameters(_computedValue);
+      }
+    }
+    return _computedValue;
+  }
+  /** @apilevel internal */
+  protected ASTState.Cycle OpenAPIObject_collectInferredParameters_computed = null;
+
+  /** @apilevel internal */
+  protected Set<InferredParameter> OpenAPIObject_collectInferredParameters_value;
+
 /** @apilevel internal */
 protected boolean OpenAPIObject_schemaTuples_visited = false;
   /**

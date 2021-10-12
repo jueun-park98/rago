@@ -29,30 +29,32 @@ import java.util.stream.IntStream;
 public class Post extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect InferParameter
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:187
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:184
    */
-  public void connectPOST (String path) throws Exception{
-        URL url = new URL(path);
-        HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
+  public void connectPOST(String path){
+        try{URL url=new URL(path);
+        HttpsURLConnection con=(HttpsURLConnection)url.openConnection();
 
         con.setRequestMethod("POST"); // HTTP POST
-        con.setRequestProperty("User-Agent", "Mozilla/5.0"); // add request header
+        con.setRequestProperty("User-Agent","Mozilla/5.0"); // add request header
         con.setDoOutput(true); // POST
 
-        int responseCode = con.getResponseCode();
-        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        int responseCode=con.getResponseCode();
+        BufferedReader in=new BufferedReader(new InputStreamReader(con.getInputStream()));
         String inputLine;
-        StringBuffer response = new StringBuffer();
+        StringBuffer response=new StringBuffer();
 
-        while ((inputLine = in.readLine()) != null) {
+        while((inputLine=in.readLine())!=null){
         response.append(inputLine);
         }
         in.close();
 
         // print result
-        System.out.println("Inferred path : " + path);
-        System.out.println("HTTP status code (POST) : " + responseCode);
-    }
+        System.out.println("Inferred path : "+path);
+        System.out.println("HTTP status code (POST) : "+responseCode);}catch(Exception e){
+        System.out.println(e.toString());
+        }
+        }
   /**
    * @declaredat ASTNode:1
    */
@@ -217,10 +219,10 @@ protected java.util.Set inferRandomUrl_String_OperationObject_visited;
   /**
    * @attribute syn
    * @aspect InferParameter
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:85
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:82
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="InferParameter", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:85")
+  @ASTNodeAnnotation.Source(aspect="InferParameter", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:82")
   public String inferRandomUrl(String pathRef, OperationObject operationObject) {
     java.util.List _parameters = new java.util.ArrayList(2);
     _parameters.add(pathRef);
@@ -231,48 +233,48 @@ protected java.util.Set inferRandomUrl_String_OperationObject_visited;
     }
     inferRandomUrl_String_OperationObject_visited.add(_parameters);
     try {
-            try {
-            List<String> paths = new ArrayList<>();
+            List<String> paths=new ArrayList<>();
     
-            for( ParameterOb o : operationObject.getParameterObs() ){
-            ParameterObject p = o.parameterObject();
-            SchemaObject s = p.getSchemaOb().schemaObject();
+            for(ParameterOb o:operationObject.getParameterObs()){
+            ParameterObject p=o.parameterObject();
+            SchemaObject s=p.getSchemaOb().schemaObject();
     
-            if( p.getIn().equals("path") ){
-            for( String str : root().collectInferredParameters() ){
-            String pathPart = pathRef.substring(pathRef.indexOf("{") ,pathRef.indexOf("}") + 1);
-    
-            if( p.getName().equalsIgnoreCase(str.substring(0, str.indexOf("?"))) )
-            paths.add(pathRef.replace(pathPart, str.substring(str.indexOf("?")+1)));
+            // check if the parameter is in type 'path'.
+            if(p.getIn().equals("path")){
+            for(InferredParameter i:root().collectInferredParameters()){
+            // get the field which must be modified
+            String pathPart=pathRef.substring(pathRef.indexOf("{"),pathRef.indexOf("}")+1);
+            // case insensitive comparison of parameter name and name of inferred parameters
+            if(p.getName().equalsIgnoreCase(i.name()))
+            // add inferred parameter in url
+            paths.add(pathRef.replace(pathPart,i.value()));
             }
-            } else if ( p.getIn().equals("query") ){
-    
-            if( s.getType().equals("array") ){
-            for( String str : root().collectInferredParameters() ){
-            if( p.getName().equalsIgnoreCase(str.substring(0, str.indexOf("?"))) )
-            pathRef = pathRef + "&" + p.getName() + "=" + str.substring(str.indexOf("?")+1);
+            } // check if the parameter is in type 'query'
+            else if(p.getIn().equals("query")){
+            // check if query parameter is in type 'array'
+            if(s.getType().equals("array")){
+            for(InferredParameter i:root().collectInferredParameters()){
+            // case insensitive comparison of parameter name and name of inferred parameters
+            if(p.getName().equalsIgnoreCase(i.name()))
+            // add inferred parameter in url
+            pathRef=pathRef+"&"+p.getName()+"="+i.value();
             }
-            paths.add(pathRef.replaceFirst("&", "?"));
-            } else {
-            for( String str : root().collectInferredParameters() ){
-            if( p.getName().equalsIgnoreCase(str.substring(0, str.indexOf("?"))) )
-            paths.add( pathRef + "?" + p.getName() + "=" + str.substring(str.indexOf("?")+1) );
+            paths.add(pathRef.replaceFirst("&","?"));
+            }else{
+            for(InferredParameter i:root().collectInferredParameters()){
+            // case insensitive comparison of parameter name and name of inferred parameters
+            if(p.getName().equalsIgnoreCase(i.name()))
+            // add inferred parameter in url
+            paths.add(pathRef+"?"+p.getName()+"="+i.value());
             }
             }
-    
             }
-    
-            for( String path : paths ){
-                System.out.println(path);
-            //connectPOST(path);
+            System.out.println(paths.size()+" Paths are inferred.");
             }
-    
-            }
+            for(String path:paths)
+            connectPOST(path);
             return pathRef;
-            }catch (Exception e) {
-            return "";
-        }
-        }
+            }
     finally {
       inferRandomUrl_String_OperationObject_visited.remove(_parameters);
     }
