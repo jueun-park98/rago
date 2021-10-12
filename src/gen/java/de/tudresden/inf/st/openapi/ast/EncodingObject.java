@@ -1,5 +1,13 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import javax.net.ssl.HttpsURLConnection;
+import java.util.Random;
+import java.util.stream.IntStream;
 import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
@@ -7,21 +15,13 @@ import org.openapi4j.core.model.reference.Reference;
 import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
-import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import org.openapi4j.core.exception.DecodeException;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import javax.net.ssl.HttpsURLConnection;
-import java.util.Random;
-import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:72
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:72
  * @astdecl EncodingObject : ASTNode ::= <ContentType:String> HeaderTuple* <Style:String> <Explode:Boolean> <AllowReserved:Boolean> Extension*;
  * @production EncodingObject : {@link ASTNode} ::= <span class="component">&lt;ContentType:String&gt;</span> <span class="component">{@link HeaderTuple}*</span> <span class="component">&lt;Style:String&gt;</span> <span class="component">&lt;Explode:Boolean&gt;</span> <span class="component">&lt;AllowReserved:Boolean&gt;</span> <span class="component">{@link Extension}*</span>;
 
@@ -29,7 +29,7 @@ import java.util.stream.IntStream;
 public class EncodingObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:483
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jrag:483
    */
   public static EncodingProperty composeEncodingProperty (EncodingObject encodingObject, Map<Object, ASTNode> map){
         EncodingProperty encodingProperty = new EncodingProperty();
@@ -59,7 +59,7 @@ public class EncodingObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:453
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:453
    */
   public static EncodingObject parseEncoding(EncodingProperty encodingProperty, OAIContext context, Map<Object, ASTNode> map) throws DecodeException {
         EncodingObject encodingObject = new EncodingObject();

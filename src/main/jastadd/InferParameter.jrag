@@ -24,13 +24,13 @@ public void OpenAPIObject.generateRequestsWithInferredParameters()throws Excepti
 
         inh Set<String> PathsObject.inferUrl(Set<String> urls);
         eq OpenAPIObject.getPathsObject(int i).inferUrl(Set<String> urls){
-        PathItemObject p=((PathsObject)_childNode).getPathItemObject();
+        PathItemObject p=getPathsObject(i).getPathItemObject();
         String path=getServerObject(0).getUrl();
 
         if(p.hasGet())
-        urls.add(p.getGet().inferRandomUrl(path+((PathsObject)_childNode).getRef(),p.getGet().getOperationObject()));
+        urls.add(p.getGet().inferRandomUrl(path+getPathsObject(i).getRef(),p.getGet().getOperationObject()));
         else if(p.hasPost())
-        urls.add(p.getPost().inferRandomUrl(path+((PathsObject)_childNode).getRef(),p.getPost().getOperationObject()));
+        urls.add(p.getPost().inferRandomUrl(path+getPathsObject(i).getRef(),p.getPost().getOperationObject()));
 
         return urls;
         }

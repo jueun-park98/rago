@@ -1,5 +1,13 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import javax.net.ssl.HttpsURLConnection;
+import java.util.Random;
+import java.util.stream.IntStream;
 import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
@@ -7,21 +15,13 @@ import org.openapi4j.core.model.reference.Reference;
 import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
-import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import org.openapi4j.core.exception.DecodeException;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import javax.net.ssl.HttpsURLConnection;
-import java.util.Random;
-import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:111
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:111
  * @astdecl PropertyItem : ASTNode ::= <Name:String> SchemaOb;
  * @production PropertyItem : {@link ASTNode} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">{@link SchemaOb}</span>;
 
@@ -212,10 +212,10 @@ protected java.util.Set writePropertyName_SchemaOb_PropertyItem_visited;
   /**
    * @attribute syn
    * @aspect InferParameter
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:6
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/InferParameter.jrag:6
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="InferParameter", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:6")
+  @ASTNodeAnnotation.Source(aspect="InferParameter", declaredAt="/Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/InferParameter.jrag:6")
   public String writePropertyName(SchemaOb schema, PropertyItem p) {
     java.util.List _parameters = new java.util.ArrayList(2);
     _parameters.add(schema);
@@ -234,10 +234,10 @@ protected java.util.Set writePropertyValue_JsonNode_PropertyItem_visited;
   /**
    * @attribute syn
    * @aspect InferParameter
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:8
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/InferParameter.jrag:8
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="InferParameter", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:8")
+  @ASTNodeAnnotation.Source(aspect="InferParameter", declaredAt="/Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/InferParameter.jrag:8")
   public String writePropertyValue(JsonNode node, PropertyItem p) {
     java.util.List _parameters = new java.util.ArrayList(2);
     _parameters.add(node);

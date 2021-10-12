@@ -1,5 +1,13 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import javax.net.ssl.HttpsURLConnection;
+import java.util.Random;
+import java.util.stream.IntStream;
 import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
@@ -7,21 +15,13 @@ import org.openapi4j.core.model.reference.Reference;
 import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
-import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import org.openapi4j.core.exception.DecodeException;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import javax.net.ssl.HttpsURLConnection;
-import java.util.Random;
-import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:122
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:122
  * @astdecl XmlObject : ASTNode ::= <Name:String> <Namespace:String> <Prefix:String> <Attribute:Boolean> <Wrapped:Boolean> Extension*;
  * @production XmlObject : {@link ASTNode} ::= <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;Namespace:String&gt;</span> <span class="component">&lt;Prefix:String&gt;</span> <span class="component">&lt;Attribute:Boolean&gt;</span> <span class="component">&lt;Wrapped:Boolean&gt;</span> <span class="component">{@link Extension}*</span>;
 
@@ -29,7 +29,7 @@ import java.util.stream.IntStream;
 public class XmlObject extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:845
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jrag:845
    */
   public static Xml composeXml (XmlObject xmlObject, Map<Object, ASTNode> map) {
         Xml xml = new Xml();
@@ -49,7 +49,7 @@ public class XmlObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect Parser
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:791
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:791
    */
   public static XmlObject parseXml (Xml xml, Map<Object, ASTNode> map) {
         XmlObject xmlObject = new XmlObject();

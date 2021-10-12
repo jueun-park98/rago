@@ -1,5 +1,13 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import javax.net.ssl.HttpsURLConnection;
+import java.util.Random;
+import java.util.stream.IntStream;
 import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
@@ -7,21 +15,13 @@ import org.openapi4j.core.model.reference.Reference;
 import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
-import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import org.openapi4j.core.exception.DecodeException;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import javax.net.ssl.HttpsURLConnection;
-import java.util.Random;
-import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:43
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:43
  * @astdecl Get : ASTNode ::= OperationObject;
  * @production Get : {@link ASTNode} ::= <span class="component">{@link OperationObject}</span>;
 
@@ -29,7 +29,7 @@ import java.util.stream.IntStream;
 public class Get extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect InferParameter
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:159
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/InferParameter.jrag:159
    */
   public void connectGET(String path){
 
@@ -52,7 +52,7 @@ public class Get extends ASTNode<ASTNode> implements Cloneable {
         // print result
         System.out.println("Inferred path : "+path);
         System.out.println("HTTP status code (GET) : "+responseCode);}catch(Exception e){
-        System.out.println(e.toString());
+        System.out.println(e.toString() + " asdsadsa");
         }
         }
   /**
@@ -215,14 +215,114 @@ public class Get extends ASTNode<ASTNode> implements Cloneable {
     return (OperationObject) getChildNoTransform(0);
   }
 /** @apilevel internal */
+protected java.util.Set generateRandomUrl_String_OperationObject_visited;
+  /**
+   * @attribute syn
+   * @aspect RandomRequestGenerator
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/RandomRequestGenerator.jrag:33
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="RandomRequestGenerator", declaredAt="/Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/RandomRequestGenerator.jrag:33")
+  public boolean generateRandomUrl(String pathRef, OperationObject operationObject) {
+    java.util.List _parameters = new java.util.ArrayList(2);
+    _parameters.add(pathRef);
+    _parameters.add(operationObject);
+    if (generateRandomUrl_String_OperationObject_visited == null) generateRandomUrl_String_OperationObject_visited = new java.util.HashSet(4);
+    if (generateRandomUrl_String_OperationObject_visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute Get.generateRandomUrl(String,OperationObject).");
+    }
+    generateRandomUrl_String_OperationObject_visited.add(_parameters);
+    try {
+            try{
+            Random rand=new Random();
+    
+            for(ParameterOb o:operationObject.getParameterObs()){
+            ParameterObject p=o.parameterObject();
+            SchemaObject s=p.getSchemaOb().schemaObject();
+            if(p.getIn().equals("path")){
+            String pathPart=pathRef.substring(pathRef.indexOf("{"),pathRef.indexOf("}")+1);
+    
+            if(s.getType().equals("string"))
+            pathRef=pathRef.replace(pathPart,operationObject.generateRandomString(rand,s.getEnumObjs()));
+            else if(s.getType().equals("integer"))
+            pathRef=pathRef.replace(pathPart,operationObject.generateRandomInt(rand,
+            -1, // s.getMinimum() != null ? s.getMinimum().intValue() : -1,
+            10 // s.getMaximum() != null ? s.getMaximum().intValue() : -1
+            ));
+            }
+            else if(p.getIn().equals("query")){
+    
+            if(s.getType().equals("string"))
+            pathRef=pathRef+"?"+p.getName()+"="+operationObject.generateRandomString(rand,s.getEnumObjs());
+            else if(s.getType().equals("integer"))
+            pathRef=pathRef+"?"+p.getName()+"="+operationObject.generateRandomInt(rand,
+            -1, // s.getMinimum() != null ? s.getMinimum().intValue() : -1,
+            10); // s.getMaximum() != null ? s.getMaximum().intValue() : -1
+            else if(s.getType().equals("array")){
+            if(s.getItemsSchema().getSchemaOb().schemaObject().getType().equals("string")){
+            for(EnumObj e:s.getItemsSchema().getSchemaOb().schemaObject().getEnumObjs())
+            pathRef=rand.nextDouble()< 0.5?pathRef+"&"+p.getName()+"="+e.getEnumOb():pathRef;
+            }
+            else if(s.getItemsSchema().getSchemaOb().schemaObject().getType().equals("integer")){
+            for(int i=0;i< 5;i++)
+            pathRef=pathRef+"&"+p.getName()+"="+operationObject.generateRandomInt(rand,
+            -1, // s.getMinimum() != null ? s.getMinimum().intValue() : -1,
+            10); // s.getMaximum() != null ? s.getMaximum().intValue() : -1
+            }
+            pathRef=pathRef.replaceFirst("&","?");
+            }
+            }
+            }
+            System.out.println("Generated path : "+pathRef);
+    
+            URL url=new URL(pathRef);
+            HttpURLConnection con=(HttpURLConnection)url.openConnection();
+            con.setRequestProperty("User-Agent","Mozilla/5.0"); // add request header
+    
+            con.setRequestMethod("GET"); // optional default is GET
+    
+            int responseCode=con.getResponseCode();
+            BufferedReader in=new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuffer response=new StringBuffer();
+    
+            while((inputLine=in.readLine())!=null){
+            response.append(inputLine);
+            }
+            in.close();
+    
+            // print result
+            System.out.println("HTTP status code (GET) : "+responseCode);
+            //System.out.println("Response : " + response.toString());
+            for(ResponseTuple t:operationObject.getResponseTuples()){
+            if(t.getKey().equals("200")&&responseCode==200){
+            //System.out.println("Response successfully saved!");
+            SchemaOb respSchema=t.getResponseOb().responseObject().getContentTuple(0).getMediaTypeObject().getSchemaOb();
+            if(respSchema.schemaObject().getType().equals("array"))
+            operationObject.writeDictionaryWithArray(respSchema,response.toString());
+            else
+            operationObject.writeDictionary(respSchema,response.toString());
+            }
+            }
+            return true;
+            }catch(Exception e){
+            System.out.println(e.toString());
+            return false;
+            }
+            }
+    finally {
+      generateRandomUrl_String_OperationObject_visited.remove(_parameters);
+    }
+  }
+/** @apilevel internal */
 protected java.util.Set inferRandomUrl_String_OperationObject_visited;
   /**
    * @attribute syn
    * @aspect InferParameter
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:38
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/InferParameter.jrag:38
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="InferParameter", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:38")
+  @ASTNodeAnnotation.Source(aspect="InferParameter", declaredAt="/Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/InferParameter.jrag:38")
   public String inferRandomUrl(String pathRef, OperationObject operationObject) {
     java.util.List _parameters = new java.util.ArrayList(2);
     _parameters.add(pathRef);
@@ -277,107 +377,6 @@ protected java.util.Set inferRandomUrl_String_OperationObject_visited;
             }
     finally {
       inferRandomUrl_String_OperationObject_visited.remove(_parameters);
-    }
-  }
-/** @apilevel internal */
-protected java.util.Set generateRandomUrl_String_OperationObject_Map_ResponseObject__String__visited;
-  /**
-   * @attribute syn
-   * @aspect RandomRequestGenerator
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:207
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="RandomRequestGenerator", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:207")
-  public String generateRandomUrl(String pathRef, OperationObject operationObject, Map<ResponseObject, String> responses) {
-    java.util.List _parameters = new java.util.ArrayList(3);
-    _parameters.add(pathRef);
-    _parameters.add(operationObject);
-    _parameters.add(responses);
-    if (generateRandomUrl_String_OperationObject_Map_ResponseObject__String__visited == null) generateRandomUrl_String_OperationObject_Map_ResponseObject__String__visited = new java.util.HashSet(4);
-    if (generateRandomUrl_String_OperationObject_Map_ResponseObject__String__visited.contains(_parameters)) {
-      throw new RuntimeException("Circular definition of attribute Get.generateRandomUrl(String,OperationObject,Map_ResponseObject__String_).");
-    }
-    generateRandomUrl_String_OperationObject_Map_ResponseObject__String__visited.add(_parameters);
-    try {
-            try {
-            Random rand = new Random();
-    
-            for( ParameterOb o : operationObject.getParameterObs() ){
-            ParameterObject p = o.parameterObject();
-            SchemaObject s = p.getSchemaOb().schemaObject();
-            if( p.getIn().equals("path") ){
-            String pathPart = pathRef.substring(pathRef.indexOf("{") ,pathRef.indexOf("}") + 1);
-    
-            if( s.getType().equals("string") )
-            pathRef = pathRef.replace(pathPart, operationObject.generateRandomString(rand, s.getEnumObjs()));
-            else if( s.getType().equals("integer") )
-            pathRef = pathRef.replace(pathPart, operationObject.generateRandomInt( rand,
-            -1, // s.getMinimum() != null ? s.getMinimum().intValue() : -1,
-            10 // s.getMaximum() != null ? s.getMaximum().intValue() : -1
-            ));
-            }
-            else if( p.getIn().equals("query") ){
-    
-            if( s.getType().equals("string") )
-            pathRef = pathRef + "&" + p.getName() + "=" + operationObject.generateRandomString(rand, s.getEnumObjs());
-            else if( s.getType().equals("integer") )
-            pathRef = pathRef + "&" + p.getName() + "=" + operationObject.generateRandomInt(  rand,
-            -1, // s.getMinimum() != null ? s.getMinimum().intValue() : -1,
-            10); // s.getMaximum() != null ? s.getMaximum().intValue() : -1
-            else if( s.getType().equals("array") ){
-            if( s.getItemsSchema().getSchemaOb().schemaObject().getType().equals("string") ){
-            for( EnumObj e : s.getItemsSchema().getSchemaOb().schemaObject().getEnumObjs() )
-            pathRef=rand.nextDouble()< 0.5?pathRef+"&"+p.getName()+"="+e.getEnumOb():pathRef;
-            }
-            else if( s.getItemsSchema().getSchemaOb().schemaObject().getType().equals("integer") ){
-            for( int i = 0 ; i < 5 ; i++ )
-            pathRef = pathRef + "&" + p.getName() + "=" + operationObject.generateRandomInt(  rand,
-            -1, // s.getMinimum() != null ? s.getMinimum().intValue() : -1,
-            10); // s.getMaximum() != null ? s.getMaximum().intValue() : -1
-            }
-    
-            }
-            }
-            }
-            pathRef = pathRef.replaceFirst("&", "?") ;
-            System.out.println("Generated path : " + pathRef);
-    
-            URL url = new URL(pathRef);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestProperty("User-Agent", "Mozilla/5.0"); // add request header
-    
-            con.setRequestMethod("GET"); // optional default is GET
-    
-            int responseCode = con.getResponseCode();
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            StringBuffer response = new StringBuffer();
-    
-            while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
-            }
-            in.close();
-    
-            // print result
-            System.out.println("HTTP status code (GET) : " + responseCode);
-            //System.out.println("Response : " + response.toString());
-            for( ResponseTuple t : operationObject.getResponseTuples() ){
-            if( t.getKey().equals("200") && responseCode == 200 ) {
-            System.out.println("Response successfully saved!");
-            SchemaOb respSchema = t.getResponseOb().responseObject().getContentTuple(0).getMediaTypeObject().getSchemaOb();
-            if( respSchema.schemaObject().getType().equals("array") )
-            operationObject.writeDictionaryWithArray(respSchema, response.toString());
-            else
-                operationObject.writeDictionary(respSchema, response.toString());
-            }
-            }
-            return pathRef;
-            }catch (Exception e) {
-            return "";
-            }
-            }
-    finally {
-      generateRandomUrl_String_OperationObject_Map_ResponseObject__String__visited.remove(_parameters);
     }
   }
   /** @apilevel internal */

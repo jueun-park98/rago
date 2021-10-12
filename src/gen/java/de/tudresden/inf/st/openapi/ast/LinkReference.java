@@ -1,5 +1,13 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import javax.net.ssl.HttpsURLConnection;
+import java.util.Random;
+import java.util.stream.IntStream;
 import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
@@ -7,21 +15,13 @@ import org.openapi4j.core.model.reference.Reference;
 import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
-import java.net.URL;
+import org.openapi4j.core.exception.DecodeException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import org.openapi4j.core.exception.DecodeException;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import javax.net.ssl.HttpsURLConnection;
-import java.util.Random;
-import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:91
+ * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:91
  * @astdecl LinkReference : LinkOb ::= <Ref:String>;
  * @production LinkReference : {@link LinkOb} ::= <span class="component">&lt;Ref:String&gt;</span>;
 
@@ -180,14 +180,39 @@ public class LinkReference extends LinkOb implements Cloneable {
     return tokenString_Ref != null ? tokenString_Ref : "";
   }
 /** @apilevel internal */
+protected boolean linkObject_visited = false;
+  /**
+   * @attribute syn
+   * @aspect Reference
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Reference.jrag:53
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Reference", declaredAt="/Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Reference.jrag:53")
+  public LinkObject linkObject() {
+    if (linkObject_visited) {
+      throw new RuntimeException("Circular definition of attribute LinkOb.linkObject().");
+    }
+    linkObject_visited = true;
+    try {
+            for( LinkTuple t : root().linkTuples() ){
+            if( t.getKey().equals(getRef().substring(getRef().lastIndexOf("/")+1, getRef().length())) )
+            return t.getLinkOb().linkObject();
+            }
+            return new LinkObject();
+        }
+    finally {
+      linkObject_visited = false;
+    }
+  }
+/** @apilevel internal */
 protected java.util.Set composeLink_LinkOb_Map_Object__ASTNode__visited;
   /**
    * @attribute syn
    * @aspect Composer
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:596
+   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jrag:596
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:596")
+  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="/Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jrag:596")
   public Link composeLink(LinkOb linkOb, Map<Object, ASTNode> map) {
     java.util.List _parameters = new java.util.ArrayList(2);
     _parameters.add(linkOb);
@@ -208,31 +233,6 @@ protected java.util.Set composeLink_LinkOb_Map_Object__ASTNode__visited;
             }
     finally {
       composeLink_LinkOb_Map_Object__ASTNode__visited.remove(_parameters);
-    }
-  }
-/** @apilevel internal */
-protected boolean linkObject_visited = false;
-  /**
-   * @attribute syn
-   * @aspect Reference
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Reference.jrag:53
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Reference", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Reference.jrag:53")
-  public LinkObject linkObject() {
-    if (linkObject_visited) {
-      throw new RuntimeException("Circular definition of attribute LinkOb.linkObject().");
-    }
-    linkObject_visited = true;
-    try {
-            for( LinkTuple t : root().linkTuples() ){
-            if( t.getKey().equals(getRef().substring(getRef().lastIndexOf("/")+1, getRef().length())) )
-            return t.getLinkOb().linkObject();
-            }
-            return new LinkObject();
-        }
-    finally {
-      linkObject_visited = false;
     }
   }
   /** @apilevel internal */
