@@ -280,7 +280,7 @@ protected java.util.Set inferRandomUrl_String_OperationObject_visited;
     }
   }
 /** @apilevel internal */
-protected java.util.Set generateRandomUrl_String_OperationObject_visited;
+protected java.util.Set generateRandomUrl_String_visited;
   /**
    * @attribute syn
    * @aspect RandomRequestGenerator
@@ -288,24 +288,22 @@ protected java.util.Set generateRandomUrl_String_OperationObject_visited;
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
   @ASTNodeAnnotation.Source(aspect="RandomRequestGenerator", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:121")
-  public boolean generateRandomUrl(String pathRef, OperationObject operationObject) {
-    java.util.List _parameters = new java.util.ArrayList(2);
-    _parameters.add(pathRef);
-    _parameters.add(operationObject);
-    if (generateRandomUrl_String_OperationObject_visited == null) generateRandomUrl_String_OperationObject_visited = new java.util.HashSet(4);
-    if (generateRandomUrl_String_OperationObject_visited.contains(_parameters)) {
-      throw new RuntimeException("Circular definition of attribute Post.generateRandomUrl(String,OperationObject).");
+  public boolean generateRandomUrl(String pathRef) {
+    Object _parameters = pathRef;
+    if (generateRandomUrl_String_visited == null) generateRandomUrl_String_visited = new java.util.HashSet(4);
+    if (generateRandomUrl_String_visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute Post.generateRandomUrl(String).");
     }
-    generateRandomUrl_String_OperationObject_visited.add(_parameters);
+    generateRandomUrl_String_visited.add(_parameters);
     try {
             try{
-            for(ParameterOb o:operationObject.getParameterObs()){
+            for(ParameterOb o:getOperationObject().getParameterObs()){
             ParameterObject p=o.parameterObject();
             SchemaObject s=p.getSchemaOb().schemaObject();
             if(p.getIn().equals("path"))
-            pathRef=root().randomPathParameter(pathRef, p);
+            pathRef=p.randomPathParameter(pathRef);
             else if(p.getIn().equals("query"))
-            pathRef=root().randomQueryParameter(pathRef, p);
+            pathRef=p.randomQueryParameter(pathRef);
             }
             System.out.println("Generated path : "+pathRef);
     
@@ -330,14 +328,14 @@ protected java.util.Set generateRandomUrl_String_OperationObject_visited;
             // print result
             System.out.println("HTTP status code (POST) : "+responseCode);
             //System.out.println("Response : " + response.toString());
-            for(ResponseTuple t:operationObject.getResponseTuples()){
+            for(ResponseTuple t:getOperationObject().getResponseTuples()){
             if(t.getKey().equals("200")&&responseCode==200){
             //System.out.println("Response successfully saved!");
             SchemaOb respSchema=t.getResponseOb().responseObject().getContentTuple(0).getMediaTypeObject().getSchemaOb();
             if(respSchema.schemaObject().getType().equals("array"))
-            operationObject.writeDictionaryWithArray(respSchema,response.toString());
+            getOperationObject().writeDictionaryWithArray(respSchema,response.toString());
             else
-            operationObject.writeDictionary(respSchema,response.toString());
+            getOperationObject().writeDictionary(respSchema,response.toString());
             }
             }return true;
             }catch(Exception e){
@@ -346,7 +344,7 @@ protected java.util.Set generateRandomUrl_String_OperationObject_visited;
             }
             }
     finally {
-      generateRandomUrl_String_OperationObject_visited.remove(_parameters);
+      generateRandomUrl_String_visited.remove(_parameters);
     }
   }
   /** @apilevel internal */

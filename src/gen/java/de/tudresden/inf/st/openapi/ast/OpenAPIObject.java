@@ -1316,153 +1316,6 @@ protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIO
     }
   }
 
-/** @apilevel internal */
-protected java.util.Set randomPathParameter_String_ParameterObject_visited;
-  /**
-   * @attribute syn
-   * @aspect RandomRequestGenerator
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:12
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="RandomRequestGenerator", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:12")
-  public String randomPathParameter(String pathRef, ParameterObject p) {
-    java.util.List _parameters = new java.util.ArrayList(2);
-    _parameters.add(pathRef);
-    _parameters.add(p);
-    if (randomPathParameter_String_ParameterObject_visited == null) randomPathParameter_String_ParameterObject_visited = new java.util.HashSet(4);
-    if (randomPathParameter_String_ParameterObject_visited.contains(_parameters)) {
-      throw new RuntimeException("Circular definition of attribute OpenAPIObject.randomPathParameter(String,ParameterObject).");
-    }
-    randomPathParameter_String_ParameterObject_visited.add(_parameters);
-    try {
-            Random rand = new Random();
-            SchemaObject s=p.getSchemaOb().schemaObject();
-            String pathPart=pathRef.substring(pathRef.indexOf("{"),pathRef.indexOf("}")+1);
-    
-            if(s.getType().equals("string"))
-            pathRef=pathRef.replace(pathPart,root().generateRandomString(rand,s.getEnumObjs()));
-            else if(s.getType().equals("integer"))
-            pathRef=pathRef.replace(pathPart,root().generateRandomInt(rand,
-            -1, // s.getMinimum() != null ? s.getMinimum().intValue() : -1,
-            10 // s.getMaximum() != null ? s.getMaximum().intValue() : -1
-            ));
-            return pathRef;
-        }
-    finally {
-      randomPathParameter_String_ParameterObject_visited.remove(_parameters);
-    }
-  }
-/** @apilevel internal */
-protected java.util.Set randomQueryParameter_String_ParameterObject_visited;
-  /**
-   * @attribute syn
-   * @aspect RandomRequestGenerator
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:27
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="RandomRequestGenerator", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:27")
-  public String randomQueryParameter(String pathRef, ParameterObject p) {
-    java.util.List _parameters = new java.util.ArrayList(2);
-    _parameters.add(pathRef);
-    _parameters.add(p);
-    if (randomQueryParameter_String_ParameterObject_visited == null) randomQueryParameter_String_ParameterObject_visited = new java.util.HashSet(4);
-    if (randomQueryParameter_String_ParameterObject_visited.contains(_parameters)) {
-      throw new RuntimeException("Circular definition of attribute OpenAPIObject.randomQueryParameter(String,ParameterObject).");
-    }
-    randomQueryParameter_String_ParameterObject_visited.add(_parameters);
-    try {
-            Random rand = new Random();
-            SchemaObject s=p.getSchemaOb().schemaObject();
-    
-            if(s.getType().equals("string"))
-            pathRef=pathRef+"?"+p.getName()+"="+root().generateRandomString(rand,s.getEnumObjs());
-            else if(s.getType().equals("integer"))
-            pathRef=pathRef+"?"+p.getName()+"="+root().generateRandomInt(rand,
-            -1, // s.getMinimum() != null ? s.getMinimum().intValue() : -1,
-            10); // s.getMaximum() != null ? s.getMaximum().intValue() : -1
-            else if(s.getType().equals("array")){
-            if(s.getItemsSchema().getSchemaOb().schemaObject().getType().equals("string")){
-            for(EnumObj e:s.getItemsSchema().getSchemaOb().schemaObject().getEnumObjs())
-            pathRef=rand.nextDouble()< 0.5?pathRef+"&"+p.getName()+"="+e.getEnumOb():pathRef;
-            }
-            else if(s.getItemsSchema().getSchemaOb().schemaObject().getType().equals("integer")){
-            for(int i=0;i< 5;i++)
-            pathRef=pathRef+"&"+p.getName()+"="+root().generateRandomInt(rand,
-            -1, // s.getMinimum() != null ? s.getMinimum().intValue() : -1,
-            10); // s.getMaximum() != null ? s.getMaximum().intValue() : -1
-            }
-            pathRef=pathRef.replaceFirst("&","?");
-            }
-            return pathRef;
-        }
-    finally {
-      randomQueryParameter_String_ParameterObject_visited.remove(_parameters);
-    }
-  }
-/** @apilevel internal */
-protected java.util.Set generateRandomString_Random_JastAddList_EnumObj__visited;
-  /**
-   * @attribute syn
-   * @aspect RandomRequestGenerator
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:170
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="RandomRequestGenerator", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:170")
-  public String generateRandomString(Random rand, JastAddList<EnumObj> objs) {
-    java.util.List _parameters = new java.util.ArrayList(2);
-    _parameters.add(rand);
-    _parameters.add(objs);
-    if (generateRandomString_Random_JastAddList_EnumObj__visited == null) generateRandomString_Random_JastAddList_EnumObj__visited = new java.util.HashSet(4);
-    if (generateRandomString_Random_JastAddList_EnumObj__visited.contains(_parameters)) {
-      throw new RuntimeException("Circular definition of attribute OpenAPIObject.generateRandomString(Random,JastAddList_EnumObj_).");
-    }
-    generateRandomString_Random_JastAddList_EnumObj__visited.add(_parameters);
-    try {
-            if(objs.getNumChild()!=0)
-            return objs.getChild(rand.nextInt(objs.getNumChild())).getEnumOb().toString();
-    
-            return rand
-            .ints(97,123)
-            .limit(10)
-            .collect(StringBuilder::new,StringBuilder::appendCodePoint,StringBuilder::append)
-            .toString();
-            }
-    finally {
-      generateRandomString_Random_JastAddList_EnumObj__visited.remove(_parameters);
-    }
-  }
-/** @apilevel internal */
-protected java.util.Set generateRandomInt_Random_int_int_visited;
-  /**
-   * @attribute syn
-   * @aspect RandomRequestGenerator
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:181
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="RandomRequestGenerator", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:181")
-  public String generateRandomInt(Random rand, int minimum, int maximum) {
-    java.util.List _parameters = new java.util.ArrayList(3);
-    _parameters.add(rand);
-    _parameters.add(minimum);
-    _parameters.add(maximum);
-    if (generateRandomInt_Random_int_int_visited == null) generateRandomInt_Random_int_int_visited = new java.util.HashSet(4);
-    if (generateRandomInt_Random_int_int_visited.contains(_parameters)) {
-      throw new RuntimeException("Circular definition of attribute OpenAPIObject.generateRandomInt(Random,int,int).");
-    }
-    generateRandomInt_Random_int_int_visited.add(_parameters);
-    try {
-            if(minimum>-1&&maximum>0)
-            return String.valueOf(rand.nextInt(minimum+maximum)-minimum);
-            else if(minimum>-1)
-            return String.valueOf(rand.nextInt()+minimum);
-            else if(maximum>0)
-            return String.valueOf(rand.nextInt(maximum));
-            return String.valueOf(rand.nextInt());
-            }
-    finally {
-      generateRandomInt_Random_int_int_visited.remove(_parameters);
-    }
-  }
   /**
    * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:25
    * @apilevel internal
@@ -1525,9 +1378,9 @@ protected java.util.Set generateRandomInt_Random_int_int_visited;
               String path=getServerObject(0).getUrl();
       
               if(p.hasGet())
-              p.getGet().generateRandomUrl(path+getPathsObject(i).getRef(),p.getGet().getOperationObject());
+              p.getGet().generateRandomUrl(path+getPathsObject(i).getRef());
               else if(p.hasPost())
-              p.getPost().generateRandomUrl(path+getPathsObject(i).getRef(),p.getPost().getOperationObject());
+              p.getPost().generateRandomUrl(path+getPathsObject(i).getRef());
       
               return true;}catch(Exception e){
                   return false;
