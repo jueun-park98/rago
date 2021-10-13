@@ -284,10 +284,10 @@ protected java.util.Set generateRandomUrl_String_visited;
   /**
    * @attribute syn
    * @aspect RandomRequestGenerator
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:121
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:120
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="RandomRequestGenerator", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:121")
+  @ASTNodeAnnotation.Source(aspect="RandomRequestGenerator", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:120")
   public boolean generateRandomUrl(String pathRef) {
     Object _parameters = pathRef;
     if (generateRandomUrl_String_visited == null) generateRandomUrl_String_visited = new java.util.HashSet(4);
@@ -299,7 +299,6 @@ protected java.util.Set generateRandomUrl_String_visited;
             try{
             for(ParameterOb o:getOperationObject().getParameterObs()){
             ParameterObject p=o.parameterObject();
-            SchemaObject s=p.getSchemaOb().schemaObject();
             if(p.getIn().equals("path"))
             pathRef=p.randomPathParameter(pathRef);
             else if(p.getIn().equals("query"))

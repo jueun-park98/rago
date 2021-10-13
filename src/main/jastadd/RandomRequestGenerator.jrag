@@ -83,7 +83,7 @@ public void OpenAPIObject.generateRequests()throws Exception{
         System.out.println("Generated path : "+pathRef);
 
         URL url=new URL(pathRef);
-        HttpURLConnection con=(HttpURLConnection)url.openConnection();
+        HttpsURLConnection con=(HttpsURLConnection)url.openConnection();
         con.setRequestProperty("User-Agent","Mozilla/5.0"); // add request header
 
         con.setRequestMethod("GET"); // optional default is GET

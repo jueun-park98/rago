@@ -17,11 +17,11 @@ public class HttpURLConnectionExample {
         HttpURLConnectionExample http = new HttpURLConnectionExample();
 
         System.out.println("Data call with GET");
-        http.sendGet("https://petstore.swagger.io/v2/pet/1");
+        http.sendGet("https://petstore.swagger.io/v2/pet/9222968140497310446");
 
-        System.out.println("Data call with POST");
-        String urlParameters = "";
-        http.sendPost("https://petstore.swagger.io/v2/pet", urlParameters);
+        //System.out.println("Data call with POST");
+        //String urlParameters = "";
+        //http.sendPost("https://petstore.swagger.io/v2/pet", urlParameters);
 
         //System.out.println("Data call with DELETE");
         //http.sendDelete("https://petstore.swagger.io/v2/pet/123123");
@@ -31,7 +31,7 @@ public class HttpURLConnectionExample {
     private void sendGet(String targetUrl) throws Exception {
 
         URL url = new URL(targetUrl);
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
 
         con.setRequestMethod("GET"); // optional default is GET
         con.setRequestProperty("User-Agent", USER_AGENT); // add request header

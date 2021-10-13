@@ -159,7 +159,7 @@ public void OperationObject.writeDictionaryWithArray(SchemaOb schema,String resp
 public void Get.connectGET(String path){
 
         try{URL url=new URL(path);
-        HttpURLConnection con=(HttpURLConnection)url.openConnection();
+        HttpsURLConnection con=(HttpsURLConnection)url.openConnection();
         con.setRequestProperty("User-Agent","Mozilla/5.0"); // add request header
 
         con.setRequestMethod("GET"); // optional default is GET

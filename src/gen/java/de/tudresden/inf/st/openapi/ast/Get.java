@@ -34,7 +34,7 @@ public class Get extends ASTNode<ASTNode> implements Cloneable {
   public void connectGET(String path){
 
         try{URL url=new URL(path);
-        HttpURLConnection con=(HttpURLConnection)url.openConnection();
+        HttpsURLConnection con=(HttpsURLConnection)url.openConnection();
         con.setRequestProperty("User-Agent","Mozilla/5.0"); // add request header
 
         con.setRequestMethod("GET"); // optional default is GET
@@ -299,7 +299,6 @@ protected java.util.Set generateRandomUrl_String_visited;
             try{
             for(ParameterOb o:getOperationObject().getParameterObs()){
             ParameterObject p=o.parameterObject();
-            SchemaObject s=p.getSchemaOb().schemaObject();
             if(p.getIn().equals("path"))
                 pathRef=p.randomPathParameter(pathRef);
             else if(p.getIn().equals("query"))
@@ -308,7 +307,7 @@ protected java.util.Set generateRandomUrl_String_visited;
             System.out.println("Generated path : "+pathRef);
     
             URL url=new URL(pathRef);
-            HttpURLConnection con=(HttpURLConnection)url.openConnection();
+            HttpsURLConnection con=(HttpsURLConnection)url.openConnection();
             con.setRequestProperty("User-Agent","Mozilla/5.0"); // add request header
     
             con.setRequestMethod("GET"); // optional default is GET
