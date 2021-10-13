@@ -75,7 +75,6 @@ public void OpenAPIObject.generateRequests()throws Exception{
         try{
         for(ParameterOb o:getOperationObject().getParameterObs()){
         ParameterObject p=o.parameterObject();
-        SchemaObject s=p.getSchemaOb().schemaObject();
         if(p.getIn().equals("path"))
             pathRef=p.randomPathParameter(pathRef);
         else if(p.getIn().equals("query"))
@@ -122,7 +121,6 @@ public void OpenAPIObject.generateRequests()throws Exception{
         try{
         for(ParameterOb o:getOperationObject().getParameterObs()){
         ParameterObject p=o.parameterObject();
-        SchemaObject s=p.getSchemaOb().schemaObject();
         if(p.getIn().equals("path"))
         pathRef=p.randomPathParameter(pathRef);
         else if(p.getIn().equals("query"))
