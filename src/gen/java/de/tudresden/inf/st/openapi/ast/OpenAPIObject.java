@@ -1,13 +1,5 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import javax.net.ssl.HttpsURLConnection;
-import java.util.Random;
-import java.util.stream.IntStream;
 import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
@@ -15,29 +7,29 @@ import org.openapi4j.core.model.reference.Reference;
 import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
-import org.openapi4j.core.exception.DecodeException;
+import java.net.URL;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import org.openapi4j.core.exception.DecodeException;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import javax.net.ssl.HttpsURLConnection;
+import java.util.Random;
+import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:2
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:2
  * @astdecl OpenAPIObject : ASTNode ::= <OpenAPI:String> [InfoObject] ServerObject* PathsObject* [ComponentsObject] SecurityRequirementObject* TagObject* [ExternalDocObject] <Context:OAIContext> Extension* InferredParameter*;
  * @production OpenAPIObject : {@link ASTNode} ::= <span class="component">&lt;OpenAPI:String&gt;</span> <span class="component">[{@link InfoObject}]</span> <span class="component">{@link ServerObject}*</span> <span class="component">{@link PathsObject}*</span> <span class="component">[{@link ComponentsObject}]</span> <span class="component">{@link SecurityRequirementObject}*</span> <span class="component">{@link TagObject}*</span> <span class="component">[{@link ExternalDocObject}]</span> <span class="component">&lt;Context:OAIContext&gt;</span> <span class="component">{@link Extension}*</span> <span class="component">{@link InferredParameter}*</span>;
 
  */
 public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
   /**
-   * @aspect RandomRequestGenerator
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/RandomRequestGenerator.jrag:12
-   */
-  public void generateRequests()throws Exception{
-        for(PathsObject p:getPathsObjects())
-        p.generateUrl();
-        }
-  /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jrag:13
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:13
    */
   public static OpenApi3 composeOpenAPI (OpenAPIObject openapi){
         OpenApi3 api3 = new OpenApi3();
@@ -87,8 +79,20 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
         return api3;
         }
   /**
+   * @aspect InferParameter
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:16
+   */
+  public void generateRequestsWithInferredParameters()throws Exception{
+        Set<String> urls=new HashSet<>();
+
+        generateRequests();
+
+        for(PathsObject p:getPathsObjects())
+        p.inferUrl(urls);
+        }
+  /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:40
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:40
    */
   public static OpenAPIObject parseOpenAPI(OpenApi3 api) throws IOException, ResolutionException, ValidationException, DecodeException {
         OpenAPIObject openapi = new OpenAPIObject();
@@ -129,16 +133,12 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
         return openapi;
         }
   /**
-   * @aspect InferParameter
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/InferParameter.jrag:16
+   * @aspect RandomRequestGenerator
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:53
    */
-  public void generateRequestsWithInferredParameters()throws Exception{
-        Set<String> urls=new HashSet<>();
-
-        generateRequests();
-
+  public void generateRequests()throws Exception{
         for(PathsObject p:getPathsObjects())
-        p.inferUrl(urls);
+        p.generateUrl();
         }
   /**
    * @declaredat ASTNode:1
@@ -210,6 +210,9 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
+    OpenAPIObject_collectInferredParameters_visited = false;
+    OpenAPIObject_collectInferredParameters_computed = null;
+    OpenAPIObject_collectInferredParameters_value = null;
     OpenAPIObject_schemaTuples_visited = false;
     OpenAPIObject_schemaTuples_computed = null;
     OpenAPIObject_schemaTuples_value = null;
@@ -234,9 +237,7 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
     OpenAPIObject_callbackTuples_visited = false;
     OpenAPIObject_callbackTuples_computed = null;
     OpenAPIObject_callbackTuples_value = null;
-    OpenAPIObject_collectInferredParameters_visited = false;
-    OpenAPIObject_collectInferredParameters_computed = null;
-    OpenAPIObject_collectInferredParameters_value = null;
+    contributorMap_OpenAPIObject_collectInferredParameters = null;
     contributorMap_OpenAPIObject_schemaTuples = null;
     contributorMap_OpenAPIObject_responseTuples = null;
     contributorMap_OpenAPIObject_parameterTuples = null;
@@ -245,7 +246,6 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
     contributorMap_OpenAPIObject_securitySchemeTuples = null;
     contributorMap_OpenAPIObject_linkTuples = null;
     contributorMap_OpenAPIObject_callbackTuples = null;
-    contributorMap_OpenAPIObject_collectInferredParameters = null;
   }
   /** @apilevel internal 
    * @declaredat ASTNode:95
@@ -1183,7 +1183,22 @@ public class OpenAPIObject extends ASTNode<ASTNode> implements Cloneable {
   }
   /**
    * @aspect <NoAspect>
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:8
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:10
+   */
+  /** @apilevel internal */
+protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIObject_collectInferredParameters = null;
+
+  /** @apilevel internal */
+  protected void survey_OpenAPIObject_collectInferredParameters() {
+    if (contributorMap_OpenAPIObject_collectInferredParameters == null) {
+      contributorMap_OpenAPIObject_collectInferredParameters = new java.util.IdentityHashMap<ASTNode, java.util.Set<ASTNode>>();
+      collect_contributors_OpenAPIObject_collectInferredParameters(this, contributorMap_OpenAPIObject_collectInferredParameters);
+    }
+  }
+
+  /**
+   * @aspect <NoAspect>
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:8
    */
   /** @apilevel internal */
 protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIObject_schemaTuples = null;
@@ -1198,7 +1213,7 @@ protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIO
 
   /**
    * @aspect <NoAspect>
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:12
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:12
    */
   /** @apilevel internal */
 protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIObject_responseTuples = null;
@@ -1213,7 +1228,7 @@ protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIO
 
   /**
    * @aspect <NoAspect>
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:16
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:16
    */
   /** @apilevel internal */
 protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIObject_parameterTuples = null;
@@ -1228,7 +1243,7 @@ protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIO
 
   /**
    * @aspect <NoAspect>
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:20
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:20
    */
   /** @apilevel internal */
 protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIObject_requestBodyTuples = null;
@@ -1243,7 +1258,7 @@ protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIO
 
   /**
    * @aspect <NoAspect>
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:24
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:24
    */
   /** @apilevel internal */
 protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIObject_headerTuples = null;
@@ -1258,7 +1273,7 @@ protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIO
 
   /**
    * @aspect <NoAspect>
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:28
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:28
    */
   /** @apilevel internal */
 protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIObject_securitySchemeTuples = null;
@@ -1273,7 +1288,7 @@ protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIO
 
   /**
    * @aspect <NoAspect>
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:32
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:32
    */
   /** @apilevel internal */
 protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIObject_linkTuples = null;
@@ -1288,7 +1303,7 @@ protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIO
 
   /**
    * @aspect <NoAspect>
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:36
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:36
    */
   /** @apilevel internal */
 protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIObject_callbackTuples = null;
@@ -1301,28 +1316,208 @@ protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIO
     }
   }
 
+/** @apilevel internal */
+protected java.util.Set randomPathParameter_String_ParameterObject_visited;
   /**
-   * @aspect <NoAspect>
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/InferParameter.jrag:10
+   * @attribute syn
+   * @aspect RandomRequestGenerator
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:12
    */
-  /** @apilevel internal */
-protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIObject_collectInferredParameters = null;
-
-  /** @apilevel internal */
-  protected void survey_OpenAPIObject_collectInferredParameters() {
-    if (contributorMap_OpenAPIObject_collectInferredParameters == null) {
-      contributorMap_OpenAPIObject_collectInferredParameters = new java.util.IdentityHashMap<ASTNode, java.util.Set<ASTNode>>();
-      collect_contributors_OpenAPIObject_collectInferredParameters(this, contributorMap_OpenAPIObject_collectInferredParameters);
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="RandomRequestGenerator", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:12")
+  public String randomPathParameter(String pathRef, ParameterObject p) {
+    java.util.List _parameters = new java.util.ArrayList(2);
+    _parameters.add(pathRef);
+    _parameters.add(p);
+    if (randomPathParameter_String_ParameterObject_visited == null) randomPathParameter_String_ParameterObject_visited = new java.util.HashSet(4);
+    if (randomPathParameter_String_ParameterObject_visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute OpenAPIObject.randomPathParameter(String,ParameterObject).");
+    }
+    randomPathParameter_String_ParameterObject_visited.add(_parameters);
+    try {
+            Random rand = new Random();
+            SchemaObject s=p.getSchemaOb().schemaObject();
+            String pathPart=pathRef.substring(pathRef.indexOf("{"),pathRef.indexOf("}")+1);
+    
+            if(s.getType().equals("string"))
+            pathRef=pathRef.replace(pathPart,root().generateRandomString(rand,s.getEnumObjs()));
+            else if(s.getType().equals("integer"))
+            pathRef=pathRef.replace(pathPart,root().generateRandomInt(rand,
+            -1, // s.getMinimum() != null ? s.getMinimum().intValue() : -1,
+            10 // s.getMaximum() != null ? s.getMaximum().intValue() : -1
+            ));
+            return pathRef;
+        }
+    finally {
+      randomPathParameter_String_ParameterObject_visited.remove(_parameters);
     }
   }
-
+/** @apilevel internal */
+protected java.util.Set randomQueryParameter_String_ParameterObject_visited;
   /**
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/RandomRequestGenerator.jrag:17
+   * @attribute syn
+   * @aspect RandomRequestGenerator
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:27
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="RandomRequestGenerator", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:27")
+  public String randomQueryParameter(String pathRef, ParameterObject p) {
+    java.util.List _parameters = new java.util.ArrayList(2);
+    _parameters.add(pathRef);
+    _parameters.add(p);
+    if (randomQueryParameter_String_ParameterObject_visited == null) randomQueryParameter_String_ParameterObject_visited = new java.util.HashSet(4);
+    if (randomQueryParameter_String_ParameterObject_visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute OpenAPIObject.randomQueryParameter(String,ParameterObject).");
+    }
+    randomQueryParameter_String_ParameterObject_visited.add(_parameters);
+    try {
+            Random rand = new Random();
+            SchemaObject s=p.getSchemaOb().schemaObject();
+    
+            if(s.getType().equals("string"))
+            pathRef=pathRef+"?"+p.getName()+"="+root().generateRandomString(rand,s.getEnumObjs());
+            else if(s.getType().equals("integer"))
+            pathRef=pathRef+"?"+p.getName()+"="+root().generateRandomInt(rand,
+            -1, // s.getMinimum() != null ? s.getMinimum().intValue() : -1,
+            10); // s.getMaximum() != null ? s.getMaximum().intValue() : -1
+            else if(s.getType().equals("array")){
+            if(s.getItemsSchema().getSchemaOb().schemaObject().getType().equals("string")){
+            for(EnumObj e:s.getItemsSchema().getSchemaOb().schemaObject().getEnumObjs())
+            pathRef=rand.nextDouble()< 0.5?pathRef+"&"+p.getName()+"="+e.getEnumOb():pathRef;
+            }
+            else if(s.getItemsSchema().getSchemaOb().schemaObject().getType().equals("integer")){
+            for(int i=0;i< 5;i++)
+            pathRef=pathRef+"&"+p.getName()+"="+root().generateRandomInt(rand,
+            -1, // s.getMinimum() != null ? s.getMinimum().intValue() : -1,
+            10); // s.getMaximum() != null ? s.getMaximum().intValue() : -1
+            }
+            pathRef=pathRef.replaceFirst("&","?");
+            }
+            return pathRef;
+        }
+    finally {
+      randomQueryParameter_String_ParameterObject_visited.remove(_parameters);
+    }
+  }
+/** @apilevel internal */
+protected java.util.Set generateRandomString_Random_JastAddList_EnumObj__visited;
+  /**
+   * @attribute syn
+   * @aspect RandomRequestGenerator
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:170
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="RandomRequestGenerator", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:170")
+  public String generateRandomString(Random rand, JastAddList<EnumObj> objs) {
+    java.util.List _parameters = new java.util.ArrayList(2);
+    _parameters.add(rand);
+    _parameters.add(objs);
+    if (generateRandomString_Random_JastAddList_EnumObj__visited == null) generateRandomString_Random_JastAddList_EnumObj__visited = new java.util.HashSet(4);
+    if (generateRandomString_Random_JastAddList_EnumObj__visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute OpenAPIObject.generateRandomString(Random,JastAddList_EnumObj_).");
+    }
+    generateRandomString_Random_JastAddList_EnumObj__visited.add(_parameters);
+    try {
+            if(objs.getNumChild()!=0)
+            return objs.getChild(rand.nextInt(objs.getNumChild())).getEnumOb().toString();
+    
+            return rand
+            .ints(97,123)
+            .limit(10)
+            .collect(StringBuilder::new,StringBuilder::appendCodePoint,StringBuilder::append)
+            .toString();
+            }
+    finally {
+      generateRandomString_Random_JastAddList_EnumObj__visited.remove(_parameters);
+    }
+  }
+/** @apilevel internal */
+protected java.util.Set generateRandomInt_Random_int_int_visited;
+  /**
+   * @attribute syn
+   * @aspect RandomRequestGenerator
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:181
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="RandomRequestGenerator", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:181")
+  public String generateRandomInt(Random rand, int minimum, int maximum) {
+    java.util.List _parameters = new java.util.ArrayList(3);
+    _parameters.add(rand);
+    _parameters.add(minimum);
+    _parameters.add(maximum);
+    if (generateRandomInt_Random_int_int_visited == null) generateRandomInt_Random_int_int_visited = new java.util.HashSet(4);
+    if (generateRandomInt_Random_int_int_visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute OpenAPIObject.generateRandomInt(Random,int,int).");
+    }
+    generateRandomInt_Random_int_int_visited.add(_parameters);
+    try {
+            if(minimum>-1&&maximum>0)
+            return String.valueOf(rand.nextInt(minimum+maximum)-minimum);
+            else if(minimum>-1)
+            return String.valueOf(rand.nextInt()+minimum);
+            else if(maximum>0)
+            return String.valueOf(rand.nextInt(maximum));
+            return String.valueOf(rand.nextInt());
+            }
+    finally {
+      generateRandomInt_Random_int_int_visited.remove(_parameters);
+    }
+  }
+  /**
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:25
+   * @apilevel internal
+   */
+  public Set<String> Define_inferUrl(ASTNode _callerNode, ASTNode _childNode, Set<String> urls) {
+    if (_callerNode == getPathsObjectListNoTransform()) {
+      // @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:26
+      int i = _callerNode.getIndexOfChild(_childNode);
+      {
+              PathItemObject p=getPathsObject(i).getPathItemObject();
+              String path=getServerObject(0).getUrl();
+      
+              if(p.hasGet())
+              urls.add(p.getGet().inferRandomUrl(path+getPathsObject(i).getRef(),p.getGet().getOperationObject()));
+              else if(p.hasPost())
+              urls.add(p.getPost().inferRandomUrl(path+getPathsObject(i).getRef(),p.getPost().getOperationObject()));
+      
+              return urls;
+              }
+    }
+    else {
+      return getParent().Define_inferUrl(this, _callerNode, urls);
+    }
+  }
+  /**
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:25
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute inferUrl
+   */
+  protected boolean canDefine_inferUrl(ASTNode _callerNode, ASTNode _childNode, Set<String> urls) {
+    return true;
+  }
+  /**
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:5
+   * @apilevel internal
+   */
+  public OpenAPIObject Define_root(ASTNode _callerNode, ASTNode _childNode) {
+    int childIndex = this.getIndexOfChild(_callerNode);
+    return this;
+  }
+  /**
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:5
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute root
+   */
+  protected boolean canDefine_root(ASTNode _callerNode, ASTNode _childNode) {
+    return true;
+  }
+  /**
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:58
    * @apilevel internal
    */
   public boolean Define_generateUrl(ASTNode _callerNode, ASTNode _childNode) {
     if (_callerNode == getPathsObjectListNoTransform()) {
-      // @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/RandomRequestGenerator.jrag:18
+      // @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:59
       int i = _callerNode.getIndexOfChild(_childNode);
       {
               try{
@@ -1344,59 +1539,11 @@ protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIO
     }
   }
   /**
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/RandomRequestGenerator.jrag:17
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:58
    * @apilevel internal
    * @return {@code true} if this node has an equation for the inherited attribute generateUrl
    */
   protected boolean canDefine_generateUrl(ASTNode _callerNode, ASTNode _childNode) {
-    return true;
-  }
-  /**
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:5
-   * @apilevel internal
-   */
-  public OpenAPIObject Define_root(ASTNode _callerNode, ASTNode _childNode) {
-    int childIndex = this.getIndexOfChild(_callerNode);
-    return this;
-  }
-  /**
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:5
-   * @apilevel internal
-   * @return {@code true} if this node has an equation for the inherited attribute root
-   */
-  protected boolean canDefine_root(ASTNode _callerNode, ASTNode _childNode) {
-    return true;
-  }
-  /**
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/InferParameter.jrag:25
-   * @apilevel internal
-   */
-  public Set<String> Define_inferUrl(ASTNode _callerNode, ASTNode _childNode, Set<String> urls) {
-    if (_callerNode == getPathsObjectListNoTransform()) {
-      // @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/InferParameter.jrag:26
-      int i = _callerNode.getIndexOfChild(_childNode);
-      {
-              PathItemObject p=getPathsObject(i).getPathItemObject();
-              String path=getServerObject(0).getUrl();
-      
-              if(p.hasGet())
-              urls.add(p.getGet().inferRandomUrl(path+getPathsObject(i).getRef(),p.getGet().getOperationObject()));
-              else if(p.hasPost())
-              urls.add(p.getPost().inferRandomUrl(path+getPathsObject(i).getRef(),p.getPost().getOperationObject()));
-      
-              return urls;
-              }
-    }
-    else {
-      return getParent().Define_inferUrl(this, _callerNode, urls);
-    }
-  }
-  /**
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/InferParameter.jrag:25
-   * @apilevel internal
-   * @return {@code true} if this node has an equation for the inherited attribute inferUrl
-   */
-  protected boolean canDefine_inferUrl(ASTNode _callerNode, ASTNode _childNode, Set<String> urls) {
     return true;
   }
   /** @apilevel internal */
@@ -1408,14 +1555,65 @@ protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_OpenAPIO
     return false;
   }
 /** @apilevel internal */
+protected boolean OpenAPIObject_collectInferredParameters_visited = false;
+  /**
+   * @attribute coll
+   * @aspect InferParameter
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:10
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.COLL)
+  @ASTNodeAnnotation.Source(aspect="InferParameter", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:10")
+  public Set<InferredParameter> collectInferredParameters() {
+    ASTState state = state();
+    if (OpenAPIObject_collectInferredParameters_computed == ASTState.NON_CYCLE || OpenAPIObject_collectInferredParameters_computed == state().cycle()) {
+      return OpenAPIObject_collectInferredParameters_value;
+    }
+    if (OpenAPIObject_collectInferredParameters_visited) {
+      throw new RuntimeException("Circular definition of attribute OpenAPIObject.collectInferredParameters().");
+    }
+    OpenAPIObject_collectInferredParameters_visited = true;
+    OpenAPIObject_collectInferredParameters_value = collectInferredParameters_compute();
+    if (state().inCircle()) {
+      OpenAPIObject_collectInferredParameters_computed = state().cycle();
+    
+    } else {
+      OpenAPIObject_collectInferredParameters_computed = ASTState.NON_CYCLE;
+    
+    }
+    OpenAPIObject_collectInferredParameters_visited = false;
+    return OpenAPIObject_collectInferredParameters_value;
+  }
+  /** @apilevel internal */
+  private Set<InferredParameter> collectInferredParameters_compute() {
+    ASTNode node = this;
+    while (node != null && !(node instanceof OpenAPIObject)) {
+      node = node.getParent();
+    }
+    OpenAPIObject root = (OpenAPIObject) node;
+    root.survey_OpenAPIObject_collectInferredParameters();
+    Set<InferredParameter> _computedValue = new HashSet<InferredParameter>();
+    if (root.contributorMap_OpenAPIObject_collectInferredParameters.containsKey(this)) {
+      for (ASTNode contributor : root.contributorMap_OpenAPIObject_collectInferredParameters.get(this)) {
+        contributor.contributeTo_OpenAPIObject_collectInferredParameters(_computedValue);
+      }
+    }
+    return _computedValue;
+  }
+  /** @apilevel internal */
+  protected ASTState.Cycle OpenAPIObject_collectInferredParameters_computed = null;
+
+  /** @apilevel internal */
+  protected Set<InferredParameter> OpenAPIObject_collectInferredParameters_value;
+
+/** @apilevel internal */
 protected boolean OpenAPIObject_schemaTuples_visited = false;
   /**
    * @attribute coll
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:8
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:8
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.COLL)
-  @ASTNodeAnnotation.Source(aspect="Parser", declaredAt="/Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:8")
+  @ASTNodeAnnotation.Source(aspect="Parser", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:8")
   public List<SchemaTuple> schemaTuples() {
     ASTState state = state();
     if (OpenAPIObject_schemaTuples_computed == ASTState.NON_CYCLE || OpenAPIObject_schemaTuples_computed == state().cycle()) {
@@ -1463,10 +1661,10 @@ protected boolean OpenAPIObject_responseTuples_visited = false;
   /**
    * @attribute coll
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:12
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:12
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.COLL)
-  @ASTNodeAnnotation.Source(aspect="Parser", declaredAt="/Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:12")
+  @ASTNodeAnnotation.Source(aspect="Parser", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:12")
   public List<ResponseTuple> responseTuples() {
     ASTState state = state();
     if (OpenAPIObject_responseTuples_computed == ASTState.NON_CYCLE || OpenAPIObject_responseTuples_computed == state().cycle()) {
@@ -1514,10 +1712,10 @@ protected boolean OpenAPIObject_parameterTuples_visited = false;
   /**
    * @attribute coll
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:16
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:16
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.COLL)
-  @ASTNodeAnnotation.Source(aspect="Parser", declaredAt="/Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:16")
+  @ASTNodeAnnotation.Source(aspect="Parser", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:16")
   public List<ParameterTuple> parameterTuples() {
     ASTState state = state();
     if (OpenAPIObject_parameterTuples_computed == ASTState.NON_CYCLE || OpenAPIObject_parameterTuples_computed == state().cycle()) {
@@ -1565,10 +1763,10 @@ protected boolean OpenAPIObject_requestBodyTuples_visited = false;
   /**
    * @attribute coll
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:20
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:20
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.COLL)
-  @ASTNodeAnnotation.Source(aspect="Parser", declaredAt="/Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:20")
+  @ASTNodeAnnotation.Source(aspect="Parser", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:20")
   public List<RequestBodyTuple> requestBodyTuples() {
     ASTState state = state();
     if (OpenAPIObject_requestBodyTuples_computed == ASTState.NON_CYCLE || OpenAPIObject_requestBodyTuples_computed == state().cycle()) {
@@ -1616,10 +1814,10 @@ protected boolean OpenAPIObject_headerTuples_visited = false;
   /**
    * @attribute coll
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:24
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:24
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.COLL)
-  @ASTNodeAnnotation.Source(aspect="Parser", declaredAt="/Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:24")
+  @ASTNodeAnnotation.Source(aspect="Parser", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:24")
   public List<HeaderTuple> headerTuples() {
     ASTState state = state();
     if (OpenAPIObject_headerTuples_computed == ASTState.NON_CYCLE || OpenAPIObject_headerTuples_computed == state().cycle()) {
@@ -1667,10 +1865,10 @@ protected boolean OpenAPIObject_securitySchemeTuples_visited = false;
   /**
    * @attribute coll
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:28
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:28
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.COLL)
-  @ASTNodeAnnotation.Source(aspect="Parser", declaredAt="/Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:28")
+  @ASTNodeAnnotation.Source(aspect="Parser", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:28")
   public List<SecuritySchemeTuple> securitySchemeTuples() {
     ASTState state = state();
     if (OpenAPIObject_securitySchemeTuples_computed == ASTState.NON_CYCLE || OpenAPIObject_securitySchemeTuples_computed == state().cycle()) {
@@ -1718,10 +1916,10 @@ protected boolean OpenAPIObject_linkTuples_visited = false;
   /**
    * @attribute coll
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:32
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:32
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.COLL)
-  @ASTNodeAnnotation.Source(aspect="Parser", declaredAt="/Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:32")
+  @ASTNodeAnnotation.Source(aspect="Parser", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:32")
   public List<LinkTuple> linkTuples() {
     ASTState state = state();
     if (OpenAPIObject_linkTuples_computed == ASTState.NON_CYCLE || OpenAPIObject_linkTuples_computed == state().cycle()) {
@@ -1769,10 +1967,10 @@ protected boolean OpenAPIObject_callbackTuples_visited = false;
   /**
    * @attribute coll
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:36
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:36
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.COLL)
-  @ASTNodeAnnotation.Source(aspect="Parser", declaredAt="/Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:36")
+  @ASTNodeAnnotation.Source(aspect="Parser", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:36")
   public List<CallbackTuple> callbackTuples() {
     ASTState state = state();
     if (OpenAPIObject_callbackTuples_computed == ASTState.NON_CYCLE || OpenAPIObject_callbackTuples_computed == state().cycle()) {
@@ -1814,56 +2012,5 @@ protected boolean OpenAPIObject_callbackTuples_visited = false;
 
   /** @apilevel internal */
   protected List<CallbackTuple> OpenAPIObject_callbackTuples_value;
-
-/** @apilevel internal */
-protected boolean OpenAPIObject_collectInferredParameters_visited = false;
-  /**
-   * @attribute coll
-   * @aspect InferParameter
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/InferParameter.jrag:10
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.COLL)
-  @ASTNodeAnnotation.Source(aspect="InferParameter", declaredAt="/Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/InferParameter.jrag:10")
-  public Set<InferredParameter> collectInferredParameters() {
-    ASTState state = state();
-    if (OpenAPIObject_collectInferredParameters_computed == ASTState.NON_CYCLE || OpenAPIObject_collectInferredParameters_computed == state().cycle()) {
-      return OpenAPIObject_collectInferredParameters_value;
-    }
-    if (OpenAPIObject_collectInferredParameters_visited) {
-      throw new RuntimeException("Circular definition of attribute OpenAPIObject.collectInferredParameters().");
-    }
-    OpenAPIObject_collectInferredParameters_visited = true;
-    OpenAPIObject_collectInferredParameters_value = collectInferredParameters_compute();
-    if (state().inCircle()) {
-      OpenAPIObject_collectInferredParameters_computed = state().cycle();
-    
-    } else {
-      OpenAPIObject_collectInferredParameters_computed = ASTState.NON_CYCLE;
-    
-    }
-    OpenAPIObject_collectInferredParameters_visited = false;
-    return OpenAPIObject_collectInferredParameters_value;
-  }
-  /** @apilevel internal */
-  private Set<InferredParameter> collectInferredParameters_compute() {
-    ASTNode node = this;
-    while (node != null && !(node instanceof OpenAPIObject)) {
-      node = node.getParent();
-    }
-    OpenAPIObject root = (OpenAPIObject) node;
-    root.survey_OpenAPIObject_collectInferredParameters();
-    Set<InferredParameter> _computedValue = new HashSet<InferredParameter>();
-    if (root.contributorMap_OpenAPIObject_collectInferredParameters.containsKey(this)) {
-      for (ASTNode contributor : root.contributorMap_OpenAPIObject_collectInferredParameters.get(this)) {
-        contributor.contributeTo_OpenAPIObject_collectInferredParameters(_computedValue);
-      }
-    }
-    return _computedValue;
-  }
-  /** @apilevel internal */
-  protected ASTState.Cycle OpenAPIObject_collectInferredParameters_computed = null;
-
-  /** @apilevel internal */
-  protected Set<InferredParameter> OpenAPIObject_collectInferredParameters_value;
 
 }

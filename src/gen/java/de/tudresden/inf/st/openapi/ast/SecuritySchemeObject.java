@@ -1,13 +1,5 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import javax.net.ssl.HttpsURLConnection;
-import java.util.Random;
-import java.util.stream.IntStream;
 import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
@@ -15,13 +7,21 @@ import org.openapi4j.core.model.reference.Reference;
 import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
-import org.openapi4j.core.exception.DecodeException;
+import java.net.URL;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import org.openapi4j.core.exception.DecodeException;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import javax.net.ssl.HttpsURLConnection;
+import java.util.Random;
+import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:127
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:127
  * @astdecl SecuritySchemeObject : SecuritySchemeOb ::= <Type:String> <Description:String> <Name:String> <In:String> <Scheme:String> <BearerFormat:String> [OAuthFlowsObject] <OpenIdConnectUrl:String> Extension*;
  * @production SecuritySchemeObject : {@link SecuritySchemeOb} ::= <span class="component">&lt;Type:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">&lt;Name:String&gt;</span> <span class="component">&lt;In:String&gt;</span> <span class="component">&lt;Scheme:String&gt;</span> <span class="component">&lt;BearerFormat:String&gt;</span> <span class="component">[{@link OAuthFlowsObject}]</span> <span class="component">&lt;OpenIdConnectUrl:String&gt;</span> <span class="component">{@link Extension}*</span>;
 
@@ -472,32 +472,14 @@ public class SecuritySchemeObject extends SecuritySchemeOb implements Cloneable 
     return getExtensionListNoTransform();
   }
 /** @apilevel internal */
-protected boolean securitySchemeObject_visited = false;
-  /**
-   * @attribute syn
-   * @aspect Reference
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Reference.jrag:74
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Reference", declaredAt="/Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Reference.jrag:73")
-  public SecuritySchemeObject securitySchemeObject() {
-    if (securitySchemeObject_visited) {
-      throw new RuntimeException("Circular definition of attribute SecuritySchemeOb.securitySchemeObject().");
-    }
-    securitySchemeObject_visited = true;
-    SecuritySchemeObject securitySchemeObject_value = this;
-    securitySchemeObject_visited = false;
-    return securitySchemeObject_value;
-  }
-/** @apilevel internal */
 protected java.util.Set composeSecurityScheme_SecuritySchemeOb_Map_Object__ASTNode__visited;
   /**
    * @attribute syn
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jrag:862
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:862
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="/Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jrag:862")
+  @ASTNodeAnnotation.Source(aspect="Composer", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:862")
   public SecurityScheme composeSecurityScheme(SecuritySchemeOb securitySchemeOb, Map<Object, ASTNode> map) {
     java.util.List _parameters = new java.util.ArrayList(2);
     _parameters.add(securitySchemeOb);
@@ -539,6 +521,24 @@ protected java.util.Set composeSecurityScheme_SecuritySchemeOb_Map_Object__ASTNo
     finally {
       composeSecurityScheme_SecuritySchemeOb_Map_Object__ASTNode__visited.remove(_parameters);
     }
+  }
+/** @apilevel internal */
+protected boolean securitySchemeObject_visited = false;
+  /**
+   * @attribute syn
+   * @aspect Reference
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Reference.jrag:74
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="Reference", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Reference.jrag:73")
+  public SecuritySchemeObject securitySchemeObject() {
+    if (securitySchemeObject_visited) {
+      throw new RuntimeException("Circular definition of attribute SecuritySchemeOb.securitySchemeObject().");
+    }
+    securitySchemeObject_visited = true;
+    SecuritySchemeObject securitySchemeObject_value = this;
+    securitySchemeObject_visited = false;
+    return securitySchemeObject_value;
   }
   /** @apilevel internal */
   public ASTNode rewriteTo() {

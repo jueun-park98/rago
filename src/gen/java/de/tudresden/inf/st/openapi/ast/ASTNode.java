@@ -1,13 +1,5 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import javax.net.ssl.HttpsURLConnection;
-import java.util.Random;
-import java.util.stream.IntStream;
 import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
@@ -15,10 +7,18 @@ import org.openapi4j.core.model.reference.Reference;
 import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
-import org.openapi4j.core.exception.DecodeException;
+import java.net.URL;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import org.openapi4j.core.exception.DecodeException;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import javax.net.ssl.HttpsURLConnection;
+import java.util.Random;
+import java.util.stream.IntStream;
 /**
  * @ast node
  * @astdecl ASTNode;
@@ -489,7 +489,21 @@ public class ASTNode<T extends ASTNode> implements Cloneable {
   }
   /**
    * @aspect <NoAspect>
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:8
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:10
+   */
+    /** @apilevel internal */
+  protected void collect_contributors_OpenAPIObject_collectInferredParameters(OpenAPIObject _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
+    for (int i = 0; i < getNumChild(); i++) {
+      getChild(i).collect_contributors_OpenAPIObject_collectInferredParameters(_root, _map);
+    }
+  }
+  /** @apilevel internal */
+  protected void contributeTo_OpenAPIObject_collectInferredParameters(Set<InferredParameter> collection) {
+  }
+
+  /**
+   * @aspect <NoAspect>
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:8
    */
     /** @apilevel internal */
   protected void collect_contributors_OpenAPIObject_schemaTuples(OpenAPIObject _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
@@ -503,7 +517,7 @@ public class ASTNode<T extends ASTNode> implements Cloneable {
 
   /**
    * @aspect <NoAspect>
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:12
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:12
    */
     /** @apilevel internal */
   protected void collect_contributors_OpenAPIObject_responseTuples(OpenAPIObject _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
@@ -517,7 +531,7 @@ public class ASTNode<T extends ASTNode> implements Cloneable {
 
   /**
    * @aspect <NoAspect>
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:16
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:16
    */
     /** @apilevel internal */
   protected void collect_contributors_OpenAPIObject_parameterTuples(OpenAPIObject _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
@@ -531,7 +545,7 @@ public class ASTNode<T extends ASTNode> implements Cloneable {
 
   /**
    * @aspect <NoAspect>
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:20
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:20
    */
     /** @apilevel internal */
   protected void collect_contributors_OpenAPIObject_requestBodyTuples(OpenAPIObject _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
@@ -545,7 +559,7 @@ public class ASTNode<T extends ASTNode> implements Cloneable {
 
   /**
    * @aspect <NoAspect>
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:24
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:24
    */
     /** @apilevel internal */
   protected void collect_contributors_OpenAPIObject_headerTuples(OpenAPIObject _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
@@ -559,7 +573,7 @@ public class ASTNode<T extends ASTNode> implements Cloneable {
 
   /**
    * @aspect <NoAspect>
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:28
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:28
    */
     /** @apilevel internal */
   protected void collect_contributors_OpenAPIObject_securitySchemeTuples(OpenAPIObject _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
@@ -573,7 +587,7 @@ public class ASTNode<T extends ASTNode> implements Cloneable {
 
   /**
    * @aspect <NoAspect>
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:32
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:32
    */
     /** @apilevel internal */
   protected void collect_contributors_OpenAPIObject_linkTuples(OpenAPIObject _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
@@ -587,7 +601,7 @@ public class ASTNode<T extends ASTNode> implements Cloneable {
 
   /**
    * @aspect <NoAspect>
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:36
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:36
    */
     /** @apilevel internal */
   protected void collect_contributors_OpenAPIObject_callbackTuples(OpenAPIObject _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
@@ -600,26 +614,12 @@ public class ASTNode<T extends ASTNode> implements Cloneable {
   }
 
   /**
-   * @aspect <NoAspect>
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/InferParameter.jrag:10
-   */
-    /** @apilevel internal */
-  protected void collect_contributors_OpenAPIObject_collectInferredParameters(OpenAPIObject _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
-    for (int i = 0; i < getNumChild(); i++) {
-      getChild(i).collect_contributors_OpenAPIObject_collectInferredParameters(_root, _map);
-    }
-  }
-  /** @apilevel internal */
-  protected void contributeTo_OpenAPIObject_collectInferredParameters(Set<InferredParameter> collection) {
-  }
-
-  /**
    * @attribute inh
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:5
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:5
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
-  @ASTNodeAnnotation.Source(aspect="Parser", declaredAt="/Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:5")
+  @ASTNodeAnnotation.Source(aspect="Parser", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:5")
   public OpenAPIObject root() {
     if (root_visited) {
       throw new RuntimeException("Circular definition of attribute ASTNode.root().");
@@ -640,23 +640,23 @@ protected boolean root_visited = false;
     return false;
   }
   /** @apilevel internal */
-  public boolean Define_generateUrl(ASTNode _callerNode, ASTNode _childNode) {
+  public Set<String> Define_inferUrl(ASTNode _callerNode, ASTNode _childNode, Set<String> urls) {
     ASTNode self = this;
     ASTNode parent = getParent();
-    while (parent != null && !parent.canDefine_generateUrl(self, _callerNode)) {
+    while (parent != null && !parent.canDefine_inferUrl(self, _callerNode, urls)) {
       _callerNode = self;
       self = parent;
       parent = self.getParent();
     }
-    return parent.Define_generateUrl(self, _callerNode);
+    return parent.Define_inferUrl(self, _callerNode, urls);
   }
 
   /**
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/RandomRequestGenerator.jrag:18
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:26
    * @apilevel internal
-   * @return {@code true} if this node has an equation for the inherited attribute generateUrl
+   * @return {@code true} if this node has an equation for the inherited attribute inferUrl
    */
-  protected boolean canDefine_generateUrl(ASTNode _callerNode, ASTNode _childNode) {
+  protected boolean canDefine_inferUrl(ASTNode _callerNode, ASTNode _childNode, Set<String> urls) {
     return false;
   }
   /** @apilevel internal */
@@ -672,7 +672,7 @@ protected boolean root_visited = false;
   }
 
   /**
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:6
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:6
    * @apilevel internal
    * @return {@code true} if this node has an equation for the inherited attribute root
    */
@@ -680,23 +680,23 @@ protected boolean root_visited = false;
     return false;
   }
   /** @apilevel internal */
-  public Set<String> Define_inferUrl(ASTNode _callerNode, ASTNode _childNode, Set<String> urls) {
+  public boolean Define_generateUrl(ASTNode _callerNode, ASTNode _childNode) {
     ASTNode self = this;
     ASTNode parent = getParent();
-    while (parent != null && !parent.canDefine_inferUrl(self, _callerNode, urls)) {
+    while (parent != null && !parent.canDefine_generateUrl(self, _callerNode)) {
       _callerNode = self;
       self = parent;
       parent = self.getParent();
     }
-    return parent.Define_inferUrl(self, _callerNode, urls);
+    return parent.Define_generateUrl(self, _callerNode);
   }
 
   /**
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/InferParameter.jrag:26
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:59
    * @apilevel internal
-   * @return {@code true} if this node has an equation for the inherited attribute inferUrl
+   * @return {@code true} if this node has an equation for the inherited attribute generateUrl
    */
-  protected boolean canDefine_inferUrl(ASTNode _callerNode, ASTNode _childNode, Set<String> urls) {
+  protected boolean canDefine_generateUrl(ASTNode _callerNode, ASTNode _childNode) {
     return false;
   }
 public ASTNode rewrittenNode() { throw new Error("rewrittenNode is undefined for ASTNode"); }

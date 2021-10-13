@@ -1,13 +1,5 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import javax.net.ssl.HttpsURLConnection;
-import java.util.Random;
-import java.util.stream.IntStream;
 import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
@@ -15,13 +7,21 @@ import org.openapi4j.core.model.reference.Reference;
 import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
-import org.openapi4j.core.exception.DecodeException;
+import java.net.URL;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import org.openapi4j.core.exception.DecodeException;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import javax.net.ssl.HttpsURLConnection;
+import java.util.Random;
+import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:36
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:36
  * @astdecl PathsObject : ASTNode ::= <Ref:String> PathItemObject;
  * @production PathsObject : {@link ASTNode} ::= <span class="component">&lt;Ref:String&gt;</span> <span class="component">{@link PathItemObject}</span>;
 
@@ -209,29 +209,11 @@ public class PathsObject extends ASTNode<ASTNode> implements Cloneable {
   }
   /**
    * @attribute inh
-   * @aspect RandomRequestGenerator
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/RandomRequestGenerator.jrag:17
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
-  @ASTNodeAnnotation.Source(aspect="RandomRequestGenerator", declaredAt="/Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/RandomRequestGenerator.jrag:17")
-  public boolean generateUrl() {
-    if (generateUrl_visited) {
-      throw new RuntimeException("Circular definition of attribute PathsObject.generateUrl().");
-    }
-    generateUrl_visited = true;
-    boolean generateUrl_value = getParent().Define_generateUrl(this, null);
-    generateUrl_visited = false;
-    return generateUrl_value;
-  }
-/** @apilevel internal */
-protected boolean generateUrl_visited = false;
-  /**
-   * @attribute inh
    * @aspect InferParameter
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/InferParameter.jrag:25
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:25
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
-  @ASTNodeAnnotation.Source(aspect="InferParameter", declaredAt="/Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/InferParameter.jrag:25")
+  @ASTNodeAnnotation.Source(aspect="InferParameter", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:25")
   public Set<String> inferUrl(Set<String> urls) {
     Object _parameters = urls;
     if (inferUrl_Set_String__visited == null) inferUrl_Set_String__visited = new java.util.HashSet(4);
@@ -245,6 +227,24 @@ protected boolean generateUrl_visited = false;
   }
 /** @apilevel internal */
 protected java.util.Set inferUrl_Set_String__visited;
+  /**
+   * @attribute inh
+   * @aspect RandomRequestGenerator
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:58
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
+  @ASTNodeAnnotation.Source(aspect="RandomRequestGenerator", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\RandomRequestGenerator.jrag:58")
+  public boolean generateUrl() {
+    if (generateUrl_visited) {
+      throw new RuntimeException("Circular definition of attribute PathsObject.generateUrl().");
+    }
+    generateUrl_visited = true;
+    boolean generateUrl_value = getParent().Define_generateUrl(this, null);
+    generateUrl_visited = false;
+    return generateUrl_value;
+  }
+/** @apilevel internal */
+protected boolean generateUrl_visited = false;
   /** @apilevel internal */
   public ASTNode rewriteTo() {
     return super.rewriteTo();

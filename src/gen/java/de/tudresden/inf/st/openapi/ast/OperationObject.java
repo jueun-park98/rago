@@ -1,13 +1,5 @@
 /* This file was generated with JastAdd2 (http://jastadd.org) version 2.3.2 */
 package de.tudresden.inf.st.openapi.ast;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import javax.net.ssl.HttpsURLConnection;
-import java.util.Random;
-import java.util.stream.IntStream;
 import org.openapi4j.core.exception.ResolutionException;
 import org.openapi4j.core.validation.ValidationException;
 import org.openapi4j.parser.model.v3.*;
@@ -15,48 +7,29 @@ import org.openapi4j.core.model.reference.Reference;
 import org.openapi4j.core.model.OAIContext;
 import java.io.IOException;
 import java.util.*;
-import org.openapi4j.core.exception.DecodeException;
+import java.net.URL;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import org.openapi4j.core.exception.DecodeException;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import javax.net.ssl.HttpsURLConnection;
+import java.util.Random;
+import java.util.stream.IntStream;
 /**
  * @ast node
- * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/OpenAPISpecification.ast:42
+ * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\OpenAPISpecification.ast:42
  * @astdecl OperationObject : ASTNode ::= Tag* <Summary:String> <Description:String> [ExternalDocObject] <OperationID:String> ParameterOb* [RequestBodyOb] ResponseTuple* CallbackTuple* <DeprecatedBoolean:Boolean> SecurityRequirementObject* ServerObject* <Required:Boolean> Extension*;
  * @production OperationObject : {@link ASTNode} ::= <span class="component">{@link Tag}*</span> <span class="component">&lt;Summary:String&gt;</span> <span class="component">&lt;Description:String&gt;</span> <span class="component">[{@link ExternalDocObject}]</span> <span class="component">&lt;OperationID:String&gt;</span> <span class="component">{@link ParameterOb}*</span> <span class="component">[{@link RequestBodyOb}]</span> <span class="component">{@link ResponseTuple}*</span> <span class="component">{@link CallbackTuple}*</span> <span class="component">&lt;DeprecatedBoolean:Boolean&gt;</span> <span class="component">{@link SecurityRequirementObject}*</span> <span class="component">{@link ServerObject}*</span> <span class="component">&lt;Required:Boolean&gt;</span> <span class="component">{@link Extension}*</span>;
 
  */
 public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
   /**
-   * @aspect RandomRequestGenerator
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/RandomRequestGenerator.jrag:191
-   */
-  public String generateRandomString(Random rand,JastAddList<EnumObj> objs){
-        if(objs.getNumChild()!=0)
-        return objs.getChild(rand.nextInt(objs.getNumChild())).getEnumOb().toString();
-
-        return rand
-        .ints(97,123)
-        .limit(10)
-        .collect(StringBuilder::new,StringBuilder::appendCodePoint,StringBuilder::append)
-        .toString();
-        }
-  /**
-   * @aspect RandomRequestGenerator
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/RandomRequestGenerator.jrag:202
-   */
-  public String generateRandomInt(Random rand,int minimum,int maximum){
-        if(minimum>-1&&maximum>0)
-        return String.valueOf(rand.nextInt(minimum+maximum)-minimum);
-        else if(minimum>-1)
-        return String.valueOf(rand.nextInt()+minimum);
-        else if(maximum>0)
-        return String.valueOf(rand.nextInt(maximum));
-        return String.valueOf(rand.nextInt());
-        }
-  /**
    * @aspect Composer
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Composer.jrag:302
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Composer.jrag:302
    */
   public static Operation composeOperation (OperationObject operationObject, Map<Object, ASTNode> map){
         Operation operation = new Operation();
@@ -111,8 +84,47 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
         return operation;
         }
   /**
+   * @aspect InferParameter
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:126
+   */
+  public void writeDictionary(SchemaOb schema,String resp)throws Exception{
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode respNode = mapper.readTree(resp);
+        String value;
+
+        if (schema instanceof SchemaReference) {
+        for (PropertyItem p : schema.schemaObject().getPropertyItems()) {
+        String infName = p.writePropertyName(schema, p);
+        value = p.writePropertyValue(respNode, p);
+
+        root().addInferredParameter(new InferredParameter(infName + "?" + value));
+        root().addInferredParameter(new InferredParameter(p.getName() + "?" + value));
+        }
+        } else {
+        for (PropertyItem p : schema.schemaObject().getPropertyItems()) {
+        value = p.writePropertyValue(respNode, p);
+
+        root().addInferredParameter(new InferredParameter(p.getName() + "?" + respNode.get(p.getName()).textValue()));
+        }
+        }
+
+        }
+  /**
+   * @aspect InferParameter
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:149
+   */
+  public void writeDictionaryWithArray(SchemaOb schema,String resp)throws Exception{
+        ObjectMapper mapper=new ObjectMapper();
+        ArrayNode respNode=((ArrayNode)mapper.readTree(resp));
+        Iterator<JsonNode> props=respNode.elements();
+
+        while(props.hasNext())
+        writeDictionary(schema.schemaObject().getItemsSchema().getSchemaOb(),props.next().toString());
+
+        }
+  /**
    * @aspect Parser
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/Parser.jrag:289
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\Parser.jrag:289
    */
   public static OperationObject parseOperation(Operation operation, OAIContext context, Map<Object, ASTNode> map) throws DecodeException{
         OperationObject operationObject = new OperationObject();
@@ -163,45 +175,6 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
 
         map.put(operation, operationObject);
         return operationObject;
-        }
-  /**
-   * @aspect InferParameter
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/InferParameter.jrag:126
-   */
-  public void writeDictionary(SchemaOb schema,String resp)throws Exception{
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode respNode = mapper.readTree(resp);
-        String value;
-
-        if (schema instanceof SchemaReference) {
-        for (PropertyItem p : schema.schemaObject().getPropertyItems()) {
-        String infName = p.writePropertyName(schema, p);
-        value = p.writePropertyValue(respNode, p);
-
-        root().addInferredParameter(new InferredParameter(infName + "?" + value));
-        root().addInferredParameter(new InferredParameter(p.getName() + "?" + value));
-        }
-        } else {
-        for (PropertyItem p : schema.schemaObject().getPropertyItems()) {
-        value = p.writePropertyValue(respNode, p);
-
-        root().addInferredParameter(new InferredParameter(p.getName() + "?" + respNode.get(p.getName()).textValue()));
-        }
-        }
-
-        }
-  /**
-   * @aspect InferParameter
-   * @declaredat /Users/jueunpark/bachelor-thesis-jastadd/src/main/jastadd/InferParameter.jrag:149
-   */
-  public void writeDictionaryWithArray(SchemaOb schema,String resp)throws Exception{
-        ObjectMapper mapper=new ObjectMapper();
-        ArrayNode respNode=((ArrayNode)mapper.readTree(resp));
-        Iterator<JsonNode> props=respNode.elements();
-
-        while(props.hasNext())
-        writeDictionary(schema.schemaObject().getItemsSchema().getSchemaOb(),props.next().toString());
-
         }
   /**
    * @declaredat ASTNode:1
