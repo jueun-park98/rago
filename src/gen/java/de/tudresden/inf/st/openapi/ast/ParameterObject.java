@@ -828,6 +828,82 @@ protected java.util.Set composeParameter_ParameterOb_Map_Object__ASTNode__visite
     }
   }
 /** @apilevel internal */
+protected java.util.Set addinfPathParameters_String_List_String__visited;
+  /**
+   * @attribute syn
+   * @aspect InferParameter
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:80
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="InferParameter", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:80")
+  public List<String> addinfPathParameters(String pathRef, List<String> paths) {
+    java.util.List _parameters = new java.util.ArrayList(2);
+    _parameters.add(pathRef);
+    _parameters.add(paths);
+    if (addinfPathParameters_String_List_String__visited == null) addinfPathParameters_String_List_String__visited = new java.util.HashSet(4);
+    if (addinfPathParameters_String_List_String__visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute ParameterObject.addinfPathParameters(String,List_String_).");
+    }
+    addinfPathParameters_String_List_String__visited.add(_parameters);
+    try {
+            for(InferredParameter i:root().collectInferredParameters()){
+            // get the field which must be modified
+            String pathPart=pathRef.substring(pathRef.indexOf("{"),pathRef.indexOf("}")+1);
+            // case insensitive comparison of parameter name and name of inferred parameters
+            if(getName().equalsIgnoreCase(i.name()))
+            // add inferred parameter in url
+            paths.add(pathRef.replace(pathPart,i.value()));
+            }
+            return paths;
+            }
+    finally {
+      addinfPathParameters_String_List_String__visited.remove(_parameters);
+    }
+  }
+/** @apilevel internal */
+protected java.util.Set addinfQueryParameters_String_List_String__visited;
+  /**
+   * @attribute syn
+   * @aspect InferParameter
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:92
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="InferParameter", declaredAt="E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:92")
+  public List<String> addinfQueryParameters(String pathRef, List<String> paths) {
+    java.util.List _parameters = new java.util.ArrayList(2);
+    _parameters.add(pathRef);
+    _parameters.add(paths);
+    if (addinfQueryParameters_String_List_String__visited == null) addinfQueryParameters_String_List_String__visited = new java.util.HashSet(4);
+    if (addinfQueryParameters_String_List_String__visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute ParameterObject.addinfQueryParameters(String,List_String_).");
+    }
+    addinfQueryParameters_String_List_String__visited.add(_parameters);
+    try {
+            SchemaObject s=getSchemaOb().schemaObject();
+            // check if query parameter is in type 'array'
+            if(s.getType().equals("array")){
+            for(InferredParameter i:root().collectInferredParameters()){
+            // case insensitive comparison of parameter name and name of inferred parameters
+            if(getName().equalsIgnoreCase(i.name()))
+            // add inferred parameter in url
+            pathRef=pathRef+"&"+getName()+"="+i.value();
+            }
+            paths.add(pathRef.replaceFirst("&","?"));
+            }else{
+            for(InferredParameter i:root().collectInferredParameters()){
+            // case insensitive comparison of parameter name and name of inferred parameters
+            if(getName().equalsIgnoreCase(i.name()))
+            // add inferred parameter in url
+            paths.add(pathRef+"?"+getName()+"="+i.value());
+            }
+            }
+            return paths;
+            }
+    finally {
+      addinfQueryParameters_String_List_String__visited.remove(_parameters);
+    }
+  }
+/** @apilevel internal */
 protected java.util.Set randomPathParameter_String_visited;
   /**
    * @attribute syn

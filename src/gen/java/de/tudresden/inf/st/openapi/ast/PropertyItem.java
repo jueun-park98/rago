@@ -225,7 +225,7 @@ protected java.util.Set writePropertyName_SchemaOb_PropertyItem_visited;
       throw new RuntimeException("Circular definition of attribute PropertyItem.writePropertyName(SchemaOb,PropertyItem).");
     }
     writePropertyName_SchemaOb_PropertyItem_visited.add(_parameters);
-    String writePropertyName_SchemaOb_PropertyItem_value = ((SchemaReference) schema).getRef().substring(((SchemaReference) schema).getRef().lastIndexOf("/") + 1) + p.getName();
+    String writePropertyName_SchemaOb_PropertyItem_value = ((SchemaReference)schema).getRef().substring(((SchemaReference)schema).getRef().lastIndexOf("/")+1)+p.getName();
     writePropertyName_SchemaOb_PropertyItem_visited.remove(_parameters);
     return writePropertyName_SchemaOb_PropertyItem_value;
   }
@@ -247,7 +247,7 @@ protected java.util.Set writePropertyValue_JsonNode_PropertyItem_visited;
       throw new RuntimeException("Circular definition of attribute PropertyItem.writePropertyValue(JsonNode,PropertyItem).");
     }
     writePropertyValue_JsonNode_PropertyItem_visited.add(_parameters);
-    String writePropertyValue_JsonNode_PropertyItem_value = node.get(p.getName()).toString().startsWith("\"") && node.get(p.getName()).toString().endsWith("\"") ? node.get(p.getName()).toString().substring(1, node.get(p.getName()).toString().length() - 1) : node.get(p.getName()).toString();
+    String writePropertyValue_JsonNode_PropertyItem_value = node.get(p.getName()).toString().startsWith("\"")&&node.get(p.getName()).toString().endsWith("\"")?node.get(p.getName()).toString().substring(1,node.get(p.getName()).toString().length()-1):node.get(p.getName()).toString();
     writePropertyValue_JsonNode_PropertyItem_visited.remove(_parameters);
     return writePropertyValue_JsonNode_PropertyItem_value;
   }

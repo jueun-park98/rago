@@ -50,9 +50,12 @@ aspect RandomRequestGenerator{
         return pathRef;
     }
 
-public void OpenAPIObject.generateRequests()throws Exception{
+syn boolean OpenAPIObject.generateRequests(){
+        try{
         for(PathsObject p:getPathsObjects())
-        p.generateUrl();
+        p.generateUrl();} catch (Exception e) {
+            return false;
+        }
         }
 
         inh boolean PathsObject.generateUrl();

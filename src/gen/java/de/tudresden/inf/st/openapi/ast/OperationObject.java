@@ -85,33 +85,33 @@ public class OperationObject extends ASTNode<ASTNode> implements Cloneable {
         }
   /**
    * @aspect InferParameter
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:126
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:114
    */
   public void writeDictionary(SchemaOb schema,String resp)throws Exception{
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode respNode = mapper.readTree(resp);
+        ObjectMapper mapper=new ObjectMapper();
+        JsonNode respNode=mapper.readTree(resp);
         String value;
 
-        if (schema instanceof SchemaReference) {
-        for (PropertyItem p : schema.schemaObject().getPropertyItems()) {
-        String infName = p.writePropertyName(schema, p);
-        value = p.writePropertyValue(respNode, p);
+        if(schema instanceof SchemaReference){
+        for(PropertyItem p:schema.schemaObject().getPropertyItems()){
+        String infName=p.writePropertyName(schema,p);
+        value=p.writePropertyValue(respNode,p);
 
-        root().addInferredParameter(new InferredParameter(infName + "?" + value));
-        root().addInferredParameter(new InferredParameter(p.getName() + "?" + value));
+        root().addInferredParameter(new InferredParameter(infName+"?"+value));
+        root().addInferredParameter(new InferredParameter(p.getName()+"?"+value));
         }
-        } else {
-        for (PropertyItem p : schema.schemaObject().getPropertyItems()) {
-        value = p.writePropertyValue(respNode, p);
+        }else{
+        for(PropertyItem p:schema.schemaObject().getPropertyItems()){
+        value=p.writePropertyValue(respNode,p);
 
-        root().addInferredParameter(new InferredParameter(p.getName() + "?" + respNode.get(p.getName()).textValue()));
+        root().addInferredParameter(new InferredParameter(p.getName()+"?"+respNode.get(p.getName()).textValue()));
         }
         }
 
         }
   /**
    * @aspect InferParameter
-   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:149
+   * @declaredat E:\\bachelor-thesis\\SigTest\\bachelor-thesis-jastadd\\src\\main\\jastadd\\InferParameter.jrag:137
    */
   public void writeDictionaryWithArray(SchemaOb schema,String resp)throws Exception{
         ObjectMapper mapper=new ObjectMapper();
