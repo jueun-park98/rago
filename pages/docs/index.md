@@ -1,3 +1,3 @@
 Index
 
-![](diagrams/grammar/openRelast.png)
+![](diagrams/grammar/openapiRelast.png)
